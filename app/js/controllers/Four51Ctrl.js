@@ -1,5 +1,5 @@
-four51.app.controller('Four51Ctrl', ['$scope', '$route', '$location', '$451', 'User', 'Order', 'Security', 'OrderConfig', 'Category', 'AppConst',
-function ($scope, $route, $location, $451, User, Order, Security, OrderConfig, Category, AppConst) {
+four51.app.controller('Four51Ctrl', ['$scope', '$route','$routeParams', '$location', '$451', 'User', 'Order', 'Security', 'OrderConfig', 'Category', 'SpendingAccount', 'Product', 'Shipper', 'AddressList', 'AppConst',
+function ($scope, $route, $routParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, Product, Shipper, AddressList, AppConst) {
     $scope.AppConst = AppConst;
 	$scope.scroll = 0;
 	$scope.isAnon = $451.isAnon; //need to know this before we have access to the user object
@@ -43,6 +43,17 @@ function ($scope, $route, $location, $451, User, Order, Security, OrderConfig, C
 				$scope.tree = data;
 				$scope.$broadcast("treeComplete", data);
 	        });
+
+            $scope.gcShippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : null;
+            if (!$scope.gcShippers && !$scope.gettingShippers) {
+                $scope.gettingShippers = true;
+                getShippers();
+            }
+
+            $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
+            if ($scope.tempOrder) {
+                $scope.$broadcast("event:tempOrderUpdated", $scope.tempOrder);
+            }
         }
     }
 
@@ -75,4 +86,68 @@ function ($scope, $route, $location, $451, User, Order, Security, OrderConfig, C
 	});
 	$scope.$on("$routeChangeSuccess", init);
     $scope.$on('event:auth-loginRequired', cleanup);
+
+    //GC INCENTIVES PURCHASE
+    function getShippers() {
+        Category.tree(function(data) {
+            $scope.tree = data;
+
+            var categoryInteropID = null;
+            angular.forEach($scope.tree, function(c) {
+                if (c.Name == "Merchant Gift Cards") {
+                    categoryInteropID = c.SubCategories[0].InteropID;
+                }
+            });
+            AddressList.query(function(list) {
+                $scope.addresses = list;
+                var shipAddress = {};
+                angular.forEach($scope.addresses, function(a) {
+                    if (a.AddressName == "Email Delivery") {
+                        shipAddress = a;
+                    }
+                });
+                Product.search(categoryInteropID, null, null, function(products) {
+                    var productInteropID = products[0].InteropID;
+
+                    Product.get(productInteropID, function(p) {
+                        var fauxOrder = {};
+                        fauxOrder.LineItems = [];
+                        var li = {
+                            LineTotal: p.StandardPriceSchedule.PriceBreaks[0].Price,
+                            PriceSchedule: p.StandardPriceSchedule,
+                            Product: p,
+                            Quantity: 1,
+                            Specs: {},
+                            UnitPrice: p.StandardPriceSchedule.PriceBreaks[0].Price,
+                            qtyError: null
+                        }
+                        li.ShipAddressID = shipAddress.ID;
+                        fauxOrder.ShipAddressID = shipAddress.ID;
+                        fauxOrder.LineItems.push(li);
+
+                        Order.save(fauxOrder,
+                            function(o){
+                                Shipper.query(o, function(list) {
+                                    $scope.shippers = list;
+                                    $scope.shippers.length > 0 ? store.set("451Cache.GCShippers", $scope.shippers) : console.log("Shippers empty");
+                                    fauxOrder = null;
+                                    Order.delete(o,
+                                        function() {
+                                            console.log("Faux Order Deleted");
+                                        },
+                                        function(ex) {
+                                            console.log("Faild to delete Faux Order");
+                                        }
+                                    );
+                                });
+                            },
+                            function(ex) {
+                                console.log("Order save failed for shippers");
+                            }
+                        );
+                    });
+                });
+            });
+        });
+    }
 }]);

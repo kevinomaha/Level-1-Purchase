@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col-md-3 gc-purchase-step-body-product-wrapper" ng-repeat="product in productList">
+        <div ng-class="{'active': selectedProduct.Name == product.Name}" class="gc-purchase-product" ng-click="selectProduct(product)">
+            {{product.Name}}
+            <div class="gc-purchase-product-selected-indicator">Selected</div>
+            <div style="left: 50px; position: absolute; right: 50px; top: 140px;" class="btn btn-default" ng-show="selectedProduct.Name == product.Name" ng-click="stepOneContinue()">
+                Continue <i class="fa fa-arrow-circle-right"></i>
+            </div>
+        </div>
+    </div>
+</div>

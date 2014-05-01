@@ -50,4 +50,12 @@ function ($location, $route, $scope, $451, User) {
 	$scope.$on('event:orderUpdate', function(event, order) {
 		$scope.cartCount = order ? (order.Status == 'Unsubmitted' || order.Status == 'AwaitingApproval') ? order.LineItems.length : null : null;
 	});
+
+    $scope.$on('event:tempOrderUpdated', function(event, order) {
+        $scope.tempOrderCount = order.LineItems ? order.LineItems.length : null;
+    });
+
+    $scope.$watch('tempOrder.LineItems', function(newval) {
+        $scope.tempOrderCount = $scope.tempOrder.LineItems ? $scope.tempOrder.LineItems.length : null;
+    }, true);
 }]);

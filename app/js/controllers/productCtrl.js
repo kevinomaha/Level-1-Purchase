@@ -1,9 +1,27 @@
-four51.app.controller('ProductCtrl', ['$scope', '$routeParams', '$route', '$location', '$451', 'Product', 'ProductDisplayService', 'Order', 'Variant', 'User',
-function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplayService, Order, Variant, User) {
+four51.app.controller('ProductCtrl', ['$scope', '$routeParams', '$route', '$location', '$451', 'Product', 'ProductDisplayService', 'AddressList', 'Order', 'Variant', 'User',
+function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplayService, AddressList, Order, Variant, User) {
     $scope.selected = 1;
     $scope.LineItem = {};
 	$scope.addToOrderText = "Add To Cart";
 	$scope.loadingIndicator = true;
+    $scope.digitalShipAddressID = "";
+
+    AddressList.query(function(list) {
+        for (var a = 0; a < list.length; a++) {
+            if (list[a].AddressName == 'Email Delivery') {
+                $scope.digitalShipAddressID = list[a].ID;
+            }
+        }
+    });
+
+    $scope.shippers = store.get("451Cache.GCShippers");
+
+    var shipper = {};
+    angular.forEach($scope.shippers, function(s) {
+        if (s.Name.indexOf('Email Delivery') > -1) {
+            shipper = s;
+        }
+    });
 
 	$scope.calcVariantLineItems = function(i){
 		$scope.variantLineItemsOrderTotal = 0;
@@ -45,93 +63,70 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 				console.log($scope.lineItemErrors);
 			}
 		);
-	}
+	};
 
-	$scope.addToOrder = function(){
-		if($scope.lineItemErrors && $scope.lineItemErrors.length){
-			$scope.showAddToCartErrors = true;
-			return;
-		}
-		if(!$scope.currentOrder){
-			$scope.currentOrder = {};
-			$scope.currentOrder.LineItems = [];
-		}
-		if($scope.allowAddFromVariantList){
-			angular.forEach($scope.variantLineItems, function(item){
-				if(item.Quantity > 0){
-					$scope.currentOrder.LineItems.push(item);
-				}
-			});
-		}else{
-			$scope.currentOrder.LineItems.push($scope.LineItem);
-		}
-		$scope.addToOrderIndicator = true;
-		Order.save($scope.currentOrder,
-			function(o){
-				$scope.user.CurrentOrderID = o.ID;
-				User.save($scope.user, function(){
-					$scope.addToOrderIndicator = true;
-					$location.path('/cart');
-				});
-			},
-			function(ex) {
-				$scope.addToOrderIndicator = false;
-				$scope.addToOrderError = ex.Message;
-				$route.reload();
-			}
-		);
-	}
+    $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
+
+    var randomString = function() {
+        var chars = "0123456789abcdefghijklmnop";
+        var string_length = 7;
+        var randomstring = '';
+        for (var i=0; i<string_length; i++) {
+            var rnum = Math.floor(Math.random() * chars.length);
+            randomstring += chars.substring(rnum,rnum+1);
+        }
+        return randomstring;
+    };
+
+    $scope.addToOrder = function(){
+        if(!$scope.tempOrder){
+            $scope.tempOrder = {};
+            $scope.tempOrder.LineItems = [];
+        }
+        if(!$scope.tempOrder.LineItems){
+            $scope.tempOrder.LineItems = [];
+        }
+
+        $scope.LineItem.MerchantCardUniqueID = randomString();
+        if ($scope.LineItem.Product.Specs['Physical/Digital'] && $scope.LineItem.Product.Specs['Physical/Digital'].Value == 'Digital') {
+            $scope.LineItem.Specs = $scope.LineItem.Product.Specs;
+            $scope.LineItem.ShipAddressID = $scope.digitalShipAddressID;
+            $scope.LineItem.Shipper = shipper;
+            $scope.LineItem.ShipperName = shipper.Name;
+            $scope.LineItem.ShipperID = shipper.ID;
+            $scope.LineItem.IsDigital = true;
+        }
+        else {
+            $scope.LineItem.IsDigital = false;
+        }
+
+        $scope.tempOrder.LineItems.push($scope.LineItem);
+
+        store.set("451Cache.TempOrder",{});
+        store.set("451Cache.TempOrder",$scope.tempOrder);
+
+        $scope.$broadcast('event:tempOrderUpdated',$scope.tempOrder);
+
+        $location.path('/cart');
+    };
+
+    $scope.$on('event:MerchantProductSelected', function(event,product) {
+        if (product) {
+            ProductDisplayService.getProductAndVariant(product.InteropID,null, function(data){
+                $scope.LineItem.Product = data.product;
+                $scope.LineItem.Variant = data.variant;
+                ProductDisplayService.setNewLineItemScope($scope);
+                ProductDisplayService.setProductViewScope($scope);
+                $scope.$broadcast('ProductGetComplete');
+                if ($scope.LineItem.Product.Specs['Email1']){
+                    $scope.digitalProduct = true;
+                }
+            });
+        }
+    });
+
+    $scope.backToMerchantList = function(){
+        $rootScope.$broadcast('event:BackToMerchantList')
+    };
 }]);
-
-/* product matrix control
-four51.app.controller('CustomProductCtrlMatrix', function($scope, $451, Variant, ProductDisplayService){
-	//just a little experiment on extending the product view
-	$scope.matrixLineTotal = 0;
-	$scope.LineItems = {};
-	$scope.LineKeys = [];
-	$scope.lineChanged = function(){
-		var addToOrderTotal = 0;
-		angular.forEach($scope.LineKeys, function(key){
-			if($scope.LineItems[key].Variant){
-				ProductDisplayService.calculateLineTotal($scope.LineItems[key]);
-				addToOrderTotal += $scope.LineItems[key].LineTotal;
-			}
-		$scope.matrixLineTotal = addToOrderTotal;
-
-		});
-	};
-
-	$scope.addMatrixToOrder = function(){ };
-
-	$scope.setFocusVariant = function(opt1, opt2){
-
-		if($scope.LineItems[opt1.Value.toString() + opt2.Value.toString()].Variant){
-			$scope.LineItem.Variant = $scope.LineItems[opt1.Value.toString() + opt2.Value.toString()].Variant;
-			return;
-		}
-
-		Variant.get({'ProductInteropID': $scope.LineItem.Product.InteropID, 'SpecOptionIDs': [opt1.ID, opt2.ID]}, function(data){
-			$scope.LineItem.Variant = data;
-		});
-	};
-	$scope.$watch("LineItems", function(){
-		$scope.lineChanged();
-	}, true);
-
-	$scope.$on('ProductGetComplete', function(){
-		var specs = $451.filter($scope.LineItem.Product.Specs, {Property: 'DefinesVariant', Value: true});
-		$scope.matrixSpec1 = specs[0];
-		$scope.matrixSpec2 = specs[1];
-		angular.forEach(specs[0].Options, function(option1){
-			angular.forEach(specs[1].Options, function(option2){
-				$scope.LineKeys.push(option1.Value.toString() + option2.Value.toString());
-				$scope.LineItems[option1.Value.toString() + option2.Value.toString()] = {
-					Product: $scope.LineItem.Product,
-					PriceSchedule: $scope.LineItem.PriceSchedule,
-				};
-			});
-		});
-	});
-});
-*/
 

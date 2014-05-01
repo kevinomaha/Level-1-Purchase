@@ -37,4 +37,34 @@ function ($scope, $rootScope, $location, User, Address, Resources) {
         return ($scope.user.Permissions.contains('BillingAddressPhoneRequired') && $scope.address.IsBilling) ||
             ($scope.user.Permissions.contains('ShipAddressPhoneRequired') && $scope.address.IsShipping);
     }
+
+    //GC INCENTIVES REDEMPTION
+    $scope.validate = function() {
+        $scope.displayLoadingIndicator = true;
+        $scope.addressMessage = null;
+        $scope.newAddress = null;
+        if ($scope.address.Country == 'US' && $scope.address.IsShipping) {
+            AddressValidate.validate($scope.address, function(address,newAddress) {
+                    $scope.$apply(function() {
+                        if (address.status == "Valid") {
+                            $scope.save();
+                        }
+                        else if (address.status == "ValidWithRecommendation") {
+                            $scope.newAddress = newAddress;
+                            $scope.addressMessage = "This is the suggested address based on the information provided.";
+                        }
+                        else if (address.status == "Invalid") {
+                            $scope.addressMessage = "This address is invalid."
+                        }
+                        $scope.displayLoadingIndicator = false;
+                    });
+                },
+                function(ex) {
+                    $scope.displayLoadingIndicator = false;
+                });
+        }
+        else {
+            $scope.save();
+        }
+    }
 }]);
