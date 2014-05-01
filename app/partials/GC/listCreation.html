@@ -2,7 +2,7 @@
 <form name="recipient_form" novalidate="">
     <div ng-show="showMaker || isDesktop()" class="col-md-9 col-md-push-3">
         <div ng-hide="addType != 'manual'">
-            <div class="well">
+            <div class="well new-recipient-well">
                 <div class="btn btn-primary pull-right hidden-sm hidden-xs" ng-click="changeAddType('import')">Import List</div>
                 <div ng-show="(recipientList.length != 0) && !editingRecipient" class="btn btn-primary pull-right hidden-lg hidden-md" ng-click="showMaker = false">View My List</div>
                 <h3>{{editingRecipient ? 'Edit' : 'New'}} Recipient</h3>

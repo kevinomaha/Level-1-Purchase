@@ -4,7 +4,11 @@
 
 
 //== Colors
-
+@brand-primary:#005983;
+@brand-info:lighten(@brand-primary, 20%);
+@brand-success:#8cc63e;
+@brand-danger:#be0f34;
+@brand-warning:#dd7619;
 //== Scaffolding
 
 //== Typography
@@ -18,7 +22,9 @@
 //== Forms
 
 //== Dropdowns
-
+@dropdown-link-hover-bg: @navbar-default-link-active-bg;
+@dropdown-link-hover-color: #000;
+@dropdown-border:@navbar-default-link-active-bg;
 //== Media queries breakpoints
 
 //== Grid system
@@ -26,7 +32,13 @@
 //== Container sizes
 
 //== Navbar
-
+@navbar-default-bg: #fff;
+@navbar-default-link-color:         #000;
+@navbar-default-link-hover-color:   #000;
+@navbar-default-link-active-color:  #000;
+@navbar-border-radius: 0;
+@navbar-height: 60px;
+@navbar-margin-bottom: 0;
 //== Navs
 
 //== Pills
@@ -36,7 +48,11 @@
 //== Pager
 
 //== Jumbotron
-
+@jumbotron-bg:@brand-primary;
+/** To edit this background, follow this link:
+http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=6.8&edge=004263&shadow=003309&
+*/
+@jumbotron-bg-img:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnPgoJPGRlZnM+CgkJPHBhdHRlcm4gaWQ9J3RpbGUnIHBhdHRlcm5Vbml0cz0ndXNlclNwYWNlT25Vc2UnIHdpZHRoPScxMScgaGVpZ2h0PScxMScgdmlld0JveD0nMCAwIDUwIDUwJz4KCQkJPGxpbmUgeDE9JzEnIHkxPScwJyB4Mj0nNTEnIHkyPSc1MCcgc3Ryb2tlPScjMDAzMzA5JyBzdHJva2Utd2lkdGg9JzYuOCcvPgoJCQk8bGluZSB4MT0nNDknIHkxPScwJyB4Mj0nLTEnIHkyPSc1MCcgc3Ryb2tlPScjMDAzMzA5JyBzdHJva2Utd2lkdGg9JzYuOCcvPgoJCQk8bGluZSB4MT0nNTAnIHkxPScwJyB4Mj0nMCcgeTI9JzUwJyBzdHJva2U9JyMwMDQyNjMnIHN0cm9rZS13aWR0aD0nNi44Jy8+CgkJCTxsaW5lIHgxPScwJyB5MT0nMCcgeDI9JzUwJyB5Mj0nNTAnIHN0cm9rZT0nIzAwNDI2Mycgc3Ryb2tlLXdpZHRoPSc2LjgnLz4KCQk8L3BhdHRlcm4+CgkJPHJhZGlhbEdyYWRpZW50IGlkPSdsJyBjeD0nNTAlJyBjeT0nNTAlJyBmeT0nMCcgcj0nMjAxJSc+CgkJCTxzdG9wIG9mZnNldD0nMCUnIHN0eWxlPSdzdG9wLWNvbG9yOiNmZmY7IHN0b3Atb3BhY2l0eTouMTsnIC8+CgkJCTxzdG9wIG9mZnNldD0nMTAlJyBzdHlsZT0nc3RvcC1jb2xvcjojMDAwOyBzdG9wLW9wYWNpdHk6MC4xOycgLz4KCQkJPHN0b3Agb2Zmc2V0PSczMCUnIHN0eWxlPSdzdG9wLWNvbG9yOiMwMDA7IHN0b3Atb3BhY2l0eTowLjM7JyAvPgoJCQk8c3RvcCBvZmZzZXQ9JzkwJScgc3R5bGU9J3N0b3AtY29sb3I6IzAwMDsgc3RvcC1vcGFjaXR5OjAuNTU7JyAvPgoJCQk8c3RvcCBvZmZzZXQ9JzEwMCUnIHN0eWxlPSdzdG9wLWNvbG9yOiMwMDA7IHN0b3Atb3BhY2l0eTouNicgLz4KCQk8L3JhZGlhbEdyYWRpZW50PgoJPC9kZWZzPgoJPHJlY3QgZmlsbD0nIzAwNTk4Mycgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScvPgoJPHJlY3QgZmlsbD0ndXJsKCN0aWxlKScgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScvPgoJPHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgZmlsbD0ndXJsKCNsKScvPgo8L3N2Zz4=');
 //== Form states and alerts
 
 //== Tooltips

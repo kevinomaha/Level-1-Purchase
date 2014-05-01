@@ -74,23 +74,31 @@
             <loadingindicator ng-show="selectedProduct.buildingProductsIndicator" title="Please wait while your product(s) are generated" />
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="form-group">
-                            <div class="btn-group-vertical btn-group">
-                                <button style="border-top-right-radius:4px;" class="btn btn-default text-primary" ng-click="productTypeSelect('Standard')" ng-class="{active:selectedProductType == 'Standard'}">
-                                    <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Standard'"></i>-->
-                                    Standard
-                                </button>
-                                <button class="btn btn-default text-success" ng-click="productTypeSelect('Premium')" ng-class="{active:selectedProductType == 'Premium'}">
-                                    <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Premium'"></i>-->
-                                    Premium
-                                </button>
-                                <!--<button class="btn btn-default" ng-class="{'active': selectedProductType == 'Holiday'}" ng-click="productTypeSelect('Holiday')">Holiday</button>-->
-                                <button class="btn btn-default text-danger" ng-show="selectedProductType != 'GreetingCardSuperCert'" ng-click="productTypeSelect('Canadian')" ng-class="{active:selectedProductType == 'Canadian'}">
-                                    <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Canadian'"></i>-->
-                                    Canadian
-                                </button>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="btn-group-vertical btn-group">
+                                    <button style="border-top-right-radius:4px;" class="btn btn-default text-primary" ng-click="productTypeSelect('Standard')" ng-class="{active:selectedProductType == 'Standard'}">
+                                        <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Standard'"></i>-->
+                                        Standard
+                                    </button>
+                                    <button class="btn btn-default text-success" ng-click="productTypeSelect('Premium')" ng-class="{active:selectedProductType == 'Premium'}">
+                                        <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Premium'"></i>-->
+                                        Premium
+                                    </button>
+                                    <!--<button class="btn btn-default" ng-class="{'active': selectedProductType == 'Holiday'}" ng-click="productTypeSelect('Holiday')">Holiday</button>-->
+                                    <button class="btn btn-default text-danger" ng-show="selectedProductType != 'GreetingCardSuperCert'" ng-click="productTypeSelect('Canadian')" ng-class="{active:selectedProductType == 'Canadian'}">
+                                        <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Canadian'"></i>-->
+                                        Canadian
+                                    </button>
+                                </div>
                             </div>
+                        </div>
+                        <div class="col-md-7">
+                            <small>A true inspiration for the children. With a warning label this big, you know they gotta be fun! I don't know what you did, Fry, but once again, you screwed up! Now all the planets are gonna start cracking wise about our mamas.</small>
+                        </div>
                     </div>
+
                     <div class="view-form-icon">
                         <div>
                             <label>Design</label>
@@ -209,9 +217,9 @@
                             <i class="fa fa-floppy-o"></i>
                         </div>
                     </div>
+                    <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="(award_customization.$invalid) || (anonymousAwards == 'true' && !(selectedProduct.anonymousQty > 0))" ng-click="createAwards()">Create Awards</div>
                 </div>
             </div>
-            <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="(award_customization.$invalid) || (anonymousAwards == 'true' && !(selectedProduct.anonymousQty > 0))" ng-click="createAwards()">Create Awards</div>
         </div>
         <!--Design: {{selectedProduct.designSelection}}-->
         <!--<br/>-->

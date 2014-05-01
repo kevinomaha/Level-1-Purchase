@@ -1,0 +1,9 @@
+<section class="jumbotron active" ng-show="user.Company.LogoUrl">
+    <div class="container">
+        <div ng-show="Four51User.isAuthenticated()">
+            <a ng-click="refreshUser()" href="catalog">
+                <img style="max-height:none;" ng-src="{{'css/images/company/'+ (user.Company.Name | gcbuyercompanyurl) +'.png' || user.Company.LogoUrl}}" />
+            </a>
+        </div>
+    </div>
+</section>
