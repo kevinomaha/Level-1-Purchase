@@ -2,7 +2,7 @@ four51.app.directive('angularPaste', ['$parse', '$rootScope', '$document', 'Exis
 function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 		return {
 			restrict:'E',
-			templateUrl:'partials/controls/angularPaste.html',
+			templateUrl:'partials/GC/angularPaste.html',
 			link:function ($scope, element, attrs) {
 
 				//We do not want to eat up chars if some text box is focussed

@@ -1,6 +1,6 @@
 'use strict';
 
-four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, ProductGC, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, CategoryDescription,ExistingAddress,LineItems) {
+four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, CategoryDescription,ExistingAddress,LineItems) {
 
 	/*                        */
 	/* Product Selection Step */
@@ -99,7 +99,7 @@ four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootS
 		}
 
 		if ($scope.selectedProduct.StandardID && $scope.selectedProduct.StandardID != "MerchantCards") {
-			ProductGC.get($scope.selectedProduct.StandardID, function(product){
+            Product.get($scope.selectedProduct.StandardID, function(product){
 				$scope.selectedProductDetails = product;
 				//Call function to obtain variant information and save personal messages
 				getPersonalMessages($scope.selectedProductDetails.Variants);
@@ -804,7 +804,7 @@ four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootS
 
         if ($scope.selectedProduct.InteropID && $scope.selectedProduct.InteropID != "MerchantCards") {
             $scope.selectedProduct.productLoadingIndicator = true;
-	        ProductGC.get($scope.selectedProduct.InteropID, function(product){
+            Product.get($scope.selectedProduct.InteropID, function(product){
                 $scope.selectedProductDetails = product;
                 $scope.selectedProduct.productLoadingIndicator = false;
             });

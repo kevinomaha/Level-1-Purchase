@@ -1,0 +1,66 @@
+<section id="451_area_prod_desc" class="product-view-default" ng-show="LineItem.Product" style="position:relative;">
+    <div class="row product-details-header">
+        <div class="container">
+            <div class="hidden-xs">
+                <p class="text-left"><b>{{LineItem.Product.Name}}</b>
+                    <small class="pull-right" ng-show="LineItem.Product.DisplayInventory && (LineItem.Variant || LineItem.Product.Variants.length == 0)">
+                        <i class="fa fa-clock-o" style="float:none;"></i> {{inventoryDisplay(LineItem.Product, LineItem.Variant) > 5 ? 'Will ship within 24 hours' : 'Should ship within 3-5 days'}}
+                    </small>
+                </p>
+            </div>
+            <div class="hidden-sm hidden-lg hidden-md">
+                <p class="text-center"><b>{{LineItem.Product.Name}}</b><br/>
+                    <small ng-show="LineItem.Product.DisplayInventory && (LineItem.Variant || LineItem.Product.Variants.length == 0)">
+                        <i class="fa fa-clock-o" style="float:none;"></i> {{inventoryDisplay(LineItem.Product, LineItem.Variant) > 5 ? 'Will ship within 24 hours' : 'Should ship within 3-5 days'}}
+                    </small>
+                </p>
+            </div>
+        </div>
+        <form name="addToOrderForm">
+            <div class="col-md-6" ng-if="LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'">
+                <div id="451_list_vspec" ng-show="allowAddToOrder">
+                    <div class="form-group" ng-repeat="s in LineItem.Product.Specs | onproperty:[{Property: 'CanSetForLineItem', Value: true}, {Property: 'DefinesVariant', Value: true}]" ng-if="!(s.DefaultValue)">
+                        <customfilefield customfield="s" ng-if="s.ControlType == 'File'"></customfilefield>
+                        <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
+                        <customselectionfield change="specChanged" customfield="s" ng-if="s.ControlType == 'Selection'"></customselectionfield>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 hidden-sm hidden-xs" ng-show="!digitalProduct"></div>
+            <div class="col-md-6">
+                <div class="form-group row" ng-show="allowAddToOrder">
+                    <div class="col-xs-6">
+                        <p class="text-info text-center quantity-text" ng-hide="allowAddFromVariantList">Quantity:</p>
+                    </div>
+                    <div class="col-xs-6">
+                        <quantityfield ng-if="!allowAddFromVariantList" required="true" lineitem="LineItem" class="quantity" />
+                    </div>
+                </div>
+
+                <div  ng-show="LineItem.LineTotal || variantLineItemsOrderTotal" ng-if="!(user.Permissions.contains('HidePricing'))">
+                    <span class="text-info text-center mini-white-header">
+                        <small class="text-info">Total</small>
+                    </span>
+                    <div class="text-center mini-white-body line-item-total" ng-if="!(user.Permissions.contains('HidePricing'))" ng-show="LineItem.LineTotal || variantLineItemsOrderTotal">
+                        <h3 class="text-success">${{LineItem.PriceSchedule.PriceBreaks[0].Price * LineItem.Quantity}}{{variantLineItemsOrderTotal}}</h3>
+                    </div>
+                </div>
+                <button type="button" id="451_btn_orderadd" ng-disabled="addToOrderForm.$invalid" ng-click="addToOrder(LineItem)" class="btn btn-lg btn-block" ng-class="{'btn-danger': (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError), 'btn-primary': (!LineItem.qtyError && !addToOrderForm.$invalid && !addToOrderError)}">
+                    <span ng-class="{'visibly-hidden':(LineItem.qtyError || addToOrderForm.$invalid || addToOrderError)}">{{addToOrderText}}</span>
+                    <div class="add-to-error-overlay" ng-show="allowAddToOrder && (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError)">
+                        <small>
+                            <div style="height:10px; width:100%;" ng-show="!LineItem.qtyError"></div>
+                            {{LineItem.qtyError}}<br ng-show="LineItem.qtyError"/>
+                            <span ng-show="addToOrderForm.$invalid" >
+                                Product is missing required fields for Add to Cart.<br/>
+                            </span>
+                            {{addToOrderError}}
+                        </small>
+                    </div>
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+</section>

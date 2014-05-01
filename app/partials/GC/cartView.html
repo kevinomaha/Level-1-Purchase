@@ -1,0 +1,328 @@
+<section class="container cart-view">
+    <loadingindicator ng-show="orderSubmitLoadingIndicator" title="Please wait while we submit your order" />
+    <div ng-show="tempOrder" class="cart-view-detail hidden-print container">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="row">
+                    <h3 class="text-primary text-center">{{tempOrder.LineItems.length}} AWARD{{tempOrder.LineItems.length > 1 ? 'S' : ''}} IN YOUR CART</h3>
+                    <hr style="margin-bottom:5px;"/>
+                    <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.lineItemGroups.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
+                    <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.merchantCardLineItems.length > 0"  ng-click="browseMerchantCards()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Browse Merchant Cards</div>
+                    <hr style="margin-top:5px;"/>
+                </div>
+                <form name="cart_line_item_groups">
+                    <div class="recipient-groups">
+                        <div ng-show="tempOrder.lineItemGroups.length > 1">
+                            <div>Assign Shipping Method to all line items:</div>
+                            <div>
+                                <div class="form-group">
+                                    <select class="form-control"
+                                            ng-change="updateAllShippers()"
+                                            name="shipMethod"
+                                            ng-model="tempOrder.ShipMethod"
+                                            ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
+                                            ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:false">
+                                        <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-repeat="group in tempOrder.lineItemGroups" ng-if="!group.Anonymous">
+                            <div class="row white-wrapper" style="border-bottom:1px solid #ddd;">
+                                <div class="container">
+                                    <h4>
+                                        <span class="pull-right text-success"><b>{{group.Total | currency}}</b></span>
+                                <span style="cursor:pointer;" class="text-info" ng-click="toggleLineItems = !toggleLineItems">{{group.LineItems.length}}
+                                    <span ng-show="group.IsDigital">digital</span> award{{group.LineItems.length > 1 ? 's' : ''}}</span>
+                                        </span>
+                                <span ng-show="!group.IsDigital"> shipping to <b>{{group.Address.FirstName + ' ' + group.Address.LastName}}</b><br/>
+                                    <p><small><i class="fa fa-map-marker"></i> {{group.Address.Street1}} {{group.Address.Street2}} {{group.Address.City}}, {{group.Address.State}}</small></p>
+                                </span>
+                                    </h4>
+                                    <div class="row">
+                                        <div class="col-xs-7">
+                                            <div class="form-group">
+                                                <select class="form-control"
+                                                        ng-change="updateGroupShipper(group)"
+                                                        name="shipMethod"
+                                                        ng-model="group.ShipMethod"
+                                                        ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
+                                                        ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:group.IsDigital"
+                                                        ng-required="tempOrder.lineItemGroups > 0">
+                                                    <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
+                                                </select>
+                                                <div style="margin:10px 0;" ng-show="group.IsDigital">
+                                                    <b>Email Delivery</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-5 text-right">
+                                            <i style="cursor:pointer;" class="text-danger fa fa-2x fa-times" ng-click="removeGroup(group)" data-placement="right" data-title="REMOVE GROUP" bs-tooltip></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row recipient-group-line-items" ng-show="(group.LineItems.length == 1) || toggleLineItems">
+                                <div style="border-right:1px solid #ddd; border-left:1px solid #ddd;" class="container line-item-recipient-repeater" ng-repeat="lineitem in group.LineItems">
+                                    <div class="row">
+                                        <div ng-class="{'col-xs-5':group.LineItems.length > 1, 'col-xs-6':group.LineItems.length == 1}">
+                                            <b>{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</b><p class="pull-right"><span class="text-success" style="font-weight:bold;"> {{lineitem.LineTotal - lineitem.UnitPrice | currency}}</span> + <span class="text-info">{{lineitem.UnitPrice | currency}}</p><br/>
+                                            <span class="text-info">{{lineitem.Product.Name}}</span>
+                                        </div>
+                                        <div class="col-xs-1" ng-hide="group.LineItems.length == 1">
+                                            <i style="cursor:pointer;" class="fa text-muted fa-2x" ng-class="{'fa-eye':!showPreview, 'fa-eye-slash':showPreview}" ng-init="showPreview = false" ng-click="showPreview = !showPreview"></i>
+                                        </div>
+                                        <div class="col-xs-6 text-right text-muted" ng-show="group.LineItems.length == 1" ng-init="showPreview = false" ng-click="showPreview = !showPreview">
+                                            <i style="cursor:pointer; padding-top:5px;" class="fa fa-2x" ng-class="{'fa-eye':!showPreview, 'fa-eye-slash':showPreview}"></i> <span style="cursor:pointer; position:relative; top:-5px; margin-left:10px;">PREVIEW</span>
+                                        </div>
+                                        <div class="col-xs-5 text-right" ng-show="group.LineItems.length > 1">
+                                            <div class="form-group">
+                                                <select class="form-control" ng-change="updateLineItemShipper(lineitem)" name="shipMethod"
+                                                        ng-model="lineitem.ShipMethod"
+                                                        ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
+                                                        ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:group.IsDigital"
+                                                        ng-required="!shipToMultipleAddresses && user.ShipMethod != null">
+                                                    <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
+                                                </select>
+                                                <div style="margin:10px 0;" ng-show="group.IsDigital">
+                                                    <b>Email Delivery</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-1" ng-show="group.LineItems.length > 1">
+                                            <i class="fa fa-times text-danger" style="padding:12px; cursor:pointer;" ng-click="removeItem(lineitem)" data-placement="right" data-html="1" data-title="<small>REMOVE ITEM</small>" bs-tooltip></i>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-show="showPreview">
+                                        <div class="container" style="padding:15px;">
+                                            <figure>
+                                                <img width="100%" ng-src="{{lineitem.Variant.PreviewUrl}}"/>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:20px; border-right:1px solid #ddd; border-left:1px solid #ddd;">
+                                <div class="container bg-dark">
+                                    <p style="cursor:pointer; padding:15px 0 11px 0; margin-bottom:0;" class="text-center" ng-init="toggleLineItems = false" ng-click="toggleLineItems = !toggleLineItems" ng-show="group.LineItems.length > 1">
+                                        <span ng-show="toggleLineItems == false"><i class="fa fa-plus-circle"></i> Show </span>
+                                        <span ng-show="toggleLineItems == true"><i class="fa fa-minus-circle"></i> Hide </span>
+                                        Recipients
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-repeat="group in tempOrder.lineItemGroups" ng-if="group.Anonymous">
+                            <div class="row white-wrapper" style="border-bottom:1px solid #ddd;">
+                                <div class="container">
+                                    <h4>
+                                        <span class="pull-right text-success"><b>{{group.Total | currency}}</b></span>
+                                <span style="cursor:pointer;" class="text-info" ng-click="toggleLineItems = !toggleLineItems">{{group.LineItems[0].Quantity}} anonymous
+                                    <span ng-show="group.IsDigital">digital</span> award{{group.LineItems[0].Quantity > 1 ? 's' : ''}}</span>
+                                </span>
+                                    </h4>
+                                    <div ng-show="tempOrder.anonymousShipAddressForm" class="row">
+                                        <addressinput address='shipaddress' user='user'></addressinput>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-7">
+                                            <div class="view-form-icon">
+                                                <div style="margin-bottom:10px;">
+                                                    <div class="input-group">
+                                                        <select class="form-control" name="shippingAddress"
+                                                                ng-change="setShipAddress(tempOrder.AnonymousShipAddress)"
+                                                                ng-options="address.ID as address.AddressName for address in addresses | filter:{IsCustEditable:true,IsShipping:true}"
+                                                                ng-model="tempOrder.AnonymousShipAddressID"
+                                                                ng-required="true">
+                                                            <option class="view-select-placeholder" value="" selected="selected">Select a shipping address...</option>
+                                                        </select>
+                                                        <div class="input-group-btn">
+                                                            <button class="btn btn-primary" ng-click="tempOrder.anonymousShipAddressForm = true" type="button">New</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <select class="form-control"
+                                                        ng-change="updateGroupShipper(group)"
+                                                        name="shipMethod"
+                                                        ng-model="group.ShipMethod"
+                                                        ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
+                                                        ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:group.IsDigital"
+                                                        ng-required="true">
+                                                    <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
+                                                </select>
+                                                <div style="margin:10px 0;" ng-show="group.IsDigital">
+                                                    <b>Email Delivery</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-5 text-right">
+                                            <i style="cursor:pointer;" class="text-danger fa fa-2x fa-times" ng-click="removeGroup(group)" data-placement="right" data-title="REMOVE GROUP" bs-tooltip></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row recipient-group-line-items" ng-show="(group.LineItems.length == 1) || toggleLineItems">
+                                <div style="border-right:1px solid #ddd; border-left:1px solid #ddd;" class="container line-item-recipient-repeater" ng-repeat="lineitem in group.LineItems">
+                                    <div class="row">
+                                        <div ng-class="{'col-xs-5':group.LineItems.length > 1, 'col-xs-6':group.LineItems.length == 1}">
+                                            <b>{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</b><p class="pull-right"><span class="text-success" style="font-weight:bold;"> {{lineitem.LineTotal - lineitem.UnitPrice | currency}}</span> + <span class="text-info">{{lineitem.UnitPrice | currency}}</p><br/>
+                                            <span class="text-info">{{lineitem.Product.Name}}</span>
+                                        </div>
+                                        <div class="col-xs-1" ng-hide="group.LineItems.length == 1">
+                                            <i style="cursor:pointer;" class="fa text-muted fa-2x" ng-class="{'fa-eye':!showPreview, 'fa-eye-slash':showPreview}" ng-init="showPreview = false" ng-click="showPreview = !showPreview"></i>
+                                        </div>
+                                        <div class="col-xs-6 text-right text-muted" ng-show="group.LineItems.length == 1" ng-init="showPreview = false" ng-click="showPreview = !showPreview">
+                                            <i style="cursor:pointer; padding-top:5px;" class="fa fa-2x" ng-class="{'fa-eye':!showPreview, 'fa-eye-slash':showPreview}"></i> <span style="cursor:pointer; position:relative; top:-5px; margin-left:10px;">PREVIEW</span>
+                                        </div>
+                                        <div class="col-xs-5 text-right" ng-show="group.LineItems.length > 1">
+                                            <div class="form-group">
+                                                <select class="form-control" ng-change="updateLineItemShipper(lineitem)" name="shipMethod"
+                                                        ng-model="lineitem.ShipMethod"
+                                                        ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
+                                                        ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:group.IsDigital"
+                                                        ng-required="!shipToMultipleAddresses && user.ShipMethod != null">
+                                                    <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
+                                                </select>
+                                                <div style="margin:10px 0;" ng-show="group.IsDigital">
+                                                    <b>Email Delivery</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-1" ng-show="group.LineItems.length > 1">
+                                            <i class="fa fa-times text-danger" style="padding:12px; cursor:pointer;" ng-click="removeItem(lineitem)" data-placement="right" data-html="1" data-title="<small>REMOVE ITEM</small>" bs-tooltip></i>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-show="showPreview">
+                                        <div class="container" style="padding:15px;">
+                                            <figure>
+                                                <img width="100%" ng-src="{{lineitem.Variant.PreviewUrl}}"/>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:20px; border-right:1px solid #ddd; border-left:1px solid #ddd;">
+                                <div class="container bg-dark">
+                                    <p style="cursor:pointer; padding:15px 0 11px 0; margin-bottom:0;" class="text-center" ng-init="toggleLineItems = false" ng-click="toggleLineItems = !toggleLineItems" ng-show="group.LineItems.length > 1">
+                                        <span ng-show="toggleLineItems == false"><i class="fa fa-plus-circle"></i> Show </span>
+                                        <span ng-show="toggleLineItems == true"><i class="fa fa-minus-circle"></i> Hide </span>
+                                        Recipients
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="merchant-cards">
+                    <div ng-repeat="item in tempOrder.merchantCardLineItems" class="cart-view-line-items-repeater" ng-init="toggleMobileRemove = false" hm-swipe-left="toggleMobileRemove = true" hm-swipe-right="toggleMobileRemove = false">
+                        <div class="container">
+                            <quantityfield lineitem="item" class="quantity"/><h4><b class="text-info">{{item.Product.Name | gcproductnames}}</b> Gift Card{{item.Quantity > 1 ? 's' : ''}}<span class="pull-right text-success">{{item.LineTotal | currency}}</span></h4>
+                            <i style="cursor:pointer; margin-right:-15px; padding-right:15px;" class="text-danger fa fa-2x fa-times pull-right" ng-click="removeItem(item)" data-placement="right" data-title="REMOVE CARD" bs-tooltip></i>
+                        </div>
+                    </div>
+                    <div ng-show="tempOrder.merchantCardLineItems.length > 0 && !tempOrder.merchangtCardsAllDigital" class="bg-dark row" style="border-right:1px solid #ddd; border-left:1px solid #ddd;">
+                        <div class="container" style="padding-top:10px;">
+                            <div ng-show="shipaddressform" class="row">
+                                <addressinput address='shipaddress' user='user'></addressinput>
+                            </div>
+                            <form name="cart_merchant_shipping">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="{required: !tempOrder.MerchantCardShipAddressID}">Physical cards shipping address</label>
+                                            <div class="input-group">
+                                                <select class="form-control"
+                                                        name="shippingAddress"
+                                                        ng-options="address.ID as address.AddressName for address in addresses | filter:{IsShipping:true} | gcshipaddress:false"
+                                                        ng-model="tempOrder.MerchantCardShipAddressID"
+                                                        ng-change="setShipAddress()"
+                                                        ng-required="tempOrder.merchantCardLineItems.length > 0 && !tempOrder.merchangeCardsAllDigital">
+                                                </select>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" type="button" ng-click="shipaddressform = true" tabindex="-1">New</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" ng-show="user.ShipMethod != null && shippers">
+                                            <label ng-class="{required: !tempOrder.MerchantCardShipMethod}">Physical cards shipping method</label>
+                                            <select class="form-control" name="shipMethod"
+                                                    ng-model="tempOrder.MerchantCardShipMethod"
+                                                    ng-change="setShipper()"
+                                                    ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:currentOrder.cartModifiers.isAllDigitalMerchant"
+                                                    ng-required="tempOrder.merchantCardLineItems.length > 0 && !tempOrder.merchangeCardsAllDigital" >
+                                                <option class="view-select-placeholder" value="" selected="selected">Select shipping method...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 billing-information-section hidden-sm hidden-xs" style="padding-right:0;">
+                <div class="affix-container" bs-affix data-offset-top="-80">
+                    <h3 class="browse-title">Billing Info<p class="pull-right"><small ng-class="{'text-danger': cart_billing.$invalid}">{{!cart_billing.$invalid ? 'Ready for submission' : 'Missing required fields'}}</small></p></h3>
+                    <div class="container white-wrapper" style="padding-bottom:15px; padding-top:15px;">
+
+                        <div ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length == 0 && user.Permissions.contains('CreateBillToAddress')" class="row">
+                            <addressinput address='billaddress' user='user'></addressinput>
+                        </div>
+                        <!--<b>Subtotal:</b>-->
+                        <!--<span>{{tempOrder.Total | currency}}</span>-->
+                        <form name="cart_billing">
+                            <orderbillinggc></orderbillinggc>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="view-footer navbar-fixed-bottom">
+        <div class="container">
+            <div class="view-response-message alert-success" alert-show="currentOrder">
+                <p>{{actionMessage}}</p>
+            </div>
+            <div class="view-error-message" ng-show="cart.$error.required.length + (errorMessage ? 1 : 0) > 0">
+                <ul class="row">
+                    <li class="col-sm-1 alert-warning">
+                        <i class="fa fa-exclamation-circle text-danger"></i>
+                        <span class="badge" ng-show="cart.$error.required.length + (errorMessage ? 1 : 0) > 1">{{cart.$error.required.length + (errorMessage ? 1 : 0)}}</span>
+                    </li>
+                    <li class="col-sm-10 alert-warning" style="margin: 0; padding: 0">
+                        <ul>
+                            <li ng-show="cart.dateneeded.$invalid">Date needed is required</li>
+                            <li ng-show="cart.qtyInput.$invalid">You have entered an invalid quantity</li>
+                            <li ng-show="errorMessage">{{errorMessage}}</li>
+                        </ul>
+                    </li>
+                    <li class="col-sm-1"><a class="fa fa-caret-down"></a></li>
+                </ul>
+            </div>
+            <ul class="view-footer-buttons">
+                <li style="width: 25%;">
+                    <button class="btn btn-danger" ng-click="cancelOrder()">Cancel</button>
+                </li>
+                <li style="width: 25%;">
+                <button class="btn btn-primary" ng-click="saveChanges()">
+                    <loadingindicator ng-show="displayLoadingIndicator" />
+                    Save
+                </button>
+            </li>
+                <li>
+                    <button class="btn" ng-class="{'btn-warning': (cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)), 'btn-success': (!cart_billing.$invalid && !cart_merchant_shipping.$invalid && (!cart_line_item_groups.$invalid || tempOrder.AnonymousShipAddressID)) }" ng-click="submitOrder()" ng-disabled="cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)">
+                        <i ng-show="cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)" class="fa fa-warning"></i>
+                        <span>PAY {{tempOrder.Total | currency}}</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <cartprint class="visible-print" />
+</section>
+

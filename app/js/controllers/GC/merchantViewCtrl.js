@@ -56,11 +56,6 @@ four51.app.controller('MerchantViewCtrl', function ($routeParams, $sce, $scope, 
 		}
 	});
 
-    // No tooltips on phone, tablet portrait
-    if (!window.matchMedia || (window.matchMedia("(min-width: 1023px)").matches)) {
-        $('.fa').tooltip();
-    }
-
     $scope.search = function(){
         $scope.searchResultsLoadingIndicator = true;
         $scope.currentCategory = null;

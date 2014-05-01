@@ -1,0 +1,37 @@
+<div class="spa-category-description" ng-show="currentCategory.SpaDescription">
+    <div class="row" style="margin-top:15px;">
+        <div class="col-md-4 col-sm-3">
+            <figure class="text-center">
+                <img style="display:inline; width:100%; max-width:250px;" ng-src="{{currentCategory.SpaDescription.image}}"/>
+            </figure>
+        </div>
+        <div class="col-md-8 col-sm-9 accordion-container">
+            <accordion close-others="true">
+                <accordion-group heading="Description" is-open="true">
+                    <p><small>{{currentCategory.SpaDescription.description}}</small></p>
+                </accordion-group>
+                <accordion-group heading="More Info">
+                    <p><small>{{currentCategory.SpaDescription.infoTab}}</small></p>
+                </accordion-group>
+                <accordion-group heading="Handling Info">
+                    <p><small ng-bind-html="currentCategory.SpaDescription.handlingTab"></small></p>
+                </accordion-group>
+                <accordion-group heading="Canadian Info" ng-show="currentCategory.SpaDescription.canadianTab">
+                    <p><small ng-bind-html="currentCategory.SpaDescription.canadianTab"></small></p>
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding:10px 0;">
+    <div class="container">
+        <div class="text-center">
+            <h4 ng-class="{'selected-denom':selectedProduct.Name == product.Name}" class="short-denom" ng-repeat="product in products" ng-click="setSearchProduct(product)">{{'$' +product.Denomination}}</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <shortaddtoorder user="user" order="currentOrder" />
+</div>

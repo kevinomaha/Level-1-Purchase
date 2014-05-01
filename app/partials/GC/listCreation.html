@@ -12,23 +12,23 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="view-form-icon">
-                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.FirstName" placeholder="First Name" data-placement="top" data-container="body" data-trigger="focus" title="First Name" bs-tooltip/>
+                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.FirstName" placeholder="First Name" data-placement="top" data-container="body" data-trigger="focus" title="First Name" />
                                     <i class="fa fa-user"></i>
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="view-form-icon">
-                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.LastName" placeholder="Last Name" data-placement="top" data-container="body" data-trigger="focus" title="Last Name" bs-tooltip/>
+                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.LastName" placeholder="Last Name" data-placement="top" data-container="body" data-trigger="focus" title="Last Name" />
                                     <i class="fa fa-user"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="view-form-icon">
-                            <input class="form-control" type="email" ng-model="recipient.Email" placeholder="Email Address" ng-required="digitalProduct" data-placement="top" data-container="body" data-trigger="focus" title="Email Address" bs-tooltip/>
+                            <input class="form-control" type="email" ng-model="recipient.Email" placeholder="Email Address" ng-required="digitalProduct" data-placement="top" data-container="body" data-trigger="focus" title="Email Address" />
                             <i class="fa fa-envelope"></i>
                         </div>
                         <div class="view-form-icon">
-                            <input class="form-control" type="text" ng-maxlength="30" ng-model="recipient.RecipientID" placeholder="Recipient ID" data-placement="top" data-container="body" data-trigger="focus" title="Recipient ID" bs-tooltip/>
+                            <input class="form-control" type="text" ng-maxlength="30" ng-model="recipient.RecipientID" placeholder="Recipient ID" data-placement="top" data-container="body" data-trigger="focus" title="Recipient ID" />
                             <i class="fa fa-tag"></i>
                         </div>
                         <hr />
@@ -63,27 +63,27 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="view-form-icon">
-                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.ShipToFirstName" placeholder="Ship To First Name" ng-required="physicalProduct" data-placement="top" data-container="body" data-trigger="focus" title="Ship To First Name" bs-tooltip/>
+                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.ShipToFirstName" placeholder="Ship To First Name" ng-required="physicalProduct"/>
                                     <i class="fa fa-user"></i>
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="view-form-icon">
-                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.ShipToLastName" placeholder="Ship To Last Name" ng-required="physicalProduct" data-placement="top" data-container="body" data-trigger="focus" title="Ship To Last Name" bs-tooltip/>
+                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.ShipToLastName" placeholder="Ship To Last Name" ng-required="physicalProduct"/>
                                     <i class="fa fa-user"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="view-form-icon">
-                            <input class="form-control" type="text" ng-model="recipient.Street1" placeholder="Address Line 1" ng-required="physicalProduct" data-placement="top" data-container="body" data-trigger="focus" title="Address Line 1" bs-tooltip/>
+                            <input class="form-control" type="text" ng-model="recipient.Street1" placeholder="Address Line 1" ng-required="physicalProduct"/>
                             <i class="fa fa-road"></i>
                         </div>
                         <div class="view-form-icon">
-                            <input class="form-control" type="text" ng-model="recipient.Street2" placeholder="Address Line 2" data-placement="top" data-container="body" data-trigger="focus" title="Address Line 2" bs-tooltip/>
+                            <input class="form-control" type="text" ng-model="recipient.Street2" placeholder="Address Line 2"/>
                             <i class="fa fa-road"></i>
                         </div>
                         <div class="view-form-icon">
-                            <input class="form-control" type="text" ng-model="recipient.City" placeholder="City" ng-required="physicalProduct" data-placement="top" data-container="body" data-trigger="focus" title="City" bs-tooltip/>
+                            <input class="form-control" type="text" ng-model="recipient.City" placeholder="City" ng-required="physicalProduct"/>
                             <i class="fa fa-map-marker"></i>
                         </div>
                         <div class="row">
@@ -100,7 +100,7 @@
                             </div>
                             <div class="col-xs-6">
                                 <div class="view-form-icon">
-                                    <input class="form-control" type="text" ng-maxlength="10" ng-model="recipient.Zip" placeholder="Zip" ng-required="physicalProduct" data-placement="top" data-container="body" data-trigger="focus" title="Zip" bs-tooltip/>
+                                    <input class="form-control" type="text" ng-maxlength="10" ng-model="recipient.Zip" placeholder="Zip" ng-required="physicalProduct"/>
                                     <i class="fa fa-home"></i>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                             <i class="fa fa-globe"></i>
                         </div>
                         <div class="view-form-icon">
-                            <input  class="form-control" type="text" ui-mask="(999) 999-9999" ng-model="recipient.Phone" placeholder="Phone Number" data-placement="top" data-container="body" data-trigger="focus" title="Phone" bs-tooltip/>
+                            <input  class="form-control" type="text" ui-mask="(999) 999-9999" ng-model="recipient.Phone" required/>
                             <i class="fa fa-phone"></i>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                             <i class="fa fa-dollar"></i>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Email Subject..." ng-model="recipient.EmailSubject" data-trigger="focus" title="Email Subject" bs-tooltip/>
+                            <input type="text" class="form-control" placeholder="Email Subject..." ng-model="recipient.EmailSubject"/>
                         </div>
                         <span class="hidden-sm hidden-xs">
                             <div style="margin-bottom:5px;" ng-show="!editingRecipient" class="btn btn-block btn-success" ng-disabled="recipient_form.$invalid" ng-click="saveRecipient()">
@@ -154,11 +154,11 @@
                             <i class="fa fa-pencil-square-o" />
                         </div>
                         <div class="view-form-icon">
-                            <textarea class="form-control" ng-maxlength="300" ng-model="recipient.PersonalMessage" placeholder="Custom personal message..." data-placement="top-right" title="{{messagepopover.title}}" data-content="{{messagepopover.content}}" data-trigger="focus" bs-popover/>
+                            <textarea class="form-control" ng-maxlength="300" ng-model="recipient.PersonalMessage" placeholder="Custom personal message..." />
                             <i class="fa fa-pencil-square-o" />
                         </div>
                         <div class="view-form-icon" style="margin-bottom:20px;">
-                            <input type="text" class="form-control" ng-maxlength="50" ng-model="recipient.ClosingMessage" placeholder="Custom closing message..." data-placement="top-right" title="{{closingpopover.title}}" data-content="{{closingpopover.content}}" data-trigger="focus" bs-popover/>
+                            <input type="text" class="form-control" ng-maxlength="50" ng-model="recipient.ClosingMessage" placeholder="Custom closing message..." />
                             <i class="fa fa-pencil-square-o" />
                         </div>
                     </div>

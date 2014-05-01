@@ -68,9 +68,26 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
 				_then(success, products);
 	        });
     }
+
+    var _assemble = function(tree,success) {
+        var productlist = [];
+
+        for (var i = 0; i < tree.length; i++) {
+            var categoryInteropID = tree[i].InteropID;
+
+            _search(categoryInteropID,null,null,function(products) {
+                for (var p = 0; p < products.length; p++) {
+                    productlist.push(products[p]);
+                }
+            });
+        }
+
+        _then(success, productlist);
+    }
 	
 	return {
         get: _get,
-        search: _search
+        search: _search,
+        assemble: _assemble
     }
 }]);
