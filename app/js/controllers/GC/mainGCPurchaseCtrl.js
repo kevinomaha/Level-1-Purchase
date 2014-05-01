@@ -1535,7 +1535,11 @@ four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootS
                 }
 
                 if ($scope.digitalProduct) {
-                    var futureShipDate = $scope.selectedProduct.DeliveryDate.split('T')[0];
+                    var date = new Date($scope.selectedProduct.DeliveryDate);
+                    var month = date.getMonth() + 1;
+                    var day = date.getDate();
+                    var year = date.getFullYear();
+                    var futureShipDate = month + "/" + day + "/" + year;
                     var emailSubject = data.Specs['R1CL3'].Value != "" ? data.Specs['R1CL3'].Value : $scope.selectedProduct.EmailSubject;
                     var li = {
                         "LineTotal":lineTotal,

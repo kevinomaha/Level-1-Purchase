@@ -2,7 +2,7 @@
     <form name="award_customization" novalidate="">
     <div ng-show="!showAwardMaker || isDesktop()" class="col-md-3">
         <div ng-show="recipientList.length != 0">
-            <div class="input-group" style="margin-bottom:5px;">
+            <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                 <input class="form-control view-form-icon" placeholder="Search Recipient List..." type="text" ng-model="recipientListSearchTerm" />
             </div>
@@ -10,7 +10,8 @@
                 <p class="text-primary pull-right"><small>{{ '(' +recipientList.length+ ')'}}</small></p>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox"
+                        <input style="min-height: 0;"
+                               type="checkbox"
                                ng-model="awardlessRecipients"
                                name="awardlessRecipientsChbx"
                                ng-true-value="true"
@@ -20,7 +21,8 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox"
+                        <input style="min-height: 0;"
+                               type="checkbox"
                                ng-model="selectAllRecipients"
                                ng-click="selectAllRecipientsToggle(selectAllRecipients)"
                                name="selectAllRecipientsChbx"
@@ -32,30 +34,34 @@
                 </div>
             </div>
             <div class="recipient-list-container">
-                <div class="recipient-list-scrollbox">
-                    <ul class="list-group">
-                        <li class="list-group-item recipient-list-item" ng-repeat="recipient in recipientList | filter:recipientListSearchTerm | awardlessRecipients:awardlessRecipients" ng-click="selectRecipient(recipient)" ng-class="{'selected-recipient-list-item': recipient.Selected}">
-                            <i style="padding-top:10px;" class="fa fa-3x pull-right" ng-show="!recipient.Invalid" ng-class="{'text-success fa-check-circle': recipient.Selected && recipient.AwardCount == 0, 'fa-circle-o text-muted':recipient.AwardCount == 0 && !recipient.Selected, 'fa-circle text-primary': recipient.AwardCount != 0 && !recipient.Selected, 'fa-circle text-success':recipient.AwardCount != 0 && recipient.Selected}"></i>
-                            <i style="padding-top:10px; z-index:9999;" class="fa fa-3x pull-right fa-exclamation-circle text-danger" ng-show="recipient.Invalid"></i>
-                            <div class="recipient-list-item-text">
-                                <div style="position:absolute; top:17px; right:12px; font-size:20px; font-weight:bold; color:#FFF;" ng-show="recipient.AwardCount > 0" class="award-count">{{recipient.AwardCount}}</div>
-                                <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted" ng-class="{'text-success': recipient.Selected}"></i>
-                                <p ng-class="{'text-success': recipient.Selected}">{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}} <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span></p>
-                                <p ng-class="{'text-success': recipient.Selected, 'text-primary': !recipient.Selected}"><small><em>{{recipient.Email || recipient.City + ', ' +recipient.State}}</em></small></p>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="recipient in recipientList | filter:recipientListSearchTerm | awardlessRecipients:awardlessRecipients" ng-click="selectRecipient(recipient)" ng-class="{'list-group-item-success': recipient.Selected, 'list-group-item-danger': recipient.Invalid}">
+                        <div class="pull-right">
+                            <i class="fa fa-3x" ng-show="!recipient.Invalid" ng-class="{'text-success fa-check-circle': recipient.Selected && recipient.AwardCount == 0, 'fa-circle-o text-muted':recipient.AwardCount == 0 && !recipient.Selected, 'fa-circle text-primary': recipient.AwardCount != 0 && !recipient.Selected, 'fa-circle text-success':recipient.AwardCount != 0 && recipient.Selected}"></i>
+                            <div class="text-center" style="font-weight:bold; color:#FFF; margin-top:-85%;" ng-show="recipient.AwardCount > 0" class="award-count">{{recipient.AwardCount}}</div>
+                        </div>
+                        <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted" ng-class="{'text-success': recipient.Selected}"></i>
+                        <p>{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}}
+                            <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span>
+                        </p>
+                        <p><small><em>{{recipient.Email || recipient.City + ', ' +recipient.State}}</em></small></p>
+                        <div style="clear:both;"></div>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="alert alert-danger" ng-show="recipientList.length == 0">No Recipients</div>
         <div class="alert alert-info" ng-show="!digitalProduct">
-            <input type="checkbox"
-                   ng-model="anonymousAwards"
-                   ng-true-value="true"
-                   ng-false-value="false"
-                   ng-change="analyzeRecipientGroup(anonymousAwards)"> Add Anonymous Awards
+            <div class="checkbox">
+                <label>
+                    <input style="min-height: 0;"
+                           type="checkbox"
+                           ng-model="anonymousAwards"
+                           ng-true-value="true"
+                           ng-false-value="false"
+                           ng-change="analyzeRecipientGroup(anonymousAwards)"> Add Anonymous Awards
+                </label>
+            </div>
             <div class="view-form-icon" ng-show="anonymousAwards == 'true'">
                 <input placeholder="Quantity" class="form-control" type="text" ng-required="anonymousAwards == 'true'" name="qtyInput" ng-model="selectedProduct.anonymousQty" />
                 <i class="fa fa-edit"></i>
@@ -70,103 +76,138 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                             <div class="btn-group-vertical btn-group">
-                                <button style="border-top-right-radius:4px;" class="btn btn-primary" ng-click="productTypeSelect('Standard')">
-                                    <i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Standard'"></i>
+                                <button style="border-top-right-radius:4px;" class="btn btn-default text-primary" ng-click="productTypeSelect('Standard')" ng-class="{active:selectedProductType == 'Standard'}">
+                                    <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Standard'"></i>-->
                                     Standard
                                 </button>
-                                <button class="btn btn-success" ng-click="productTypeSelect('Premium')">
-                                    <i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Premium'"></i>
+                                <button class="btn btn-default text-success" ng-click="productTypeSelect('Premium')" ng-class="{active:selectedProductType == 'Premium'}">
+                                    <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Premium'"></i>-->
                                     Premium
                                 </button>
                                 <!--<button class="btn btn-default" ng-class="{'active': selectedProductType == 'Holiday'}" ng-click="productTypeSelect('Holiday')">Holiday</button>-->
-                                <button class="btn btn-danger" ng-show="selectedProductType != 'GreetingCardSuperCert'" ng-click="productTypeSelect('Canadian')">
-                                    <i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Canadian'"></i>
+                                <button class="btn btn-default text-danger" ng-show="selectedProductType != 'GreetingCardSuperCert'" ng-click="productTypeSelect('Canadian')" ng-class="{active:selectedProductType == 'Canadian'}">
+                                    <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Canadian'"></i>-->
                                     Canadian
                                 </button>
                             </div>
                     </div>
-                    <div class="form-group">
-                        <label>Design</label>
-                        <select class="form-control"
-                                ng-required="true"
-                                ng-change="designChanged()"
-                                ng-model="selectedProduct.designSelection"
-                                ng-options="option as (option.Value | gcProductDesignNames) for option in selectedProductDetails.Specs | gcProductDesigns:selectedProduct">
-                            <option value=""></option>
-                        </select>
+                    <div class="view-form-icon">
+                        <div>
+                            <label>Design</label>
+                            <select class="form-control"
+                                    ng-required="true"
+                                    ng-change="designChanged()"
+                                    ng-model="selectedProduct.designSelection"
+                                    ng-options="option as (option.Value | gcProductDesignNames) for option in selectedProductDetails.Specs | gcProductDesigns:selectedProduct">
+                                <option class="view-select-placeholder" selected="" value="">Select a design</option>
+                            </select>
+                            <i class="fa fa-picture-o"></i>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Occasion Message</label>
-                        <select class="form-control"
-                                ng-required="true"
-                                ng-change="occasionMessageChanged()"
-                                ng-model="selectedProduct.occasionMessage"
-                                ng-options="message for message in occasionMessages">
-                            <option value=""></option>
-                        </select>
+                    <div class="view-form-icon">
+                        <div>
+                            <label>Occasion Message</label>
+                            <select class="form-control"
+                                    ng-required="true"
+                                    ng-change="occasionMessageChanged()"
+                                    ng-model="selectedProduct.occasionMessage"
+                                    ng-options="message for message in occasionMessages">
+                                <option class="view-select-placeholder" selected="" value="">Select a message</option>
+                            </select>
+                            <i class="fa fa-comment"></i>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Denomination</label>
-                        <select class="form-control"
-                                ng-required="denominationRequired"
-                                ng-change="denominationChange()"
-                                ng-model="selectedProduct.denomination"
-                                ng-options="denom as denom.Value for denom in selectedProductDetails.Specs | gcProductDenominations">
-                            <option value=""></option>
-                        </select>
+                    <div class="view-form-icon">
+                        <div>
+                            <label>Denomination</label>
+                            <select class="form-control"
+                                    ng-required="denominationRequired"
+                                    ng-change="denominationChange()"
+                                    ng-model="selectedProduct.denomination"
+                                    ng-options="denom as denom.Value for denom in selectedProductDetails.Specs | gcProductDenominations">
+                                <option class="view-select-placeholder" selected="" value="">Select a denomination</option>
+                            </select>
+                            <i class="fa fa-dollar"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <div class="form-group">
-                        <label>
-                            <span ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'">Custom </span>Opening Message
-                        </label>
-                        <div ng-hide="selectedProduct.OpeningMessageOption == 'Custom Message'" class="btn-group" ng-model="selectedProduct.OpeningMessageOption" ng-init="selectedProduct.OpeningMessageOption = 'First and Last Name'" bs-radio-group>
-                            <label class="btn btn-default"><input class="btn btn-default" value="First and Last Name" type="radio"> Full Name</label>
-                            <label class="btn btn-default"><input class="btn btn-default" value="First Name Only" type="radio"> First Name</label>
-                            <label class="btn btn-default"><input class="btn btn-default" value="Custom Message" type="radio"> Custom Text</label>
-                            <label class="btn btn-default"><input class="btn btn-default" value="None" type="radio"> None</label>
+                    <div class="view-form-icon">
+                        <div>
+                            <label>{{selectedProduct.OpeningMessageOption == 'Custom Message' ? 'Custom ' : ''}} Opening Message</label>
+                            <div ng-hide="selectedProduct.OpeningMessageOption == 'Custom Message'" class="btn-group btn-group-justified" ng-init="selectedProduct.OpeningMessageOption = 'First and Last Name'">
+                                <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'First and Last Name'" ng-class="{active:selectedProduct.OpeningMessageOption == 'First and Last Name'}">Full Name</div>
+                                <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'First Name Only'" ng-class="{active:selectedProduct.OpeningMessageOption == 'First Name Only'}">First Name</div>
+                                <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'Custom Message'" ng-class="{active:selectedProduct.OpeningMessageOption == 'Custom Message'}">Custom Text</div>
+                                <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'None'" ng-class="{active:selectedProduct.OpeningMessageOption == 'None'}">None</div>
+                            </div>
+                            <div ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'" class="input-group">
+                                <input style="min-height: 0;" ng-required="selectedProduct.OpeningMessageOption == 'Custom Message'" class="form-control" ng-maxlength="50" ng-model="selectedProduct.CustomOpeningMessage" type="text" placeholder="Ex. Dear Employee, (Up to 50 characters)">
+                                <div class="input-group-btn"><div class="btn btn-danger" ng-click="selectedProduct.CustomOpeningMessage = ''; selectedProduct.OpeningMessageOption = 'First and Last Name'">Cancel</div></div>
+                            </div>
+                            <i ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'" class="fa fa-comment"></i>
                         </div>
-                        <div  ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'" class="input-group">
-                            <input ng-required="selectedProduct.OpeningMessageOption == 'Custom Message'" class="form-control" ng-maxlength="50" ng-model="selectedProduct.CustomOpeningMessage" type="text" placeholder="Ex. Dear Employee, (Up to 50 characters)">
-                            <div class="input-group-btn"><div class="btn btn-danger" ng-click="selectedProduct.CustomOpeningMessage = ''; selectedProduct.OpeningMessageOption = 'First and Last Name'">Cancel</div></div>
+                    </div>
+
+                    <div class="view-form-icon" ng-show="selectedProductDetails.PersonalMessages.length > 0">
+                        <div>
+                            <label>Select From a Previous Personal Message</label>
+                            <select class="form-control"
+                                    ng-model="selectedProduct.PersonalMessage"
+                                    ng-options="message for message in selectedProductDetails.PersonalMessages">
+                                <option class="view-select-placeholder" selected="" value="">Select a message</option>
+                            </select>
+                            <i class="fa fa-comment"></i>
                         </div>
                     </div>
 
-                    <div class="form-group" ng-show="selectedProductDetails.PersonalMessages.length > 0">
-                        <label>Select From a Previous Personal Message</label>
-                        <select class="form-control"
-                                ng-model="selectedProduct.PersonalMessage"
-                                ng-options="message for message in selectedProductDetails.PersonalMessages">
-                            <option value=""></option>
-                        </select>
+                    <div class="form-group" style="margin-top:15px;">
+                        <textarea class="form-control" ng-maxlength="300" ng-model="selectedProduct.PersonalMessage" placeholder="Custom personal message..."/>
                     </div>
 
                     <div class="form-group">
-                        <textarea class="form-control" ng-maxlength="300" ng-model="selectedProduct.PersonalMessage" placeholder="Custom personal message..." data-placement="top-right" title="{{messagepopover.title}}" data-content="{{messagepopover.content}}" data-trigger="focus" bs-popover/>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:20px;">
-                        <input type="text" class="form-control" ng-maxlength="50" ng-model="selectedProduct.ClosingMessage" placeholder="Custom closing message..." data-placement="top-right" title="{{closingpopover.title}}" data-content="{{closingpopover.content}}" data-trigger="focus" bs-popover/>
+                        <input type="text" class="form-control" ng-maxlength="50" ng-model="selectedProduct.ClosingMessage" placeholder="Custom closing message..."/>
                     </div>
 
                     <div class="row" ng-show="digitalProduct">
                         <div class="col-sm-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Email Subject..." ng-required="digitalProduct && emailSubjectRequired" ng-model="selectedProduct.EmailSubject" data-trigger="focus" title="Email Subject" bs-tooltip/>
+                            <div class="view-form-icon">
+                                <div>
+                                    <label>Email Subject</label>
+                                    <input type="text" class="form-control" placeholder="Email Subject..." ng-required="digitalProduct && emailSubjectRequired" ng-model="selectedProduct.EmailSubject"/>
+                                    <i class="fa fa-envelope"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Requested Delivery Date" ng-required="digitalProduct" ui-date="{ dateFormat: 'mm/dd/yy' }" ui-date-format ng-model="selectedProduct.DeliveryDate" data-trigger="focus" title="Requested Delivery Date" bs-tooltip/>
-                                <!--<input class="form-control" type="text" placeholder="Requested Delivery Date" ng-model="selectedProduct.DeliveryDate" data-autoclose="1" data-min-date="today" bs-datepicker/>-->
+                            <div class="view-form-icon">
+                                <div>
+                                    <label>{{'Requested Delivery Date' | r}}</label>
+                                    <!--Default Datepicker -->
+                                    <div class="btn btn-default btn-block btn-date hidden-lg hidden-md"
+                                         ng-click="$event.preventDefault();$event.stopPropagation();opened = !opened;"
+                                         style="margin:0; height:40px; padding-top:8px;">
+                                        {{item.DateNeeded ? '' : 'Tap to set a date'}}
+                                        <span class="text-info">{{item.DateNeeded | date:'M/dd/yy'}}</span>
+                                    </div>
+                                    <input name="dateneeded" placeholder="Requested Delivery Date" ng-model="selectedProduct.DeliveryDate" ng-required="digitalProduct"
+                                           type="text"
+                                           class="form-control"
+                                           datepicker-popup="MM/dd/yy"
+                                           is-open="opened"
+                                           min="currentDate"/>
+                                    <i class="fa fa-calendar"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Save As</label>
-                        <input ng-required="true" type="text" class="form-control" ng-maxlength="50" ng-model="selectedProduct.SaveAs" placeholder="Ex. HR order 8/10/11" />
+                    <div class="view-form-icon">
+                        <div>
+                            <label>Save As</label>
+                            <input ng-required="true" type="text" class="form-control" ng-maxlength="50" ng-model="selectedProduct.SaveAs" placeholder="Ex. HR order 8/10/11" />
+                            <i class="fa fa-floppy-o"></i>
+                        </div>
                     </div>
                 </div>
             </div>
