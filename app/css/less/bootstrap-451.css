@@ -7449,3 +7449,32 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
 .new-recipient-well .view-form-icon {
   margin-bottom: 10px;
 }
+.main-gc-purchase-view .steps {
+  background-color: #fff;
+  margin: 0 -10px 15px;
+  padding: 15px 10px;
+}
+.main-gc-purchase-view .steps div h4 {
+  cursor: pointer;
+  color: #009ee9;
+  margin: 5px 0 0;
+}
+@media (max-width: 991px) {
+  .main-gc-purchase-view .steps div h4 {
+    display: none;
+  }
+}
+.main-gc-purchase-view .steps div h2 {
+  text-align: center;
+  margin: 0 20%;
+}
+@media (max-width: 767px) {
+  .main-gc-purchase-view .steps div h2 {
+    font-size: 18px;
+  }
+}
+@media (max-width: 767px) and (min-width: 768px) and (max-width: 991px) {
+  .main-gc-purchase-view .steps div h2 {
+    font-size: 24px;
+  }
+}
