@@ -40,7 +40,7 @@
                         </div>
                     </div>
 
-                    <div class="btn btn-link btn-block" ng-click="editAdditionalInformation = !editAdditionalInformation" style="cursor:pointer;"><i class="fa fa-plus-circle" /> {{editAdditionalInformation ? 'Hide' : 'Edit'}} Additional Recipient Information</div>
+                    <div class="btn btn-link btn-block" ng-click="editAdditionalInformation = !editAdditionalInformation" style="cursor:pointer;"><i class="fa" ng-class="{'fa-plus-circle':!editAdditionalInformation, 'fa-minus-circle':editAdditionalInformation }" /> {{editAdditionalInformation ? 'Hide' : 'Edit'}} Additional Recipient Information</div>
                     <div collapse="!editAdditionalInformation">
                         <div class="row">
                             <div class="col-md-6">

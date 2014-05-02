@@ -6294,7 +6294,7 @@ button::-moz-focus-inner {
   bottom: -20px;
   left: 40%;
   font-size: 32px;
-  color: #359FD5;
+  color: #eeeeee;
   z-index: 5;
   display: block;
 }
@@ -6339,7 +6339,7 @@ button::-moz-focus-inner {
 .navbar .container .navbar-nav.pull-right li a i:first-of-type,
 .navbar .container-view .navbar-nav.pull-right li a i:first-of-type {
   border-radius: 50%;
-  border: 1px solid #fff;
+  border: 1px solid #8cc63e;
   text-align: center;
   padding: 10px;
   margin-top: -10px;
@@ -7579,4 +7579,12 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   padding-right: 15px;
   padding-top: 10px;
   z-index: 50;
+}
+.white-wrapper {
+  background-color: #fff;
+}
+.bg-dark {
+  background-color: #eee;
+  border-bottom: 4px solid #ddd;
+  color: #3d3d3d;
 }

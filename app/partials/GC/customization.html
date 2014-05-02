@@ -42,7 +42,7 @@
                         </div>
                         <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted" ng-class="{'text-success': recipient.Selected}"></i>
                         <p>{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}} <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span></p>
-                        <p ng-show="recipient.ShipAddressID"><small><i class="fa fa-map-marker text-muted"></i> <em>{{recipient.Street1}} <i style="margin-left:4px;" class="fa fa-circle text-muted" ng-show="recipient.Street1 && (recipient.Email || recipient.City)"></i> {{recipient.Email || recipient.City + ', ' +recipient.State}}</em></small></p>
+                        <p ng-show="recipient.ShipAddressID"><small><i class="fa fa-map-marker text-muted" ng-class="{'text-success': recipient.Selected}"></i> <em>{{recipient.Street1}} <i style="margin-left:4px;" class="fa fa-circle text-muted" ng-class="{'text-success': recipient.Selected}" ng-show="recipient.Street1 && (recipient.Email || recipient.City)"></i> {{recipient.Email || recipient.City + ', ' +recipient.State}}</em></small></p>
 
                     </li>
                 </ul>
