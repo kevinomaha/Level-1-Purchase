@@ -6,7 +6,7 @@ four51.app.directive('addressinput', function() {
 			return: '=',
 			user: '='
 		},
-		templateUrl: 'partials/controls/addressInput.html',
+		templateUrl: 'partials/controls/GC/addressInput.html',
 		controller: 'AddressInputCtrl'
 	}
 	return obj;
