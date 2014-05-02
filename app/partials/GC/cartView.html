@@ -1,15 +1,13 @@
 <section class="container cart-view">
     <loadingindicator ng-show="orderSubmitLoadingIndicator" title="Please wait while we submit your order" />
-    <div ng-show="tempOrder" class="cart-view-detail hidden-print container">
+    <div ng-show="tempOrder" class="hidden-print container">
         <div class="row">
             <div class="col-md-7">
-                <div class="row">
-                    <h3 class="text-primary text-center">{{tempOrder.LineItems.length}} AWARD{{tempOrder.LineItems.length > 1 ? 'S' : ''}} IN YOUR CART</h3>
-                    <hr style="margin-bottom:5px;"/>
-                    <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.lineItemGroups.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
-                    <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.merchantCardLineItems.length > 0"  ng-click="browseMerchantCards()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Browse Merchant Cards</div>
-                    <hr style="margin-top:5px;"/>
-                </div>
+                <h3 class="text-primary text-center">{{tempOrder.LineItems.length}} AWARD{{tempOrder.LineItems.length > 1 ? 'S' : ''}} IN YOUR CART</h3>
+                <hr style="margin-bottom:5px;"/>
+                <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.lineItemGroups.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
+                <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.merchantCardLineItems.length > 0"  ng-click="browseMerchantCards()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Browse Merchant Cards</div>
+                <hr style="margin-top:5px;"/>
                 <form name="cart_line_item_groups">
                     <div class="recipient-groups">
                         <div ng-show="tempOrder.lineItemGroups.length > 1">
@@ -28,7 +26,7 @@
                             </div>
                         </div>
                         <div ng-repeat="group in tempOrder.lineItemGroups" ng-if="!group.Anonymous">
-                            <div class="row white-wrapper" style="border-bottom:1px solid #ddd;">
+                            <div class="white-wrapper" style="border-bottom:1px solid #ddd;">
                                 <div class="container">
                                     <h4>
                                         <span class="pull-right text-success"><b>{{group.Total | currency}}</b></span>
@@ -57,13 +55,13 @@
                                             </div>
                                         </div>
                                         <div class="col-xs-5 text-right">
-                                            <i style="cursor:pointer;" class="text-danger fa fa-2x fa-times" ng-click="removeGroup(group)" data-placement="right" data-title="REMOVE GROUP" bs-tooltip></i>
+                                            <i style="cursor:pointer;" class="text-danger fa fa-2x fa-times" ng-click="removeGroup(group)"></i>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="row recipient-group-line-items" ng-show="(group.LineItems.length == 1) || toggleLineItems">
+                            <div class="recipient-group-line-items" collapse="(group.LineItems.length > 1) && !toggleLineItems">
                                 <div style="border-right:1px solid #ddd; border-left:1px solid #ddd;" class="container line-item-recipient-repeater" ng-repeat="lineitem in group.LineItems">
                                     <div class="row">
                                         <div ng-class="{'col-xs-5':group.LineItems.length > 1, 'col-xs-6':group.LineItems.length == 1}">
@@ -94,16 +92,16 @@
                                             <i class="fa fa-times text-danger" style="padding:12px; cursor:pointer;" ng-click="removeItem(lineitem)" data-placement="right" data-html="1" data-title="<small>REMOVE ITEM</small>" bs-tooltip></i>
                                         </div>
                                     </div>
-                                    <div class="row" ng-show="showPreview">
+                                    <div class="row" collapse="!showPreview">
                                         <div class="container" style="padding:15px;">
                                             <figure>
-                                                <img width="100%" ng-src="{{lineitem.Variant.PreviewUrl}}"/>
+                                                <img width="100%" ng-src="{{showPreview ? lineitem.Variant.PreviewUrl : ''}}"/>
                                             </figure>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="margin-bottom:20px; border-right:1px solid #ddd; border-left:1px solid #ddd;">
+                            <div style="margin-bottom:20px; border-right:1px solid #ddd; border-left:1px solid #ddd;">
                                 <div class="container bg-dark">
                                     <p style="cursor:pointer; padding:15px 0 11px 0; margin-bottom:0;" class="text-center" ng-init="toggleLineItems = false" ng-click="toggleLineItems = !toggleLineItems" ng-show="group.LineItems.length > 1">
                                         <span ng-show="toggleLineItems == false"><i class="fa fa-plus-circle"></i> Show </span>
@@ -114,7 +112,7 @@
                             </div>
                         </div>
                         <div ng-repeat="group in tempOrder.lineItemGroups" ng-if="group.Anonymous">
-                            <div class="row white-wrapper" style="border-bottom:1px solid #ddd;">
+                            <div class="white-wrapper" style="border-bottom:1px solid #ddd;">
                                 <div class="container">
                                     <h4>
                                         <span class="pull-right text-success"><b>{{group.Total | currency}}</b></span>
@@ -163,7 +161,7 @@
 
                                 </div>
                             </div>
-                            <div class="row recipient-group-line-items" ng-show="(group.LineItems.length == 1) || toggleLineItems">
+                            <div class="recipient-group-line-items" ng-show="(group.LineItems.length == 1) || toggleLineItems">
                                 <div style="border-right:1px solid #ddd; border-left:1px solid #ddd;" class="container line-item-recipient-repeater" ng-repeat="lineitem in group.LineItems">
                                     <div class="row">
                                         <div ng-class="{'col-xs-5':group.LineItems.length > 1, 'col-xs-6':group.LineItems.length == 1}">
@@ -203,7 +201,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="margin-bottom:20px; border-right:1px solid #ddd; border-left:1px solid #ddd;">
+                            <div style="margin-bottom:20px; border-right:1px solid #ddd; border-left:1px solid #ddd;">
                                 <div class="container bg-dark">
                                     <p style="cursor:pointer; padding:15px 0 11px 0; margin-bottom:0;" class="text-center" ng-init="toggleLineItems = false" ng-click="toggleLineItems = !toggleLineItems" ng-show="group.LineItems.length > 1">
                                         <span ng-show="toggleLineItems == false"><i class="fa fa-plus-circle"></i> Show </span>
@@ -264,10 +262,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 billing-information-section hidden-sm hidden-xs" style="padding-right:0;">
-                <div class="affix-container" bs-affix data-offset-top="-80">
-                    <h3 class="browse-title">Billing Info<p class="pull-right"><small ng-class="{'text-danger': cart_billing.$invalid}">{{!cart_billing.$invalid ? 'Ready for submission' : 'Missing required fields'}}</small></p></h3>
-                    <div class="container white-wrapper" style="padding-bottom:15px; padding-top:15px;">
+            <div class="col-md-5 hidden-sm hidden-xs">
+                <div>
+                    <h3>Billing Info<p class="pull-right"><small ng-class="{'text-danger': cart_billing.$invalid}">{{!cart_billing.$invalid ? 'Ready for submission' : 'Missing required fields'}}</small></p></h3>
+                    <div class="white-wrapper container" style="padding-bottom:15px; padding-top:15px;">
 
                         <div ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length == 0 && user.Permissions.contains('CreateBillToAddress')" class="row">
                             <addressinput address='billaddress' user='user'></addressinput>
