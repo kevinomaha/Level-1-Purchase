@@ -203,6 +203,12 @@ four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootS
 	$scope.clearRecipient('recipient');
 	$scope.recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
 
+    if ($scope.recipientList.length > 0) {
+        angular.forEach($scope.recipientList, function(recipient) {
+            recipient.FullName = recipient.FirstName + " " + recipient.LastName;
+        });
+    }
+
 
     $scope.isDesktop = function(){
         var result = window.innerWidth >= 992;
