@@ -1,19 +1,19 @@
 <section class="main-gc-purchase-view container">
 
-    <div class="steps">
-        <div ng-show="step == 1">
-            <h4 class="text-info pull-right" ng-click="step = 2">List Creation <i class="fa fa-arrow-circle-right"></i></h4>
-            <h2>Product Selection</h2>
+    <div class="steps" ng-init="step = 1">
+        <div ng-class="{'crushstep':step == 2 || step == 3}">
+            <h4 class="text-info pull-right" ng-show="step == 1" ng-click="step = 2">List Creation <i class="fa fa-arrow-circle-right"></i></h4>
+            <h2 ng-class="{'fade-out-left':step == 2 || step == 3}">Product Selection</h2>
         </div>
-        <div ng-show="step == 2">
-            <h4 class="text-info pull-right" ng-click="step = 3">Customization <i class="fa fa-arrow-circle-right"></i></h4>
-            <h4 class="text-info pull-left" ng-click="step = 1"><i class="fa fa-arrow-circle-left"></i> Product Selection</h4>
-            <h2>List Creation</h2>
+        <div ng-class="{'crushstep':step == 1 || step == 3}">
+            <h4 class="text-info pull-right"  ng-show="step == 2" ng-click="step = 3">Customization <i class="fa fa-arrow-circle-right"></i></h4>
+            <h4 class="text-info pull-left"  ng-show="step == 2" ng-click="step = 1"><i class="fa fa-arrow-circle-left"></i> Product Selection</h4>
+            <h2 ng-class="{'fade-out-left':step == 3, 'fade-out-right':step == 1}">List Creation</h2>
         </div>
-        <div ng-show="step == 3">
-            <h4 class="text-info pull-right">Generate Awards <i class="fa fa-gift"></i></h4>
-            <h4 class="text-info pull-left" ng-click="step = 2"><i class="fa fa-arrow-circle-left"></i> List Creation</h4>
-            <h2>Customization</h2>
+        <div ng-class="{'crushstep':step == 1 || step == 2}">
+            <h4 class="text-info pull-right"  ng-show="step == 3">Generate Awards <i class="fa fa-gift"></i></h4>
+            <h4 class="text-info pull-left" ng-show="step == 3" ng-click="step = 2"><i class="fa fa-arrow-circle-left"></i> List Creation</h4>
+            <h2 ng-class="{'fade-out-right':step == 2 || step == 1}">Customization</h2>
         </div>
     </div>
 

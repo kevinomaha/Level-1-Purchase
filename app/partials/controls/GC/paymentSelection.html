@@ -85,7 +85,7 @@
             <div class="view-form-icon">
                 <div>
                     <label ng-class="{required: (tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCard.ExpirationDate) || expDateInvalid}" for="expiration-date" ng-show="tempOrder.CreditCard.ExpirationDate || tempOrder.PaymentMethod == 'CreditCard'">Exp Date</label>
-                    <input id="expiration-date" ng-class="{'input-invalid': expDateInvalid}" class="form-control" ng-model="tempOrder.CreditCard.ExpirationDate" ng-required="tempOrder.PaymentMethod == 'CreditCard'" type="text" ui-mask="99/99" placeholder="Expiration Date" />
+                    <input id="expiration-date" ng-class="{'input-invalid': expDateInvalid}" class="form-control" ng-model="tempOrder.CreditCard.ExpirationDate" ng-required="tempOrder.PaymentMethod == 'CreditCard'" type="text" ui-mask="99/99" placeholder="MM/YY" />
                     <i class="fa fa-calendar"></i>
                 </div>
             </div>
@@ -96,10 +96,17 @@
                     <i class="fa fa-lock"></i>
                 </div>
             </div>
-            <div style="clear:both;"
+            <div style="clear:both;"></div>
         </div>
-        <div ng-if="user.Permissions.contains('AllowSaveCreditCard')">
-            <label class="checkbox-label"><input ng-model="tempOrder.CreditCard.Save"  type="checkbox" /> Save my credit card information</label>
+        <div class="checkbox" ng-if="user.Permissions.contains('AllowSaveCreditCard')">
+            <label>
+                <input style="min-height: 0;"
+                       type="checkbox"
+                       ng-model="tempOrder.CreditCard.Save"
+                       ng-true-value="true"
+                       ng-false-value="false">
+                <small>Save my credit card information</small>
+            </label>
         </div>
     </div>
 </div>

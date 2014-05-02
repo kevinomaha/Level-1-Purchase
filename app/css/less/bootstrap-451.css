@@ -7455,7 +7455,23 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
 .main-gc-purchase-view .steps {
   background-color: #fff;
   margin: 0 -10px 15px;
-  padding: 15px 10px;
+  min-height: 60px;
+}
+.main-gc-purchase-view .steps div {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 15px;
+  bottom: 0;
+  -webkit-transition-delay: 0ms;
+  -moz-transition-delay: 0ms;
+  transition-delay: 0ms;
+}
+.main-gc-purchase-view .steps div.crushstep {
+  top: 100%;
+  -webkit-transition-delay: 500ms;
+  -moz-transition-delay: 500ms;
+  transition-delay: 500ms;
 }
 .main-gc-purchase-view .steps div h4 {
   cursor: pointer;
@@ -7468,18 +7484,39 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   }
 }
 .main-gc-purchase-view .steps div h2 {
+  position: relative;
+  right: 0;
+  left: 0;
   text-align: center;
   margin: 0 20%;
+  opacity: 1;
+  -webkit-transition: left 500ms, opacity 300ms;
+  -moz-transition: left 500ms, opacity 300ms;
+  transition: left 500ms, opacity 300ms;
 }
 @media (max-width: 767px) {
   .main-gc-purchase-view .steps div h2 {
     font-size: 18px;
   }
 }
-@media (max-width: 767px) and (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 991px) {
   .main-gc-purchase-view .steps div h2 {
     font-size: 24px;
   }
+}
+.main-gc-purchase-view .steps div h2.fade-out-left {
+  left: -100%;
+  opacity: 0;
+  -webkit-transition: left 500ms, opacity 300ms;
+  -moz-transition: left 500ms, opacity 300ms;
+  transition: left 500ms, opacity 300ms;
+}
+.main-gc-purchase-view .steps div h2.fade-out-right {
+  left: 100%;
+  opacity: 0;
+  -webkit-transition: left 500, opacity 300ms;
+  -moz-transition: left 500ms, opacity 300ms;
+  transition: left 500ms, opacity 300ms;
 }
 .product-selection-view div.product-selector {
   /*background-image:@product-selection-bg-img;*/

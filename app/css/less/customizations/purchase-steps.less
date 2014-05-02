@@ -1,9 +1,24 @@
-.main-gc-purchase-view{
-  .steps{
+.main-gc-purchase-view {
+  .steps {
     background-color:#fff;
     margin:0 -10px 15px;
-    padding:15px 10px;
+    min-height:60px;
     div {
+      position:absolute;
+      left:10px;
+      right:10px;
+      top:15px;
+      bottom:0;
+      -webkit-transition-delay:0ms;
+      -moz-transition-delay:0ms;
+      transition-delay:0ms;
+
+      &.crushstep{
+        top:100%;
+        -webkit-transition-delay:500ms;
+        -moz-transition-delay:500ms;
+        transition-delay:500ms;
+      }
       h4{
         cursor:pointer;
         color:@brand-info;
@@ -13,14 +28,36 @@
         }
       }
       h2{
+        position:relative;
+        right:0;
+        left:0;
         text-align:center;
         margin:0 20%;
+        opacity:1;
+        -webkit-transition:left 500ms, opacity 300ms;
+        -moz-transition:left 500ms, opacity 300ms;
+        transition:left 500ms, opacity 300ms;
         @media (max-width: @screen-xs-max) {
-          font-size:ceil((@font-size-base * 1.25));
+          font-size: ceil((@font-size-base * 1.25));
+        }
         @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
           font-size:ceil((@font-size-base * 1.7));
         }
+        &.fade-out-left{
+          left:-100%;
+          opacity:0;
+          -webkit-transition:left 500ms, opacity 300ms;
+          -moz-transition:left 500ms, opacity 300ms;
+          transition:left 500ms, opacity 300ms;
         }
+        &.fade-out-right{
+          left:100%;
+          opacity:0;
+          -webkit-transition:left 500, opacity 300ms;
+          -moz-transition:left 500ms, opacity 300ms;
+          transition:left 500ms, opacity 300ms;
+        }
+
       }
     }
   }

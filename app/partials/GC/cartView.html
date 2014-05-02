@@ -191,7 +191,7 @@
                             <i class="fa fa-times text-danger" style="padding:12px; cursor:pointer;" ng-click="removeItem(lineitem)" data-placement="right" data-html="1" data-title="<small>REMOVE ITEM</small>" bs-tooltip></i>
                         </div>
                     </div>
-                    <div class="row" ng-show="showPreview">
+                    <div class="row" collapse="!showPreview">
                         <div class="container" style="padding:15px;">
                             <figure>
                                 <img width="100%" ng-src="{{showPreview ? lineitem.Variant.PreviewUrl : ''}}"/>
