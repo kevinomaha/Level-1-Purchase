@@ -2,14 +2,14 @@
     <div class="col-md-9">
         <textarea placeholder="Paste your spreadsheet cells here..." id="myPasteBox" class="form-control" rows="1"></textarea>
         <div class="paste-box-validation" ng-show="tempRecipientPasteList.length > 0" ng-class="{pbinvalid: tempPasteError, pbvalid: !tempPasteError}">
-            <i style="z-index:50;" class="fa fa-times fa-2x pull-right" ng-click="tempRecipientPasteList = []" id="clearPaste"></i>
-            <div style="font-weight:bold; color:#fff; padding-top:15px; float:left; padding-left:15px;">
+            <i class="fa fa-times fa-2x pull-right" ng-click="tempRecipientPasteList = []" id="clearPaste"></i>
+            <div class="paste-message">
                 {{tempPasteError ? 'INVALID SPREADSHEET.' : 'SPREADSHEET PASTE SUCCESSFUL!'}}
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="btn btn-success btn-block btn-lg" id="uploadRecipients">
+        <div class="btn btn-success btn-block btn-lg" id="uploadRecipients" style="margin-top:0; padding:13px 0;">
             <i class="fa fa-upload"></i> Upload
         </div>
     </div>

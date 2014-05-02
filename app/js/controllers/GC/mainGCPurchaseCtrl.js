@@ -436,7 +436,7 @@ four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootS
                 recipient = $scope.recipientList[r];
             }
         }
-        if (recipient.Street1 != "") {
+        if (recipient.Street1 != "" && recipient.City != "" && recipient.State != "" && recipient.Zip != "" && recipient.Country != "" && recipient.Phone != "") {
             var address = {};
             address.AddressName = recipient.Street1;
             address.FirstName = recipient.ShipToFirstName;

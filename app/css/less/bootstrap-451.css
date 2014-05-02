@@ -7446,6 +7446,9 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   margin: 0px 0px -45px;
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnPgoJPGRlZnM+CgkJPHBhdHRlcm4gaWQ9J3RpbGUnIHBhdHRlcm5Vbml0cz0ndXNlclNwYWNlT25Vc2UnIHdpZHRoPScxMScgaGVpZ2h0PScxMScgdmlld0JveD0nMCAwIDUwIDUwJz4KCQkJPGxpbmUgeDE9JzEnIHkxPScwJyB4Mj0nNTEnIHkyPSc1MCcgc3Ryb2tlPScjMDAzMzA5JyBzdHJva2Utd2lkdGg9JzYuOCcvPgoJCQk8bGluZSB4MT0nNDknIHkxPScwJyB4Mj0nLTEnIHkyPSc1MCcgc3Ryb2tlPScjMDAzMzA5JyBzdHJva2Utd2lkdGg9JzYuOCcvPgoJCQk8bGluZSB4MT0nNTAnIHkxPScwJyB4Mj0nMCcgeTI9JzUwJyBzdHJva2U9JyMwMDQyNjMnIHN0cm9rZS13aWR0aD0nNi44Jy8+CgkJCTxsaW5lIHgxPScwJyB5MT0nMCcgeDI9JzUwJyB5Mj0nNTAnIHN0cm9rZT0nIzAwNDI2Mycgc3Ryb2tlLXdpZHRoPSc2LjgnLz4KCQk8L3BhdHRlcm4+CgkJPHJhZGlhbEdyYWRpZW50IGlkPSdsJyBjeD0nNTAlJyBjeT0nNTAlJyBmeT0nMCcgcj0nMjAxJSc+CgkJCTxzdG9wIG9mZnNldD0nMCUnIHN0eWxlPSdzdG9wLWNvbG9yOiNmZmY7IHN0b3Atb3BhY2l0eTouMTsnIC8+CgkJCTxzdG9wIG9mZnNldD0nMTAlJyBzdHlsZT0nc3RvcC1jb2xvcjojMDAwOyBzdG9wLW9wYWNpdHk6MC4xOycgLz4KCQkJPHN0b3Agb2Zmc2V0PSczMCUnIHN0eWxlPSdzdG9wLWNvbG9yOiMwMDA7IHN0b3Atb3BhY2l0eTowLjM7JyAvPgoJCQk8c3RvcCBvZmZzZXQ9JzkwJScgc3R5bGU9J3N0b3AtY29sb3I6IzAwMDsgc3RvcC1vcGFjaXR5OjAuNTU7JyAvPgoJCQk8c3RvcCBvZmZzZXQ9JzEwMCUnIHN0eWxlPSdzdG9wLWNvbG9yOiMwMDA7IHN0b3Atb3BhY2l0eTouNicgLz4KCQk8L3JhZGlhbEdyYWRpZW50PgoJPC9kZWZzPgoJPHJlY3QgZmlsbD0nIzAwNTk4Mycgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScvPgoJPHJlY3QgZmlsbD0ndXJsKCN0aWxlKScgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScvPgoJPHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgZmlsbD0ndXJsKCNsKScvPgo8L3N2Zz4=');
 }
+.well > h3 {
+  margin: 0 0 20px;
+}
 .new-recipient-well .view-form-icon {
   margin-bottom: 10px;
 }
@@ -7515,4 +7518,65 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   -webkit-transition: bottom 400ms;
   -moz-transition: bottom 400ms;
   transition: bottom 400ms;
+}
+.recipient-list-container {
+  max-height: 400px;
+  overflow-y: scroll;
+}
+.recipient-upload-table .col-xs-12 .row {
+  padding: 15px 0;
+  border-bottom: 1px solid #e3e3e3;
+  margin-left: -19px;
+  margin-right: -19px;
+}
+.recipient-upload-table .recipient-paste-row {
+  padding: 5px 0;
+  border-bottom: 1px solid #e3e3e3;
+  margin: 0 -19px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.recipient-upload-table .recipient-paste-row.even {
+  background-color: #eee;
+}
+.recipient-upload-table .recipient-paste-row.odd {
+  background-color: #fff;
+}
+.recipient-upload-table .recipient-paste-row > div.row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+#myPasteBox {
+  min-height: 50px;
+}
+.paste-box-validation {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -10px;
+  right: -10px;
+  border-radius: 4px;
+  margin: 0 15px;
+}
+.paste-box-validation.pbinvalid {
+  background-color: #be0f34;
+  border-color: #770921;
+}
+.paste-box-validation.pbvalid {
+  background-color: #8cc63e;
+  border-color: #638e2a;
+}
+.paste-box-validation .paste-message {
+  font-weight: bold;
+  color: #fff;
+  padding-top: 15px;
+  float: left;
+  padding-left: 15px;
+}
+.paste-box-validation i {
+  cursor: pointer;
+  color: #fff;
+  padding-right: 15px;
+  padding-top: 10px;
+  z-index: 50;
 }

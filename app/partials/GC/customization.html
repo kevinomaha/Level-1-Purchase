@@ -41,11 +41,9 @@
                             <div class="text-center" style="font-weight:bold; color:#FFF; margin-top:-85%;" ng-show="recipient.AwardCount > 0" class="award-count">{{recipient.AwardCount}}</div>
                         </div>
                         <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted" ng-class="{'text-success': recipient.Selected}"></i>
-                        <p>{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}}
-                            <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span>
-                        </p>
-                        <p><small><em>{{recipient.Email || recipient.City + ', ' +recipient.State}}</em></small></p>
-                        <div style="clear:both;"></div>
+                        <p>{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}} <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span></p>
+                        <p ng-show="recipient.ShipAddressID"><small><i class="fa fa-map-marker text-muted"></i> <em>{{recipient.Street1}} <i style="margin-left:4px;" class="fa fa-circle text-muted" ng-show="recipient.Street1 && (recipient.Email || recipient.City)"></i> {{recipient.Email || recipient.City + ', ' +recipient.State}}</em></small></p>
+
                     </li>
                 </ul>
             </div>
