@@ -927,7 +927,7 @@ four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootS
 				}
 			}
 
-            var denominationValue = $scope.recipientGroup[recip].Denomination != "" ? $scope.recipientGroup[recip].Denomination : $scope.selectedProduct.denomination.Value;
+            var denominationValue = $scope.recipientGroup[recip].Denomination ? $scope.recipientGroup[recip].Denomination : $scope.selectedProduct.denomination.Value;
             var personalMessage = $scope.recipientGroup[recip].PersonalMessage != "" ? $scope.recipientGroup[recip].PersonalMessage : $scope.selectedProduct.PersonalMessage;
             var closingMessage = $scope.recipientGroup[recip].ClosingMessage != "" ? $scope.recipientGroup[recip].ClosingMessage : $scope.selectedProduct.ClosingMessage;
             var emailSubject = $scope.recipientGroup[recip].EmailSubject != "" ? $scope.recipientGroup[recip].EmailSubject : $scope.selectedProduct.EmailSubject;
@@ -1514,10 +1514,10 @@ four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootS
 				variantCount--;
 
 				var variantData = data;
-				var selectedDenomID = variantData.Specs['Denomination1'].SelectedOptionID;
+				var selectedDenom = variantData.Specs['Denomination1'].Value;
 				var markUp = 0;
 				for (var m = 0; m < variantData.Specs['Denomination1'].Options.length; m++) {
-					if (variantData.Specs['Denomination1'].Options[m].ID == selectedDenomID) {
+					if (variantData.Specs['Denomination1'].Options[m].Value == selectedDenom) {
 						markUp += variantData.Specs['Denomination1'].Options[m].Markup;
 					}
 				}
