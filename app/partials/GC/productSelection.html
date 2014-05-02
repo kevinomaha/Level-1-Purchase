@@ -1,10 +1,16 @@
-<div class="row">
-    <div class="col-md-3" ng-repeat="product in productList">
-        <div ng-class="{'active': selectedProduct.Name == product.Name}" ng-click="selectProduct(product)">
-            {{product.Name}}
-            <div class="btn btn-default" ng-show="selectedProduct.Name == product.Name" ng-click="stepOneContinue()">
-                Continue <i class="fa fa-arrow-circle-right"></i>
+<section class="product-selection-view container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="row">
+                <div class="col-md-6" ng-repeat="product in productList">
+                    <div class="product-selector" ng-class="{'active': selectedProduct.Name == product.Name}" ng-click="selectProduct(product)">
+                        <h5>{{product.DisplayName}}</h5>
+                        <div class="continue" ng-show="selectedProduct.Name == product.Name" ng-click="stepOneContinue()">
+                            Continue <i class="fa fa-arrow-circle-right"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
