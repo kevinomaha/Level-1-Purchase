@@ -194,7 +194,7 @@
                     <div class="row" ng-show="showPreview">
                         <div class="container" style="padding:15px;">
                             <figure>
-                                <img width="100%" ng-src="{{lineitem.Variant.PreviewUrl}}"/>
+                                <img width="100%" ng-src="{{showPreview ? lineitem.Variant.PreviewUrl : ''}}"/>
                             </figure>
                         </div>
                     </div>
