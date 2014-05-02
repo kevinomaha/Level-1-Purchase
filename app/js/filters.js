@@ -258,19 +258,13 @@ four51.app.filter('gccustomorderfieldsnonemail', function() {
 four51.app.filter('gcproductnames', function() {
     return function(name) {
         if (name) {
-            //Digital
-            if (name.indexOf('e-Gift') > -1) {
-                name = name.replace(' $','').replace(/\d/g,'');
-            }
-            //Physical
-            else {
-                name = name.split(' $')[0];
-            }
+            name = name.split(' $')[0] + name.split(' $')[1].replace(/\d/g,'');
 
             return name;
         }
     }
 });
+
 
 four51.app.filter('gcbuyercompanyurl', function() {
     return function(name) {
