@@ -68,7 +68,7 @@
                                     <div class="row">
                                         <div ng-class="{'col-xs-5':group.LineItems.length > 1, 'col-xs-6':group.LineItems.length == 1}">
                                             <b>{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</b><p class="pull-right"><span class="text-success" style="font-weight:bold;"> {{lineitem.LineTotal - lineitem.UnitPrice | currency}}</span> + <span class="text-info">{{lineitem.UnitPrice | currency}}</p><br/>
-                                            <span class="text-info">{{lineitem.Product.Name}}</span>
+                                            <span class="text-info">{{lineitem.Product.Name}}</span><span ng-show="group.IsDigital"> {{lineitem.Variant.Specs['Email1'].Value}}</span>
                                         </div>
                                         <div class="col-xs-1" ng-hide="group.LineItems.length == 1">
                                             <i style="cursor:pointer;" class="fa text-muted fa-2x" ng-class="{'fa-eye':!showPreview, 'fa-eye-slash':showPreview}" ng-init="showPreview = false" ng-click="showPreview = !showPreview"></i>
