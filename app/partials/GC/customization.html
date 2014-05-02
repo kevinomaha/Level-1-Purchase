@@ -215,7 +215,7 @@
                             <i class="fa fa-floppy-o"></i>
                         </div>
                     </div>
-                    <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="(award_customization.$invalid) || (anonymousAwards == 'true' && !(selectedProduct.anonymousQty > 0))" ng-click="createAwards()">Create Awards</div>
+                    <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="(award_customization.$invalid) || (anonymousAwards == 'true' && !(selectedProduct.anonymousQty > 0) || (anonymousAwards != 'true' && recipientGroup.length == 0)" ng-click="createAwards()">Create Awards</div>
                 </div>
             </div>
         </div>
