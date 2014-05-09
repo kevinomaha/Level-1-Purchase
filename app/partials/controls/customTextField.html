@@ -1,9 +1,18 @@
 <div class="view-form-icon" ng-class="{'view-form-icon-input-group':(customfield.Prefix || customfield.Suffix)}">
-    <div ng-if="customfield.Lines <= 1">
+    <div ng-if="(customfield.InputType != 'email') && (customfield.Lines <= 1)">
         <label>{{customfield.Label || customfield.Name | r | specnames}}</label>
         <div ng-class="{'input-group':(customfield.Prefix || customfield.Suffix)}">
             <span class="input-group-addon" ng-if="customfield.Prefix">{{customfield.Prefix | r}}</span>
             <input class="form-control" placeholder="{{customfield.Label || customfield.Name | r | specnames}}" size="{{customfield.Width * .13}}" ng-maxlength="{{customfield.MaxLength}}" ui-mask="{{customfield.MaskedInput}}" type="text" autocomplete="off" ng-required="{{customfield.Required}}" ng-model="customfield.Value"></input>
+            <span class="input-group-addon" ng-if="customfield.Suffix">{{customfield.Suffix | r}}</span>
+        </div>
+        <i class="fa fa-edit"></i>
+    </div>
+    <div ng-if="(customfield.InputType == 'email') && (customfield.Lines <= 1)">
+        <label>{{customfield.Label || customfield.Name | r | specnames}}</label>
+        <div ng-class="{'input-group':(customfield.Prefix || customfield.Suffix)}">
+            <span class="input-group-addon" ng-if="customfield.Prefix">{{customfield.Prefix | r}}</span>
+            <input class="form-control" placeholder="{{customfield.Label || customfield.Name | r | specnames}}" size="{{customfield.Width * .13}}" ng-maxlength="{{customfield.MaxLength}}" ui-mask="{{customfield.MaskedInput}}" type="email" autocomplete="off" ng-required="{{customfield.Required}}" ng-pattern="/^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/" ng-model="customfield.Value"></input>
             <span class="input-group-addon" ng-if="customfield.Suffix">{{customfield.Suffix | r}}</span>
         </div>
         <i class="fa fa-edit"></i>

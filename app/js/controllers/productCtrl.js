@@ -120,6 +120,9 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
                 $scope.LineItem.Variant = data.variant;
                 ProductDisplayService.setNewLineItemScope($scope);
                 ProductDisplayService.setProductViewScope($scope);
+                angular.forEach($scope.LineItem.Product.Specs, function(s) {
+                    s.InputType =  s.Name.toLowerCase().indexOf('email') > -1 ? "email" : "text";
+                });
                 $scope.$broadcast('ProductGetComplete');
                 if ($scope.LineItem.Product.Specs['Email1']){
                     $scope.digitalProduct = true;
