@@ -7699,6 +7699,25 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   padding: 5px;
   display: block;
 }
+.denomination-selector {
+  margin-top: 15px;
+}
+.denomination-selector h3 {
+  color: #8cc63e;
+}
+.denomination-selector i {
+  color: #009ee9;
+  cursor: pointer;
+}
+.denomination-selector i:first-of-type {
+  top: 16px;
+}
+.denomination-selector i:last-of-type {
+  top: -2px;
+}
+.denomination-selector span {
+  color: #eee;
+}
 .denominations h4 + h4 {
   border-left: none;
 }
