@@ -42,7 +42,7 @@
                             </tab-heading>
                             <div class="row">
                                 <form name="addToOrderForm" ng-controller="ProductCtrl">
-                                    <div class="col-lg-6" ng-if="LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'" style="background-color:#f2f2f2;">
+                                    <div class="col-lg-5 col-md-6 col-sm-6" ng-if="LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'" style="background-color:#f2f2f2; padding-right:20px; padding-left:20px;">
                                         <div id="451_list_vspec" ng-show="allowAddToOrder">
                                             <div class="form-group" ng-repeat="s in LineItem.Product.Specs | onproperty:[{Property: 'CanSetForLineItem', Value: true}, {Property: 'DefinesVariant', Value: true}]" ng-if="!(s.DefaultValue)">
                                                 <customfilefield customfield="s" ng-if="s.ControlType == 'File'"></customfilefield>
@@ -51,7 +51,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6" ng-class="{'col-lg-offset-3 col-md-10 col-md-offset-1':LineItem.Product.Specs['Physical/Digital'].Value != 'Digital'}">
+                                    <div class="col-lg-6 col-sm-6" ng-class="{'col-lg-offset-3 col-sm-offset-3 col-md-offset-2 col-md-8':LineItem.Product.Specs['Physical/Digital'].Value != 'Digital', 'col-lg-offset-1 col-md-6':LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'}">
                                         <div class="view-form-icon row" ng-show="allowAddToOrder" style="margin-bottom:10px;">
                                             <div class="col-xs-6" style="margin:0;">
                                                 <div ng-show="products" class="text-center denomination-selector">
