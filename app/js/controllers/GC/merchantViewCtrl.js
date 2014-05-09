@@ -42,7 +42,7 @@ four51.app.controller('MerchantViewCtrl', function ($routeParams, $sce, $scope, 
 	    $scope.categoryLoadingIndicator = true;
         Category.get($routeParams.categoryInteropID, function(cat) {
             $scope.currentCategory = cat;
-            $rootScope.$broadcast('event:MerchantCategorySelected', $scope.currentCategory.SubCategories[0]);
+            //$rootScope.$broadcast('event:MerchantCategorySelected', $scope.currentCategory.SubCategories[0]);
 	        $scope.categoryLoadingIndicator = false;
         });
     }else if($scope.tree){
