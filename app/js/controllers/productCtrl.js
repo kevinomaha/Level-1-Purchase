@@ -134,19 +134,32 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
         $rootScope.$broadcast('event:BackToMerchantList')
     };
 
+    $scope.minDenom = true;
+    $scope.maxDenom = false;
+
     $scope.increaseDenom = function(product) {
+        $scope.minDenom = false;
+        $scope.maxDenom = false;
         for (var i = 0; i < $scope.products.length; i++) {
             if ($scope.products[i].Denomination == product.Denomination && $scope.products[i + 1]) {
                 $scope.selectedProduct = $scope.products[i + 1];
+                if ((i+1) == ($scope.products.length - 1)) {
+                    $scope.maxDenom = true;
+                }
                 $scope.$broadcast('event:MerchantProductSelected', $scope.selectedProduct);
             }
         }
     };
 
     $scope.decreaseDenom = function(product) {
+        $scope.minDenom = false;
+        $scope.maxDenom = false;
         for (var i = 0; i < $scope.products.length; i++) {
-            if ($scope.products[i].Denomination == product.Denomination && $scope.products[i - 1]) {
+            if (($scope.products[i].Denomination == product.Denomination) && $scope.products[i - 1]) {
                 $scope.selectedProduct = $scope.products[i - 1];
+                if (i == 1) {
+                    $scope.minDenom = true;
+                }
                 $scope.$broadcast('event:MerchantProductSelected', $scope.selectedProduct);
             }
         }
