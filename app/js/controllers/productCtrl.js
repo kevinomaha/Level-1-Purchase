@@ -112,6 +112,9 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 
     $scope.$on('event:MerchantProductSelected', function(event,product) {
         if (product) {
+            if ($scope.LineItem && $scope.LineItem.Product && $scope.LineItem.Product.Specs) {
+                var tempSpecs = $scope.LineItem.Product.Specs;
+            }
             ProductDisplayService.getProductAndVariant(product.InteropID,null, function(data){
                 $scope.LineItem.Product = data.product;
                 $scope.LineItem.Variant = data.variant;
@@ -120,6 +123,7 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
                 $scope.$broadcast('ProductGetComplete');
                 if ($scope.LineItem.Product.Specs['Email1']){
                     $scope.digitalProduct = true;
+                    $scope.LineItem.Product.Specs = (tempSpecs && tempSpecs.Email1 && data.product.Specs.Email1) ? tempSpecs : $scope.LineItem.Product.Specs;
                 }
             });
             $scope.selectedProduct =  product;
