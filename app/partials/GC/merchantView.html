@@ -1,28 +1,32 @@
 <section class="container merchant-view">
-    <div class="row">
-        <div class="col-md-4" ng-show="showMerchantList">
-            <div bs-affix>
-                <div class="form-group">
-                    <input type="text"
-                           placeholder="Search by merchant..."
-                           ng-model="filterTerm"
-                           class="form-control"/>
-                </div>
+    <div class="row" style="margin-top:15px;">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="form-group">
+                <input type="text"
+                       placeholder="Search by merchant..."
+                       ng-model="filterTerm"
+                       ng-change="setPage('first')"
+                       class="form-control"/>
             </div>
-            <ul class="merchant-view-merchant-list">
-                <li ng-repeat="c in currentCategory.SubCategories | merchantFilter:filterTerm" ng-click="selectCategory(c)" ng-class="{'selected':c.selected}">
-                    <div style="background-image:url('{{c.Image.URL}}')" class="merchant-view-merchant-list-image"></div>
-                    <h4><b ng-bind-html="c.Name"></b></h4>
-                </li>
-            </ul>
         </div>
+    </div>
+    <div class="row">
+        <ul class="merchant-list" ng-controller="PaginationController" ng-swipe-left="setPage('prev')" ng-swipe-right="setPage('next')">
+            <li class="col-lg-1 col-md-1 text-center hidden-xs hidden-sm"><div class="btn btn-default" ng-click="setPage('prev')" ng-class="{disabled:settings.currentPage === 1}">Prev</div> </li>
+            <li class="col-lg-1 col-md-2 col-sm-3 col-xs-6 text-center" ng-repeat="c in currentCategory.SubCategories | merchantFilter:filterTerm | paginate:(settings.currentPage-1) * settings.pageSize | limitTo:settings.pageSize" ng-click="selectCategory(c)">
+                <div ng-class="{'selected':c.selected}" style="background-image:url('{{c.Image.URL}}')">
+                    <h5><b ng-bind-html="c.Name"></b></h5><br/>
+                </div>
+            </li>
+            <li class="col-lg-1 col-md-1 text-center hidden-xs hidden-sm"><div class="btn btn-default" ng-click="setPage('next')" ng-disabled="(((currentCategory.SubCategories | merchantFilter:filterTerm).length)/settings.pageSize/settings.currentPage) < 1" >Next</div> </li>
 
-        <div class="container merchant-view-detail-small" ng-show="!showMerchantList">
-            <shortcategoryview c="category" user="user" />
-        </div>
-
-        <div class="col-md-8 merchant-view-detail-large">
-            <shortcategoryview c="category" user="user" />
+        </ul>
+    </div>
+    <div class="row">
+        <div class="merchant-view-detail">
+            <div>
+                <shortcategoryview c="category" user="user"/>
+            </div>
         </div>
     </div>
 </section>

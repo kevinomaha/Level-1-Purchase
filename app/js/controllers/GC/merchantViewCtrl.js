@@ -1,6 +1,6 @@
 'use strict';
 
-four51.app.controller('MerchantViewCtrl', function ($routeParams, $sce, $scope, $451, $rootScope, $location, Category, Product, AdvancedSearch, User, Order, OrderConfig, Resources) {
+four51.app.controller('MerchantViewCtrl', function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Category, Product, AdvancedSearch, User, Order, OrderConfig, Resources) {
 
     $scope.productLoadingIndicator = true;
 	$scope.trusted = function(d){
@@ -140,4 +140,32 @@ four51.app.controller('MerchantViewCtrl', function ($routeParams, $sce, $scope, 
     ];
 
 
+    $scope.settings = {
+        currentPage: 1,
+        pageSize: 10
+    };
+
+    
+    if($window.innerWidth < 767){
+        $scope.settings.pageSize = 2;
+    } else if ((768 <= $window.innerWidth) && ($window.innerWidth <= 991)){
+        $scope.settings.pageSize = 4;
+    } else if ((992 <= $window.innerWidth) && ($window.innerWidth <= 1199)){
+        $scope.settings.pageSize = 5;
+    } else {
+        $scope.settings.pageSize = 10;
+    }
+
+    $scope.setPage = function (which) {
+        if (which == 'prev'){
+            $scope.settings.currentPage--;
+        }
+        else if(which == 'next'){
+            $scope.settings.currentPage++;
+        }
+    };
+
+    $scope.$watch('filterTerm', function (){
+        $scope.settings.currentPage = 1
+    });
 });

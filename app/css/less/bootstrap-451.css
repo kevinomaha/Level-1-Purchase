@@ -7617,6 +7617,200 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   padding-top: 10px;
   z-index: 50;
 }
+.merchant-list {
+  list-style: none;
+  padding-left: 0;
+}
+.merchant-list li > div:not(.btn) {
+  cursor: pointer;
+  height: 80px;
+  background-color: #fff;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center center;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+.merchant-list li > div:not(.btn).selected h5 {
+  background-color: rgba(140, 198, 62, 0.9);
+  color: #fff;
+}
+.merchant-list li > div:not(.btn) h5 {
+  height: 100%;
+  padding: 20px 5px 5px;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+.tabbable > .nav-tabs > li.active > a {
+  background-color: #FFF;
+}
+.tabbable div.tab-content {
+  background-color: #fff;
+  padding: 10px;
+  border-color: #ddd;
+  border-width: 0 1px 1px;
+  border-style: solid;
+}
+.merchant-list-old {
+  list-style: none;
+  padding-left: 0;
+}
+.merchant-list-old li {
+  -webkit-box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.4);
+  position: relative;
+  padding: 5px 15px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  overflow: hidden;
+}
+.merchant-list-old li div:first-of-type {
+  position: absolute;
+  top: -25px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-repeat: no-repeat;
+  background-position: right;
+  opacity: 0.2;
+}
+.merchant-list-old li.selected {
+  background-color: #8cc63e;
+}
+.merchant-list-old li.selected div:first-of-type {
+  display: none;
+}
+.merchant-list-old li.selected h4 {
+  color: #fff;
+}
+.merchant-list-old li h4 {
+  z-index: 100;
+}
+.accordion-container .panel .panel-heading .panel-title {
+  padding: 0;
+  letter-spacing: auto;
+  text-transform: none;
+}
+.accordion-container .panel .panel-heading .panel-title a {
+  padding: 5px;
+  display: block;
+}
+.denominations h4 + h4 {
+  border-left: none;
+}
+.denominations h4 {
+  cursor: pointer;
+  display: inline-block;
+  margin: 10px 0;
+  background-color: #FFF;
+  border: 1px solid #DDD;
+  border-bottom-width: 4px;
+  padding: 5px 12px;
+  position: relative;
+  top: 0;
+  transition: all 300ms;
+  -webkit-transition: all 300ms;
+}
+.denominations h4:first-of-type {
+  border-radius: 4px 0 0 4px;
+}
+.denominations h4:last-of-type {
+  border-radius: 0 4px 4px 0;
+}
+.denominations h4:hover {
+  border-bottom-width: 1px;
+  top: 3px;
+  transition: border-bottom-width 300ms, top 300ms;
+  -webkit-transition: border-bottom-width 300ms, top 300ms;
+}
+.denominations h4.selected {
+  color: #FFF;
+  background-color: #8cc63e;
+  border-color: #77ab38;
+  border-bottom: 4px solid #77ab38;
+  transition: all 300ms;
+  -webkit-transition: all 300ms;
+}
+.mini-white-panel p:first-of-type {
+  margin: 0;
+  overflow: hidden;
+  display: block;
+  background-color: #fff;
+  border: 1px solid #d6d6d6;
+  padding: 2px 5px;
+  border-bottom: none;
+  border-top-right-radius: 0.25em;
+  border-top-left-radius: 0.25em;
+}
+.mini-white-panel > div {
+  border-radius: 0 0 0.25em 0.25em;
+  border: 1px solid #d6d6d6;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+  background-color: #FFF;
+}
+.mini-white-panel > div h3 {
+  margin: 0;
+}
+.gc-amount-badge {
+  z-index: 500;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  font-weight: bold;
+  font-size: 0.9em;
+  border-radius: 0 20px 20px 0;
+  min-height: 40px;
+  min-width: 40px;
+  padding-top: 15px;
+  padding-right: 5px;
+}
+#451_area_prod_desc {
+  position: relative;
+}
+.product-details-header {
+  border-radius: 4px;
+  background-color: #eee;
+  margin-right: 0;
+  margin-left: 0;
+  padding-bottom: 50px;
+  border: 1px solid #ddd;
+}
+.product-details-header > .container,
+.product-details-header > .container-view {
+  border-radius: 4px 4px 0 0;
+  background-color: #8cc63e;
+  border: 1px solid #77ab38;
+  border-bottom: 4px solid #77ab38;
+  color: #FFF;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin: -1px -1px 10px;
+}
+.product-details-header > .container > p,
+.product-details-header > .container-view > p {
+  margin-bottom: 0;
+}
+.quantity-text {
+  padding-top: 15px;
+}
+.white-wrapper {
+  background-color: #FFF;
+}
+.cat-image {
+  min-height: 140px;
+}
+.product-navigation li.nav-header {
+  min-height: 225px;
+}
+.quantity-text {
+  padding-top: 20px;
+}
 .white-wrapper {
   background-color: #fff;
 }

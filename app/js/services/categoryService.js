@@ -1,13 +1,18 @@
-four51.app.factory('Category', ['$resource', '$451', function($resource, $451) {
+four51.app.factory('Category', ['$resource', '$451', 'CategoryDescription', function($resource, $451, CategoryDescription) {
     function _then(fn, data) {
         if (angular.isFunction(fn))
             fn(data);
     }
 
+    function _extend(category) {
+        CategoryDescription.parse(category);
+    }
+
     var _get = function(interopID, success) {
 		var category = store.get('451Cache.Category.' + interopID);
-        category ? _then(success,category) :
+        category ? (function() { _extend(category); _then(success,category); })() :
             $resource($451.api('categories/:interopID', {interopID: '@ID'})).get({ 'interopID': interopID}).$promise.then(function(category) {
+                _extend(category);
 	            store.set('451Cache.Category.' + category.InteropID, category);
                 _then(success, category);
             });
