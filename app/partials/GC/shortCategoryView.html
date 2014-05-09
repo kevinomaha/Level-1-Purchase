@@ -46,10 +46,19 @@
                                         <div class="view-form-icon row" ng-show="allowAddToOrder" style="margin-bottom:10px;">
                                             <div class="col-xs-6" style="margin:0;">
 
-                                                <div class="denominations" ng-show="products">
-                                                    <div class="container">
-                                                        <h4 ng-class="{'selected':selectedProduct.Name == product.Name}" ng-repeat="product in products" ng-click="setSearchProduct(product)">{{'$' +product.Denomination}}</h4>
-                                                    </div>
+                                                <!--<div class="denominations" ng-show="products">-->
+                                                    <!--<div class="container">-->
+                                                        <!--<h4 ng-class="{'selected':selectedProduct.Name == product.Name}" ng-repeat="product in products" ng-click="setSearchProduct(product)">{{'$' +product.Denomination}}</h4>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <div ng-show="products" style="margin-top: 15px;">
+                                                    <label>Denomination</label>
+                                                    <select
+                                                        ng-model="selectedProduct"
+                                                        ng-options="('$' + product.Denomination) for product in products"
+                                                        ng-change="setSearchProduct(selectedProduct)">
+                                                    </select>
+                                                    <i class="fa fa-caret-down" style="top:20px;cursor: pointer;" ng-click="decreaseDenom(selectedProduct)"></i><i class="fa fa-caret-up" style="top:6px;cursor: pointer;" ng-click="increaseDenom(selectedProduct)"></i>
                                                 </div>
 
                                             </div>

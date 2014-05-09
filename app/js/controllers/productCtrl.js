@@ -122,11 +122,30 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
                     $scope.digitalProduct = true;
                 }
             });
+            $scope.selectedProduct =  product;
         }
     });
 
     $scope.backToMerchantList = function(){
         $rootScope.$broadcast('event:BackToMerchantList')
+    };
+
+    $scope.increaseDenom = function(product) {
+        for (var i = 0; i < $scope.products.length; i++) {
+            if ($scope.products[i].Denomination == product.Denomination && $scope.products[i + 1]) {
+                $scope.selectedProduct = $scope.products[i + 1];
+                $scope.$broadcast('event:MerchantProductSelected', $scope.selectedProduct);
+            }
+        }
+    };
+
+    $scope.decreaseDenom = function(product) {
+        for (var i = 0; i < $scope.products.length; i++) {
+            if ($scope.products[i].Denomination == product.Denomination && $scope.products[i - 1]) {
+                $scope.selectedProduct = $scope.products[i - 1];
+                $scope.$broadcast('event:MerchantProductSelected', $scope.selectedProduct);
+            }
+        }
     };
 }]);
 
