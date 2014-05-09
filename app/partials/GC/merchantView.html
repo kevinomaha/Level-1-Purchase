@@ -11,9 +11,9 @@
         </div>
     </div>
     <div class="row">
-        <ul class="merchant-list" ng-controller="PaginationController" ng-swipe-left="setPage('prev')" ng-swipe-right="setPage('next')">
+        <ul class="merchant-list" ng-controller="PaginationController" ng-swipe-left="setPage('prev')" ng-swipe-right="setPage('next')" resizable>
             <li class="col-lg-1 col-md-1 text-center hidden-xs hidden-sm"><div class="btn btn-default" ng-click="setPage('prev')" ng-class="{disabled:settings.currentPage === 1}">Prev</div> </li>
-            <li class="col-lg-1 col-md-2 col-sm-3 col-xs-6 text-center" ng-repeat="c in currentCategory.SubCategories | merchantFilter:filterTerm | paginate:(settings.currentPage-1) * settings.pageSize | limitTo:settings.pageSize" ng-click="selectCategory(c)">
+            <li class="col-lg-1 col-md-2 col-sm-3 col-xs-6 text-center" ng-repeat="c in currentCategory.SubCategories | merchantFilter:filterTerm | paginate:(settings.currentPage-1) * pageSize() | limitTo:pageSize()" ng-click="selectCategory(c)">
                 <div ng-class="{'selected':c.selected}" style="background-image:url('{{c.Image.URL}}')">
                     <h5><b ng-bind-html="c.Name"></b></h5><br/>
                 </div>

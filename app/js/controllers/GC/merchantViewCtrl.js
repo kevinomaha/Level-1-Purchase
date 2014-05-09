@@ -145,7 +145,6 @@ four51.app.controller('MerchantViewCtrl', function ($routeParams, $sce, $scope, 
         pageSize: 10
     };
 
-    
     if($window.innerWidth < 767){
         $scope.settings.pageSize = 2;
     } else if ((768 <= $window.innerWidth) && ($window.innerWidth <= 991)){
