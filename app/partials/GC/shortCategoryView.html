@@ -57,8 +57,8 @@
                                                 <div ng-show="products" class="text-center denomination-selector">
                                                     <h3 ng-click="setSearchProduct(selectedProduct)">{{'$' + selectedProduct.Denomination}}<span class="pull-right fa fa-times"></span></h3>
                                                     <label>Denomination</label>
-                                                    <i class="fa fa-chevron-down" ng-class="{'text-muted':minDenom}" ng-click="decreaseDenom(selectedProduct)"></i>
-                                                    <i class="fa fa-chevron-up" ng-class="{'text-muted':maxDenom}"  ng-click="increaseDenom(selectedProduct)"></i>
+                                                    <i class="fa fa-chevron-down" ng-class="{'invisible':minDenom}" ng-click="decreaseDenom(selectedProduct)"></i>
+                                                    <i class="fa fa-chevron-up" ng-class="{'invisible':maxDenom}"  ng-click="increaseDenom(selectedProduct)"></i>
                                                 </div>
 
                                             </div>
