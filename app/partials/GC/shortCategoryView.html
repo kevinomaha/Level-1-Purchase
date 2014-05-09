@@ -1,3 +1,10 @@
+<div class="row" ng-hide="currentCategory.SpaDescription" style="margin-top:20px;">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div class="alert alert-info text-center">
+            <h3>Select a merchant for more information.</h3>
+        </div>
+    </div>
+</div>
 <div class="row" ng-show="currentCategory.SpaDescription" style="margin-top:20px;">
     <div class="col-lg-10 col-lg-offset-1">
         <div class="spa-category-description">
@@ -9,32 +16,11 @@
                 </div>
                 <div class="col-lg-8 col-md-9">
                     <tabset>
-                        <tab>
+                        <tab ng-repeat="tab in tabs" active="tab.active" disabled="tab.disabled" ng-if="tab.content">
                             <tab-heading>
-                                <i class="fa fa-quote-left"></i> <span class="hidden-xs">Description</span>
+                                <i class="fa" ng-class="{'fa-quote-left':tab.title == 'Description','fa-info-circle':tab.title == 'More Info','fa-flag':tab.title == 'Canadian Info'}"></i> <span class="hidden-xs">{{tab.title}}</span>
                             </tab-heading>
-                            <small ng-init="descriptionTruncateLimit = 75">
-                                {{currentCategory.SpaDescription.description}}
-                                <!--<div class="btn btn-sm btn-info" ng-click="(descriptionTruncateLimit == 75) ? (descriptionTruncateLimit = 1000) : (descriptionTruncateLimit = 75)">See {{descriptionTruncateLimit == 75 ? 'More' : 'Less'}}</div>-->
-                            </small>
-                        </tab>
-                        <tab ng-if="currentCategory.SpaDescription.infoTab">
-                            <tab-heading>
-                                <i class="fa fa-info-circle"></i> <span class="hidden-xs">More Info</span>
-                            </tab-heading>
-                            <small ng-init="infoTruncateLimit = 75">
-                                {{currentCategory.SpaDescription.infoTab}}
-                                <!--<div class="btn btn-info btn-sm" ng-click="(infoTruncateLimit == 75) ? (infoTruncateLimit = 1000) : (infoTruncateLimit = 75)">See {{infoTruncateLimit == 75 ? 'More' : 'Less'}}</div>-->
-                            </small>
-                        </tab>
-                        <tab ng-click="(canadianTruncateLimit == 75) ? (canadianTruncateLimit = 1000) : (canadianTruncateLimit = 75)" ng-if="currentCategory.SpaDescription.canadianTab">
-                            <tab-heading>
-                                <i class="fa fa-flag"></i> <span class="hidden-xs">Canadian Info</span>
-                            </tab-heading>
-                            <small ng-init="canadianTruncateLimit = 75">
-                                {{currentCategory.SpaDescription.canadianTab}}
-                                <!--<div class="btn btn-info btn-sm" ng-click="canadianTruncateLimit == 75 ? canadianTruncateLimit = 1000 : canadianTruncateLimit = 75">See {{canadianTruncateLimit == 75 ? 'More' : 'Less'}}</div>-->
-                            </small>
+                            {{tab.content}}
                         </tab>
                         <tab>
                             <tab-heading>
@@ -42,7 +28,7 @@
                             </tab-heading>
                             <div class="row">
                                 <form name="addToOrderForm" ng-controller="ProductCtrl">
-                                    <div class="col-lg-5 col-md-6 col-sm-6" ng-if="LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'" style="background-color:#f2f2f2; padding-right:20px; padding-left:20px;">
+                                    <div class="col-lg-5 col-md-6 col-sm-6" ng-if="LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'" style="background-color:#f2f2f2; padding:10px 20px; margin-bottom:10px;">
                                         <div id="451_list_vspec" ng-show="allowAddToOrder">
                                             <div class="form-group" ng-repeat="s in LineItem.Product.Specs | onproperty:[{Property: 'CanSetForLineItem', Value: true}, {Property: 'DefinesVariant', Value: true}]" ng-if="!(s.DefaultValue)">
                                                 <customfilefield customfield="s" ng-if="s.ControlType == 'File'"></customfilefield>

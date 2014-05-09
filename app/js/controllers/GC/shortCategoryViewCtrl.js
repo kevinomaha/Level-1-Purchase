@@ -3,6 +3,13 @@ function ($routeParams, $rootScope, $scope, Category, Product) {
     $rootScope.$on('event:MerchantCategorySelected', function(event,category) {
         Category.get(category.InteropID, function(cat) {
             $scope.currentCategory = cat;
+            $scope.tabs = [
+                {title: 'Description', content:cat.SpaDescription.description}    ,
+                {title: 'More Info', content:cat.SpaDescription.infoTab}    ,
+                {title: 'Canadian Info', content:cat.SpaDescription.canadianTab}
+            ];
+            $scope.tabs[0].active = true;
+
         });
         Product.search(category.InteropID, null, null, function(products) {
             var sortable = [];
