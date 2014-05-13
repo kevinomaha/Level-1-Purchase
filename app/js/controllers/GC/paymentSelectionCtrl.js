@@ -10,13 +10,24 @@ four51.app.controller('PaymentSelectionController', function ($scope, $rootScope
 
 	$scope.setBudgetAccount = function(count) {
 		$scope.setPaymentMethod('BudgetAccount');
-		if ($scope.tempOrder.BudgetAccountID || count > 1) return;
+		//if ($scope.tempOrder.BudgetAccountID || count > 1) return;
 		angular.forEach($scope.SpendingAccounts, function(a) {
 			if (a.AccountType.PurchaseCredit) {
 				$scope.tempOrder.BudgetAccountID = a.ID;
 				$scope.selectedBudgetAccount = a;
 			}
 		});
+        if ($scope.selectedBudgetAccount.Balance >= $scope.tempOrder.Total) {
+            $scope.isSplitBilling = false;
+            angular.forEach($scope.addresses, function(a) {
+                if (a.AddressName == "Main Billing Address") {
+                    $scope.tempOrder.BillAddressID = a.ID;
+                }
+            });
+        }
+        else {
+            $scope.isSplitBilling = true;
+        }
 	};
 
 	$rootScope.$on('event:SpendingAccountUpdate', function(event, accounts) {

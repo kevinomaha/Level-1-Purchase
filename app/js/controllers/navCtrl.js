@@ -1,5 +1,5 @@
-four51.app.controller('NavCtrl', ['$location', '$route', '$scope', '$451', 'User',
-function ($location, $route, $scope, $451, User) {
+four51.app.controller('NavCtrl', ['$location', '$route', '$scope', '$451', 'User','SpendingAccount',
+function ($location, $route, $scope, $451, User, SpendingAccount) {
     $scope.Logout = function(){
         User.logout();
         if ($scope.isAnon) {
@@ -10,7 +10,11 @@ function ($location, $route, $scope, $451, User) {
 
 	$scope.refreshUser = function() {
 		store.clear();
-	}
+	};
+
+    SpendingAccount.query(function(data) {
+        $scope.SpendingAccounts = data;
+    });
 
     // http://stackoverflow.com/questions/12592472/how-to-highlight-a-current-menu-item-in-angularjs
     $scope.isActive = function(path) {

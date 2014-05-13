@@ -23,6 +23,11 @@ four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, Spe
 			else {
 				$scope.remainingOrderTotal = 0;
 				$scope.isSplitBilling = false;
+                angular.forEach($scope.addresses, function(a) {
+                    if (a.AddressName == "Main Billing Address") {
+                        $scope.tempOrder.BillAddressID = a.ID;
+                    }
+                });
 			}
 
 			store.set("451Cache.TempOrder",{});
@@ -68,7 +73,7 @@ four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, Spe
 	});
 
 	var budgetAccountCalculation = function(value) {
-		if (value) {
+		if (value && $scope.SpendingAccounts) {
 			var valid = validatePaymentMethod('BudgetAccount');
 			angular.forEach($scope.SpendingAccounts, function(a) {
 				if (a.ID == value) {

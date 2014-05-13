@@ -5,7 +5,7 @@
             This additional payment will cover the remaining <b>{{remainingOrderTotal | currency}}</b>.
         </span>
     </div>
-    <span class="btn-group ng-hide">
+    <span class="btn-group">
         <button class="btn btn-default" type="button"
                 ng-show="user.Permissions.contains('PayByPO')"
                 ng-click="tempOrder.PaymentMethod = 'PurchaseOrder'">
@@ -20,7 +20,7 @@
             Approval Order
         </button>
         <button class="btn btn-default" type="button"
-                ng-if="user.Permissions.contains('PayByBudgetAccount') && (SpendingAccounts|filter:{AccountType.PurchaseCredit:true}).length > 0"
+                ng-if="user.Permissions.contains('PayByBudgetAccount') && SpendingAccounts[0]"
                 ng-show="SpendingAccounts[0].Balance > 0"
                 ng-click="setBudgetAccount((SpendingAccounts|filter:{AccountType.PurchaseCredit:true}).length)">
             <i ng-class="{'fa fa-check': tempOrder.PaymentMethod == 'BudgetAccount' }"></i>
@@ -34,7 +34,7 @@
         </button>
     </span>
     <div class="view-form-icon" ng-if="user.Permissions.contains('PayByBudgetAccount')" ng-show="tempOrder.PaymentMethod == 'BudgetAccount'">
-        <div ng-show="(SpendingAccounts|filter:{AccountType.PurchaseCredit:true}).length == 1" class="alert alert-success">
+        <div class="alert alert-success">
             {{selectedBudgetAccount.Label + ' - Balance: ' + (selectedBudgetAccount.Balance | currency)}}
         </div>
         <div class="row view-form-icon" ng-show="(SpendingAccounts|filter:{AccountType.PurchaseCredit:true}).length > 1">
