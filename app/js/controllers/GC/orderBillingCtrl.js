@@ -68,6 +68,8 @@ four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, Spe
 				//$scope.tempOrder.BudgetAccountID = null;
 				//$scope.tempOrder.currentBudgetAccount = null;
 			}
+            $scope.tempOrder.BillAddress = {};
+            $scope.tempOrder.BillAddressID = null;
 		}
 		$scope.cart_billing.$setValidity('paymentMethod', validatePaymentMethod(event));
 	});
