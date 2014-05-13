@@ -189,16 +189,18 @@
                                 <div>
                                     <label>{{'Requested Delivery Date' | r}}</label>
                                     <!--Default Datepicker -->
-                                    <div class="btn btn-default btn-block btn-date hidden-lg hidden-md"
-                                         ng-click="$event.preventDefault();$event.stopPropagation();opened = !opened;"
-                                         style="margin:0; height:40px; padding-top:8px;">
-                                        {{item.DateNeeded ? '' : 'Tap to set a date'}}
-                                        <span class="text-info">{{item.DateNeeded | date:'M/dd/yy'}}</span>
-                                    </div>
+                                    <input class="form-control hidden-lg hidden-md"
+                                         type="date"
+                                         ng-model="selectedProduct.DeliveryDate"
+                                         ng-required="digitalProduct"
+                                         ng-show="!selectedProduct.DeliveryDate"
+                                         style="margin:0; height:40px; padding-top:8px;"/>
+                                    <div class="btn btn-default btn-block text-info hidden-lg hidden-md" ng-show="selectedProduct.DeliveryDate" ng-click="selectedProduct.DeliveryDate = null">{{selectedProduct.DeliveryDate | date:'MM/dd/yy'}}</div>
                                     <input name="dateneeded" placeholder="Requested Delivery Date" ng-model="selectedProduct.DeliveryDate" ng-required="digitalProduct"
                                            type="text"
-                                           class="form-control"
+                                           class="form-control hidden-sm hidden-xs"
                                            datepicker-popup="MM/dd/yy"
+                                           data-placement="top"
                                            is-open="opened"
                                            min="currentDate"/>
                                     <i class="fa fa-calendar"></i>
