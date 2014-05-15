@@ -6,7 +6,7 @@
                 <label class="required">Billing Address</label>
                 <div class="input-group">
                     <select class="form-control" ng-show="(addresses | filter:{IsBilling:true}).length > 0" name="billingAddress"
-                            ng-options="address.ID as address.AddressName for address in addresses | filter:{IsBilling:true} | billingAddresses:tempOrder.PaymentMethod" ng-model="tempOrder.BillAddressID" required>
+                            ng-options="address.ID as address.AddressName for address in addresses | filter:{IsBilling:true} | billingAddresses:tempOrder" ng-model="tempOrder.BillAddressID" required>
                     </select>
                 <span class="input-group-btn">
                     <button class="btn btn-primary" type="button" ng-click="billaddressform = true" tabindex="-1">New</button>

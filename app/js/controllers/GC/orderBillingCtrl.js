@@ -1,4 +1,3 @@
-
 four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, SpendingAccount, Address) {
 	SpendingAccount.query(function(data) {
 		$scope.SpendingAccounts = data;
@@ -6,7 +5,6 @@ four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, Spe
 
 		if ($scope.SpendingAccounts[0].Balance <= 0 || $scope.SpendingAccounts.length == 0) {
 			$scope.tempOrder.PaymentMethod = 'CreditCard';
-			$scope.isSplitBilling = false;
 			store.set("451Cache.TempOrder",{});
 			store.set("451Cache.TempOrder",$scope.tempOrder);
 		}
@@ -17,12 +15,8 @@ four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, Spe
 
 			if ($scope.SpendingAccounts[0].Balance < $scope.tempOrder.Total) {
 				$scope.tempOrder.PaymentMethod = 'CreditCard';
-				$scope.remainingOrderTotal = ($scope.tempOrder.Total - $scope.SpendingAccounts[0].Balance).toFixed(2);
-				$scope.isSplitBilling = true;
 			}
 			else {
-				$scope.remainingOrderTotal = 0;
-				$scope.isSplitBilling = false;
                 angular.forEach($scope.addresses, function(a) {
                     if (a.AddressName == "Main Billing Address") {
                         $scope.tempOrder.BillAddressID = a.ID;
@@ -49,8 +43,9 @@ four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, Spe
 
 	$scope.$watch('tempOrder.PaymentMethod', function(event) {
 		if (event == 'BudgetAccount' && $scope.SpendingAccounts) {
-			if ($scope.SpendingAccounts.length == 1)
-				$scope.tempOrder.BudgetAccountID = $scope.SpendingAccounts[0].ID;
+			if ($scope.SpendingAccounts.length == 1) {
+                $scope.tempOrder.BudgetAccountID = $scope.SpendingAccounts[0].ID;
+            }
 			else {
 				var count = 0, account;
 				angular.forEach($scope.SpendingAccounts, function(s) {
@@ -62,12 +57,10 @@ four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, Spe
 				if (count == 1 && account)
 					$scope.tempOrder.BudgetAccountID = account.ID;
 			}
+            $scope.cart_billing.$setValidity('cvn', true);
+            $scope.cart_billing.$setValidity('expDate', true);
 		}
 		else {
-			if (!$scope.isSplitBilling && $scope.currentOrder) {
-				//$scope.tempOrder.BudgetAccountID = null;
-				//$scope.tempOrder.currentBudgetAccount = null;
-			}
             $scope.tempOrder.BillAddress = {};
             $scope.tempOrder.BillAddressID = null;
 		}
@@ -85,7 +78,6 @@ four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, Spe
 			var discount = $scope.currentBudgetAccount.AccountType.MaxPercentageOfOrderTotal != 100 ?
 				$scope.tempOrder.Total * ($scope.currentBudgetAccount.AccountType.MaxPercentageOfOrderTotal *.01) :
 				$scope.currentBudgetAccount.Balance;
-			$scope.remainingOrderTotal = $scope.tempOrder.Total - discount;
 			$scope.cart_billing.$setValidity('paymentMethod', valid);
 		}
 	}
@@ -110,12 +102,10 @@ four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, Spe
 			if (account) {
 				$scope.isSplitBilling = false;
 				if (account.AccountType.MaxPercentageOfOrderTotal != 100) {
-					$scope.isSplitBilling = true;
 					return false;
 				}
 
 				if (account.Balance < $scope.tempOrder.Total) {
-					$scope.isSplitBilling = !account.AccountType.AllowExceed;
 					return account.AccountType.AllowExceed;
 				}
 				else

@@ -53,6 +53,12 @@ function ($location, $route, $scope, $451, User, SpendingAccount) {
 
 	$scope.$on('event:orderUpdate', function(event, order) {
 		$scope.cartCount = order ? (order.Status == 'Unsubmitted' || order.Status == 'AwaitingApproval') ? order.LineItems.length : null : null;
+
+        if (!order || order.Status == "Open") {
+            SpendingAccount.query(function(data) {
+                $scope.SpendingAccounts = data;
+            });
+        }
 	});
 
     $scope.$on('event:tempOrderUpdated', function(event, order) {

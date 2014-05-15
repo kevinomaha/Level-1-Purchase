@@ -1,6 +1,4 @@
-
-four51.app.controller('PaymentSelectionController', function ($scope, $rootScope) {
-	$scope.isSplitBilling = false;
+four51.app.controller('PaymentSelectionController', function ($scope, $rootScope) {;
 	$scope.setPaymentMethod = function(type) {
 		$scope.tempOrder.PaymentMethod = type;
 		store.set("451Cache.TempOrder",{});
@@ -17,17 +15,11 @@ four51.app.controller('PaymentSelectionController', function ($scope, $rootScope
 				$scope.selectedBudgetAccount = a;
 			}
 		});
-        if ($scope.selectedBudgetAccount.Balance >= $scope.tempOrder.Total) {
-            $scope.isSplitBilling = false;
-            angular.forEach($scope.addresses, function(a) {
-                if (a.AddressName == "Main Billing Address") {
-                    $scope.tempOrder.BillAddressID = a.ID;
-                }
-            });
-        }
-        else {
-            $scope.isSplitBilling = true;
-        }
+        angular.forEach($scope.addresses, function(a) {
+            if (a.AddressName == "Main Billing Address") {
+                $scope.tempOrder.BillAddressID = a.ID;
+            }
+        });
 	};
 
 	$rootScope.$on('event:SpendingAccountUpdate', function(event, accounts) {
