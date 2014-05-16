@@ -280,4 +280,4 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 				});
 			}
 		}
-	}]);
+}]);

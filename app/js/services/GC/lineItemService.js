@@ -1,4 +1,5 @@
-four51.app.factory('LineItems', function($resource, $451, Address) {
+four51.app.factory('LineItems', ['$resource', '$451', 'Address',
+function($resource, $451, Address) {
 	function _then(fn, data) {
 		if (angular.isFunction(fn))
 			fn(data);
@@ -102,4 +103,4 @@ four51.app.factory('LineItems', function($resource, $451, Address) {
 	return {
 		group: _group
 	}
-});
+}]);

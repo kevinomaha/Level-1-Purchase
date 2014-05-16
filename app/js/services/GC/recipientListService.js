@@ -1,4 +1,5 @@
-four51.app.factory('RecipientList', function($resource, $451) {
+four51.app.factory('RecipientList', ['$resource', '$451',
+function($resource, $451) {
 	function _then(fn, data) {
 		if (angular.isFunction(fn))
 			fn(data);
@@ -36,4 +37,4 @@ four51.app.factory('RecipientList', function($resource, $451) {
 	return {
 		validate: _validate
 	}
-});
+}]);

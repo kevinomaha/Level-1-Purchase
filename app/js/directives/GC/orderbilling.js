@@ -1,4 +1,3 @@
-
 four51.app.directive('orderbillinggc', function() {
 	var obj = {
 		restrict: 'E',
