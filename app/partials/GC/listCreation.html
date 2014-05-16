@@ -280,7 +280,13 @@
             </ul>
         </div>
     </div>
-    <div class="alert alert-danger" ng-hide="recipientList.length != 0">No Recipients</div>
+    <div class="alert alert-danger" ng-hide="recipientList.length != 0">
+        No Recipients
+        <span ng-show="selectedProduct.Name != 'Digital e-SuperCertificate® REWARD (emailable)'"><br/><br/>
+            <b>Note:</b> With {{selectedProduct.DisplayName}} selected, you may continue onto the customization step for anonymous awards.
+        </span>
+
+    </div>
 </div>
 <div class="view-footer navbar-fixed-bottom hidden-lg hidden-md">
     <ul class="view-footer-buttons" ng-show="!showMaker">
