@@ -1,4 +1,5 @@
-four51.app.controller('PaymentSelectionController', function ($scope, $rootScope) {;
+four51.app.controller('PaymentSelectionController', ['$scope', '$rootScope',
+function ($scope, $rootScope) {
 	$scope.setPaymentMethod = function(type) {
 		$scope.tempOrder.PaymentMethod = type;
 		store.set("451Cache.TempOrder",{});
@@ -36,5 +37,5 @@ four51.app.controller('PaymentSelectionController', function ($scope, $rootScope
 			});
 		}
 	});
-});
+}]);
 

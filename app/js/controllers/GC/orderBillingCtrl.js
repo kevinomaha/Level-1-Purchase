@@ -1,4 +1,5 @@
-four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, SpendingAccount, Address) {
+four51.app.controller('OrderBillingCtrl', ['$scope', '$location', '$451', 'SpendingAccount', 'Address',
+function ($scope, $location, $451, SpendingAccount, Address) {
 	SpendingAccount.query(function(data) {
 		$scope.SpendingAccounts = data;
 		budgetAccountCalculation($scope.tempOrder.BudgetAccountID);
@@ -203,5 +204,5 @@ four51.app.controller('OrderBillingCtrl', function ($scope, $location, $451, Spe
 	$scope.$watch('tempOrder.CreditCard.ExpirationDate', function(event) {
 		$scope.cart_billing.$setValidity('expDate', validateExpDate(event));
 	});
-});
+}]);
 

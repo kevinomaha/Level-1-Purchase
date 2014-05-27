@@ -1,4 +1,3 @@
-
 four51.app.factory('AddressValidate', function() {
     function _validate(address, success, error) {
 

@@ -1,4 +1,5 @@
-four51.app.directive('resizable', ['$window', function($window) {
+four51.app.directive('resizable', ['$window',
+function($window) {
     return function (scope, element) {
         var w = angular.element($window);
         scope.getWindowDimensions = function () {

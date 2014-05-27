@@ -1,6 +1,5 @@
-'use strict';
-
-four51.app.controller('MerchantViewCtrl', function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Category, Product, AdvancedSearch, User, Order, OrderConfig, Resources) {
+four51.app.controller('MerchantViewCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', '$window', 'Category', 'Product', 'AdvancedSearch', 'User', 'Order', 'OrderConfig', 'Resources',
+function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Category, Product, AdvancedSearch, User, Order, OrderConfig, Resources) {
 
     $scope.productLoadingIndicator = true;
 	$scope.trusted = function(d){
@@ -167,4 +166,4 @@ four51.app.controller('MerchantViewCtrl', function ($routeParams, $sce, $scope, 
     $scope.$watch('filterTerm', function (){
         $scope.settings.currentPage = 1
     });
-});
+}]);

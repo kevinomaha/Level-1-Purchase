@@ -1,4 +1,5 @@
-four51.app.factory('AdvancedSearch', function(Resources,Category,CategoryDescription) {
+four51.app.factory('AdvancedSearch', ['Resources', 'Category', 'CategoryDescription',
+function(Resources,Category,CategoryDescription) {
 	function _createFilters(searchResults,canadianUser) {
 		var merchants = ['View All Merchants'];
 		var categories = ['View All Categories'];
@@ -155,4 +156,4 @@ four51.app.factory('AdvancedSearch', function(Resources,Category,CategoryDescrip
 		buildTree: _build,
 		generateCategories: _generate
 	}
-});
+}]);

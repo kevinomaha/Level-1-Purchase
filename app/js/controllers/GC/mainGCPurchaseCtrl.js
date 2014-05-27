@@ -1,10 +1,5 @@
-'use strict';
-
-four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, CategoryDescription,ExistingAddress,LineItems) {
-
-	/*                        */
-	/* Product Selection Step */
-	/*                        */
+four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'CategoryDescription', 'ExistingAddress', 'LineItems',
+function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, CategoryDescription,ExistingAddress,LineItems) {
 
 	$scope.productList = Resources.products;
 
@@ -152,10 +147,6 @@ four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootS
 	}
 
 	$scope.addType = 'manual';
-
-	/*                     */
-	/* Recipient List Step */
-	/*                     */
 
 	AddressList.query(function(list) {
 		$scope.addresses = list;
@@ -685,12 +676,6 @@ four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootS
 	}
 
     $scope.showAwardMaker = false;
-
-	/*                          */
-	/* Award Customization Step */
-	/*                          */
-
-
 
 	$scope.recipientGroup = [];
 	$scope.recipientGroup = store.get("451Cache.RecipientGroup") ? store.get("451Cache.RecipientGroup") : [];
@@ -1608,4 +1593,4 @@ four51.app.controller('MainGCPurchaseCtrl', function ($routeParams, $sce, $rootS
 	if ($scope.selectedProduct.InteropID && $scope.recipientList.length > 0 && $scope.selectedProduct.InteropID != "MerchantCards") {
 		$scope.step = 3;
 	}
-});
+}]);

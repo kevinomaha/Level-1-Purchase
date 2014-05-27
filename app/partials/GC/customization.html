@@ -92,7 +92,9 @@
                             </div>
                         </div>
                         <div class="col-md-7">
-                            <small>A true inspiration for the children. With a warning label this big, you know they gotta be fun! I don't know what you did, Fry, but once again, you screwed up! Now all the planets are gonna start cracking wise about our mamas.</small>
+                            <small ng-show="selectedProductType == 'Standard'">Our SuperCertificate® REWARD is redeemable for gift cards to hundreds of nationwide merchants, it’s the Reward of Choice. This physical or digital certificate will be emailed to your recipient and can be redeemed online for original gift cards from hundreds of nationwide merchants.</small>
+                            <small ng-show="selectedProductType == 'Premium'">Our SuperCertificate® REWARD is redeemable for gift cards to hundreds of nationwide merchants, it’s the Reward of Choice. This physical or digital certificate will be emailed to your recipient and can be redeemed online for original gift cards from hundreds of nationwide merchants, including premium merchants such as Amazon, Best Buy, Kohl’s and more. Additional fee of 10% of face is applied.</small>
+                            <small ng-show="selectedProductType == 'Canadian'">Our SuperCertificate® REWARD is available with a Canadian redemption catalog for Canadian recipients. Redeemable for original gift cards from merchants that accept U.S. denominated gift cards at their Canadian locations or ship their products to Canada.</small>
                         </div>
                     </div>
 
