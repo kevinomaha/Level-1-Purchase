@@ -282,8 +282,8 @@
     </div>
     <div class="alert alert-danger" ng-hide="recipientList.length != 0">
         No Recipients
-        <span ng-show="selectedProduct.Name != 'Digital e-SuperCertificate® REWARD (emailable)'"><br/><br/>
-            <b>Note:</b> With {{selectedProduct.DisplayName}} selected, you may continue onto the customization step for anonymous awards.
+        <span ng-hide="digitalProduct"><br/><br/>
+            <b>Note:</b> With {{selectedProduct.DisplayName}} selected, you may continue on to the customization step for anonymous awards.
         </span>
 
     </div>
