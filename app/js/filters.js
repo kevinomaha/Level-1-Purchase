@@ -270,7 +270,8 @@ four51.app.filter('gcbuyercompanyurl', function() {
     return function(name) {
         if (name) {
             name = name.replace(/ /g,'').toLowerCase();
-            return name;
+            var url = 'css/images/company/'+ name +'.png'
+            return url;
         }
     }
 });
