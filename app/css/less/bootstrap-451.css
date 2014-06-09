@@ -7526,9 +7526,19 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   -moz-transition: left 500ms, opacity 300ms;
   transition: left 500ms, opacity 300ms;
 }
+.product-selection-view .col-md-3:nth-of-type(1) > div.product-selector > div {
+  background-image: url('../images/SPA_eSuperCert.jpg');
+}
+.product-selection-view .col-md-3:nth-of-type(2) > div.product-selector > div {
+  background-image: url('../images/SPA_SuperCert.jpg');
+}
+.product-selection-view .col-md-3:nth-of-type(3) > div.product-selector > div {
+  background-image: url('../images/SPA_GreetingCard.jpg');
+}
+.product-selection-view .col-md-3:nth-of-type(4) > div.product-selector > div {
+  background-image: url('../images/SPA_MerchantCards.jpg');
+}
 .product-selection-view div.product-selector {
-  /*background-image:@product-selection-bg-img;*/
-  background-color: #002536;
   color: #FFF;
   text-align: center;
   padding: 30px 0;
@@ -7538,6 +7548,13 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
   overflow: hidden;
+}
+.product-selection-view div.product-selector > div {
+  background-size: contain;
+  height: 400px;
+  max-width: 100%;
+  background-repeat: no-repeat;
+  cursor: pointer;
 }
 .product-selection-view div.product-selector h5 {
   background-color: #005983;
