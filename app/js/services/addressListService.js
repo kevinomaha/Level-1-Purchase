@@ -1,41 +1,49 @@
 four51.app.factory('AddressList', ['$q', '$resource', '$451', function($q, $resource, $451) {
-	function _then(fn, data) {
-		if (angular.isFunction(fn))
-			fn(data);
-	}
+    var cache = [];
+    function _then(fn, data, count) {
+        if (angular.isFunction(fn))
+            fn(data, count);
+    }
 
-	var _query = function(success) {
-		var addresses = store.get('451Cache.Addresses');
-		addresses ? _then(success, addresses) :
-			$resource($451.api('address')).query().$promise.then(function(list) {
-				store.set('451Cache.Addresses', list);
-				_then(success, list);
-			});
-	}
+    var _query = function(success, page, pagesize) {
+        page = page || 1;
+        pagesize = pagesize || 100;
+        if (typeof cache[(page-1) * pagesize] == 'object' && typeof cache[(page * pagesize) - 1] == 'object') {
+            _then(success, cache, cache.length);
+        }
+        else {
+            $resource($451.api('address')).get({ page: page, pagesize: pagesize}).$promise.then(function (list) {
+                for (var i = 0; i <= list.Count - 1; i++) {
+                    if (typeof cache[i] == 'object') continue;
+                    cache[i] = list.List[i - (page - 1) * pagesize] || i;
+                }
+                _then(success, cache, list.Count);
+            });
+        }
+    }
 
-	var _delete = function(addresses, success) {
-		store.remove('451Cache.Addresses');
+    var _delete = function(addresses, success) {
+        var queue = [];
+        angular.forEach(addresses, function(add) {
+            if (add.Selected) {
+                queue.push((function() {
+                    var d = $q.defer();
+                    $resource($451.api('address')).delete(add).$promise.then(function() {
+                        d.resolve();
+                    });
+                    return d.promise;
+                })());
+            }
+        });
 
-		var queue = [];
-		angular.forEach(addresses, function(add) {
-			if (add.Selected) {
-				queue.push((function() {
-					var d = $q.defer();
-					$resource($451.api('address')).delete(add).$promise.then(function() {
-						d.resolve();
-					});
-					return d.promise;
-				})());
-			}
-		});
+        $q.all(queue).then(function() {
+            cache.splice(0, cache.length);
+            _then(success);
+        });
+    }
 
-		$q.all(queue).then(function() {
-			_then(success);
-		});
-	}
-
-	return {
-		query: _query,
-		delete: _delete
-	}
+    return {
+        query: _query,
+        delete: _delete
+    }
 }]);

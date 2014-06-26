@@ -1,5 +1,6 @@
 four51.app.factory('Product', ['$resource', '$451', 'Security', function($resource, $451, Security) {
 	//var _cacheName = '451Cache.Product.' + $451.apiName;
+    var variantCache = [], productCache = [], criteriaCache;
 	function _then(fn, data) {
 		if (angular.isFunction(fn))
 			fn(data);
@@ -38,35 +39,61 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
         }
 	}
 
-     var _get = function(param, success) {
-	     //var product = store.get(_cacheName + param);
-	     //product ? (function() { _extend(product);	_then(success, product); })() :
-		 var product = $resource($451.api('Products/:interopID'), { interopID: '@ID' }).get({ interopID: param }).$promise.then(function(product) {
-				_extend(product);
-				//store.set(_cacheName + product.InteropID, product);
-				_then(success, product);
-	         });
+    var _get = function(param, success, page, pagesize, searchTerm) {
+        page = page || 1;
+        pagesize = pagesize || 100;
+        if (!angular.isUndefined(searchTerm)) {
+            variantCache.splice(0, variantCache.length);
+        }
+        //var product = store.get(_cacheName + param);
+        //product ? (function() { _extend(product);	_then(success, product); })() :
+        var product = $resource($451.api('Products/:interopID'), { interopID: '@ID' }).get({ interopID: param, page: page || 1, pagesize: pagesize || 10, searchTerm: searchTerm }).$promise.then(function(product) {
+            for (var i = 0; i <= product.VariantCount-1; i++) {
+                if (typeof variantCache[i] == 'object') continue;
+                variantCache[i] = product.Variants[i - (page - 1) * pagesize] || i;
+            }
+            product.Variants = variantCache;
+
+            _extend(product);
+            //store.set(_cacheName + product.InteropID, product);
+            _then(success, product);
+        });
     }
 
-    var _search = function(categoryInteropID, searchTerm, relatedProductsGroupID, success) {
+    var _search = function(categoryInteropID, searchTerm, relatedProductsGroupID, success, page, pagesize) {
         if(!categoryInteropID && !searchTerm && !relatedProductsGroupID){
-			_then(success, null);
-			return null;
-		}
+            _then(success, null);
+            return null;
+        }
 
         var criteria = {
             'CategoryInteropID': categoryInteropID,
             'SearchTerms': searchTerm ? searchTerm : '',
-			'RelatedProductGroupID': relatedProductsGroupID
+            'RelatedProductGroupID': relatedProductsGroupID,
+            'Page': page || 1,
+            'PageSize': pagesize || 10
         };
-	    //var cacheID = '451Cache.Products.' + criteria.CategoryInteropID + criteria.SearchTerms.replace(/ /g, "");
-		//var products = store.get(cacheID);
-	    //products ? _then(success, products) :
-	    var products = $resource($451.api('Products')).query(criteria).$promise.then(function(products) {
-		        //store.set(cacheID, products);
-	            angular.forEach(products, _extend);
-				_then(success, products);
-	        });
+
+        if (criteriaCache != criteria)
+            productCache.splice(0, productCache.length);
+        criteriaCache = criteria;
+
+        //var cacheID = '451Cache.Products.' + criteria.CategoryInteropID + criteria.SearchTerms.replace(/ /g, "");
+        //var products = store.get(cacheID);
+        //products ? _then(success, products) :
+        if (typeof productCache[(criteria.Page-1) * criteria.PageSize] == 'object' && typeof productCache[(criteria.Page * criteria.PageSize) - 1] == 'object') {
+            _then(success, productCache, productCache.length);
+        }
+        else {
+            $resource($451.api('Products')).get(criteria).$promise.then(function (products) {
+                angular.forEach(products.List, _extend);
+                for (var i = 0; i <= products.Count - 1; i++) {
+                    if (typeof productCache[i] == 'object') continue;
+                    productCache[i] = products.List[i - (((criteria.Page || 1) - 1) * (criteria.PageSize || 100))] || i;
+                }
+                _then(success, productCache, products.Count);
+            });
+        }
     }
 
     var _assemble = function(tree,success) {
