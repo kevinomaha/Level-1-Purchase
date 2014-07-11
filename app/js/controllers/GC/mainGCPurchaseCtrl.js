@@ -685,14 +685,17 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
     $scope.analyzeRecipientGroup = function(anon) {
         $scope.denominationRequired = false;
         $scope.emailSubjectRequired = false;
+        $scope.deliveryDateRequired = false;
         for (var r = 0; r < $scope.recipientGroup.length; r++) {
             $scope.denominationRequired = $scope.recipientGroup[r].Denomination ? $scope.denominationRequired : true;
             $scope.emailSubjectRequired = ($scope.digitalProduct && !$scope.recipientGroup[r].EmailSubject) ? true : $scope.emailSubjectRequired;
+            $scope.deliveryDateRequired = ($scope.digitalProduct && !$scope.recipientGroup[r].DeliveryDate) ? true : $scope.deliveryDateRequired;
         }
 
         if (anon == 'true') {
             $scope.denominationRequired = true;
             $scope.emailSubjectRequired = $scope.digitalProduct;
+            $scope.deliveryDateRequired = $scope.digitalProduct;
         }
     }
 
@@ -763,7 +766,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	$scope.$on('event:ProductTypeSelected', function(event,type) {
 		$scope.selectedProduct.productLoadingIndicator = true;
         $scope.selectedProductType = type;
-//        $scope.selectedProductType = $scope.selectedProductType == type ? 'Standard' : type;
 		$scope.selectedProductDetails = {};
 		$scope.selectedProduct.occasionMessage = null;
 		$scope.selectedProduct.occasionMessageID = null;
@@ -922,6 +924,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             var personalMessage = $scope.recipientGroup[recip].PersonalMessage != "" ? $scope.recipientGroup[recip].PersonalMessage : $scope.selectedProduct.PersonalMessage;
             var closingMessage = $scope.recipientGroup[recip].ClosingMessage != "" ? $scope.recipientGroup[recip].ClosingMessage : $scope.selectedProduct.ClosingMessage;
             var emailSubject = $scope.recipientGroup[recip].EmailSubject != "" ? $scope.recipientGroup[recip].EmailSubject : $scope.selectedProduct.EmailSubject;
+            var deliveryDate = $scope.recipientGroup[recip].DeliveryDate != "" ? $scope.recipientGroup[recip].DeliveryDate : $scope.selectedProduct.DeliveryDate;
 
             switch ($scope.selectedProduct.StandardID) {
                 case "SCP-FD1":
@@ -1061,6 +1064,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	                        },
                             "R1CL3":{
                                 "Value":emailSubject
+                            },
+                            "R1CL4":{
+                                "Value":deliveryDate
                             },
                             "V04PersonalMessage":{
                                 "Value":personalMessage
@@ -1324,6 +1330,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             "R1CL3":{
                                 "Value":emailSubject
                             },
+                            "R1CL4":{
+                                "Value":deliveryDate
+                            },
                             "V04PersonalMessage":{
                                 "Value":personalMessage
                             },
@@ -1526,7 +1535,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 }
 
                 if ($scope.digitalProduct) {
-                    var date = new Date($scope.selectedProduct.DeliveryDate);
+                    var date = (variantData.Specs['R1CL4'] && variantData.Specs['R1CL4'].Value) ? new Date(variantData.Specs['R1CL4'].Value) : new Date($scope.selectedProduct.DeliveryDate);
                     var month = date.getMonth() + 1;
                     var day = date.getDate();
                     var year = date.getFullYear();

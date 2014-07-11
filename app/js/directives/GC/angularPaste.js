@@ -70,6 +70,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 										recipient.PersonalMessage = $scope.parsedPaste[i][15];
 										recipient.ClosingMessage = $scope.parsedPaste[i][16];
 										recipient.EmailSubject = $scope.parsedPaste[i][17];
+										recipient.DeliveryDate = $scope.parsedPaste[i][18];
 
 										var stateValid = false;
 										angular.forEach(stateList, function(state) {
@@ -167,6 +168,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 										recipient.PersonalMessage = $scope.parsedPaste[i][15];
 										recipient.ClosingMessage = $scope.parsedPaste[i][16];
 										recipient.EmailSubject = $scope.parsedPaste[i][17];
+										recipient.DeliveryDate = $scope.parsedPaste[i][18];
 										recipient.Invalid = false;
 										recipient.ErrorMessage = null;
 										recipient.Selected = false;
