@@ -196,7 +196,7 @@
         <div class="btn btn-success pull-right" style="margin-right: 10px;" ng-show="recipientPasteList" ng-click="generateRecipients(recipientPasteList); tempRecipientPasteList = []">
             <i class="fa fa-plus-circle"></i> Generate Recipients
         </div>
-        <h3>Import List <small><a class="btn btn-sm btn-link" href="lib/GC/RecipientUploadTemplate.xls" target="_blank"><i class="fa fa-download"></i> Download Spreadsheet Template</a></small></h3>
+        <h3>Import List <small><a class="btn btn-sm btn-link" href="lib/GC/RecipientUploadTemplate.xlsx" target="_blank"><i class="fa fa-download"></i> Download Spreadsheet Template</a></small></h3>
 
         <angular-paste ng-hide="recipientPasteList.length > 0" ng-model="rawPaste" ng-array="parsedPaste"></angular-paste>
 
@@ -210,10 +210,11 @@
             <div class="row" ng-hide="recipientPasteList.length == 0 || !recipientPasteList">
                 <div class="col-xs-12">
                     <div class="row">
-                        <div class="col-md-3 col-xs-6"><b>Name</b></div>
+                        <div class="col-md-2 col-xs-6"><b>Name</b></div>
                         <div class="col-md-2 col-xs-6"><b>Recipient ID</b></div>
-                        <div class="col-md-3 col-xs-6"><b>Email Address</b></div>
+                        <div class="col-md-2 col-xs-6"><b>Email Address</b></div>
                         <div class="col-md-2 col-xs-6"><b>Denomination</b></div>
+                        <div class="col-md-2 col-xs-6"><b>Delivery Date</b></div>
                         <div class="col-md-2 col-xs-12"><b>Address</b></div>
                     </div>
                 </div>
@@ -221,10 +222,11 @@
 
             <div class="recipient-paste-row" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="recipient in recipientPasteList">
                 <div class="row">
-                    <div class="col-md-3 col-xs-6"><span ng-class="{'label label-default':!(recipient.FirstName || recipient.LastName)}">{{(recipient.FirstName + ' ' + recipient.LastName) || 'None'}}</span></div>
+                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!(recipient.FirstName || recipient.LastName)}">{{(recipient.FirstName + ' ' + recipient.LastName) || 'None'}}</span></div>
                     <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.RecipientID}">{{recipient.RecipientID || 'None'}}</span></div>
-                    <div class="col-md-3 col-xs-6"><span ng-class="{'label label-default':!recipient.Email}">{{recipient.Email || 'None'}}</span></div>
+                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.Email}">{{recipient.Email || 'None'}}</span></div>
                     <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.Denomination}">{{recipient.Denomination || 'None'}}</span></div>
+                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.DeliveryDate}">{{recipient.DeliveryDate || 'None'}}</span></div>
                     <div class="col-md-2">
                         <div class="btn btn-xs btn-primary" ng-init="toggleAddressInfo = false" ng-click="toggleAddressInfo = !toggleAddressInfo">
                             Address Info <i class="fa" ng-class="{'fa-angle-double-left': !toggleAddressInfo, 'fa-angle-double-down': toggleAddressInfo}"></i>
@@ -274,7 +276,7 @@
                         </div>
                     </div>
                     <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
-                    <p>{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}} <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span></p>
+                    <p>{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}} <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span> <span style="margin-left:5px;" class="badge" ng-show="recipient.DeliveryDate">{{recipient.DeliveryDate}}</span></p>
                     <p><small><span ng-show="recipient.ShipAddressID"><i class="fa fa-map-marker text-muted"></i> <em>{{recipient.Street1}}</em> </span><i style="margin-left:4px;" class="fa fa-circle text-muted" ng-show="recipient.Street1 && (recipient.Email || recipient.City)"></i> <em>{{recipient.Email || recipient.City + ', ' +recipient.State}}</em></small></p>
                 </li>
             </ul>

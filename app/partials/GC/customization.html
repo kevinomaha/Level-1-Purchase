@@ -41,7 +41,7 @@
                             <div class="text-center" style="font-weight:bold; color:#FFF; margin-top:-85%;" ng-show="recipient.AwardCount > 0" class="award-count">{{recipient.AwardCount}}</div>
                         </div>
                         <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted" ng-class="{'text-success': recipient.Selected}"></i>
-                        <p>{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}} <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span></p>
+                        <p>{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}} <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span> <span style="margin-left:5px;" class="badge" ng-show="recipient.DeliveryDate">{{recipient.DeliveryDate}}</span></p>
                         <p><small><span ng-show="recipient.ShipAddressID"><i class="fa fa-map-marker text-muted"></i> <em>{{recipient.Street1}}</em> </span><i style="margin-left:4px;" class="fa fa-circle text-muted" ng-show="recipient.Street1 && (recipient.Email || recipient.City)"></i> <em>{{recipient.Email || recipient.City + ', ' +recipient.State}}</em></small></p>
                     </li>
                 </ul>
@@ -194,11 +194,11 @@
                                     <input class="form-control hidden-lg hidden-md"
                                          type="date"
                                          ng-model="selectedProduct.DeliveryDate"
-                                         ng-required="digitalProduct"
+                                         ng-required="deliveryDateRequired"
                                          ng-show="!selectedProduct.DeliveryDate"
                                          style="margin:0; height:40px; padding-top:8px;"/>
                                     <div class="btn btn-default btn-block text-info hidden-lg hidden-md" ng-show="selectedProduct.DeliveryDate" ng-click="selectedProduct.DeliveryDate = null">{{selectedProduct.DeliveryDate | date:'MM/dd/yy'}}</div>
-                                    <input name="dateneeded" placeholder="Requested Delivery Date" ng-model="selectedProduct.DeliveryDate" ng-required="digitalProduct"
+                                    <input name="dateneeded" placeholder="Requested Delivery Date" ng-model="selectedProduct.DeliveryDate" ng-required="deliveryDateRequired"
                                            type="text"
                                            class="form-control hidden-sm hidden-xs"
                                            datepicker-popup="MM/dd/yy"
