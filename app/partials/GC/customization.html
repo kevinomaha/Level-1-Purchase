@@ -180,7 +180,7 @@
                         <div class="col-sm-6">
                             <div class="view-form-icon">
                                 <div>
-                                    <label>Email Subject</label>
+                                    <label>Email Subject <span style="color: rgb(128, 128, 128);font-size: x-small;">(up to 75 characters)</span></label>
                                     <input type="text" class="form-control" placeholder="Email Subject..." ng-required="digitalProduct && emailSubjectRequired" ng-model="selectedProduct.EmailSubject"/>
                                     <i class="fa fa-envelope"></i>
                                 </div>
@@ -189,7 +189,7 @@
                         <div class="col-sm-6">
                             <div class="view-form-icon">
                                 <div>
-                                    <label>{{'Requested Delivery Date' | r}}</label>
+                                    <label>{{'Requested Delivery Date' | r}}<span style="color: rgb(128, 128, 128);font-size: x-small;"> (MM/DD/YYYY)</span></label>
                                     <!--Default Datepicker -->
                                     <input class="form-control hidden-lg hidden-md"
                                          type="date"
@@ -206,6 +206,7 @@
                                            is-open="opened"
                                            min="currentDate"/>
                                     <i class="fa fa-calendar"></i>
+                                    <div style="color: rgb(128, 128, 128);font-size: x-small;padding-top:5px;">Provide an optional future delivery date, up to 120 days from today.<br />Leave blank to deliver immediately.</div>
                                 </div>
                             </div>
                         </div>
