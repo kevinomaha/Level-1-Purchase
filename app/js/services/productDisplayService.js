@@ -46,7 +46,8 @@ four51.app.factory('ProductDisplayService', ['$sce', '$451', 'Variant', 'Product
 			lineItem.LineTotal = 0;
 			return;
 		}
-		var total = lineItem.Quantity * (priceBreak.Price + amountPerQty);
+
+        var total = lineItem.Quantity * (priceBreak.Price + amountPerQty);
 		total += lineItem.Quantity * priceBreak.Price * (percentagePerLine / 100);
 		total += fixedAddPerLine; //+ otherValueMarkup;
 
@@ -55,7 +56,8 @@ four51.app.factory('ProductDisplayService', ['$sce', '$451', 'Variant', 'Product
 			"fixed ammount per line added:" + fixedAddPerLine + " & " +
 			"percentage added to qty*unitprice:" + percentagePerLine + " & " + //"'other value' markup:" + otherValueMarkup + " & " +
 			"unit price:" + priceBreak.Price;
-		lineItem.LineTotal = total;
+
+        lineItem.LineTotal = total;
 		lineItem.UnitPrice = priceBreak.Price;
 	}
 	function productViewScope(scope){
@@ -243,12 +245,16 @@ four51.app.factory('ProductDisplayService', ['$sce', '$451', 'Variant', 'Product
 			else{
 				if (p.Type == 'Static' && p.IsVBOSS) {
 					var options = [];
+					var hasAllDefinesAsVariant = true;
 					angular.forEach(p.Specs, function(s) {
-						if (s.DefinesVariant && s.Value) {
-							options.push(s.SelectedOptionID);
+						if (s.DefinesVariant) {
+							if(s.Value)
+								options.push(s.SelectedOptionID);
+							else
+								hasAllDefinesAsVariant = false;
 						}
 					});
-					if (options.length > 0) {
+					if (options.length > 0 && hasAllDefinesAsVariant) {
 						Variant.get({'ProductInteropID': p.InteropID, 'SpecOptionIDs': options},
 							function(v) {
 								callback({product: p, variant: v});

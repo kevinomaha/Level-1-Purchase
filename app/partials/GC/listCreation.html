@@ -4,7 +4,7 @@
 <div ng-show="showMaker || isDesktop()" class="col-md-9 col-md-push-3">
 <div ng-hide="addType != 'manual'">
     <div class="well new-recipient-well">
-        <div class="btn btn-primary pull-right hidden-sm hidden-xs" ng-click="changeAddType('import')">Import List</div>
+        <div ng-hide="digitalProduct" class="btn btn-primary pull-right hidden-sm hidden-xs" ng-click="changeAddType('import')">Import List</div>
         <div ng-show="(recipientList.length != 0) && !editingRecipient" class="btn btn-primary pull-right hidden-lg hidden-md" ng-click="showMaker = false">View My List</div>
         <h3>{{editingRecipient ? 'Edit' : 'New'}} Recipient</h3>
         <div class="row">
@@ -40,7 +40,7 @@
                         </div>
                     </div>
 
-                    <div class="btn btn-link btn-block" ng-click="editAdditionalInformation = !editAdditionalInformation" style="cursor:pointer;"><i class="fa" ng-class="{'fa-plus-circle':!editAdditionalInformation, 'fa-minus-circle':editAdditionalInformation }" /> {{editAdditionalInformation ? 'Hide' : 'Edit'}} Additional Recipient Information</div>
+                    <div ng-hide=true class="btn btn-link btn-block" ng-click="editAdditionalInformation = !editAdditionalInformation" style="cursor:pointer;"><i class="fa" ng-class="{'fa-plus-circle':!editAdditionalInformation, 'fa-minus-circle':editAdditionalInformation }" /> {{editAdditionalInformation ? 'Hide' : 'Edit'}} Additional Recipient Information</div>
                     <div collapse="!editAdditionalInformation">
                         <div class="row">
                             <div class="col-md-6">
@@ -108,7 +108,7 @@
                     <button class="btn btn-success" type="button" ng-click="saveRecipientWithUserAddress()">Keep Mine</button>
                 </div>
             </div>
-            <div class="col-md-6" >
+            <div class="col-md-6" ng-hide="digitalProduct">
                 <div ng-show="(addresses | filter:{IsShipping:true}).length > 0" class="view-form-icon">
                     <select class="form-control"
                             id="existingAddressSelect"
@@ -286,8 +286,8 @@
         No Recipients
         <span ng-hide="digitalProduct"><br/><br/>
             <b>Note:</b> With {{selectedProduct.DisplayName}} selected, you may continue on to the customization step for anonymous awards.
-        </span>
-
+        </span><br />
+        <button class="btn btn-default text-success" ng-hide="step != 2 || (recipientList.length == 0 &amp;&amp; digitalProduct)" ng-click="stepToAnonCustomization()">Continue</button>
     </div>
 </div>
 <div class="view-footer navbar-fixed-bottom hidden-lg hidden-md">

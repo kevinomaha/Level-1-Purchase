@@ -7,6 +7,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		$rootScope.$broadcast('event:ProductSelected', product);
 	}
 
+    $scope.selectAllRecipients = "true";
+
 	$scope.selectedProductDetails = store.get("451Cache.SelectedProductDetails") ? store.get("451Cache.SelectedProductDetails") : {};
 
 	function getPersonalMessages(variants) {
@@ -752,7 +754,18 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		store.set("451Cache.RecipientList",$scope.recipientList);
 	}
 
-	$scope.digitalOM = Resources.digitalOM;
+    $scope.stepToCustomization = function(){
+        $scope.selectAllRecipientsToggle();
+        $scope.step = 3;
+    }
+
+    $scope.stepToAnonCustomization = function(){
+        $scope.selectAllRecipientsToggle();
+        $scope.anonymousAwards = "true";
+        $scope.step = 3;
+    }
+
+    $scope.digitalOM = Resources.digitalOM;
 	$scope.physicalOM = Resources.physicalOM;
 
 	$scope.occasionMessages = [];
@@ -1492,6 +1505,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				}
 			}
 
+            //$scope.tempOrder.isAllPhysical = true;
+
 			store.set("451Cache.TempOrder",$scope.tempOrder);
 
 			$scope.recipientGroup = [];
@@ -1564,6 +1579,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                         "UnitPrice":$scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price,
                         "Variant":variantData,
                         "qtyError":null,
+                        "FaceValue":Number(data.Specs['Denomination1'].Value.split('$')[1]),
+                        "ProductType":$scope.selectedProductType,
 	                    "UniqueID":randomString()
                     }
                 }
@@ -1582,6 +1599,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                         "UnitPrice":$scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price,
                         "Variant":variantData,
                         "qtyError":null,
+                        "FaceValue":Number(data.Specs['Denomination1'].Value.split('$')[1]),
+                        "ProductType":$scope.selectedProductType,
 	                    "UniqueID":randomString()
                     }
                 }
@@ -1600,6 +1619,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	$scope.step = 1;
 
 	if ($scope.selectedProduct.InteropID && $scope.recipientList.length > 0 && $scope.selectedProduct.InteropID != "MerchantCards") {
-		$scope.step = 3;
+        $scope.step = 3;
 	}
 }]);
