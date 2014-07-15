@@ -52,6 +52,9 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 									var recipientPasteList = [];
 									for (var i = 0; i < $scope.parsedPaste.length; i++) {
 										var recipient = {};
+
+                                        var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
+
 										recipient.FirstName = $scope.parsedPaste[i][0];
 										recipient.LastName = $scope.parsedPaste[i][1];
 										recipient.RecipientID = $scope.parsedPaste[i][2];
@@ -65,7 +68,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 										recipient.State = $scope.parsedPaste[i][10];
 										recipient.Zip = $scope.parsedPaste[i][11];
 										recipient.Phone = $scope.parsedPaste[i][12];
-										recipient.Denomination = $scope.parsedPaste[i][13];
+										recipient.Denomination = denom;
 										recipient.OpeningMessage = $scope.parsedPaste[i][14];
 										recipient.PersonalMessage = $scope.parsedPaste[i][15];
 										recipient.ClosingMessage = $scope.parsedPaste[i][16];
@@ -150,6 +153,9 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 									var recipientPasteList = [];
 									for (var i = 0; i < $scope.parsedPaste.length; i++) {
 										var recipient = {};
+
+                                        var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
+
 										recipient.FirstName = $scope.parsedPaste[i][0];
 										recipient.LastName = $scope.parsedPaste[i][1];
 										recipient.RecipientID = $scope.parsedPaste[i][2];
@@ -163,7 +169,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 										recipient.State = $scope.parsedPaste[i][10];
 										recipient.Zip = $scope.parsedPaste[i][11];
 										recipient.Phone = $scope.parsedPaste[i][12];
-										recipient.Denomination = $scope.parsedPaste[i][13];
+										recipient.Denomination = denom;
 										recipient.OpeningMessage = $scope.parsedPaste[i][14];
 										recipient.PersonalMessage = $scope.parsedPaste[i][15];
 										recipient.ClosingMessage = $scope.parsedPaste[i][16];
