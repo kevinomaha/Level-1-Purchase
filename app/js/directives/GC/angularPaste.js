@@ -54,7 +54,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 										var recipient = {};
 
                                         var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
-                                        denom = (denom == '?') ? '' : denom;
+                                        denom = (denom == '$') ? '' : denom;
 
 										recipient.FirstName = $scope.parsedPaste[i][0];
 										recipient.LastName = $scope.parsedPaste[i][1];
@@ -156,7 +156,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 										var recipient = {};
 
                                         var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
-                                        denom = (denom == '?') ? '' : denom;
+                                        denom = (denom == '$') ? '' : denom;
 
 										recipient.FirstName = $scope.parsedPaste[i][0];
 										recipient.LastName = $scope.parsedPaste[i][1];
