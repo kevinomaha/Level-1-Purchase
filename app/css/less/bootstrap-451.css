@@ -6063,7 +6063,7 @@ button {
   min-height: 40px;
 }
 select {
-  -webkit-appearance: menulist;
+  -webkit-appearance: listbox;
 }
 option {
   color: #333333;
