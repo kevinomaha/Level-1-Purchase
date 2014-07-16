@@ -85,7 +85,7 @@
             </div>
             <div class="view-form-icon">
                 <div>
-                    <label  ng-class="{required: (tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCard.CVN) || cvnInvalid}" for="cvn" ng-show="tempOrder.CreditCard.CVN || tempOrder.PaymentMethod == 'CreditCard'">CVN</label>
+                    <label  ng-class="{required: (tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCard.CVN) || cvnInvalid}" for="cvn" ng-show="tempOrder.CreditCard.CVN || tempOrder.PaymentMethod == 'CreditCard'">CVN <a href="#" tooltip="Card Verification Number or Security Code.">Whats This?</a></label>
                     <input id="cvn" ng-class="{'input-invalid': cvnInvalid}" class="form-control" ng-model="tempOrder.CreditCard.CVN" ng-required="tempOrder.PaymentMethod == 'CreditCard'" type="text" ng-maxlength="4" placeholder="CVN" />
                     <i class="fa fa-lock"></i>
                 </div>

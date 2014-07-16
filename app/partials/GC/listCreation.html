@@ -151,7 +151,7 @@
                     <div class="col-xs-6 col-sm-4">
                         <div class="view-form-icon">
                             <select class="form-control"
-                                    ng-options="state.value as state.label for state in states | filter:country"
+                                    ng-options="state.value as state.value for state in states | filter:country"
                                     ng-model="recipient.State"
                                     ng-required="physicalProduct">
                                 <option class="view-select-placeholder" value="" selected>Select a State</option>
