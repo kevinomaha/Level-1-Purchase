@@ -1505,8 +1505,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				}
 			}
 
-            //$scope.tempOrder.isAllPhysical = true;
-
 			store.set("451Cache.TempOrder",$scope.tempOrder);
 
 			$scope.recipientGroup = [];

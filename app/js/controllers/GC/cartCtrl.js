@@ -4,6 +4,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	$scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
 
 	$scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
+    $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
 
     AddressList.query(function(list) {
         $scope.addresses = list;
@@ -45,6 +46,27 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		store.set("451Cache.TempOrder",{});
 		store.set("451Cache.TempOrder",$scope.tempOrder);
 	}
+
+    $scope.tempOrder.isAllDigital;
+
+    $scope.setIsAllDigital = function() {
+        for (var li = 0; li < $scope.tempOrder.LineItems.length; li++) {
+            if ($scope.tempOrder.LineItems[li].UniqueID) {
+                for (var s in $scope.tempOrder.LineItems[li].Specs) {
+                    if ($scope.tempOrder.LineItems[li].Specs[s].Name == "Physical/Digital") {
+                        if ($scope.tempOrder.LineItems[li].Specs[s].Value == "Physical") {
+                            $scope.tempOrder.isAllDigital = false;
+                        }
+                        else{
+                            $scope.tempOrder.isAllDigital = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    $scope.setIsAllDigital();
 
 	$scope.continueShopping = function() {
 	    if (!$scope.cart.$invalid) {
@@ -212,6 +234,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		store.set("451Cache.TempOrder",{});
 		store.set("451Cache.TempOrder",$scope.tempOrder);
 		$rootScope.$broadcast('event:tempOrderUpdated', $scope.tempOrder);
+        $scope.setIsAllDigital();
 		$scope.actionMessage = 'Your Changes Have Been Saved!';
 	}
 

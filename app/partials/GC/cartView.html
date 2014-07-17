@@ -10,6 +10,48 @@
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.lineItemGroups.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.merchantCardLineItems.length > 0"  ng-click="browseMerchantCards()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Browse Merchant Cards</div>
     <hr style="margin-top:5px;"/>
+    <div class="container white-wrapper" style="border:1px solid #ddd;padding-bottom: 10px;padding-top: 10px;margin-bottom: 20px;" ng-if="!tempOrder.isAllDigital">
+        <div>
+            <p><b>Personalize Physical Merchant Gift Cards Message Sheet: </b><span class="label label-default">Optional</span></p>
+            <p><small>You may enter a personalized message to be included in the envelope with you merchant gift cards. Only one message sheet will be included per order.</small></p>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <small>Opening (Up to 50 characters):</small>
+            </div>
+            <div class="col-sm-6">
+                <ul ng-if="!!orderfields">
+                    <li ng-repeat="field in orderfields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Opening'}">
+                        <customtextfield customfield="field" ng-if="field.ControlType == 'Text'" ng-required="field.IsRequired" holder="'ex. Dear Jane'"/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <small>Message (Up to 300 characters):</small>
+            </div>
+            <div class="col-sm-6">
+                <ul ng-if="!!orderfields">
+                    <li ng-repeat="field in orderfields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Message'}">
+                        <customtextfield customfield="field" ng-if="field.ControlType == 'Text'" ng-required="field.IsRequired" holder="'ex. Thank You'" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <small>Closing (Up to 50 characters):</small>
+            </div>
+            <div class="col-sm-6">
+                <ul ng-if="!!orderfields">
+                    <li ng-repeat="field in orderfields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Closing'}">
+                        <customtextfield customfield="field" ng-if="field.ControlType == 'Text'" ng-required="field.IsRequired" holder="'ex. Sincerely, John'"/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <form name="cart_line_item_groups">
     <div class="recipient-groups">
         <div ng-show="tempOrder.lineItemGroups.length > 1">

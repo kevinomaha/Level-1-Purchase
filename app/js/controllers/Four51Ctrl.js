@@ -124,9 +124,11 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                         li.ShipAddressID = shipAddress.ID;
                         fauxOrder.ShipAddressID = shipAddress.ID;
                         fauxOrder.LineItems.push(li);
-
                         Order.save(fauxOrder,
                             function(o){
+                                //save the order fields for use later
+                                o.OrderFields.length > 0 ? store.set("451Cache.GCOrderFields", o.OrderFields) : console.log("No Order Fields");
+
                                 Shipper.query(o, function(list) {
                                     $scope.shippers = list;
                                     $scope.shippers.length > 0 ? store.set("451Cache.GCShippers", $scope.shippers) : console.log("Shippers empty");
