@@ -828,6 +828,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
 	$scope.selectedProduct.loadingMerchantProducts = false;
 
+    $scope.designPreviewSRC = "";
+
     $scope.showPreview = function(type, design){
         var digPath = 'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/Previews/';
         var physPath = 'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/Previews/SCP/';
@@ -835,13 +837,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
         switch (type) {
             case "digital":
-                $('#designpreview').attr('src',digPath + $scope.digitalDesignPreview[design]);
+                $scope.designPreviewSRC = digPath + $scope.digitalDesignPreview[design];
                 break;
             case "physical":
-                $('#designpreview').attr('src',physPath + $scope.physicalDesignPreview[design]);
+                $scope.designPreviewSRC = physPath + $scope.physicalDesignPreview[design];
                 break;
             case "giftcard":
-                $('#designpreview').attr('src',giftcardPath + $scope.giftcardDesignPreview[design]);
+                $scope.designPreviewSRC = giftcardPath + $scope.giftcardDesignPreview[design];
                 break;
         }
     };
