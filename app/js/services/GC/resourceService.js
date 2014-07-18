@@ -2056,7 +2056,8 @@ four51.app.factory('Resources', function() {
         "Silver Lights" : "digitalplaceholder.png",
         "Simply Chic" : "digitalplaceholder.png",
         "Standard": "1006_Standard_Preview.jpg",
-        "White Bow" : "digitalplaceholder.png",
+        "Gift Wrap" : "GiftWrap_ESC.jpg",
+        "White Bow" : "WhiteBow_ESC.jpg",
         "Basic Green Ribbon": "1006_BasicGreenRibbon_Preview.jpg"
     };
 
@@ -2069,7 +2070,8 @@ four51.app.factory('Resources', function() {
         "Celebrate Success": "Celebrate.jpg",
         "Silver Lights" : "physicallplaceholder.png",
         "Simply Chic" : "physicallplaceholder.png",
-        "White Bow" : "physicallplaceholder.png",
+        "Gift Wrap" : "GiftWrapSC_Four51Preview.jpg",
+        "White Bow" : "WhiteBowSC_Four51Preview.jpg",
         "Basic Green Ribbon": "BasicGreenRibbon.jpg"
     };
 
