@@ -767,6 +767,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
     $scope.digitalOM = Resources.digitalOM;
 	$scope.physicalOM = Resources.physicalOM;
+    $scope.digitalDesignPreview = Resources.digitalDesignPreview;
+    $scope.physicalDesignPreview = Resources.physicalDesignPreview;
+    $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;
 
 	$scope.occasionMessages = [];
 
@@ -784,7 +787,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		$scope.selectedProduct.occasionMessageID = null;
 		$scope.selectedProduct.imageName = null;
 		$scope.selectedProduct.designSelection = null;
-		$scope.selectedProduct.selectedDesignID = null;
+        $scope.selectedProduct.selectedDesignID = null;
 		$scope.occasionMessages = [];
 
 		switch ($scope.selectedProductType) {
@@ -815,7 +818,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 $scope.selectedProduct.productLoadingIndicator = false;
             });
         }
-
+        $('#designpreview').attr('src','');
 		store.set("451Cache.SelectedProductDetails",{});
 		store.set("451Cache.SelectedProductDetails",$scope.selectedProductDetails);
 	});
@@ -825,10 +828,29 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
 	$scope.selectedProduct.loadingMerchantProducts = false;
 
+    $scope.showPreview = function(type, design){
+        var digPath = 'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/Previews/';
+        var physPath = 'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/Previews/SCP/';
+        var giftcardPath = 'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/Previews/GC01/';
+
+        switch (type) {
+            case "digital":
+                $('#designpreview').attr('src',digPath + $scope.digitalDesignPreview[design]);
+                break;
+            case "physical":
+                $('#designpreview').attr('src',physPath + $scope.physicalDesignPreview[design]);
+                break;
+            case "giftcard":
+                $('#designpreview').attr('src',giftcardPath + $scope.giftcardDesignPreview[design]);
+                break;
+        }
+    };
+
 	$scope.designChanged = function() {
 
 		$scope.occasionMessages = [];
-		$scope.selectedProduct.selectedDesignID = this.selectedProduct.designSelection.Value.split(' | ')[1];
+        $scope.selectedProduct.selectedDesignName = (this.selectedProduct.designSelection) ? this.selectedProduct.designSelection.Value.split(' | ')[0] : "Select a design";
+        $scope.selectedProduct.selectedDesignID = (this.selectedProduct.designSelection) ? this.selectedProduct.designSelection.Value.split(' | ')[1] : "Select a design";
 		$scope.selectedProduct.occasionMessage = null;
 		$scope.selectedProduct.occasionMessageID = null;
 		$scope.selectedProduct.imageName = null;
@@ -841,6 +863,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 						$scope.selectedProduct.occasionMessage = null;
 					}
 				}
+                $scope.showPreview("digital", $scope.selectedProduct.selectedDesignName);
 				break;
 			case "SCP-FD1":
 				for (var i = 0; i < $scope.physicalOM.length; i++) {
@@ -849,6 +872,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 						$scope.selectedProduct.occasionMessage = null;
 					}
 				}
+                $scope.showPreview("physical", $scope.selectedProduct.selectedDesignName);
 				break;
 			case "SCP-GC":
 				for (var i = 0; i < $scope.physicalOM.length; i++) {
@@ -857,6 +881,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 						$scope.selectedProduct.occasionMessage = null;
 					}
 				}
+                $scope.showPreview("giftcard", $scope.selectedProduct.selectedDesignName);
 				break;
 		}
 	}

@@ -2044,12 +2044,56 @@ four51.app.factory('Resources', function() {
         {"TemplateID":234,"DesignName":"White Bow GCI","OccasionName":"You're The Greatest","ImageFileName":"You're_The_Greatest.jpg"}
     ];
 
+    var digitalDesignPreview = {
+        "Select a design" : "digitalplaceholder.png",
+        "Basic Blue": "1006_BasicBlue_Preview.jpg",
+        "Classical Leaves": "1101_eSC_ClassicLeaves_Preview.jpg",
+        "Country Floral": "1006_eSC_CountryFloral_Preview.jpg",
+        "Sparkling Blues": "1006_Design4Glitter_Preview.jpg",
+        "Formal Midnight": "1101_eSC_MidnightDelight_Preview.jpg",
+        "Fancy Frame": "1006_eSC_FancyFrame_Preview.jpg",
+        "Celebrate Success": "1101_eSC_Celebrate_Preview.jpg",
+        "Silver Lights" : "digitalplaceholder.png",
+        "Simply Chic" : "digitalplaceholder.png",
+        "Standard": "1006_Standard_Preview.jpg",
+        "Basic Green Ribbon": "1006_BasicGreenRibbon_Preview.jpg"
+    };
+
+    var physicalDesignPreview = {
+        "Select a design" : "physicallplaceholder.png",
+        "Basic Blue": "BasicBlue.jpg",
+        "Classical Leaves": "ClassicLeaves.jpg",
+        "Sparkling Blues": "SparklingBlues.jpg",
+        "Formal Midnight": "MidnightDelight.jpg",
+        "Celebrate Success": "Celebrate.jpg",
+        "Silver Lights" : "physicallplaceholder.png",
+        "Simply Chic" : "physicallplaceholder.png",
+        "Basic Green Ribbon": "BasicGreenRibbon.jpg"
+    };
+
+    var giftcardDesignPreview = {
+        "Select a design" : "giftcardplaceholder.png",
+        "Basic Blue": "GC_BasicBlue_Preview.jpg",
+        "Classical Leaves": "GC_ClassicLeaves_Preview.jpg",
+        "Sparkling Blues": "GC_SparklingBlues_Preview.jpg",
+        "Formal Midnight": "GC_MidnightDelight_Preview.jpg",
+        "Celebrate Success": "GC_Celebrate_Preview.jpg",
+        "Silver Lights" : "giftcardplaceholder.png",
+        "Gift Wrap" : "giftcardplaceholder.png",
+        "White Bow" : "giftcardplaceholder.png",
+        "Simply Chic" : "giftcardplaceholder.png",
+        "Basic Green Ribbon": "GC_BasicGreenRibbon_Preview.jpg"
+    };
+
     return {
         countries:  countries,
         states: states,
 	    productCategories: productCategories,
         products: products,
         digitalOM: digitalOM,
-        physicalOM: physicalOM
+        physicalOM: physicalOM,
+        digitalDesignPreview: digitalDesignPreview,
+        physicalDesignPreview: physicalDesignPreview,
+        giftcardDesignPreview: giftcardDesignPreview
     };
 });
