@@ -758,8 +758,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         $scope.step = 3;
     }
 
-    $scope.digitalOM = Resources.digitalOM;
-	$scope.physicalOM = Resources.physicalOM;
+    //From Theme server
+    $scope.digitalOM = digitalOM;
+    $scope.physicalOM = physicalOM;
     $scope.digitalDesignPreview = Resources.digitalDesignPreview;
     $scope.physicalDesignPreview = Resources.physicalDesignPreview;
     $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;

@@ -570,7 +570,7 @@ four51.app.factory('Resources', function() {
         }
     ];
 
-    var physicalOM = [{"TemplateID":"pht_229","DesignName":"Basic Blue GCI","OccasionID":2160,"OccasionName":"A Gift for You","ImageFileName":"1_Grn377_AGFY.eps"},
+    /*var physicalOM = [{"TemplateID":"pht_229","DesignName":"Basic Blue GCI","OccasionID":2160,"OccasionName":"A Gift for You","ImageFileName":"1_Grn377_AGFY.eps"},
         {"TemplateID":"pht_229","DesignName":"Basic Blue GCI","OccasionID":2161,"OccasionName":"A Token of Appreciation","ImageFileName":"1_Grn377_ATOA.eps"},
         {"TemplateID":"pht_229","DesignName":"Basic Blue GCI","OccasionID":2162,"OccasionName":"Amazing Job!","ImageFileName":"1_Grn377_AJ.eps"},
         {"TemplateID":"pht_229","DesignName":"Basic Blue GCI","OccasionID":2163,"OccasionName":"Best Wishes","ImageFileName":"1_Grn377_BW.eps"},
@@ -2042,7 +2042,7 @@ four51.app.factory('Resources', function() {
         {"TemplateID":234,"DesignName":"White Bow GCI","OccasionName":"You Are Appreciated","ImageFileName":"You_Are_Appreciated.jpg"},
         {"TemplateID":234,"DesignName":"White Bow GCI","OccasionName":"You Are The Reason We Stand Strong","ImageFileName":"You_Are_The_Reason_We_Stand_Strong.jpg"},
         {"TemplateID":234,"DesignName":"White Bow GCI","OccasionName":"You're The Greatest","ImageFileName":"You're_The_Greatest.jpg"}
-    ];
+    ];*/
 
     var digitalDesignPreview = {
         "Select a design" : "digitalplaceholder.png",
