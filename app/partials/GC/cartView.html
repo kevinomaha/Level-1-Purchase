@@ -123,13 +123,13 @@
                             <i style="cursor:pointer; padding-top:5px;" class="fa fa-2x" ng-class="{'fa-circle-o':!showPreview, 'fa-circle':showPreview}"></i> <span style="cursor:pointer; position:relative; top:-5px; margin-left:10px;">PREVIEW</span>
                         </div>
                         <div class="col-xs-4 text-right" ng-show="group.LineItems.length > 1">
-                            <select class="form-control" ng-change="updateLineItemShipper(lineitem)" name="shipMethod"
+                            <!--<select class="form-control" ng-change="updateLineItemShipper(lineitem)" name="shipMethod"
                                     ng-model="lineitem.ShipMethod"
                                     ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
                                     ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:group.IsDigital"
                                     ng-required="!shipToMultipleAddresses && user.ShipMethod != null">
                                 <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
-                            </select>
+                            </select>-->
                             <div style="margin:10px 0;" ng-show="group.IsDigital">
                                 <b>Email Delivery</b>
                                 <p>{{lineitem.Specs.FutureShipDate.Value}}</p>
@@ -309,6 +309,21 @@
     </div>
     </div>
     <div class="col-md-5 hidden-sm hidden-xs">
+        <div>
+            <h3>Order Summary</h3>
+            <div class="row">
+                <div class="col-xs-5">
+                    <p>Subtotal:</p>
+                    <p>Shipping and Handling:</p>
+                    <p>Total:</p>
+                </div>
+                <div class="col-xs-5">
+                    <p>{{tempOrder.SubTotal | currency}}</p>
+                    <p>{{tempOrder.ShippingTotal | currency}}</p>
+                    <p>{{tempOrder.Total | currency}}</p>
+                </div>
+            </div>
+        </div>
         <div>
             <h3>Billing Info<p class="pull-right"><small ng-class="{'text-danger': cart_billing.$invalid}">{{!cart_billing.$invalid ? 'Ready for submission' : 'Missing required fields'}}</small></p></h3>
             <div class="white-wrapper container" style="padding:0 10px 10px;">
