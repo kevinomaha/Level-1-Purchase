@@ -16,6 +16,7 @@
             <h2 ng-class="{'fade-out-right':step == 2 || step == 1}">Customization (step 3 of 3)</h2>
         </div>
     </div>
+    <div class="selected-product text-center" ng-show="selectedProduct.Name && selectedProduct.Name.indexOf('Merchant') == -1"><b>Selected Product:</b> {{selectedProduct.Name}}</div>
 
     <div id="one" class="gc-purchase-step" ng-show="step == 1">
         <div class="gc-purchase-step-body">
