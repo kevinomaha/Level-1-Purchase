@@ -1,5 +1,9 @@
 four51.app.controller('ShortCategoryViewCtrl', ['$routeParams', '$rootScope', '$scope', 'Category', 'Product',
 function ($routeParams, $rootScope, $scope, Category, Product) {
+    $scope.collapser = 'Order';
+    $scope.switchCollapse = function(c){
+        $scope.collapser = c;
+    };
     $rootScope.$on('event:MerchantCategorySelected', function(event,category) {
         Category.get(category.InteropID, function(cat) {
             $scope.currentCategory = cat;

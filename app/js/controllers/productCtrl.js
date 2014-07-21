@@ -140,7 +140,12 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
     $scope.minDenom = true;
     $scope.maxDenom = false;
 
-    $scope.increaseDenom = function(product) {
+    $scope.setDenomination = function(product){
+        $scope.selectedProduct = product;
+        $scope.$broadcast('event:MerchantProductSelected', $scope.selectedProduct);
+    };
+
+    /*$scope.increaseDenom = function(product) {
         $scope.minDenom = false;
         $scope.maxDenom = false;
         for (var i = 0; i < $scope.products.length; i++) {
@@ -166,6 +171,6 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
                 $scope.$broadcast('event:MerchantProductSelected', $scope.selectedProduct);
             }
         }
-    };
+    };*/
 }]);
 

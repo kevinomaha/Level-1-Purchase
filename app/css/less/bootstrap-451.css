@@ -7442,6 +7442,8 @@ table[datepicker] {
 http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=6.8&edge=004263&shadow=003309&
 */
 .jumbotron {
+  padding-top: 15px;
+  padding-bottom: 15px;
   margin: 0px 0px -45px;
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnPgoJPGRlZnM+CgkJPHBhdHRlcm4gaWQ9J3RpbGUnIHBhdHRlcm5Vbml0cz0ndXNlclNwYWNlT25Vc2UnIHdpZHRoPScxMScgaGVpZ2h0PScxMScgdmlld0JveD0nMCAwIDUwIDUwJz4KCQkJPGxpbmUgeDE9JzEnIHkxPScwJyB4Mj0nNTEnIHkyPSc1MCcgc3Ryb2tlPScjMDAzMzA5JyBzdHJva2Utd2lkdGg9JzYuOCcvPgoJCQk8bGluZSB4MT0nNDknIHkxPScwJyB4Mj0nLTEnIHkyPSc1MCcgc3Ryb2tlPScjMDAzMzA5JyBzdHJva2Utd2lkdGg9JzYuOCcvPgoJCQk8bGluZSB4MT0nNTAnIHkxPScwJyB4Mj0nMCcgeTI9JzUwJyBzdHJva2U9JyMwMDQyNjMnIHN0cm9rZS13aWR0aD0nNi44Jy8+CgkJCTxsaW5lIHgxPScwJyB5MT0nMCcgeDI9JzUwJyB5Mj0nNTAnIHN0cm9rZT0nIzAwNDI2Mycgc3Ryb2tlLXdpZHRoPSc2LjgnLz4KCQk8L3BhdHRlcm4+CgkJPHJhZGlhbEdyYWRpZW50IGlkPSdsJyBjeD0nNTAlJyBjeT0nNTAlJyBmeT0nMCcgcj0nMjAxJSc+CgkJCTxzdG9wIG9mZnNldD0nMCUnIHN0eWxlPSdzdG9wLWNvbG9yOiNmZmY7IHN0b3Atb3BhY2l0eTouMTsnIC8+CgkJCTxzdG9wIG9mZnNldD0nMTAlJyBzdHlsZT0nc3RvcC1jb2xvcjojMDAwOyBzdG9wLW9wYWNpdHk6MC4xOycgLz4KCQkJPHN0b3Agb2Zmc2V0PSczMCUnIHN0eWxlPSdzdG9wLWNvbG9yOiMwMDA7IHN0b3Atb3BhY2l0eTowLjM7JyAvPgoJCQk8c3RvcCBvZmZzZXQ9JzkwJScgc3R5bGU9J3N0b3AtY29sb3I6IzAwMDsgc3RvcC1vcGFjaXR5OjAuNTU7JyAvPgoJCQk8c3RvcCBvZmZzZXQ9JzEwMCUnIHN0eWxlPSdzdG9wLWNvbG9yOiMwMDA7IHN0b3Atb3BhY2l0eTouNicgLz4KCQk8L3JhZGlhbEdyYWRpZW50PgoJPC9kZWZzPgoJPHJlY3QgZmlsbD0nIzAwNTk4Mycgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScvPgoJPHJlY3QgZmlsbD0ndXJsKCN0aWxlKScgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScvPgoJPHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgZmlsbD0ndXJsKCNsKScvPgo8L3N2Zz4=');
 }
@@ -7653,27 +7655,111 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   list-style: none;
   padding-left: 0;
 }
-.merchant-list li > div:not(.btn) {
+.merchant-list .merchant-list-item {
+  background-color: #FFF;
+  padding: 10px 10px 0;
+  margin-bottom: 5px;
   cursor: pointer;
-  height: 80px;
-  background-color: #fff;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center center;
+  border: 1px solid #dddddd;
+  transition: all 200ms;
+  -moz-transition: all 200ms;
+  -webkit-transition: all 200ms;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+.merchant-list .merchant-list-item.selected {
+  background-color: #8cc63e;
+  border: 1px solid #638e2a;
+  transition: all 200ms;
+  -moz-transition: all 200ms;
+  -webkit-transition: all 200ms;
+}
+.merchant-list .merchant-list-item.selected .merchant-name .text-muted {
+  color: #FFF;
+}
+.merchant-list .merchant-list-item .merchant-name {
+  padding-left: 10px;
+}
+.merchant-list .merchant-list-item .merchant-name h4 {
+  margin: 0;
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .merchant-list .merchant-list-item .merchant-name h4 {
+    font-size: 16px;
+  }
+}
+.merchant-list .merchant-list-item figure {
+  margin-bottom: 10px;
+  padding: 3px;
+  border: 1px solid #005983;
+  background-color: #ddd;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
 }
-.merchant-list li > div:not(.btn).selected h5 {
-  background-color: rgba(140, 198, 62, 0.9);
+.denomination-selection {
+  text-align: center;
+}
+.denomination-selection .denomination-value {
+  display: inline-block;
+  background-color: #FFF;
+  padding: 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+.denomination-selection .denomination-value + .denomination-value {
+  border-left: none;
+}
+.denomination-selection .denomination-value:first-of-type {
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+.denomination-selection .denomination-value:last-of-type {
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.denomination-selection .denomination-value.selected {
+  background-color: #8cc63e;
   color: #fff;
 }
-.merchant-list li > div:not(.btn) h5 {
-  height: 100%;
-  padding: 20px 5px 5px;
-  margin: 0;
-  background-color: rgba(255, 255, 255, 0.9);
+.panel-default.panel-collapser,
+.panel-search.panel-collapser,
+.panel-nav.panel-collapser,
+.panel-category-list ul li a .empty.panel-collapser,
+.panel-order.panel-collapser {
+  margin-bottom: 5px;
+}
+.panel-default.panel-collapser .panel-heading,
+.panel-search.panel-collapser .panel-heading,
+.panel-nav.panel-collapser .panel-heading,
+.panel-category-list ul li a .empty.panel-collapser .panel-heading,
+.panel-order.panel-collapser .panel-heading {
+  margin-top: 0;
+}
+.panel-default.panel-collapser .panel-heading .panel-title,
+.panel-search.panel-collapser .panel-heading .panel-title,
+.panel-nav.panel-collapser .panel-heading .panel-title,
+.panel-category-list ul li a .empty.panel-collapser .panel-heading .panel-title,
+.panel-order.panel-collapser .panel-heading .panel-title {
+  cursor: pointer;
+  padding: 10px;
+  transition: all 200ms;
+  -moz-transition: all 200ms;
+  -webkit-transition: all 200ms;
+}
+.panel-default.panel-collapser .panel-heading .panel-title.active,
+.panel-search.panel-collapser .panel-heading .panel-title.active,
+.panel-nav.panel-collapser .panel-heading .panel-title.active,
+.panel-category-list ul li a .empty.panel-collapser .panel-heading .panel-title.active,
+.panel-order.panel-collapser .panel-heading .panel-title.active {
+  background-color: #8cc63e;
+  color: #fff;
+  transition: all 200ms;
+  -moz-transition: all 200ms;
+  -webkit-transition: all 200ms;
 }
 .tabbable > .nav-tabs > li.active > a {
   background-color: #FFF;
@@ -7714,22 +7800,20 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   color: #eee;
 }
 .spa-category-description figure {
-  padding: 60px 15px;
-  background-color: #ddd;
   border-radius: 4px;
   margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
 }
 .spa-category-description figure img {
   display: inline;
   width: 100%;
   max-width: 250px;
-  -webkit-box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.6);
-  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.6);
-}
-@media (max-width: 767px) {
-  .spa-category-description figure {
-    padding: 15px;
-  }
 }
 .mini-white-panel p:first-of-type {
   margin: 0;
