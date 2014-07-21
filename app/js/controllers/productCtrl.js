@@ -30,7 +30,7 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 		})
 	};
 	function setDefaultQty(lineitem) {
-		$scope.LineItem.Quantity = lineitem.Product.StandardPriceSchedule.DefaultQuantity > 0 ? lineitem.Product.StandardPriceSchedule.DefaultQuantity : null;
+		$scope.LineItem.Quantity = (lineitem.Product.StandardPriceSchedule && lineitem.Product.StandardPriceSchedule.DefaultQuantity > 0) ? lineitem.Product.StandardPriceSchedule.DefaultQuantity : null;
 	}
 	function init() {
 		ProductDisplayService.getProductAndVariant($routeParams.productInteropID, $routeParams.variantInteropID, function (data) {

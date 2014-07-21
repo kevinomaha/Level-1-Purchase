@@ -20,7 +20,7 @@
                             <tab-heading>
                                 <i class="fa" ng-class="{'fa-quote-left':tab.title == 'Description','fa-info-circle':tab.title == 'More Info','fa-flag':tab.title == 'Canadian Info'}"></i> <span class="hidden-xs">{{tab.title}}</span>
                             </tab-heading>
-                            {{tab.content}}
+                            <div ng-bind-html="tab.content"></div>
                         </tab>
                         <tab>
                             <tab-heading>
