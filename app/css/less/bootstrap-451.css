@@ -7700,6 +7700,17 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
 }
+.merchant-view-detail .back-button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #FFF;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  color: #009ee9;
+  cursor: pointer;
+}
 .denomination-selection {
   text-align: center;
 }

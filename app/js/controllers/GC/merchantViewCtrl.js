@@ -100,11 +100,13 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Cate
             c.selected = false;
         });
         category.selected = true;
-        if (window.innerWidth < 1024){
-            $scope.showMerchantList = false;
-        }
+        $scope.showMerchantList = false;
         $rootScope.$broadcast('event:MerchantCategorySelected', category);
-    }
+    };
+
+    $scope.$watch('showMerchantList', function(){
+        window.scrollTo(0,0);
+    });
 
 	User.get(function(user) {
 		$scope.user = user;
