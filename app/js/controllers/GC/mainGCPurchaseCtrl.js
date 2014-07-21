@@ -951,6 +951,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	        return;
         }
 
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        var year = date.getFullYear();
+        var saveAs = month + '/' + day + '/' + year + ' - Recipients: ' + $scope.recipientGroup.length;
+
 		for (var recip = 0; recip < $scope.recipientGroup.length; recip++) {
 
 			var recipUniqueID = $scope.recipientGroup[recip].ID;
@@ -1037,7 +1043,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                                 "Value":$scope.selectedProduct.imageName
                             },
                             "SaveAs":{
-                                "Value":$scope.selectedProduct.SaveAs
+                                "Value":saveAs
                             },
                             "V14OpeningPesonalization":{
                                 "Value":customMessageOption
@@ -1127,7 +1133,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                                 "Value":$scope.selectedProduct.imageName
                             },
                             "SaveAs":{
-                                "Value":$scope.selectedProduct.SaveAs
+                                "Value":saveAs
                             },
                             "V14OpeningPesonalization":{
                                 "Value":customMessageOption
@@ -1209,7 +1215,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                                 "Value":$scope.selectedProduct.imageName
                             },
                             "SaveAs":{
-                                "Value":$scope.selectedProduct.SaveAs
+                                "Value":saveAs
                             },
                             "V17P_LogoFileID":{
                                 "Value":""
@@ -1302,7 +1308,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                                 "Value":$scope.selectedProduct.imageName
                             },
                             "SaveAs":{
-                                "Value":$scope.selectedProduct.SaveAs
+                                "Value":saveAs
                             },
                             "V14OpeningPesonalization":{
                                 "Value":customMessageOption
@@ -1392,7 +1398,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                                 "Value":$scope.selectedProduct.imageName
                             },
                             "SaveAs":{
-                                "Value":$scope.selectedProduct.SaveAs
+                                "Value":saveAs
                             },
                             "V14OpeningPesonalization":{
                                 "Value":customMessageOption
@@ -1474,7 +1480,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                                 "Value":$scope.selectedProduct.imageName
                             },
                             "SaveAs":{
-                                "Value":$scope.selectedProduct.SaveAs
+                                "Value":saveAs
                             },
                             "V17P_LogoFileID":{
                                 "Value":""
