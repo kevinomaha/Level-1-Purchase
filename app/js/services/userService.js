@@ -12,7 +12,8 @@ four51.app.factory('User', ['$q', '$rootScope', '$resource', '$451', 'Security',
         if ($451.contains(u.Permissions, ['PayByVisa', 'PayByMasterCard', 'PayByAmex', 'PayByDiscover', 'PayByDinersClub', 'PayByJCB', 'PayByDelta', 'PayBySwitch', 'PayBySolo', 'PayByElectron', 'PayByLaser']))
             u.Permissions.push('PayByCreditCard');
 
-        if (u.AvailableCreditCards.length == 0) {
+        if (!u.AvailableCreditCards) {
+            u.AvailableCreditCards = [];
             $451.contains(u.Permissions, ['PayByVisa']) ? u.AvailableCreditCards.push({Type:'Visa',DisplayName:'Visa'}) : null;
             $451.contains(u.Permissions, ['PayByMasterCard']) ? u.AvailableCreditCards.push({Type:'MasterCard',DisplayName:'MasterCard'}) : null;
             $451.contains(u.Permissions, ['PayByAmex']) ? u.AvailableCreditCards.push({Type:'AmericanExpress',DisplayName:'American Express'}) : null;
