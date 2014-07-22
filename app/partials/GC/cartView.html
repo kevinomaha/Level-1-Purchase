@@ -1,11 +1,11 @@
-<section class="container cart-view">
+<section class="cart-view">
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
     <loadingindicator ng-show="orderSubmitLoadingIndicator" title="Please wait while we submit your order" />
     <div ng-show="tempOrder" class="hidden-print container">
     <div class="row">
     <div class="col-md-7">
-    <h3 class="text-primary text-center">{{tempOrder.LineItems.length}} AWARD{{tempOrder.LineItems.length > 1 ? 'S' : ''}} IN YOUR CART</h3>
+    <h3 class="text-primary cart-title">{{tempOrder.LineItems.length}} AWARD{{tempOrder.LineItems.length > 1 ? 'S' : ''}} IN YOUR CART <i class="fa fa-shopping-cart pull-right"></i></h3>
     <hr style="margin-bottom:5px;"/>
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.lineItemGroups.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.merchantCardLineItems.length > 0"  ng-click="browseMerchantCards()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Browse Merchant Cards</div>
@@ -319,11 +319,13 @@
                 <p class="text-right"><span class="pull-left text-info">Total:</span>{{tempOrder.Total | currency}}</p>
             </div>
         </div>
-
-        <div>
-            <h3>Billing Info<p class="pull-right"><small ng-class="{'text-danger': cart_billing.$invalid}">{{!cart_billing.$invalid ? 'Ready for submission' : 'Missing required fields'}}</small></p></h3>
-            <div class="white-wrapper container" style="padding:0 10px 10px;">
-
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="padding-top:18px; padding-bottom:18px;">
+                    {{'Billing Info' | r}}<br/>
+                    <p style="margin:0;"><small ng-class="{'text-danger': cart_billing.$invalid}">{{!cart_billing.$invalid ? 'Ready for submission' : 'Missing required fields'}}</small></p></h3>
+            </div>
+            <div class="panel-body">
                 <div ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length == 0 && user.Permissions.contains('CreateBillToAddress')" class="row">
                     <addressinput address='billaddress' user='user'></addressinput>
                 </div>
@@ -334,7 +336,6 @@
                 </form>
             </div>
         </div>
-
     </div>
     </div>
     </div>

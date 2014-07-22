@@ -2,14 +2,46 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="row">
-                <div class="col-md-3 col-sm-4" ng-repeat="product in productList">
-                    <div class="product-selector" ng-class="{'active': selectedProduct.Name == product.Name}" ng-click="selectProduct(product)">
-                        <!--<div ng-click="stepOneContinue()">
-
-                        </div>-->
-                        <div></div>
+                <div class="col-md-3 col-sm-4">
+                    <div class="product-selector" ng-class="{'active': selectedProduct.Name == productList[0].Name}" ng-click="selectProduct(productList[0])">
+                        <div>
+                            <h4 class="pname">{{productList[0].Name}}</h4>
+                            <img src="css/images/SPA_Products_Icons_eSC.png"/>
+                        </div>
+                        <p><small>The digital e-SuperCertificate is delivered by email making it perfect for those last minute gifts. Don't need it right now? You can easily schedule the date you want it to be delivered</small></p>
                     </div>
                 </div>
+                <div class="col-md-3 col-sm-4">
+                    <div class="product-selector" ng-class="{'active': selectedProduct.Name == productList[1].Name}" ng-click="selectProduct(productList[1])">
+                        <div>
+                            <h4 class="pname">{{productList[1].Name}}</h4>
+                            <img src="css/images/SPA_Products_Icons_SC.png"/>
+
+                        </div>
+                        <p><small>Our original REWARD.<br/>The SuperCertificate is the ultimate REWARD of choice. This REWARD allows your recipient to choose from hundreds of their favorite gift cards, all in one convenient location.</small></p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                    <div class="product-selector" ng-class="{'active': selectedProduct.Name == productList[2].Name}" ng-click="selectProduct(productList[2])">
+                        <div>
+                            <h4 class="pname">{{productList[2].Name}}</h4>
+                            <img src="css/images/SPA_Products_Icons_GC.png"/>
+
+                        </div>
+                        <p><small>Save yourself a trip to the store with a REWARD and greeting card all in one! Add your personal message, and the SuperCertificate Greeting Card makes the perfect reward for every greeting card occasion.</small></p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                    <div class="product-selector" ng-class="{'active': selectedProduct.Name == productList[3].Name}" ng-click="selectProduct(productList[3])">
+                        <div>
+                            <h4 class="pname">{{productList[3].Name}}</h4>
+                            <img src="css/images/SPA_Products_Icons_MC.png"/>
+
+                        </div>
+                        <p><small>Find all your favorite gift cards in one place! With over 200 nationwide gift cards from stores, hotels, restaurants, airlines, theaters, and more there is something for everyone.</small></p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
