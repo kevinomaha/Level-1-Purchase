@@ -138,6 +138,18 @@
                             <i class="fa fa-dollar"></i>
                         </div>
                     </div>
+                    <div class="view-form-icon">
+                        <div ng-show="showLogoSelection">
+                            <label>Logo Selection</label>
+                            <select class="form-control"
+                                    ng-model="selectedProduct.selectedLogo"
+                                    ng-options="logo as logo.name for logo in logoOptions">
+                                <option class="view-select-placeholder" selected="" value="">Select a logo</option>
+                            </select>
+                            <i class="fa fa-dollar"></i>
+                        </div>
+                        <div ng-hide="showLogoSelection">There are currently no logos saved to your account. To add a logo for a future order, please email your logo to LogoSupport@giftcertificates.com.</div>
+                    </div>
                 </div>
                 <div class="col-sm-8">
                     <div class="view-form-icon">
