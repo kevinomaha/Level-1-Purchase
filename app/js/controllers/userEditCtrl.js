@@ -1,5 +1,5 @@
-four51.app.controller('UserEditCtrl', ['$scope', '$location', '$sce', 'User',
-function ($scope, $location, $sce, User) {
+four51.app.controller('UserEditCtrl', ['$scope', '$location', '$sce', 'User', 'LogoOptions',
+function ($scope, $location, $sce, User, LogoOptions) {
 	$scope.loginasuser = {};
 	$scope.actionMessage = null;
 
@@ -32,7 +32,8 @@ function ($scope, $location, $sce, User) {
     };
 	$scope.loginExisting = function(){
 		User.login({Username: $scope.loginasuser.Username, Password:  $scope.loginasuser.Password, ID: $scope.user.ID, Type: $scope.user.Type},function(u){
-			$location.path("/catalog");
+            LogoOptions.getlogos($scope.user.Username);
+            $location.path("/catalog");
 
 		}, function(err){
 			$scope.loginAsExistingError = err.Message;

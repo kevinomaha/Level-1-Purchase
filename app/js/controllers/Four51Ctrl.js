@@ -1,5 +1,5 @@
-four51.app.controller('Four51Ctrl', ['$scope', '$route','$routeParams', '$location', '$451', 'User', 'Order', 'Security', 'OrderConfig', 'Category', 'SpendingAccount', 'Product', 'Shipper', 'AddressList', 'AppConst',
-function ($scope, $route, $routParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, Product, Shipper, AddressList, AppConst) {
+four51.app.controller('Four51Ctrl', ['$scope', '$route','$routeParams', '$location', '$451', 'User', 'Order', 'Security', 'OrderConfig', 'Category', 'SpendingAccount', 'Product', 'Shipper', 'AddressList', 'AppConst', 'LogoOptions',
+function ($scope, $route, $routParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, Product, Shipper, AddressList, AppConst, LogoOptions) {
     $scope.AppConst = AppConst;
 	$scope.scroll = 0;
 	$scope.isAnon = $451.isAnon; //need to know this before we have access to the user object
@@ -99,6 +99,7 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                 }
             });
             AddressList.query(function(list) {
+                LogoOptions.getlogos($scope.user.Username);
                 $scope.addresses = list;
                 var shipAddress = {};
                 angular.forEach($scope.addresses, function(a) {

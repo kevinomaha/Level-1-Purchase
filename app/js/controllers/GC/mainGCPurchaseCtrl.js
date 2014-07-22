@@ -1,5 +1,5 @@
-four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'CategoryDescription', 'ExistingAddress', 'LineItems',
-function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, CategoryDescription,ExistingAddress,LineItems) {
+four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'LogoOptions', 'CategoryDescription', 'ExistingAddress', 'LineItems',
+function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems) {
 
 	$scope.productList = Resources.products;
 
@@ -747,18 +747,32 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		store.set("451Cache.RecipientList",$scope.recipientList);
 	}
 
+    $scope.logoOptions = LogoOptions.logooptions;
+    $scope.showLogoSelection = false;
+    $scope.selectedLogoPath = "";
+    $scope.digitalOM = Resources.digitalOM;
+	$scope.physicalOM = Resources.physicalOM;
+    $scope.digitalDesignPreview = Resources.digitalDesignPreview;
+    $scope.physicalDesignPreview = Resources.physicalDesignPreview;
+    $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;
+
     $scope.stepToCustomization = function(){
+        if($scope.logoOptions.length > 0){
+            $scope.showLogoSelection = true;
+        }
         $scope.selectAllRecipientsToggle();
         $scope.step = 3;
     }
 
     $scope.stepToAnonCustomization = function(){
+        if($scope.logoOptions.length > 0){
+            $scope.showLogoSelection = true;
+        }
         $scope.selectAllRecipientsToggle();
         $scope.anonymousAwards = "true";
         $scope.step = 3;
     }
 
-    //From Theme server
     $scope.digitalOM = digitalOM;
     $scope.physicalOM = physicalOM;
     $scope.digitalDesignPreview = Resources.digitalDesignPreview;
@@ -812,7 +826,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 $scope.selectedProduct.productLoadingIndicator = false;
             });
         }
-        $('#designpreview').attr('src','');
+
 		store.set("451Cache.SelectedProductDetails",{});
 		store.set("451Cache.SelectedProductDetails",$scope.selectedProductDetails);
 	});
@@ -1044,7 +1058,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
 	                        "PersonalMessageCheck":{
 		                        "Value":"Pass"
-	                        }
+	                        },
+                            "V11_CustomerLogo":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
+                            },
+                            "V17P_LogoFileID":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
+                            }
                         }
                     };
                     break;
@@ -1134,7 +1154,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
 	                        "PersonalMessageCheck":{
 		                        "Value":"Pass"
-	                        }
+	                        },
+                            "V11_CustomerLogo":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
+                            },
+                            "V17D_LogoFileID":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
+                            }
                         }
                     };
                     break;
@@ -1211,12 +1237,15 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             "SaveAs":{
                                 "Value":saveAs
                             },
-                            "V17P_LogoFileID":{
-                                "Value":""
-                            },
 	                        "PersonalMessageCheck":{
 		                        "Value":"Pass"
-	                        }
+	                        },
+                            "V11_CustomerLogo":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
+                            },
+                            "V17P_LogoFileID":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
+                            }
                         }
                     };
                     break;
@@ -1309,6 +1338,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
                             "PersonalMessageCheck":{
                                 "Value":"Pass"
+                            },
+                            "V11_CustomerLogo":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
+                            },
+                            "V17P_LogoFileID":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
                             }
                         }
                     };
@@ -1399,6 +1434,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
                             "PersonalMessageCheck":{
                                 "Value":"Pass"
+                            },
+                            "V11_CustomerLogo":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
+                            },
+                            "V17D_LogoFileID":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
                             }
                         }
                     };
@@ -1476,11 +1517,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             "SaveAs":{
                                 "Value":saveAs
                             },
-                            "V17P_LogoFileID":{
-                                "Value":""
-                            },
                             "PersonalMessageCheck":{
                                 "Value":"Pass"
+                            },
+                            "V11_CustomerLogo":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
+                            },
+                            "V17P_LogoFileID":{
+                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
                             }
                         }
                     };

@@ -1,5 +1,5 @@
-four51.app.controller('CartViewCtrl', ['$scope', '$rootScope', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'LineItems', 'AddressList',
-function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper,LineItems, AddressList) {
+four51.app.controller('CartViewCtrl', ['$scope', '$rootScope', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'LineItems', 'AddressList', 'LogoOptions',
+function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper,LineItems, AddressList, LogoOptions) {
 
 	$scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
 
@@ -307,7 +307,8 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
     };
 
 	$scope.backToCustomization = function() {
-		$location.path('main');
+        LogoOptions.getlogos($scope.user.Username);
+        $location.path('main');
 	}
 
 	$scope.browseMerchantCards = function() {
