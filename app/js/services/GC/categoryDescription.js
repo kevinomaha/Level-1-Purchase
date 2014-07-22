@@ -11,9 +11,18 @@ four51.app.factory('CategoryDescription', function() {
             var img = "https://www.four51.com/Themes/Custom/" + category.Description.split('../../')[1].split('.jpg')[0] + ".jpg";
 
             var description = "";
+            var textFound = false;
+            $(categoryDescription).find('tbody tr > td').contents().each(function() {
+                if (this.nodeName == '#text' && !textFound) {
+                    textFound = true;
+                    description += "<p>" + $(this).text() + "</p>";
+                }
+            });
             $(categoryDescription).find('p').each(function() {
-                if ($(this).html().indexOf('handlingFee') == -1 && $(this).html().indexOf('infoDiv0') == -1 && $(this).html().indexOf('infoDiv1') == -1 && $(this).html().indexOf('infoDiv2') == -1) {
-                    description += $(this).text();
+                if ($(this).html().indexOf('handlingFee') == -1 && $(this).html().indexOf('infoDiv0') == -1
+                    && $(this).html().indexOf('infoDiv1') == -1 && $(this).html().indexOf('infoDiv2') == -1
+                    && $(this).parent('div').prop('class') != 'infoPanel') {
+                    description += "<p>" + $(this).text() + "</p>";
                 }
             });
 
@@ -23,7 +32,12 @@ four51.app.factory('CategoryDescription', function() {
                 }
             }
 
-            var infoTab = $(categoryDescription).find("#infoDiv0 p").text();
+            /*var infoTab = $(categoryDescription).find("#infoDiv0 p").text();*/
+            var infoTab = "";
+
+            $(categoryDescription).find("#infoDiv0 p").each(function() {
+                infoTab += $(this).html();
+            });
 
             if ($(categoryDescription).find("#infoDiv1 div #handlingFee").length > 0) {
                 $(categoryDescription).find("#infoDiv1 div #handlingFee").text("2.50 ");

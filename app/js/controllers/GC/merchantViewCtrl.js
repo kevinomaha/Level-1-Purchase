@@ -17,11 +17,11 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Cate
 			sortedProducts.push(sortable[j][0])
 		}
 
-        if (products.length < 10) {
+        if (products.length > 0 && product.length < 10) {
             $scope.products = sortedProducts;
             $rootScope.$broadcast('event:MerchantProductSelected', $scope.products[0]);
         }
-        else {
+        else if (products.length >= 10) {
             var canadianUser = false;
             for (var i = 0; i < $scope.tree.length; i++) {
                 canadianUser = $scope.tree[i].Name.indexOf('Canada') > -1 ? true : canadianUser;
@@ -100,11 +100,13 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Cate
             c.selected = false;
         });
         category.selected = true;
-        if (window.innerWidth < 1024){
-            $scope.showMerchantList = false;
-        }
+        $scope.showMerchantList = false;
         $rootScope.$broadcast('event:MerchantCategorySelected', category);
-    }
+    };
+
+    $scope.$watch('showMerchantList', function(){
+        window.scrollTo(0,0);
+    });
 
 	User.get(function(user) {
 		$scope.user = user;

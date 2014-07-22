@@ -5,6 +5,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
 	$scope.selectProduct = function(product) {
 		$rootScope.$broadcast('event:ProductSelected', product);
+        $scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/MGCPROJE00000');
 	}
 
     $scope.selectAllRecipients = "true";
@@ -133,14 +134,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		store.set("451Cache.RecipientList",$scope.recipientList);
 
 	});
-
-    $scope.stepOneContinue = function(){
-        $scope.$broadcast('event:StepOneDone');
-    }
-
-    $scope.$on('event:StepOneDone', function(event) {
-        $scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/MGCPROJE00000');
-    });
 
 	$scope.selectedProduct = store.get("451Cache.SelectedProduct") ? store.get("451Cache.SelectedProduct") : {};
 
@@ -780,7 +773,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         $scope.step = 3;
     }
 
-    $scope.occasionMessages = [];
+    $scope.digitalOM = digitalOM;
+    $scope.physicalOM = physicalOM;
+    $scope.digitalDesignPreview = Resources.digitalDesignPreview;
+    $scope.physicalDesignPreview = Resources.physicalDesignPreview;
+    $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;
+
+	$scope.occasionMessages = [];
+
 	$scope.productTypeSelect = function(type) {
 		$rootScope.$broadcast('event:ProductTypeSelected', type);
 	}

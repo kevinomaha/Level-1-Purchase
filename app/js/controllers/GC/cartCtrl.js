@@ -32,13 +32,17 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		$scope.tempOrder.ExternalID = 'auto';
 
 		//Order Summary
+		$scope.tempOrder.SubTotal = 0;
 		$scope.tempOrder.Total = 0;
 		$scope.tempOrder.ShippingTotal = 0;
 		angular.forEach($scope.tempOrder.LineItems, function(li) {
+			$scope.tempOrder.SubTotal += li.LineTotal;
 			$scope.tempOrder.Total += li.LineTotal;
 		});
 
+		$scope.tempOrder.SubTotal = $scope.tempOrder.SubTotal.toFixed(2);
 		$scope.tempOrder.Total = $scope.tempOrder.Total.toFixed(2);
+        analyzeShipping();
 
 		//Order Billing
 		$scope.tempOrder.CreditCard = {};
@@ -49,7 +53,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
     $scope.tempOrder.isAllDigital;
 
-    $scope.setIsAllDigital = function() {
+    var setIsAllDigital = function() {
         for (var li = 0; li < $scope.tempOrder.LineItems.length; li++) {
             if ($scope.tempOrder.LineItems[li].UniqueID) {
                 for (var s in $scope.tempOrder.LineItems[li].Specs) {
@@ -66,7 +70,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         }
     }
 
-    $scope.setIsAllDigital();
+    setIsAllDigital();
 
 	$scope.continueShopping = function() {
 	    if (!$scope.cart.$invalid) {
@@ -234,7 +238,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		store.set("451Cache.TempOrder",{});
 		store.set("451Cache.TempOrder",$scope.tempOrder);
 		$rootScope.$broadcast('event:tempOrderUpdated', $scope.tempOrder);
-        $scope.setIsAllDigital();
+        setIsAllDigital();
 		$scope.actionMessage = 'Your Changes Have Been Saved!';
 	}
 
@@ -311,6 +315,16 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		$location.path('catalog/MGCPROJE00000');
 	}
 
+    function analyzeShipping() {
+        $scope.tempOrder.ShippingTotal = 0;
+        $scope.tempOrder.Total = +($scope.tempOrder.SubTotal);
+        angular.forEach($scope.tempOrder.lineItemGroups, function(group) {
+            var shipRate = +(group.ShipMethod.split('$')[1]);
+            $scope.tempOrder.ShippingTotal += shipRate;
+            $scope.tempOrder.Total += shipRate;
+        });
+    }
+
 	$scope.updateAllShippers = function() {
 		for (var g = 0; g < $scope.tempOrder.lineItemGroups.length; g++) {
 			$scope.tempOrder.lineItemGroups[g].ShipMethod = $scope.tempOrder.ShipMethod;
@@ -341,6 +355,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			     }
 			});
 		});
+        analyzeShipping();
 		store.set("451Cache.TempOrder",{});
 		store.set("451Cache.TempOrder",$scope.tempOrder);
 	};

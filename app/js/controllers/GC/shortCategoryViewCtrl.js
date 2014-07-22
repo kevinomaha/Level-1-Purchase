@@ -1,5 +1,8 @@
 four51.app.controller('ShortCategoryViewCtrl', ['$routeParams', '$rootScope', '$scope', 'Category', 'Product',
 function ($routeParams, $rootScope, $scope, Category, Product) {
+    $scope.switchCollapse = function(c){
+        $scope.collapser = c;
+    };
     $rootScope.$on('event:MerchantCategorySelected', function(event,category) {
         Category.get(category.InteropID, function(cat) {
             $scope.currentCategory = cat;
@@ -8,7 +11,7 @@ function ($routeParams, $rootScope, $scope, Category, Product) {
                 {title: 'More Info', content:cat.SpaDescription.infoTab}    ,
                 {title: 'Canadian Info', content:cat.SpaDescription.canadianTab}
             ];
-            $scope.tabs[0].active = true;
+            $scope.collapser = 'Order';
 
         });
         Product.search(category.InteropID, null, null, function(products) {

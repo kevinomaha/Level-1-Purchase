@@ -1,5 +1,41 @@
 <section class="container merchant-view">
-    <div class="row" style="margin-top:15px;">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0" ng-class="{'hidden-xs hidden-sm':!showMerchantList}">
+            <div class="form-group row" style="margin-top:15px;">
+                <input type="text"
+                       placeholder="Search by merchant..."
+                       ng-model="filterTerm"
+                       class="form-control"/>
+            </div>
+            <div class="list-container">
+                <ul class="merchant-list">
+                    <li class="merchant-list-item" ng-repeat="c in currentCategory.SubCategories | merchantFilter:filterTerm" ng-class="{'selected':c.selected}" ng-click="selectCategory(c)">
+                            <div class="col-collapse col-xs-6 col-xs-offset-3 col-sm-offset-0 col-sm-2 col-md-3 col-lg-2">
+                                <figure>
+                                    <img ng-src="{{c.Image.URL}}" width="100%"/>
+                                </figure>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 col-md-9 col-lg-10 merchant-name text-center">
+                                <h4><b ng-bind-html="c.Name"></b></h4>
+                                <p><small  class="text-muted"><span class="hidden-md hidden-lg">Tap </span><span class="hidden-sm hidden-xs">Click </span> to select</small></p>
+                            </div>
+                        <div style="clear:both;"></div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-md-9" ng-class="{'hidden-xs hidden-sm':showMerchantList}">
+            <div class="merchant-view-detail">
+                <div class="back-button hidden-md hidden-lg" ng-click="showMerchantList = true"><i class="fa fa-chevron-left"></i> Select a Different Merchant</div>
+                <div>
+                    <shortcategoryview c="category" user="user"/>
+                </div>
+                <div class="back-button hidden-md hidden-lg" ng-click="showMerchantList = true"><i class="fa fa-chevron-left"></i> Select a Different Merchant</div>
+            </div>
+        </div>
+    </div>
+<!--    <div class="row" style="margin-top:15px;">
         <div class="col-md-6 col-md-offset-3">
             <div class="form-group">
                 <input type="text"
@@ -7,7 +43,7 @@
                        ng-model="filterTerm"
                        ng-change="setPage('first')"
                        class="form-control"/>
-                       <!--typeahead="c as c.Name for c in currentCategory.SubCategories | filter:$viewValue | limitTo:3"/>-->
+                       &lt;!&ndash;typeahead="c as c.Name for c in currentCategory.SubCategories | filter:$viewValue | limitTo:3"/>&ndash;&gt;
             </div>
         </div>
     </div>
@@ -29,5 +65,5 @@
                 <shortcategoryview c="category" user="user"/>
             </div>
         </div>
-    </div>
+    </div>-->
 </section>

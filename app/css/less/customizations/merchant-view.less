@@ -1,31 +1,141 @@
 .merchant-list{
-  list-style: none;
+  list-style:none;
   padding-left:0;
-  li{
-    & > div:not(.btn){
-      cursor:pointer;
-      height:80px;
-      background-color:#fff;
-      overflow:hidden;
-      background-size:cover;
-      background-position: center center;
-      .border-bottom-radius(@border-radius-base);
-      .border-top-radius(@border-radius-base);
-      &.selected{
-        h5{
-          background-color:fade(@brand-success,90);
-          color:#fff;
+  .merchant-list-item{
+    background-color:#FFF;
+    padding:10px 10px 0;
+    margin-bottom:5px;
+    cursor: pointer;
+    border:1px solid @list-group-border;
+    transition:all 200ms;
+    -moz-transition:all 200ms;
+    -webkit-transition:all 200ms;
+    .border-bottom-radius(6px);
+    .border-top-radius(6px);
+    &.selected{
+      background-color:@brand-success;
+      border:1px solid darken(@brand-success, 15);
+      transition:all 200ms;
+      -moz-transition:all 200ms;
+      -webkit-transition:all 200ms;
+      .merchant-name{
+        .text-muted{
+          color:#FFF;
         }
       }
-      h5{
-        height:100%;
-        padding:20px 5px 5px;
+    }
+    .merchant-name{
+      padding-left:10px;
+      h4{
         margin:0;
-        background-color:rgba(255,255,255,0.9)
+        @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+          font-size:16px;
+        }
+      }
+
+    }
+    figure{
+      margin-bottom:10px;
+      padding:3px;
+      border:1px solid #005983;
+      background-color:#ddd;
+      .border-bottom-radius(4px);
+      .border-top-radius(4px);
+    }
+  }
+//  list-style: none;
+//  padding-left:0;
+//  li{
+//    overflow:hidden;
+//    padding:0;
+//    & > div{
+//      cursor:pointer;
+//      height:70px;
+//      background-color:#fff;
+//      overflow:hidden;
+//      background-size:contain;
+//      background-position: center right;
+//      background-repeat:no-repeat;
+//      &.selected{
+//        h4{
+//          background-color:fade(@brand-success,90);
+//          color:#fff;
+//        }
+//      }
+//      h4{
+//        @media (max-width: @screen-sm-max){
+//          font-size:1em;
+//        }
+//        height:100%;
+//        padding:20px 10px 0px;
+//        position:absolute;
+//        top:0;
+//        bottom:0;
+//        right:0;
+//        left:0;
+//        margin:0 70px 0 0;
+//      }
+//    }
+//  }
+}
+
+.merchant-view-detail{
+  .back-button{
+    margin-top:10px;
+    padding:10px;
+    background-color:#FFF;
+    .border-left-radius(4px);
+    .border-right-radius(4px);
+    color:@brand-info;
+    cursor: pointer;
+  }
+}
+
+.denomination-selection{
+  text-align:center;
+  .denomination-value{
+    display:inline-block;
+    background-color:#FFF;
+    padding:10px;
+    border:1px solid #ddd;
+    cursor: pointer;
+    & + .denomination-value{
+      border-left:none;
+    }
+    &:first-of-type{
+      .border-left-radius(4px);
+    }
+    &:last-of-type{
+      .border-right-radius(4px);
+    }
+    &.selected{
+      background-color:@brand-success;
+      color:#fff;
+    }
+  }
+}
+
+.panel-default.panel-collapser{
+  margin-bottom:5px;
+  .panel-heading{
+    margin-top:0;
+    .panel-title{
+      cursor: pointer;
+      padding:10px;
+      transition:all 200ms;
+      -moz-transition:all 200ms;
+      -webkit-transition:all 200ms;
+      &.active{
+        background-color:@brand-success;
+        color:#fff;
+        transition:all 200ms;
+        -moz-transition:all 200ms;
+        -webkit-transition:all 200ms;
       }
     }
   }
 }
+
 
 .tabbable{
   & > .nav-tabs > li.active > a{
@@ -74,21 +184,17 @@
 
 .spa-category-description{
   figure{
-    padding:60px 15px;
-    background-color:#ddd;
     border-radius:4px;
     margin-bottom:10px;
+    padding:10px;
+    border:1px solid #ddd;
+    background-color:#fff;
+    .border-bottom-radius(6px);
+    .border-top-radius(6px);
     img{
       display:inline;
       width:100%;
       max-width:250px;
-      -webkit-box-shadow: 0 0 30px 0 rgba(0,0,0,.6);
-      box-shadow: 0 0 30px 0 rgba(0,0,0,.6);
-    }
-  }
-  @media(max-width:@screen-xs-max){
-    figure{
-      padding:15px;
     }
   }
 }
