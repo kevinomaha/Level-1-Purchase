@@ -741,6 +741,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				$scope.recipientList[r].Selected = false;
 			}
 		}
+        $scope.analyzeRecipientGroup();
 		store.set("451Cache.RecipientGroup",[]);
 		store.set("451Cache.RecipientGroup",$scope.recipientGroup);
 		store.set("451Cache.RecipientList",[]);
