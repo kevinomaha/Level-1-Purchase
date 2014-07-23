@@ -35,25 +35,25 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
 			            OrderConfig.costcenter(ordr, user);
                     });
                 }
-                else
+                else {
                     $scope.currentOrder = null;
+                }
 
+                $scope.gcShippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : null;
+                if (!$scope.gcShippers && !$scope.gettingShippers) {
+                    $scope.gettingShippers = true;
+                    getShippers();
+                }
+
+                $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
+                if ($scope.tempOrder) {
+                    $scope.$broadcast("event:tempOrderUpdated", $scope.tempOrder);
+                }
             });
             Category.tree(function(data) {
 				$scope.tree = data;
 				$scope.$broadcast("treeComplete", data);
 	        });
-
-            $scope.gcShippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : null;
-            if (!$scope.gcShippers && !$scope.gettingShippers) {
-                $scope.gettingShippers = true;
-                getShippers();
-            }
-
-            $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
-            if ($scope.tempOrder) {
-                $scope.$broadcast("event:tempOrderUpdated", $scope.tempOrder);
-            }
         }
     }
 
