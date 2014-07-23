@@ -14,12 +14,12 @@
                             <span class="hidden-xs">{{'Home' | rc}}</span>
                         </a>
                     </li>
-                    <li ng-class="{'active': isActive(['admin', 'addresses', 'address', 'messages', 'message'])}">
+                    <!--<li ng-class="{'active': isActive(['admin', 'addresses', 'address', 'messages', 'message'])}">
                         <a id="451qa_acct_link" href="admin" class="hidden-md hidden-lg">
                             <i class="fa fa-cog"></i>
                             <span class="hidden-xs">{{'Account' | r}}</span>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="dropdown admin-user visible-md visible-lg" ng-class="{'active': isActive(['admin', 'addresses', 'address', 'messages', 'message'])}">
                         <a id="451qa_acct_link2" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-cog"></i>
@@ -27,24 +27,29 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li id="451qa_user_link" ng-show="user.Permissions.contains('ViewSelfAdmin')" class="admin">
+                            <!--<li id="451qa_user_link" ng-show="user.Permissions.contains('ViewSelfAdmin')" class="admin">
                                 <a href="admin">
-                                    {{'User Information' | r}}
+                                    <i class="fa fa-user"></i> {{'User Information' | r}}
+                                </a>
+                            </li>-->
+                            <li id="451qa_myaccount_link" class="admin hidden-xs hidden-sm">
+                                <a href="myaccount">
+                                    <i class="fa fa-user"></i> {{'My Account' | r}}
                                 </a>
                             </li>
-                            <li id="451qa_addy_link" ng-show="user.Permissions.contains('CreateShipToAddress') || user.Permissions.contains('CreateBillToAddress')" class="addresses">
+                            <!--<li id="451qa_addy_link" ng-show="user.Permissions.contains('CreateShipToAddress') || user.Permissions.contains('CreateBillToAddress')" class="addresses">
                                 <a href="addresses">
-                                    {{'Addresses' | r}}
+                                    <i class="fa fa-map-marker"></i> {{'Addresses' | r}}
                                 </a>
-                            </li>
-                            <li id="451qa_mesg_link" ng-show="user.Permissions.contains('ViewMessaging')" class="messages">
+                            </li>-->
+                            <!--<li id="451qa_mesg_link" ng-show="user.Permissions.contains('ViewMessaging')" class="messages">
                                 <a href="message">
                                     {{'Messages' | r}}
                                 </a>
-                            </li>
+                            </li>-->
                             <li id="451qa_faq_link" class="faq">
                                 <a href="#/faq">
-                                    <i class="fa fa-question"></i> FAQs
+                                    <i class="fa fa-question"></i> {{'FAQs' | r}}
                                 </a>
                             </li>
                             <li class="divider"></li>
