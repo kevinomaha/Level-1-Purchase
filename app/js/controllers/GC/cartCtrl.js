@@ -24,6 +24,18 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			$scope.tempOrder.LineItems[i].ShipperID = $scope.digitalShipper.ID;
 		}
 	}
+    for (var g = 0; g < $scope.tempOrder.lineItemGroups.length; g++) {
+        for (var l = 0; l < $scope.tempOrder.lineItemGroups[g].LineItems.length; l++) {
+            if ($scope.tempOrder.lineItemGroups[g].LineItems[l].Product.ExternalID.indexOf('SCD') > -1) {
+                $scope.tempOrder.lineItemGroups[g].LineItems[l].Shipper = $scope.digitalShipper;
+                $scope.tempOrder.lineItemGroups[g].LineItems[l].ShipperName = $scope.digitalShipper.Name;
+                $scope.tempOrder.lineItemGroups[g].LineItems[l].ShipMethod = $scope.digitalShipper.Name;
+                $scope.tempOrder.lineItemGroups[g].LineItems[l].ShipperID = $scope.digitalShipper.ID;
+
+                $scope.tempOrder.lineItemGroups[g].ShipMethod = $scope.digitalShipper.Name;
+            }
+        }
+    }
 
 	if ($scope.tempOrder.LineItems.length > 0) {
 		LineItems.group($scope.tempOrder);
@@ -319,9 +331,11 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.tempOrder.ShippingTotal = 0;
         $scope.tempOrder.Total = +($scope.tempOrder.SubTotal);
         angular.forEach($scope.tempOrder.lineItemGroups, function(group) {
-            var shipRate = +(group.ShipMethod.split('$')[1]);
-            $scope.tempOrder.ShippingTotal += shipRate;
-            $scope.tempOrder.Total += shipRate;
+            if (group.ShipMethod.indexOf('$') > -1) {
+                var shipRate = +(group.ShipMethod.split('$')[1]);
+                $scope.tempOrder.ShippingTotal += shipRate;
+                $scope.tempOrder.Total += shipRate;
+            }
         });
     }
 
