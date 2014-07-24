@@ -260,10 +260,21 @@
     </div>
     </form>
     <div class="merchant-cards">
-        <div ng-repeat="item in tempOrder.merchantCardLineItems" class="cart-view-line-items-repeater" ng-init="toggleMobileRemove = false" hm-swipe-left="toggleMobileRemove = true" hm-swipe-right="toggleMobileRemove = false">
-            <div class="container">
-                <quantityfield lineitem="item" class="quantity"/><h4><b class="text-info">{{item.Product.Name | gcproductnames}}</b> Gift Card{{item.Quantity > 1 ? 's' : ''}}<span class="pull-right text-success">{{item.LineTotal | currency}}</span></h4>
-                <i style="cursor:pointer; margin-right:-15px; padding-right:15px;" class="text-danger fa fa-2x fa-times pull-right" ng-click="removeItem(item)" data-placement="right" data-title="REMOVE CARD" bs-tooltip></i>
+        <div ng-repeat="item in tempOrder.merchantCardLineItems" class="cart-view-line-items-repeater">
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="view-form-icon">
+                        <div style="margin-top:0;">
+                            <quantityfield lineitem="item" class="quantity"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-9">
+                    <h4><b class="text-info">{{item.Product.Name | gcproductnames}}{{item.Quantity > 1 ? 's' : ''}}</b><span class="pull-right text-success">{{item.LineTotal | currency}}</span></h4>
+                </div>
+                <div class="col-xs-1">
+                    <i style="cursor:pointer; margin-right:-15px; padding-right:15px;" class="text-danger fa fa-2x fa-times pull-right" ng-click="removeItem(item)"></i>
+                </div>
             </div>
         </div>
         <div ng-show="tempOrder.merchantCardLineItems.length > 0 && !tempOrder.merchangtCardsAllDigital" class="bg-dark row" style="border-right:1px solid #ddd; border-left:1px solid #ddd;">

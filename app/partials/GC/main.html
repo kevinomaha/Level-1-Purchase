@@ -2,7 +2,7 @@
 
     <div class="steps" ng-init="step = 1">
         <div ng-class="{'crushstep':step == 2 || step == 3}">
-            <h4 class="text-info pull-right" ng-show="step == 1 && selectedProduct.Name" ng-click="step = 2">List Creation <i class="fa fa-arrow-circle-right"></i></h4>
+            <h4 class="text-info pull-right" ng-show="step == 1 && selectedProduct.Name && selectedProductType != 'MerchantCards'" ng-click="step = 2">List Creation <i class="fa fa-arrow-circle-right"></i></h4>
             <h2 ng-class="{'fade-out-left':step == 2 || step == 3}">Product Selection (step 1 of 3)</h2>
         </div>
         <div ng-class="{'crushstep':step == 1 || step == 3}">

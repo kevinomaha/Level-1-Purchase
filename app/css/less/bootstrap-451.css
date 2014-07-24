@@ -6063,7 +6063,7 @@ button {
   min-height: 40px;
 }
 select {
-  -webkit-appearance: menulist;
+  -webkit-appearance: listbox;
 }
 option {
   color: #333333;
@@ -7932,4 +7932,16 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   border-radius: 4px;
   margin: 0;
   padding: 10px;
+}
+.cart-view-line-items-repeater {
+  background-color: #FFF;
+  margin: 0 -5px 5px;
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+.cart-view-line-items-repeater:last-of-type {
+  margin-bottom: 0;
+}
+.cart-view-line-items-repeater .fa-times {
+  padding-top: 5px;
 }
