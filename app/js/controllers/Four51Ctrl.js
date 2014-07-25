@@ -99,7 +99,6 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                 }
             });
             AddressList.query(function(list) {
-                LogoOptions.getlogos($scope.user.Username);
                 $scope.addresses = list;
                 var shipAddress = {};
                 angular.forEach($scope.addresses, function(a) {

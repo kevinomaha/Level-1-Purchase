@@ -320,7 +320,6 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
     };
 
 	$scope.backToCustomization = function() {
-        LogoOptions.getlogos($scope.user.Username);
         $location.path('main');
 	}
 

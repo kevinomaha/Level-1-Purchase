@@ -1,6 +1,6 @@
 four51.app.factory('LogoOptions', function() {
     var logooptions = [];
-    function _getlogos(username) {
+    function _getlogos(username,prodtype,success) {
         if(window.location.href.indexOf("-stage") > -1 || window.location.href.indexOf("test.four51.com") > -1) {
             var webServiceURL = 'https://cte1.giftcertificates.com/webservice/wsorder.asmx';
             var webServicePassword = 'V1c3Pr3z1';
@@ -9,6 +9,7 @@ four51.app.factory('LogoOptions', function() {
             var webServiceURL = 'https://business1.giftcertificates.com/webservice/wsorder.asmx'
             var webServicePassword = 'Cmdr1nCh1ef1';
         }
+        logooptions = [];
         var yqlQuery = encodeURIComponent(
             "use \"https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/general_theme/scripts/htmlpost_table.xml\" as htmlpost;\
             select * from htmlpost where\
@@ -27,7 +28,7 @@ four51.app.factory('LogoOptions', function() {
                </soap12:Header>\
                <soap12:Body>\
                   <RetrieveLogos xmlns='http://www.giftcertificates.com/WebService/'>\
-                     <fileType>DigitalLogo</fileType>\
+                     <fileType>" + prodtype +"</fileType>\
                      <four51UserName>" + username + "</four51UserName>\
                   </RetrieveLogos>\
                </soap12:Body>\
@@ -38,7 +39,6 @@ four51.app.factory('LogoOptions', function() {
         var searchResult = "";
         var searchResultText = "";
         var searchResults = new Object();
-        var showlogooptions = false;
 
         $.getJSON("https://query.yahooapis.com/v1/public/yql?q=" + yqlQuery + "&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=?")
             .success(function (data) {
@@ -57,9 +57,8 @@ four51.app.factory('LogoOptions', function() {
                 store.set("451Cache.LogoList",[]);
                 store.set("451Cache.LogoList",logooptions);
 
-                if (logooptions.length > 0) {
-                    showlogooptions = true;
-                };
+                success(true);
+
             });
     }
 

@@ -747,12 +747,41 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		store.set("451Cache.RecipientList",[]);
 		store.set("451Cache.RecipientList",$scope.recipientList);
 	}
+    $scope.selectedLogoSRC = "";
+    $scope.logoCheckingIndicator = false;
 
     $scope.checkForLogos = function(){
-        if(store.get("451Cache.LogoList").length > 0){
-            $scope.logoOptions = store.get("451Cache.LogoList") ? store.get("451Cache.LogoList") : [];
-            $scope.showLogoSelection = true;
+        $scope.showLogoSelection = false;
+        $scope.selectedLogoSRC = "https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/Previews/placeholder.jpg";
+        $scope.logoCheckingIndicator = true;
+
+        switch ($scope.digitalProduct) {
+            case true:
+                LogoOptions.getlogos($scope.user.Username,"DigitalLogo", function(result) {
+                    $scope.$apply(function() {
+                        if(result == true){
+                            if(store.get("451Cache.LogoList").length > 0){
+                                $scope.logoOptions = store.get("451Cache.LogoList") ? store.get("451Cache.LogoList") : [];
+                                $scope.showLogoSelection = true;
+                            }
+                        }
+                    });
+                });
+                break;
+            case false:
+                LogoOptions.getlogos($scope.user.Username,"PhysicalLogo", function(result) {
+                    $scope.$apply(function() {
+                        if(result == true){
+                            if(store.get("451Cache.LogoList").length > 0){
+                                $scope.logoOptions = store.get("451Cache.LogoList") ? store.get("451Cache.LogoList") : [];
+                                $scope.showLogoSelection = true;
+                            }
+                        }
+                    });
+                });
+                break;
         }
+        $scope.logoCheckingIndicator = false;
     }
 
     $scope.showLogoSelection = false;
@@ -840,7 +869,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	$scope.selectedProduct.loadingMerchantProducts = false;
 
     $scope.designPreviewSRC = "";
-    $scope.selectedLogoSRC = "";
 
     $scope.showPreview = function(type, design){
         var digPath = 'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/Previews/';

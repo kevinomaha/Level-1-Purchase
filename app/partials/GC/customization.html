@@ -147,6 +147,7 @@
                                     </div>
                                 </div>
                                 <div ng-hide="showLogoSelection" class="alert alert-info" style="padding:5px; margin-top:10px;">
+                                    <loadingindicator ng-hide="logoCheckingIndicator" title="Checking For Logos..."/>
                                     <p><i class="fa fa-info-circle pull-left fa-2x" style="margin:5px 5px 0 0;"></i><small>There are currently no logos saved to your account. To add a logo for a future order, please email your logo to LogoSupport@giftcertificates.com.</small></p>
                                 </div>
                             </div>
@@ -161,7 +162,7 @@
                                     <img ng-src="{{designPreviewSRC}}" style="margin:0 auto;">
                                 </figure>
                                 <figure style="max-height:400px;">
-                                    <img ng-src="{{selectedLogoSRC}}" style="margin:0 auto;">
+                                    <img ng-src="{{selectedLogoSRC}}" style="margin:0 auto;width: 144px;">
                                 </figure>
                             </div>
                         </div>
