@@ -54,6 +54,9 @@ four51.app.factory('LogoOptions', function() {
                     logooptions.push({"name":$(this).find("LogoName").text(),"path":$(this).find("FilePath").text(),"fileID":$(this).find("FileID").text()});
                 });
 
+                store.set("451Cache.LogoList",[]);
+                store.set("451Cache.LogoList",logooptions);
+
                 if (logooptions.length > 0) {
                     showlogooptions = true;
                 };

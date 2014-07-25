@@ -748,7 +748,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		store.set("451Cache.RecipientList",$scope.recipientList);
 	}
 
-    $scope.logoOptions = LogoOptions.logooptions;
+    $scope.checkForLogos = function(){
+        if(store.get("451Cache.LogoList").length > 0){
+            $scope.logoOptions = store.get("451Cache.LogoList") ? store.get("451Cache.LogoList") : [];
+            $scope.showLogoSelection = true;
+        }
+    }
+
     $scope.showLogoSelection = false;
     $scope.selectedLogoPath = "";
     $scope.digitalOM = Resources.digitalOM;
@@ -758,17 +764,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
     $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;
 
     $scope.stepToCustomization = function(){
-        if($scope.logoOptions.length > 0){
-            $scope.showLogoSelection = true;
-        }
+        $scope.checkForLogos();
         $scope.selectAllRecipientsToggle();
         $scope.step = 3;
     }
 
     $scope.stepToAnonCustomization = function(){
-        if($scope.logoOptions.length > 0){
-            $scope.showLogoSelection = true;
-        }
+        $scope.checkForLogos();
         $scope.selectAllRecipientsToggle();
         $scope.anonymousAwards = "true";
         $scope.step = 3;
@@ -838,6 +840,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	$scope.selectedProduct.loadingMerchantProducts = false;
 
     $scope.designPreviewSRC = "";
+    $scope.selectedLogoSRC = "";
 
     $scope.showPreview = function(type, design){
         var digPath = 'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/Previews/';
@@ -853,6 +856,20 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 break;
             case "giftcard":
                 $scope.designPreviewSRC = giftcardPath + $scope.giftcardDesignPreview[design];
+                break;
+        }
+    };
+
+    $scope.showLogo = function(){
+        var digPath = 'http://images.giftcertificates.com/content/business/MyFiles/email/';
+        var physPath = 'http://images.giftcertificates.com/content/business/MyFiles/physical/';
+
+        switch ($scope.digitalProduct) {
+            case true:
+                $scope.selectedLogoSRC = digPath + $scope.selectedProduct.selectedLogo.path;
+                break;
+            case false:
+                $scope.selectedLogoSRC = physPath + $scope.selectedProduct.selectedLogo.path;
                 break;
         }
     };

@@ -139,6 +139,7 @@
                                         <label>Logo Selection</label>
                                         <select class="form-control"
                                                 ng-model="selectedProduct.selectedLogo"
+                                                ng-change = "showLogo()"
                                                 ng-options="logo as logo.name for logo in logoOptions">
                                             <option class="view-select-placeholder" selected="" value="">Select a logo</option>
                                         </select>
@@ -159,7 +160,9 @@
                                 <figure style="max-height:400px;">
                                     <img ng-src="{{designPreviewSRC}}" style="margin:0 auto;">
                                 </figure>
-
+                                <figure style="max-height:400px;">
+                                    <img ng-src="{{selectedLogoSRC}}" style="margin:0 auto;">
+                                </figure>
                             </div>
                         </div>
                     </div>
