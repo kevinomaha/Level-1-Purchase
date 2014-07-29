@@ -1073,6 +1073,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             "LastName1":{
                                 "Value":$scope.recipientGroup[recip].LastName
                             },
+                            "EnvelopeLineTwo1":{
+                                "Value":$scope.recipientGroup[recip].EnvelopeLineTwo
+                            },
                             "R1CL1":{
                                 "Value":$scope.recipientGroup[recip].RecipientID
                             },
@@ -1253,6 +1256,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
                             "LastName1":{
                                 "Value":$scope.recipientGroup[recip].LastName
+                            },
+                            "EnvelopeLineTwo1":{
+                                "Value":$scope.recipientGroup[recip].EnvelopeLineTwo
                             },
                             "Email1":{
                                 "Value":$scope.recipientGroup[recip].Email

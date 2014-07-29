@@ -422,7 +422,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 				$scope.tempOrder.LineItems[i].ShipAddressID = $scope.tempOrder.MerchantCardShipAddressID;
 			}
             if ($scope.tempOrder.LineItems[i].UniqueID.indexOf('anonymous') == 0) {
-                $scope.tempOrder.LineItems[i].ShipAddressID = address;
+                $scope.tempOrder.LineItems[i].ShipAddressID = $scope.tempOrder.AnonymousShipAddressID;
             }
 		}
 		for (var li = 0; li < $scope.tempOrder.merchantCardLineItems.length; li++) {
