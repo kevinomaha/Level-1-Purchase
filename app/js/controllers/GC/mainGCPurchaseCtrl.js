@@ -676,6 +676,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	$scope.recipientGroup = store.get("451Cache.RecipientGroup") ? store.get("451Cache.RecipientGroup") : [];
 
     $scope.denominationRequired = false;
+    $scope.anonymousAwardsChecked = 'false';
 
     $scope.analyzeRecipientGroup = function(anon) {
         $scope.denominationRequired = false;
@@ -692,9 +693,25 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             $scope.emailSubjectRequired = $scope.digitalProduct;
             $scope.deliveryDateRequired = $scope.digitalProduct;
         }
+
+        else if ($scope.anonymousAwardsChecked == 'true') {
+            $scope.denominationRequired = true;
+            $scope.emailSubjectRequired = $scope.digitalProduct;
+            $scope.deliveryDateRequired = $scope.digitalProduct;
+        }
     }
 
     $scope.analyzeRecipientGroup();
+
+    $scope.anonymousChecker = function(anon){
+        if(anon == 'true'){
+            $scope.anonymousAwardsChecked = 'true';
+        }
+        else{
+            $scope.anonymousAwardsChecked = 'false';
+        }
+        $scope.analyzeRecipientGroup();
+    }
 
 	$scope.selectRecipient = function(recipient) {
 		if (recipient.Selected) {
@@ -802,7 +819,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
     $scope.stepToAnonCustomization = function(){
         $scope.checkForLogos();
         $scope.selectAllRecipientsToggle();
-        $scope.anonymousAwards = "true";
+        $scope.anonymousAwards = 'true';
+        $scope.analyzeRecipientGroup($scope.anonymousAwards);
         $scope.step = 3;
     }
 
