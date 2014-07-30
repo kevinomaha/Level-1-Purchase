@@ -514,4 +514,11 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		$scope.shipaddressform = false;
         $scope.tempOrder.anonymousShipAddressForm = false;
 	});
+
+    $("img[src*='web.four51']").each(function(){
+        var curSource = $(this).attr('src');
+        var newSource = curSource.replace('web.four51', '.four51');
+        $(this).attr('src', newSource);
+    });
+
 }]);
