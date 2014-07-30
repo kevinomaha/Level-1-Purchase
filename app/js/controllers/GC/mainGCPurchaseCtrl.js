@@ -685,7 +685,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         for (var r = 0; r < $scope.recipientGroup.length; r++) {
             $scope.denominationRequired = $scope.recipientGroup[r].Denomination ? $scope.denominationRequired : true;
             $scope.emailSubjectRequired = ($scope.digitalProduct && !$scope.recipientGroup[r].EmailSubject) ? true : $scope.emailSubjectRequired;
-            $scope.deliveryDateRequired = ($scope.digitalProduct && !$scope.recipientGroup[r].DeliveryDate) ? true : $scope.deliveryDateRequired;
+            //$scope.deliveryDateRequired = ($scope.digitalProduct && !$scope.recipientGroup[r].DeliveryDate) ? true : $scope.deliveryDateRequired;
         }
 
         if (anon == 'true') {
