@@ -9,7 +9,7 @@
     </div>
     <div ng-hide="addType != 'manual'">
         <div class="panel-body new-recipient-well">
-            <div ng-hide="digitalProduct" class="btn btn-primary pull-right hidden-sm hidden-xs" ng-click="changeAddType('import')">Import List</div>
+            <div class="btn btn-primary pull-right hidden-sm hidden-xs" ng-click="changeAddType('import')">Import List</div>
             <div ng-show="(recipientList.length != 0) && !editingRecipient" class="btn btn-primary pull-right hidden-lg hidden-md" ng-click="showMaker = false">View My List</div>
             <h3>{{editingRecipient ? 'Edit' : 'New'}} Recipient</h3>
             <div class="row">
