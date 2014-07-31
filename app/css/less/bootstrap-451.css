@@ -7678,6 +7678,9 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
 }
+.merchant-list .merchant-list-item.ng-leave-active {
+  display: none;
+}
 .merchant-list .merchant-list-item.selected {
   background-color: #8cc63e;
   border: 1px solid #638e2a;
