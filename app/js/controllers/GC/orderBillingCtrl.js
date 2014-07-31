@@ -4,7 +4,7 @@ function ($scope, $location, $451, SpendingAccount, Address) {
 		$scope.SpendingAccounts = data;
 		budgetAccountCalculation($scope.tempOrder.BudgetAccountID);
 
-		if ($scope.SpendingAccounts && $scope.SpendingAccounts[0].Balance <= 0 || $scope.SpendingAccounts.length == 0) {
+		if ($scope.SpendingAccounts && $scope.SpendingAccounts.length == 0 || ($scope.SpendingAccounts[0] && $scope.SpendingAccounts[0] <= 0)) {
 			$scope.tempOrder.PaymentMethod = 'CreditCard';
 			store.set("451Cache.TempOrder",{});
 			store.set("451Cache.TempOrder",$scope.tempOrder);

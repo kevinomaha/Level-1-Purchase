@@ -1348,7 +1348,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                         }
                         else if (customMessageOption.indexOf('Custom Message') > -1) {
                             openingText = "";
-                            customMessageText = $scope.recipientGroup[recip].OpeningMessage != "" ? $scope.recipientGroup[recip].OpeningMessage : $scope.selectedProduct.CustomOpeningMessage;
+                            customMessageText = $scope.selectedProduct.CustomOpeningMessage;
                         }
                         else {
                             openingText = "";
@@ -1435,7 +1435,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                         }
                         else if (customMessageOption.indexOf('Custom Message') > -1) {
                             openingText = "";
-                            customMessageText = $scope.recipientGroup[recip].OpeningMessage != "" ? $scope.recipientGroup[recip].OpeningMessage : $scope.selectedProduct.CustomOpeningMessage;
+                            customMessageText = $scope.selectedProduct.CustomOpeningMessage;
                         }
                         else {
                             openingText = "";
@@ -1530,7 +1530,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     }
                     else if (customMessageOption.indexOf('Custom Message') > -1) {
                         openingText = "";
-                        customMessageText = $scope.recipientGroup[recip].OpeningMessage != "" ? $scope.recipientGroup[recip].OpeningMessage : $scope.selectedProduct.CustomOpeningMessage;
+                        customMessageText = $scope.selectedProduct.CustomOpeningMessage;
                     }
                     else {
                         openingText = "";
