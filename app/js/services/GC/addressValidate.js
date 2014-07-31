@@ -81,8 +81,8 @@ four51.app.factory('AddressValidate', function() {
                 var responseXML = $.parseXML(data.results[0]);
                 var $response = $(responseXML);
 
-                addressValidateResultCode = $response.find("ResultCode").text();
-                addressValidateExactMatch = $response.find("IsExactMatch").text();
+                var addressValidateResultCode = $response.find("ResultCode").text();
+                var addressValidateExactMatch = $response.find("IsExactMatch").text();
 
                 handlers[addressValidateResultCode || "Empty"](address,$response,addressValidateExactMatch);
             })
