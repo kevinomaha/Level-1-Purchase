@@ -29,22 +29,6 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 			$scope.variantLineItemsOrderTotal += item.LineTotal || 0;
 		})
 	};
-	function setDefaultQty(lineitem) {
-		$scope.LineItem.Quantity = (lineitem.Product.StandardPriceSchedule && lineitem.Product.StandardPriceSchedule.DefaultQuantity > 0) ? lineitem.Product.StandardPriceSchedule.DefaultQuantity : null;
-	}
-	function init() {
-		ProductDisplayService.getProductAndVariant($routeParams.productInteropID, $routeParams.variantInteropID, function (data) {
-			$scope.LineItem.Product = data.product;
-			$scope.LineItem.Variant = data.variant;
-			setDefaultQty($scope.LineItem);
-			ProductDisplayService.setNewLineItemScope($scope);
-			ProductDisplayService.setProductViewScope($scope);
-			$scope.$broadcast('ProductGetComplete');
-			$scope.loadingIndicator = false;
-			$scope.setAddToOrderErrors();
-		});
-	}
-	init();
 
 	$scope.deleteVariant = function(v, redirect) {
 		if (!v.IsMpowerVariant) return;
