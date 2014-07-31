@@ -515,12 +515,4 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.tempOrder.anonymousShipAddressForm = false;
 	});
 
-    $("div[ng-init*='showPreview']").click(function(){
-        $("img[src*='web.four51']").each(function(){
-            var curSource = $(this).attr('src');
-            var newSource = curSource.replace('web.four51', '.four51');
-            $(this).attr('src', newSource);
-        });
-    });
-
 }]);
