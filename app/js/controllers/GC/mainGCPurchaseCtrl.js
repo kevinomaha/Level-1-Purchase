@@ -1690,11 +1690,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 }
 
                 if ($scope.digitalProduct) {
-                    var date = (variantData.Specs['R1CL4'] && variantData.Specs['R1CL4'].Value) ? new Date(variantData.Specs['R1CL4'].Value) : new Date($scope.selectedProduct.DeliveryDate);
-                    var month = date.getMonth() + 1;
-                    var day = date.getDate();
-                    var year = date.getFullYear();
-                    var futureShipDate = month + "/" + day + "/" + year;
+                    var date = (variantData.Specs['R1CL4'] && variantData.Specs['R1CL4'].Value) ? new Date(variantData.Specs['R1CL4'].Value) : ($scope.selectedProduct.DeliveryDate ? new Date($scope.selectedProduct.DeliveryDate) : null);
+                    if (date) {
+                        var month = date.getMonth() + 1;
+                        var day = date.getDate();
+                        var year = date.getFullYear();
+                    }
+                    var futureShipDate = date ? month + "/" + day + "/" + year : "";
                     var emailSubject = data.Specs['R1CL3'].Value != "" ? data.Specs['R1CL3'].Value : $scope.selectedProduct.EmailSubject;
                     var li = {
                         "LineTotal":lineTotal,
