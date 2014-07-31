@@ -6,6 +6,7 @@ function ($scope, $rootScope, $location, User, Address, Resources) {
         Address.save(this.address,
 	        function(address) {
                 $rootScope.$broadcast('event:AddressSaved', address);
+                $scope.displayLoadingIndicator = false;
                 $location.path($scope.return);
             },
 	        function(ex) {

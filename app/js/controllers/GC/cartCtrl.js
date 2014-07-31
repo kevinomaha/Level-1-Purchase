@@ -421,7 +421,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			if (!$scope.tempOrder.LineItems[i].ShipAddressID && $scope.tempOrder.LineItems[i].MerchantCardUniqueID) {
 				$scope.tempOrder.LineItems[i].ShipAddressID = $scope.tempOrder.MerchantCardShipAddressID;
 			}
-            if ($scope.tempOrder.LineItems[i].UniqueID.indexOf('anonymous') == 0) {
+            if ($scope.tempOrder.LineItems[i].UniqueID && $scope.tempOrder.LineItems[i].UniqueID.indexOf('anonymous') == 0) {
                 $scope.tempOrder.LineItems[i].ShipAddressID = $scope.tempOrder.AnonymousShipAddressID;
             }
 		}

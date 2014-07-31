@@ -278,9 +278,9 @@ four51.app.filter('gcbuyercompanyurl', function() {
 
 four51.app.filter('billingAddresses', function() {
     return function(addresses,order) {
-        var results = [];
-        if (order.PaymentMethod) {
-            if (order.PaymentMethod == 'BudgetAccount') {
+        if (addresses) {
+            var results = [];
+            if (order.PaymentMethod && order.PaymentMethod == 'BudgetAccount') {
                 angular.forEach(addresses, function(a) {
                     if (a.AddressName == 'Main Billing Address') {
                         results.push(a);
@@ -294,9 +294,12 @@ four51.app.filter('billingAddresses', function() {
                     }
                 });
             }
-        }
 
-        return results;
+            return results;
+        }
+        else {
+            return [];
+        }
     }
 });
 
