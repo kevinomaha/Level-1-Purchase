@@ -821,6 +821,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         $scope.selectAllRecipientsToggle();
         $scope.anonymousAwards = 'true';
         $scope.analyzeRecipientGroup($scope.anonymousAwards);
+        $scope.selectedProduct.anonymousQty = "";
         $scope.step = 3;
     }
 

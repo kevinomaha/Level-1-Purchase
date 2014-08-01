@@ -125,6 +125,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			for (var r = 0; r < recipientList.length; r++) {
 				recipientList[r].AwardCount = 0;
 			}
+            localStorage.clear();
 			store.set("451Cache.RecipientList",recipientList);
 			$location.path('main');
 		}
