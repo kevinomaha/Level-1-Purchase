@@ -706,6 +706,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
     $scope.anonymousChecker = function(anon){
         if(anon == 'true'){
             $scope.anonymousAwardsChecked = 'true';
+            $scope.selectedProduct.anonymousQty = "";
         }
         else{
             $scope.anonymousAwardsChecked = 'false';
