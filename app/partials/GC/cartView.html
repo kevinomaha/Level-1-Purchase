@@ -292,7 +292,10 @@
                     </div>
                 </div>
                 <div class="col-xs-9">
-                    <h4><b class="text-info">{{item.Product.Name | gcproductnames}}{{item.Quantity > 1 ? 's' : ''}}</b><span class="pull-right text-success">{{item.LineTotal | currency}}</span></h4>
+                    <h4><b class="text-info">{{item.Product.Name | gcproductnames}}{{item.Quantity > 1 ? 's' : ''}}</b>
+                        <span class="pull-right text-success">{{item.LineTotal | currency}}</span>
+                    </h4>
+                    <span class="pull-right text-success" ng-show="item.Markup"><span ng-show="item.Quantity > 1">(</span>{{item.Denomination | currency}} + {{item.Markup | currency}}<span ng-show="item.Quantity > 1">) x {{item.Quantity}}</span></span>
                 </div>
                 <div class="col-xs-1">
                     <i style="cursor:pointer; margin-right:-15px; padding-right:15px;" class="text-danger fa fa-2x fa-times pull-right" ng-click="removeItem(item)"></i>
