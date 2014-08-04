@@ -1,5 +1,5 @@
-four51.app.controller('AddressInputCtrl', ['$scope', '$rootScope', '$location', 'User', 'Address', 'Resources',
-function ($scope, $rootScope, $location, User, Address, Resources) {
+four51.app.controller('AddressInputCtrl', ['$scope', '$rootScope', '$location', 'User', 'Address', 'Resources', 'AddressValidate',
+function ($scope, $rootScope, $location, User, Address, Resources, AddressValidate) {
     $scope.save = function() {
 	    $scope.objectExists = false;
         this.address.AddressName = this.address.Street1;
