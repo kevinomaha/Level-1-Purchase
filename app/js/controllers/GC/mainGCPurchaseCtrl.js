@@ -52,7 +52,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	}
 
 	var _extendProduct = function(product) {
-		$scope.selectedProduct = product;
+		$scope.selectedProduct = angular.copy(product);
 		$scope.digitalProduct = product.StandardID.indexOf("SCD") > -1 ? true : false;
 		$scope.selectedProductDetails = {};
 		$scope.selectedProduct.occasionMessage = null;
@@ -1660,9 +1660,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 			store.set("451Cache.RecipientGroup",$scope.recipientGroup);
 			store.set("451Cache.RecipientList",[]);
 			store.set("451Cache.RecipientList",$scope.recipientList);
+            $scope.selectedProduct.buildingProductsIndicator = false;
             $scope.selectedProduct = {};
             store.set("451Cache.SelectedProduct", $scope.selectedProduct);
-			$scope.selectedProduct.buildingProductsIndicator = false;
 			$location.path('cart');
 		}
 

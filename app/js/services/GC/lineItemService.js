@@ -37,7 +37,7 @@ function($resource, $451, Address) {
                     if (!i.Variant.Specs['FirstName1'] && !i.Variant.Specs['LastName1'] && !i.Variant.Specs['Email1']) {
                         i.Anonymous = true;
                         i.UniqueID = 'anonymous' + i.UniqueID;
-                        addressID = 'anonymous' + i.UniqueID;
+                        addressID = i.UniqueID;
                     }
                     else {
                         i.Anonymous = false;
@@ -86,13 +86,15 @@ function($resource, $451, Address) {
 		});
 
 		for (var i = 0; i < addressList.length; i++) {
-			Address.get(addressList[i], function(add) {
-				for (var g = 0; g < order.lineItemGroups.length; g++) {
-					if (order.lineItemGroups[g].ID == add.ID) {
-						order.lineItemGroups[g].Address = add;
-					}
-				}
-			});
+            if (addressList[i].indexOf('anonymous') == -1) {
+                Address.get(addressList[i], function(add) {
+                    for (var g = 0; g < order.lineItemGroups.length; g++) {
+                        if (order.lineItemGroups[g].ID == add.ID) {
+                            order.lineItemGroups[g].Address = add;
+                        }
+                    }
+                });
+            }
 		}
 
 		store.set("451Cache.TempOrder",{});
