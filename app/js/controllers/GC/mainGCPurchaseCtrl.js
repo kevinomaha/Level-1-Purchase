@@ -2,6 +2,9 @@ four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope
 function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems) {
 
 	$scope.productList = Resources.products;
+    var today = new Date();
+    $scope.currentDate = angular.copy(today);
+    $scope.maxDate = today.setDate(today.getDate()+120);
 
 	$scope.selectProduct = function(product) {
 		$rootScope.$broadcast('event:ProductSelected', product);
