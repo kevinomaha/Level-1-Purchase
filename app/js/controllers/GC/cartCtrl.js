@@ -402,6 +402,8 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	});
 
 	$scope.setShipAddress = function(address) {
+        $scope.tempOrder.AnonymousShipAddressID = address ? address.ID : $scope.tempOrder.AnonymousShipAddressID;
+        $scope.tempOrder.MerchantCardShipAddressID = address ? address.ID : $scope.tempOrder.MerchantCardShipAddressID;
 		for (var i = 0; i < $scope.tempOrder.LineItems.length; i++) {
 			if (!$scope.tempOrder.LineItems[i].ShipAddressID && $scope.tempOrder.LineItems[i].MerchantCardUniqueID) {
 				$scope.tempOrder.LineItems[i].ShipAddressID = $scope.tempOrder.MerchantCardShipAddressID;
@@ -476,6 +478,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	$scope.billaddress = { Country: 'US', IsShipping: false, IsBilling: true };
 
 	$scope.$on('event:AddressSaved', function(event, address) {
+        $scope.addresses.push(address);
 		if (address.IsShipping) {
 			$scope.tempOrder.MerchantCardShipAddressID = address.ID;
             $scope.tempOrder.AnonymousAwardShippAddressID = address.ID;
@@ -487,9 +490,9 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			$scope.tempOrder.BillAddressID = address.ID;
 			$scope.billaddressform = false;
 		}
-		AddressList.query(function(list) {
+		/*AddressList.query(function(list) {
 			$scope.addresses = list;
-		});
+		});*/
 		$scope.shipaddress = { Country: 'US', IsShipping: true, IsBilling: false };
 		$scope.billaddress = { Country: 'US', IsShipping: false, IsBilling: true };
 	});
