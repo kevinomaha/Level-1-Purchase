@@ -256,26 +256,10 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		$scope.actionMessage = 'Your Changes Have Been Saved!';
 	}
 
-    /*$scope.checkOut = function() {
-	    $scope.displayLoadingIndicator = true;
-        Order.save($scope.currentOrder, function(data) {
-            $scope.currentOrder = data;
-            $location.path('checkout');
-            $scope.displayLoadingIndicator = false;
-        });
-    };*/
-
 	function submitOrder() {
 		$scope.orderSubmitLoadingIndicator = true;
-		var orderSubmit = {
-			BillAddressID: $scope.tempOrder.BillAddressID,
-		    CreditCard: $scope.tempOrder.CreditCard,
-			ExternalID: "auto",
-			LineItems: $scope.tempOrder.LineItems,
-			PaymentMethod: $scope.tempOrder.PaymentMethod,
-			ShippingTotal: $scope.tempOrder.ShippingTotal,
-			Total: $scope.tempOrder.Total
-		};
+        var orderSubmit = angular.copy($scope.tempOrder);
+        orderSubmit.lineItemGroups = [];
 		Order.submit(orderSubmit,
 			function(data) {
 				$scope.user.CurrentOrderID = null;

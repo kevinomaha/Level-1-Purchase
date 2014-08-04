@@ -1660,6 +1660,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 			store.set("451Cache.RecipientGroup",$scope.recipientGroup);
 			store.set("451Cache.RecipientList",[]);
 			store.set("451Cache.RecipientList",$scope.recipientList);
+            $scope.selectedProduct = {};
+            store.set("451Cache.SelectedProduct", $scope.selectedProduct);
 			$scope.selectedProduct.buildingProductsIndicator = false;
 			$location.path('cart');
 		}
