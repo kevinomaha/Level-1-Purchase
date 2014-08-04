@@ -1042,10 +1042,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 			}
 
             var denominationValue = $scope.recipientGroup[recip].Denomination ? $scope.recipientGroup[recip].Denomination : $scope.selectedProduct.denomination.Value;
-            var personalMessage = $scope.recipientGroup[recip].PersonalMessage != "" ? $scope.recipientGroup[recip].PersonalMessage : $scope.selectedProduct.PersonalMessage;
-            var closingMessage = $scope.recipientGroup[recip].ClosingMessage != "" ? $scope.recipientGroup[recip].ClosingMessage : $scope.selectedProduct.ClosingMessage;
-            var emailSubject = $scope.recipientGroup[recip].EmailSubject != "" ? $scope.recipientGroup[recip].EmailSubject : $scope.selectedProduct.EmailSubject;
-            var deliveryDate = $scope.recipientGroup[recip].DeliveryDate != "" ? $scope.recipientGroup[recip].DeliveryDate : $scope.selectedProduct.DeliveryDate;
+            var personalMessage = $scope.recipientGroup[recip].PersonalMessage ? $scope.recipientGroup[recip].PersonalMessage : $scope.selectedProduct.PersonalMessage;
+            var closingMessage = $scope.recipientGroup[recip].ClosingMessage ? $scope.recipientGroup[recip].ClosingMessage : $scope.selectedProduct.ClosingMessage;
+            var emailSubject = $scope.recipientGroup[recip].EmailSubject ? $scope.recipientGroup[recip].EmailSubject : $scope.selectedProduct.EmailSubject;
+            var deliveryDate = $scope.recipientGroup[recip].DeliveryDate ? $scope.recipientGroup[recip].DeliveryDate : $scope.selectedProduct.DeliveryDate;
 
             switch ($scope.selectedProduct.StandardID) {
                 case "SCP-FD1":
@@ -1259,7 +1259,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     var variant = {
                         "ProductInteropID":$scope.selectedProduct.InteropID,
                         "Specs": {
-                            "V01Design":{
+                            "V10DesignSelection":{
                                 "Value":$scope.selectedProduct.designSelection.Value
                             },
                             "V00OccasionList":{
