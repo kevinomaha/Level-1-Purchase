@@ -25,7 +25,7 @@
                     <small class="text-info">Total</small>
                 </p>
                 <div class="text-center" ng-if="!(user.Permissions.contains('HidePricing'))" ng-show="LineItem.LineTotal || variantLineItemsOrderTotal">
-                    <h3 class="text-success">${{LineItem.PriceSchedule.PriceBreaks[0].Price * LineItem.Quantity}}{{variantLineItemsOrderTotal}}</h3>
+                    <h3 class="text-success">{{LineItem.PriceSchedule.PriceBreaks[0].Price * LineItem.Quantity | currency}}{{variantLineItemsOrderTotal}}</h3>
                 </div>
             </div>
             <button type="button" id="451_btn_orderadd" ng-disabled="addToOrderForm.$invalid" ng-click="addToOrder(LineItem)" class="btn btn-lg btn-block" ng-class="{'btn-danger': (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError), 'btn-primary': (!LineItem.qtyError && !addToOrderForm.$invalid && !addToOrderError)}">
