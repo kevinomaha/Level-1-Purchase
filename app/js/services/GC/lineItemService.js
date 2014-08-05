@@ -104,7 +104,20 @@ function($resource, $451, Address) {
 
 	}
 
+    var _clean = function(order) {
+        angular.forEach(order.LineItems, function(li) {
+            if (li.Variant && li.Variant.Specs) {
+                for (var spec in li.Variant.Specs) {
+                    if (!li.Variant.Specs[spec].Value) {
+                        delete li.Variant.Specs[spec];
+                    }
+                }
+            }
+        });
+    }
+
 	return {
-		group: _group
+		group: _group,
+        clean: _clean
 	}
 }]);

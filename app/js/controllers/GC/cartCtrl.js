@@ -95,26 +95,6 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
     };
 
 	$scope.cancelOrder = function() {
-		/*if (confirm('Are you sure you wish to cancel your order?') == true) {
-			$scope.displayLoadingIndicator = true;
-			$scope.actionMessage = null;
-			Order.delete($scope.currentOrder,
-				function(){
-					$scope.currentOrder = null;
-					$scope.user.CurrentOrderID = null;
-					User.save($scope.user, function(){
-						$location.path('catalog');
-					});
-					$scope.displayLoadingIndicator = false;
-					$scope.actionMessage = 'Your Changes Have Been Saved!';
-				},
-				function(ex) {
-					$scope.actionMessage = 'An error occurred: ' + ex.Message;
-					$scope.displayLoadingIndicator = false;
-				}
-			);
-		}*/
-
 		if (confirm('Are you sure you wish to cancel your order?') == true) {
 			$scope.actionMessage = null;
 			$scope.tempOrder = {};
@@ -132,7 +112,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	};
 
 	$scope.saveChanges = function(callback) {
-		$scope.actionMessage = null;
+		/*$scope.actionMessage = null;
 		$scope.errorMessage = null;
 		if($scope.currentOrder.LineItems.length == $451.filter($scope.currentOrder.LineItems, {Property:'Selected', Value: true}).length) {
 			$scope.cancelOrder();
@@ -152,7 +132,21 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 					$scope.displayLoadingIndicator = false;
 				}
 			);
-		}
+		}*/
+
+        store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.actionMessage = 'Your Changes Have Been Saved!';
+
+        /*var orderSave = angular.copy($scope.tempOrder);
+        orderSave.lineItemGroups = [];
+        Order.save(orderSave,
+            function(data) {
+                console.log(data);
+            },
+            function(ex) {
+                console.log(ex);
+            }
+        );*/
 	};
 
 	$scope.removeItem = function(item) {
@@ -257,43 +251,49 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	}
 
 	function submitOrder() {
-		$scope.orderSubmitLoadingIndicator = true;
-        var orderSubmit = angular.copy($scope.tempOrder);
-        orderSubmit.lineItemGroups = [];
-		Order.submit(orderSubmit,
-			function(data) {
-				$scope.user.CurrentOrderID = null;
-				/*User.save($scope.user, function(data) {
-					$scope.user = data;
-					$scope.orderSubmitLoadingIndicator = false;
-				});*/
-				$scope.tempOrder = {LineItems:[]};
-				store.set("451Cache.TempOrder",$scope.tempOrder);
-				recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
-				for (var r = 0; r < recipientList.length; r++) {
-					recipientList[r].AwardCount = 0;
-				}
-				store.set("451Cache.RecipientList",[]);
-				store.set("451Cache.RecipientList",recipientList);
-				$scope.currentOrder = null;
-				$scope.orderSubmitLoadingIndicator = false;
-				$location.path('/order/' + data.ID);
-			},
-			function(ex) {
-				if (ex.Code.is('ObjectExistsException')) { // unique id
-					ex.Message = ex.Message.replace('{0}', 'Order ID (' + $scope.currentOrder.ExternalID + ')');
-				}
-				//$scope.cart_billing.$setValidity('paymentMethod', false);
-				if (ex.Message.indexOf('Processing of the HTTP request resulted in an exception') > -1) {
-					ex.Message = "There was an error submitting your order. If paying by credit card, please verify your card information and attempt to submit the order again.";
-				}
-				$scope.actionMessage = ex.Message;
-				$scope.orderSubmitLoadingIndicator = false;
-				$scope.shippingUpdatingIndicator = false;
-				$scope.shippingFetchIndicator = false;
-				$scope.showSave = false;
-			}
-		);
+        $scope.orderSubmitLoadingIndicator = true;
+        var orderSave = angular.copy($scope.tempOrder);
+        orderSave.lineItemGroups = [];
+        var CC = orderSave.CreditCard ? orderSave.CreditCard : {};
+        Order.save(orderSave,
+            function(o) {
+                LineItems.clean(o);
+                var orderSubmit = angular.copy(o);
+                orderSubmit.CreditCard = CC;
+                Order.submit(orderSubmit, function(data) {
+                    $scope.user.CurrentOrderID = null;
+                    $scope.tempOrder = {LineItems:[]};
+                    store.set("451Cache.TempOrder",$scope.tempOrder);
+                    recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
+                    for (var r = 0; r < recipientList.length; r++) {
+                        recipientList[r].AwardCount = 0;
+                    }
+                    store.set("451Cache.RecipientList",[]);
+                    store.set("451Cache.RecipientList",recipientList);
+                    $scope.currentOrder = null;
+                    $scope.orderSubmitLoadingIndicator = false;
+                    $location.path('/order/' + data.ID);
+                },
+                function(ex) {
+                    if (ex.Code.is('ObjectExistsException')) { // unique id
+                        ex.Message = ex.Message.replace('{0}', 'Order ID (' + $scope.currentOrder.ExternalID + ')');
+                    }
+                    //$scope.cart_billing.$setValidity('paymentMethod', false);
+                    if (ex.Message.indexOf('Processing of the HTTP request resulted in an exception') > -1) {
+                        ex.Message = "There was an error submitting your order. If paying by credit card, please verify your card information and attempt to submit the order again.";
+                    }
+                    $scope.actionMessage = ex.Message;
+                    $scope.orderSubmitLoadingIndicator = false;
+                    $scope.shippingUpdatingIndicator = false;
+                    $scope.shippingFetchIndicator = false;
+                    $scope.showSave = false;
+                });
+            },
+            function(ex) {
+                $scope.errorMessage = ex.Message;
+                $scope.orderSubmitLoadingIndicator = false;
+            }
+        );
 	};
 
 	$scope.submitOrder = function() {
