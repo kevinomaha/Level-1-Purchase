@@ -6,7 +6,6 @@ function($resource, $451) {
 	}
 
 	var _validate = function(list,digitalProduct) {
-
 		if (list) {
 			for (var i = 0; i < list.length; i++) {
 				if (digitalProduct) {

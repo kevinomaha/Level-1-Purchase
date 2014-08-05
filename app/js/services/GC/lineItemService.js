@@ -88,7 +88,7 @@ function($resource, $451, Address) {
 		});
 
 		for (var i = 0; i < addressList.length; i++) {
-            if (addressList[i].indexOf('anonymous') == -1) {
+            if (addressList[i] && addressList[i].indexOf('anonymous') == -1) {
                 Address.get(addressList[i], function(add) {
                     for (var g = 0; g < order.lineItemGroups.length; g++) {
                         if (order.lineItemGroups[g].ID == add.ID) {

@@ -132,6 +132,7 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                                 Shipper.query(o, function(list) {
                                     $scope.shippers = list;
                                     $scope.shippers.length > 0 ? store.set("451Cache.GCShippers", $scope.shippers) : console.log("Shippers empty");
+                                    console.log($scope.shippers);
                                     fauxOrder = null;
                                     Order.delete(o,
                                         function() {
