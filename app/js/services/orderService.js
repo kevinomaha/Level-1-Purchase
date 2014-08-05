@@ -34,20 +34,25 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
     }
 
     var _get = function(id, success) {
-        var currentOrder = store.get('451Cache.Order.' + id);
+        /*var currentOrder = store.get('451Cache.Order.' + id);
         currentOrder ? (function() { _extend(currentOrder);	_then(success, currentOrder); })() :
             $resource($451.api('order/:id'), { id: '@id' }).get({ id: id }).$promise.then(function(o) {
                 _extend(o);
-                store.set('451Cache.Order.' + id, o);
+                //store.set('451Cache.Order.' + id, o);
                 _then(success, o);
-            });
+            });*/
+        $resource($451.api('order/:id'), { id: '@id' }).get({ id: id }).$promise.then(function(o) {
+            _extend(o);
+            //store.set('451Cache.Order.' + id, o);
+            _then(success, o);
+        });
     }
 
     var _save = function(order, success, error) {
         $resource($451.api('order')).save(order).$promise.then(
             function(o) {
-                store.set('451Cache.Order.' + o.ID, o);
-                store.remove('451Cache.User' + $451.apiName);
+                //store.set('451Cache.Order.' + o.ID, o);
+                //store.remove('451Cache.User' + $451.apiName);
                 _extend(o);
                 _then(success, o);
             },
