@@ -135,10 +135,10 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                                     fauxOrder = null;
                                     Order.delete(o,
                                         function() {
-                                            console.log("Faux Order Deleted");
+                                            //console.log("Faux Order Deleted");
                                         },
                                         function(ex) {
-                                            console.log("Faild to delete Faux Order");
+                                            //console.log("Faild to delete Faux Order");
                                         }
                                     );
                                 });

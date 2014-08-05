@@ -76,9 +76,11 @@ function ($scope, $location, $451, SpendingAccount, Address) {
 					$scope.currentBudgetAccount = a;
 				}
 			});
-			var discount = $scope.currentBudgetAccount.AccountType.MaxPercentageOfOrderTotal != 100 ?
-				$scope.tempOrder.Total * ($scope.currentBudgetAccount.AccountType.MaxPercentageOfOrderTotal *.01) :
-				$scope.currentBudgetAccount.Balance;
+            if ($scope.currentBudgetAccount) {
+                var discount = $scope.currentBudgetAccount.AccountType.MaxPercentageOfOrderTotal != 100 ?
+                    $scope.tempOrder.Total * ($scope.currentBudgetAccount.AccountType.MaxPercentageOfOrderTotal *.01) :
+                    $scope.currentBudgetAccount.Balance;
+            }
 			$scope.cart_billing.$setValidity('paymentMethod', valid);
 		}
 	}
