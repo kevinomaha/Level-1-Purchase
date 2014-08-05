@@ -79,7 +79,6 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    {{productType}}
                                     <div class="btn-group-vertical btn-group">
                                         <button style="border-top-right-radius:4px;" class="btn btn-default text-primary" ng-click="productTypeSelect('Standard')" ng-class="{active:selectedProductType == 'Standard'}">
                                             <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Standard'"></i>-->
@@ -247,14 +246,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!--<div class="view-form-icon">
-                                    <div>
-                                        <label>Save As</label>
-                                        <input ng-required="true" type="text" class="form-control" ng-maxlength="50" ng-model="selectedProduct.SaveAs" placeholder="Ex. HR order 8/10/11" />
-                                        <i class="fa fa-floppy-o"></i>
-                                    </div>
-                                </div>-->
                                 <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="(award_customization.$invalid) || (anonymousAwards == 'true' && !(selectedProduct.anonymousQty > 0) || (anonymousAwards != 'true' && recipientGroup.length == 0))" ng-click="createAwards()">Create Awards</div>
                             </div>
                         </div>
