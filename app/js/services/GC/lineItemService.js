@@ -34,7 +34,7 @@ function($resource, $451, Address) {
 				var addressID = i.ShipAddressID;
 				if (!i.InGroup) {
 					i.InGroup = true;
-                    if (!i.Variant.Specs['FirstName1'] && !i.Variant.Specs['LastName1'] && !i.Variant.Specs['Email1']) {
+                    if (!i.Variant.Specs['FirstName1'] && !i.Variant.Specs['LastName1'] && !i.Variant.Specs['Email1'] && !addressID) {
                         i.Anonymous = true;
                         i.UniqueID = 'anonymous' + i.UniqueID;
                         addressID = i.UniqueID;

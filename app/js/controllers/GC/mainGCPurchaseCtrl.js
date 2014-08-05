@@ -1690,7 +1690,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				selectedProduct.Specs = {};
 				selectedProduct.Description = "";
 
-                var qty = (variantData.Specs['FirstName1'].Value == "" && variantData.Specs['LastName1'].Value == "" && selectedProduct.ExternalID.indexOf('SCD') == -1) ? $scope.selectedProduct.anonymousQty : 1;
+                var qty = (variantData.Specs['FirstName1'].Value == "" && variantData.Specs['LastName1'].Value == "" && selectedProduct.ExternalID.indexOf('SCD') == -1 && $scope.selectedProduct.anonymousQty) ? $scope.selectedProduct.anonymousQty : 1;
 
                 if (qty > 1) {
                     lineTotal = (markUp*qty) + $scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price;
