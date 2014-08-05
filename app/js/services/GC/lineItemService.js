@@ -80,7 +80,7 @@ function($resource, $451, Address) {
 					if (!i.Product.Specs['Email1']) {
 						order.merchangeCardsAllDigital = false;
 					}
-                    i.Denomination = +(i.Product.Name.replace(/\D+/g, ''));
+                    i.Denomination = +(i.Product.Name.split('$')[1].replace(/\D+/g, ''));
                     i.Markup = (i.Denomination != i.UnitPrice) ? (i.UnitPrice - i.Denomination) : null;
 					order.merchantCardLineItems.push(i);
 				}
