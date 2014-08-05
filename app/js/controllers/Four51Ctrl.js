@@ -92,10 +92,24 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
         Category.tree(function(data) {
             $scope.tree = data;
 
+            function selectCategory(index) {
+                return
+            }
+
             var categoryInteropID = null;
             angular.forEach($scope.tree, function(c) {
                 if (c.Name == "Merchant Gift Cards") {
-                    categoryInteropID = c.SubCategories[0].InteropID;
+                    function getCategory(index) {
+                        if (c.SubCategories[index].Name.toLowerCase().indexOf('e-gift') > -1) {
+                            index++;
+                            getCategory(index);
+                        }
+                        else {
+                            categoryInteropID = c.SubCategories[index].InteropID;
+                        }
+                    }
+                    var index = 0;
+                    getCategory(index);
                 }
             });
             AddressList.query(function(list) {

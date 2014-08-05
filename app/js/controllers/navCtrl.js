@@ -66,6 +66,6 @@ function ($location, $route, $scope, $451, User, SpendingAccount) {
     });
 
     $scope.$watch('tempOrder.LineItems', function(newval) {
-        $scope.tempOrderCount = $scope.tempOrder.LineItems ? $scope.tempOrder.LineItems.length : null;
+        $scope.tempOrderCount = ($scope.tempOrder && $scope.tempOrder.LineItems) ? $scope.tempOrder.LineItems.length : null;
     }, true);
 }]);
