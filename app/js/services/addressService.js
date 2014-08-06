@@ -10,7 +10,7 @@ four51.app.factory('Address', ['$resource', '$451', 'Error', function($resource,
 		var address = store.get('451Cache.Address.' + id);
 	    address ? (function() { _extend(address); _then(success, address); })() :
             $resource($451.api('address/:id'), { id: '@id' }).get({ id: id }).$promise.then(function(add) {
-                store.set('451Cache.Address.' + id, add);
+                //store.set('451Cache.Address.' + id, add);
 	            _extend(add);
                 _then(success, add);
             });

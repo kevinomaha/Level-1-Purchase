@@ -39,7 +39,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                                 $scope.selectedProductDetails.PersonalMessages.push(data.Specs['V15Message'].Value);
                             }
                             break;
-                        case "SCP-GC":
+                        case "SCP-GC2":
                             if ($scope.selectedProductDetails.PersonalMessages.indexOf(data.Specs['V04PersonalMessage'].Value) == -1 && data.Specs['V04PersonalMessage'].Value != "") {
                                 $scope.selectedProductDetails.PersonalMessages.push(data.Specs['V04PersonalMessage'].Value);
                             }
@@ -82,13 +82,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				$scope.selectedProductType = 'Standard';
 				$scope.selectedProduct.InteropID = "SCP-FD1";
 				break;
-			case "SCP-GC":
+			case "SCP-GC2":
 				$scope.digitalProduct = false;
 				$scope.physicalProduct = true;
 				$scope.merchantCards = false;
 				$scope.productType = "GreetingCardSuperCert";
 				$scope.selectedProductType = 'Standard';
-				$scope.selectedProduct.InteropID = "SCP-GC";
+				$scope.selectedProduct.InteropID = "SCP-GC2";
 				break;
 			case "MerchantCards":
 				$scope.digitalProduct = false;
@@ -810,6 +810,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
     $scope.selectedLogoPath = "";
     $scope.digitalOM = Resources.digitalOM;
 	$scope.physicalOM = Resources.physicalOM;
+    console.log($scope.physicalOM);
     $scope.digitalDesignPreview = Resources.digitalDesignPreview;
     $scope.physicalDesignPreview = Resources.physicalDesignPreview;
     $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;
@@ -954,7 +955,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				}
                 $scope.showPreview("physical", $scope.selectedProduct.selectedDesignName);
 				break;
-			case "SCP-GC":
+			case "SCP-GC2":
 				for (var i = 0; i < $scope.physicalOM.length; i++) {
 					if ($scope.physicalOM[i].TemplateID.replace('pht_','') == $scope.selectedProduct.selectedDesignID) {
 						$scope.occasionMessages.push($scope.physicalOM[i].OccasionName)
@@ -984,7 +985,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 					}
 				}
 				break;
-			case "SCP-GC":
+			case "SCP-GC2":
 				for (var i = 0; i < $scope.physicalOM.length; i++) {
 					if ($scope.physicalOM[i].TemplateID.replace('pht_','') == $scope.selectedProduct.selectedDesignID && $scope.physicalOM[i].OccasionName == this.selectedProduct.occasionMessage) {
 						$scope.selectedProduct.imageName = $scope.physicalOM[i].ImageFileName;
@@ -1237,7 +1238,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                         }
                     };
                     break;
-                case "SCP-GC":
+                case "SCP-GC2":
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_");
                     var customMessageOption = $scope.selectedProduct.OpeningMessageOption ? $scope.selectedProduct.OpeningMessageOption : "";
 	                var customMessageText = "";
@@ -1265,7 +1266,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             "V10DesignSelection":{
                                 "Value":$scope.selectedProduct.designSelection.Value
                             },
-                            "V00OccasionList":{
+                            "V11MessageSelection":{
                                 "Value":$scope.selectedProduct.occasionMessage
                             },
                             "V02Occasion":{
@@ -1520,7 +1521,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                         }
                     };
                     break;
-                case "SCP-GC":
+                case "SCP-GC2":
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_");
                     var customMessageOption = $scope.selectedProduct.OpeningMessageOption ? $scope.selectedProduct.OpeningMessageOption : "";
                     var customMessageText = "";
@@ -1548,7 +1549,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             "V01Design":{
                                 "Value":$scope.selectedProduct.designSelection.Value
                             },
-                            "V00OccasionList":{
+                            "V11MessageSelection":{
                                 "Value":$scope.selectedProduct.occasionMessage
                             },
                             "V02Occasion":{

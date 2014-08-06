@@ -553,7 +553,8 @@ four51.app.factory('Resources', function() {
         },
         {
             Name:"Greeting Card SuperCertificate® REWARD",
-            StandardID:"SCP-GC",
+            /*StandardID:"SCP-GC",*/
+            StandardID:"SCP-GC2",
             PremiumID:"SCP-GCS",
             CanadianID:null,
             HolidayID:"#HOL#SCP-GC",

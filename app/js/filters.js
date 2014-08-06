@@ -336,7 +336,7 @@ four51.app.filter('gcProductDesigns', function() {
                             }
                         }
                         break;
-                    case "SCP-GC":
+                    case "SCP-GC2":
                         if (specs[s].Name == "V10DesignSelection") {
                             for (var o in specs[s].Options) {
                                 results.push(specs[s].Options[o]);
