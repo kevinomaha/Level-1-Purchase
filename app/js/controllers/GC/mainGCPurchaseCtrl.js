@@ -902,13 +902,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
         switch (type) {
             case "digital":
-                $scope.designPreviewSRC = digPath + $scope.digitalDesignPreview[design];
+                $scope.designPreviewSRC = digPath + ($scope.digitalDesignPreview[design] ? $scope.digitalDesignPreview[design] : "digitalplaceholder.png");
                 break;
             case "physical":
-                $scope.designPreviewSRC = physPath + $scope.physicalDesignPreview[design];
+                $scope.designPreviewSRC = physPath + ($scope.physicalDesignPreview[design] ? $scope.physicalDesignPreview[design] : "physicallplaceholder.png");
                 break;
             case "giftcard":
-                $scope.designPreviewSRC = giftcardPath + $scope.giftcardDesignPreview[design];
+                $scope.designPreviewSRC = giftcardPath + ($scope.giftcardDesignPreview[design] ? $scope.giftcardDesignPreview[design] : "giftcardplaceholder.png");
                 break;
         }
     };
