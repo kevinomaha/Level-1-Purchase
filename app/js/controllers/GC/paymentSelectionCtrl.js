@@ -23,6 +23,12 @@ function ($scope, $rootScope) {
         });
 	};
 
+    $scope.$watch('tempOrder.BudgetAccountID', function() {
+        if ($scope.tempOrder.BudgetAccountID) {
+            $scope.setBudgetAccount();
+        }
+    });
+
 	$rootScope.$on('event:SpendingAccountUpdate', function(event, accounts) {
 		if ($scope.tempOrder.PaymentMethod == 'BudgetAccount') {
 			angular.forEach(accounts, function(a) {

@@ -199,7 +199,12 @@ function ($scope, $location, $451, SpendingAccount, Address) {
 			return returnVal;
 		}
 		else {
-			return false;
+            if ($scope.tempOrder.PaymentMethod == "BudgetAccount") {
+                return true;
+            }
+            else {
+                return false;
+            }
 		}
 	}
 
