@@ -21,6 +21,12 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
         });
     }
 
+    $scope.cacheOrder = function(order) {
+        store.set("451Cache.TempOrder",{});
+        var o = angular.copy(order);
+        store.set("451Cache.TempOrder",LZString.compressToUTF16(JSON.stringify(o)));
+    }
+
     function init() {
         if (Security.isAuthenticated()) {
             User.get(function(user) {

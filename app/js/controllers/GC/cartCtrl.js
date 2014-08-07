@@ -2,6 +2,10 @@ four51.app.controller('CartViewCtrl', ['$scope', '$rootScope', '$location', '$45
 function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper,LineItems, AddressList, LogoOptions) {
 
 	$scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
+    if (typeof($scope.tempOrder) != 'object') {
+        $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
+        $scope.tempOrder = JSON.parse($scope.tempOrder);
+    }
 
 	$scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
     $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
@@ -60,8 +64,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         //Order Billing
         $scope.tempOrder.CreditCard = {};
 
-        store.set("451Cache.TempOrder",{});
-        store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
     }
 
     $scope.tempOrder.isAllDigital;
@@ -99,7 +102,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			$scope.actionMessage = null;
 			$scope.tempOrder = {};
 			$scope.tempOrder.LineItems = [];
-			store.set("451Cache.TempOrder",$scope.tempOrder);
+            $scope.cacheOrder($scope.tempOrder);
 			$scope.$broadcast("event:tempOrderUpdated", $scope.tempOrder);
 			recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
 			for (var r = 0; r < recipientList.length; r++) {
@@ -134,7 +137,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			);
 		}*/
 
-        store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
         $scope.actionMessage = 'Your Changes Have Been Saved!';
 
         /*var orderSave = angular.copy($scope.tempOrder);
@@ -195,8 +198,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 					$scope.tempOrder.Total += li.LineTotal;
 				});
 
-				store.set("451Cache.TempOrder",{});
-				store.set("451Cache.TempOrder",$scope.tempOrder);
+                $scope.cacheOrder($scope.tempOrder);
 				$rootScope.$broadcast('event:tempOrderUpdated', $scope.tempOrder);
 				$scope.actionMessage = 'Your Changes Have Been Saved!';
 			}
@@ -243,8 +245,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			$scope.tempOrder.Total += li.LineTotal;
 		});
 
-		store.set("451Cache.TempOrder",{});
-		store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
 		$rootScope.$broadcast('event:tempOrderUpdated', $scope.tempOrder);
         setIsAllDigital();
 		$scope.actionMessage = 'Your Changes Have Been Saved!';
@@ -263,7 +264,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                 Order.submit(orderSubmit, function(data) {
                     $scope.user.CurrentOrderID = null;
                     $scope.tempOrder = {LineItems:[]};
-                    store.set("451Cache.TempOrder",$scope.tempOrder);
+                    $scope.cacheOrder($scope.tempOrder);
                     recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
                     for (var r = 0; r < recipientList.length; r++) {
                         recipientList[r].AwardCount = 0;
@@ -355,8 +356,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			});
 		});
         analyzeShipping();
-		store.set("451Cache.TempOrder",{});
-		store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
 	};
 
 	$scope.updateLineItemShipper = function(li) {
@@ -393,8 +393,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			}
 
 		});
-		store.set("451Cache.TempOrder",{});
-		store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
 	};
 
 	AddressList.query(function(list) {
@@ -417,8 +416,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 				$scope.tempOrder.merchantCardLineItems[li].ShipAddressID = $scope.tempOrder.MerchantCardShipAddressID;
 			}
 		}
-		store.set("451Cache.TempOrder",{});
-		store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
 	}
 
 	$scope.setShipper = function() {
@@ -442,8 +440,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 				$scope.tempOrder.merchantCardLineItems[li].ShipperID = shipper.ID;
 			}
 		}
-		store.set("451Cache.TempOrder",{});
-		store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
 	}
 
 	function calculateOrderTotal() {
@@ -452,8 +449,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		angular.forEach($scope.tempOrder.LineItems, function(li) {
 			$scope.tempOrder.Total += li.LineTotal;
 		});
-		store.set("451Cache.TempOrder",{});
-		store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
 	}
 
 	$scope.$watch('tempOrder.merchantCardLineItems', function(event) {

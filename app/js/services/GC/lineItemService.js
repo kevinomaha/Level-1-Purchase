@@ -99,8 +99,9 @@ function($resource, $451, Address) {
             }
 		}
 
-		store.set("451Cache.TempOrder",{});
-		store.set("451Cache.TempOrder",order);
+        store.set("451Cache.TempOrder",{});
+        var o = angular.copy(order);
+        store.set("451Cache.TempOrder",LZString.compressToUTF16(JSON.stringify(o)));
 
 	}
 
@@ -116,8 +117,41 @@ function($resource, $451, Address) {
         });
     }
 
+    var _reduceV = function(variant) {
+        var v = {};
+        v.tempSpecs = angular.copy(variant.Specs);
+        v.Specs = {};
+        angular.forEach(v.tempSpecs, function(spec) {
+            v.Specs[spec.Name] = {"Value": spec.Value, "Name": spec.Name};
+        });
+        delete v.tempSpecs;
+        v.InteropID = variant.InteropID;
+        v.ProductInteropID = variant.ProductInteropID;
+        v.PreviewUrl = variant.PreviewUrl;
+
+        return v;
+    }
+
+    var _reduceP = function(product) {
+        var p = {};
+        p.InteropID = product.InteropID;
+        p.ExternalID = product.ExternalID;
+
+        return p;
+    }
+
+    var _reducePS = function(priceschedule) {
+        var ps = {};
+        ps.ProductID = priceschedule.ProductID;
+
+        return ps;
+    }
+
 	return {
 		group: _group,
-        clean: _clean
+        clean: _clean,
+        reduceVariant: _reduceV,
+        reduceProduct: _reduceP,
+        reducePriceSchedule: _reducePS
 	}
 }]);

@@ -810,7 +810,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
     $scope.selectedLogoPath = "";
     $scope.digitalOM = Resources.digitalOM;
 	$scope.physicalOM = Resources.physicalOM;
-    console.log($scope.physicalOM);
     $scope.digitalDesignPreview = Resources.digitalDesignPreview;
     $scope.physicalDesignPreview = Resources.physicalDesignPreview;
     $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;
@@ -1018,6 +1017,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	});
 
 	$scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
+    if (typeof($scope.tempOrder) != 'object') {
+        $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
+        $scope.tempOrder = JSON.parse($scope.tempOrder);
+    }
 
 	$scope.createAwards = function() {
 
@@ -1653,7 +1656,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				}
 			}
 
-			store.set("451Cache.TempOrder",$scope.tempOrder);
+            $scope.cacheOrder($scope.tempOrder);
 
 			$scope.recipientGroup = [];
 			for (var i = 0; i < $scope.recipientList.length; i++) {
@@ -1697,6 +1700,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     lineTotal = (markUp*qty) + $scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price;
                 }
 
+                var reducedVariant = LineItems.reduceVariant(variantData);
+                var reducedProduct = LineItems.reduceProduct(selectedProduct);
+                var reducedPriceSchedule = LineItems.reducePriceSchedule(selectedProduct.StandardPriceSchedule);
+
                 if ($scope.digitalProduct) {
                     var date = (variantData.Specs['R1CL4'] && variantData.Specs['R1CL4'].Value) ? new Date(variantData.Specs['R1CL4'].Value) : ($scope.selectedProduct.DeliveryDate ? new Date($scope.selectedProduct.DeliveryDate) : null);
                     if (date) {
@@ -1706,10 +1713,11 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     }
                     var futureShipDate = date ? month + "/" + day + "/" + year : "";
                     var emailSubject = data.Specs['R1CL3'].Value != "" ? data.Specs['R1CL3'].Value : $scope.selectedProduct.EmailSubject;
+
                     var li = {
                         "LineTotal":lineTotal,
-                        "PriceSchedule":$scope.selectedProductDetails.StandardPriceSchedule,
-                        "Product":selectedProduct,
+                        "PriceSchedule":reducedPriceSchedule,
+                        "Product":reducedProduct,
                         "Quantity":qty,
 	                    "ShipAddressID":$scope.digitalAddressID,
                         "Specs":{
@@ -1727,7 +1735,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             }
                         },
                         "UnitPrice":$scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price,
-                        "Variant":variantData,
+                        "Variant":reducedVariant,
                         "qtyError":null,
                         "FaceValue":Number(data.Specs['Denomination1'].Value.split('$')[1]),
                         "ProductType":$scope.selectedProductType,
@@ -1737,8 +1745,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 else {
                     var li = {
                         "LineTotal":lineTotal,
-                        "PriceSchedule":$scope.selectedProductDetails.StandardPriceSchedule,
-                        "Product":selectedProduct,
+                        "PriceSchedule":reducedPriceSchedule,
+                        "Product":reducedProduct,
                         "Quantity":qty,
 	                    "Specs":{
 		                    "Physical/Digital":{
@@ -1747,7 +1755,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		                    }
 	                    },
                         "UnitPrice":$scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price,
-                        "Variant":variantData,
+                        "Variant":reducedVariant,
                         "qtyError":null,
                         "FaceValue":Number(data.Specs['Denomination1'].Value.split('$')[1]),
                         "ProductType":$scope.selectedProductType,

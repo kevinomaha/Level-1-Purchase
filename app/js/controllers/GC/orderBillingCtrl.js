@@ -6,8 +6,7 @@ function ($scope, $location, $451, SpendingAccount, Address) {
 
 		if ($scope.SpendingAccounts && $scope.SpendingAccounts.length == 0 || ($scope.SpendingAccounts[0] && $scope.SpendingAccounts[0] <= 0)) {
 			$scope.tempOrder.PaymentMethod = 'CreditCard';
-			store.set("451Cache.TempOrder",{});
-			store.set("451Cache.TempOrder",$scope.tempOrder);
+            $scope.cacheOrder($scope.tempOrder);
 		}
 		else {
 			$scope.tempOrder.PaymentMethod = 'BudgetAccount';
@@ -25,8 +24,7 @@ function ($scope, $location, $451, SpendingAccount, Address) {
                 });
 			}
 
-			store.set("451Cache.TempOrder",{});
-			store.set("451Cache.TempOrder",$scope.tempOrder);
+            $scope.cacheOrder($scope.tempOrder);
 		}
 	});
 

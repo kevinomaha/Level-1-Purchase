@@ -86,8 +86,7 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 
         $scope.tempOrder.LineItems.push($scope.LineItem);
 
-        store.set("451Cache.TempOrder",{});
-        store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
 
         $scope.$broadcast('event:tempOrderUpdated',$scope.tempOrder);
 

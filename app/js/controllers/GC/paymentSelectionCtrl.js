@@ -2,8 +2,7 @@ four51.app.controller('PaymentSelectionController', ['$scope', '$rootScope',
 function ($scope, $rootScope) {
 	$scope.setPaymentMethod = function(type) {
 		$scope.tempOrder.PaymentMethod = type;
-		store.set("451Cache.TempOrder",{});
-		store.set("451Cache.TempOrder",$scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
 		$rootScope.$broadcast('event:paymentMethodChange', type);
 	};
 
