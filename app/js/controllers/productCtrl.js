@@ -89,10 +89,9 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
         }
 
         $scope.tempOrder.LineItems.push($scope.LineItem);
-
-        $scope.cacheOrder($scope.tempOrder);
-
         $scope.$broadcast('event:tempOrderUpdated',$scope.tempOrder);
+        
+        $scope.cacheOrder($scope.tempOrder);
 
         $location.path('/cart');
     };

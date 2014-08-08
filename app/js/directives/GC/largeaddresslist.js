@@ -64,19 +64,19 @@ four51.app.directive('largeshippingaddresslist', function() {
         restrict: 'E',
         template: '<style>.dropdown-menu { font-size: 11px; }</style>' +
             '<div ng-show="(addresses | filter:{IsShipping:true}).length > 0" style="margin: 35px 0 0;">' +
-            '<label ng-class="{required: !currentOrder.IsMultipleShip()}" ng-show="currentOrder.ShipAddressID || !currentOrder.IsMultipleShip()">{{\'Shipping\' | r}} {{\'Address\' | r}}</label>' +
-            '<input type="text" ng-model="currentOrder.ShipAddress" placeholder="{{orderShipAddress ? orderShipAddress.AddressName : \'Search for Shipping Address\' | r}}"' +
+            '<label ng-class="{required: !tempOrder.IsMultipleShip()}" ng-show="tempOrder.ShipAddressID || !tempOrder.IsMultipleShip()">{{\'Shipping\' | r}} {{\'Address\' | r}}</label>' +
+            '<input type="text" ng-model="tempOrder.ShipAddress" placeholder="{{orderShipAddress ? orderShipAddress.AddressName : \'Search for Shipping Address\' | r}}"' +
             'typeahead="address as (address.AddressName + \' \' + (address.FirstName || \'\') + \' \' + (address.LastName || \'\') + \' \' + (address.Street1 || \'\') + \' \' + (address.Street2 || \'\') + \' \' + (address.City || \'\') + \' \' + (address.State || \'\') + \' \' + (address.Zip || \'\')) for address in addresses | largeaddress:$viewValue | filter:{IsShipping:true}"' +
             'class="form-control"><i class="fa fa-map-marker"></i></div>',
         controller: ['$scope', function($scope) {
-            $scope.$watch('currentOrder.ShipAddress', function(newValue) {
+            $scope.$watch('tempOrder.ShipAddress', function(newValue) {
                 if (!newValue || !newValue.ID) return;
                 $scope.orderShipAddress = newValue;
-                if ($scope.currentOrder) {
-                    $scope.currentOrder.ShipAddressID = newValue.ID;
-                    $scope.currentOrder.ShipFirstName = null;
-                    $scope.currentOrder.ShipLastName = null;
-                    angular.forEach($scope.currentOrder.LineItems, function(item) {
+                if ($scope.tempOrder) {
+                    $scope.tempOrder.ShipAddressID = newValue.ID;
+                    $scope.tempOrder.ShipFirstName = null;
+                    $scope.tempOrder.ShipLastName = null;
+                    angular.forEach($scope.tempOrder.LineItems, function(item) {
                         item.ShipFirstName = null;
                         item.ShipLastName = null;
                     });
@@ -84,7 +84,7 @@ four51.app.directive('largeshippingaddresslist', function() {
 
                 if (newValue) {
                     if ($scope.user.Permissions.contains('EditShipToName') && !newValue.IsCustEditable) {
-                        angular.forEach($scope.currentOrder.LineItems, function(item) {
+                        angular.forEach($scope.tempOrder.LineItems, function(item) {
                             item.ShipFirstName = newValue.FirstName;
                             item.ShipLastName = newValue.LastName;
                         });
@@ -102,17 +102,17 @@ four51.app.directive('largebillingaddresslist', function() {
         restrict: 'E',
         template: '<style>.dropdown-menu { font-size: 11px; }</style>' +
             '<div ng-show="(addresses | filter:{IsBilling:true}).length > 0" style="margin: 35px 0 0;">' +
-            '<label ng-class="{required: !currentOrder.IsMultipleShip()}" ng-show="currentOrder.ShipAddressID || !currentOrder.IsMultipleShip()">{{\'Billing\' | r}} {{\'Address\' | r}}</label>' +
-            '<input type="text" ng-model="currentOrder.BillAddress" placeholder="{{orderBillAddress ? orderBillAddress.AddressName : \'Search for Billing Address\' | r}}"' +
+            '<label ng-class="{required: !tempOrder.IsMultipleShip()}" ng-show="tempOrder.ShipAddressID || !tempOrder.IsMultipleShip()">{{\'Billing\' | r}} {{\'Address\' | r}}</label>' +
+            '<input type="text" ng-model="tempOrder.BillAddress" placeholder="{{orderBillAddress ? orderBillAddress.AddressName : \'Search for Billing Address\' | r}}"' +
             'typeahead="address as (address.AddressName + \' \' + (address.FirstName || \'\') + \' \' + (address.LastName || \'\') + \' \' + (address.Street1 || \'\') + \' \' + (address.Street2 || \'\') + \' \' + (address.City || \'\') + \'' +  '\' + (address.State || \'\') + \' \' + (address.Zip || \'\')) for address in addresses | largeaddress:$viewValue | filter:{IsBilling:true}"' +
             'class="form-control"><i class="fa fa-map-marker"></i></div>',
         controller: ['$scope', function($scope) {
-            $scope.$watch('currentOrder.BillAddress', function(newValue) {
+            $scope.$watch('tempOrder.BillAddress', function(newValue) {
                 if (!newValue || !newValue.ID) return;
                 $scope.orderBillAddress = newValue;
                 if ($scope.user.Permissions.contains('EditBillToName') && !newValue.IsCustEditable) {
-                    $scope.currentOrder.BillFirstName = newValue.FirstName;
-                    $scope.currentOrder.BillLastName = newValue.LastName;
+                    $scope.tempOrder.BillFirstName = newValue.FirstName;
+                    $scope.tempOrder.BillLastName = newValue.LastName;
                 }
                 $scope.BillAddressID = newValue.ID;
                 $scope.BillAddress = newValue;

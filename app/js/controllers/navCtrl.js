@@ -62,6 +62,10 @@ function ($location, $route, $scope, $451, User, SpendingAccount) {
 	});
 
     $scope.$on('event:tempOrderUpdated', function(event, order) {
+        if (typeof(order) != 'object') {
+            order = LZString.decompressFromUTF16(order);
+            order = JSON.parse(order);
+        }
         $scope.tempOrderCount = order.LineItems ? order.LineItems.length : null;
     });
 
