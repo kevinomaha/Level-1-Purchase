@@ -69,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div ng-repeat="group in tempOrder.lineItemGroups" ng-if="!group.Anonymous">
+        <div ng-repeat="group in tempOrder.lineItemGroups | limitTo:10" ng-if="!group.Anonymous">
             <div class="white-wrapper" style="border:1px solid #ddd;">
                 <div class="container" style="padding:0 10px;">
                     <h4>
@@ -362,12 +362,12 @@
                     <p style="margin:0;"><small ng-class="{'text-danger': cart_billing.$invalid}">{{!cart_billing.$invalid ? 'Ready for submission' : 'Missing required fields'}}</small></p></h3>
             </div>
             <div class="panel-body">
-                <div ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length == 0 && user.Permissions.contains('CreateBillToAddress')" class="row">
+                <div ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length == 0 && user.Permissions.contains('CreateBillToAddress') && !addressesLoading" class="row">
                     <addressinput address='billaddress' user='user'></addressinput>
                 </div>
                 <!--<b>Subtotal:</b>-->
                 <!--<span>{{tempOrder.Total | currency}}</span>-->
-                <form name="cart_billing">
+                <form name="cart_billing" ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length > 0">
                     <orderbillinggc></orderbillinggc>
                 </form>
             </div>

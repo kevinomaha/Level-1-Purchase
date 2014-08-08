@@ -1,16 +1,16 @@
 <div>
+    <loadingindicator ng-show="addressesLoading"></loadingindicator>
     <div ng-show="!billaddressform">
         <paymentselectorgc></paymentselectorgc>
         <div class="view-form-icon" ng-hide="BillAddress.AddressName == 'Main Billing Address' && tempOrder.PaymentMethod == 'BudgetAccount'">
             <div>
-                <label class="required">Billing Address</label>
-                <div class="input-group">
-                    <select class="form-control" ng-show="(addresses | filter:{IsBilling:true}).length > 0" name="billingAddress"
-                            ng-options="address.ID as address.AddressName for address in addresses | filter:{IsBilling:true} | billingAddresses:tempOrder" ng-model="tempOrder.BillAddressID" required>
-                    </select>
-                <span class="input-group-btn">
-                    <button class="btn btn-primary" type="button" ng-click="billaddressform = true" tabindex="-1">New</button>
-                </span>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <largebillingaddresslist></largebillingaddresslist>
+                    </div>
+                    <div class="col-sm-4" style="margin: 35px 0 0;">
+                        <button class="btn btn-primary" type="button" ng-click="billaddressform = true" tabindex="-1">New</button>
+                    </div>
                 </div>
             </div>
             <div ng-show="tempOrder.BillAddressID" class="check-out-view-selected-billing" style="border: 1px solid #d6d6d6; padding: 15px; margin-top: 15px;">

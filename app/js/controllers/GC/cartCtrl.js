@@ -1,5 +1,5 @@
-four51.app.controller('CartViewCtrl', ['$scope', '$rootScope', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'LineItems', 'AddressList', 'LogoOptions',
-function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper,LineItems, AddressList, LogoOptions) {
+four51.app.controller('CartViewCtrl', ['$scope', '$rootScope', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'LineItems', 'AddressList', 'LogoOptions', 'CustomAddressList',
+function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper,LineItems, AddressList, LogoOptions, CustomAddressList) {
 
 	$scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
     if (typeof($scope.tempOrder) != 'object') {
@@ -10,9 +10,14 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	$scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
     $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
 
-    AddressList.query(function(list) {
-        $scope.addresses = list;
-    });
+    function getAllAddresses() {
+        $scope.addressesLoading = true;
+        CustomAddressList.getall(function(list) {
+            $scope.addresses = list;
+            $scope.addressesLoading = false;
+        });
+    }
+    getAllAddresses();
 
     $scope.digitalShipper = {};
     for (var s = 0; s < $scope.shippers.length; s++) {

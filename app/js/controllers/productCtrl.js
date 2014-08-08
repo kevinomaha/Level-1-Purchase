@@ -50,6 +50,10 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 	};
 
     $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
+    if (typeof($scope.tempOrder) != 'object') {
+        $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
+        $scope.tempOrder = JSON.parse($scope.tempOrder);
+    }
 
     var randomString = function() {
         var chars = "0123456789abcdefghijklmnop";

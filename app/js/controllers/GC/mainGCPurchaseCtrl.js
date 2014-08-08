@@ -1,5 +1,5 @@
-four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'LogoOptions', 'CategoryDescription', 'ExistingAddress', 'LineItems',
-function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems) {
+four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'LogoOptions', 'CategoryDescription', 'ExistingAddress', 'LineItems', 'CustomAddressList',
+function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems, CustomAddressList) {
 
 	$scope.productList = Resources.products;
     var today = new Date();
@@ -146,7 +146,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
 	$scope.addType = 'manual';
 
-	AddressList.query(function(list) {
+    CustomAddressList.getall(function(list) {
 		$scope.addresses = list;
 	});
 
