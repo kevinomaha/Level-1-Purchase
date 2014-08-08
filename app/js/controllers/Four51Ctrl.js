@@ -98,10 +98,6 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
         Category.tree(function(data) {
             $scope.tree = data;
 
-            function selectCategory(index) {
-                return
-            }
-
             var categoryInteropID = null;
             angular.forEach($scope.tree, function(c) {
                 if (c.Name == "Merchant Gift Cards") {
@@ -121,9 +117,11 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
             AddressList.query(function(list) {
                 $scope.addresses = list;
                 var shipAddress = {};
+                var found = false;
                 angular.forEach($scope.addresses, function(a) {
-                    if (a.AddressName == "Email Delivery") {
+                    if (a.IsShipping && !found) {
                         shipAddress = a;
+                        found = true;
                     }
                 });
                 Product.search(categoryInteropID, null, null, function(products) {
@@ -149,20 +147,35 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                                 //save the order fields for use later
                                 o.OrderFields.length > 0 ? store.set("451Cache.GCOrderFields", o.OrderFields) : console.log("No Order Fields");
 
-                                Shipper.query(o, function(list) {
-                                    $scope.shippers = list;
-                                    $scope.shippers.length > 0 ? store.set("451Cache.GCShippers", $scope.shippers) : console.log("Shippers empty");
-                                    console.log($scope.shippers);
-                                    fauxOrder = null;
-                                    Order.delete(o,
-                                        function() {
-                                            //console.log("Faux Order Deleted");
-                                        },
-                                        function(ex) {
-                                            //console.log("Faild to delete Faux Order");
+                                var attempt = 0;
+                                function getShippers() {
+                                    Shipper.query(o, function(list) {
+                                        $scope.shippers = list;
+                                        $scope.shippers.length > 0 ? store.set("451Cache.GCShippers", $scope.shippers) : console.log("Shippers empty");
+                                        if ($scope.shippers.length > 0) {
+                                            console.log("Shippers:" + $scope.shippers.length);
+                                            fauxOrder = null;
+                                            Order.delete(o,
+                                                function() {
+                                                    console.log("Ship Order Deleted");
+                                                },
+                                                function(ex) {
+                                                    console.log("Failed to delete ship order");
+                                                }
+                                            );
                                         }
-                                    );
-                                });
+                                        else {
+                                            console.log("Shippers Failed");
+                                            console.log(o);
+                                            attempt++;
+                                            if (attempt < 5) {
+                                                getShippers();
+                                            }
+                                        }
+                                    });
+                                }
+
+                                getShippers();
                             },
                             function(ex) {
                                 console.log("Order save failed for shippers");
