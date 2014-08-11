@@ -37,7 +37,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 				}
 
 				function uploadList() {
-					var text = $('#myPasteBox').val();
+                    var text = $('#myPasteBox').val().replace(/(\r\n|\n|\r)/gm,"").replace(/"/g,'');
 					var stateList = Resources.states;
 					if (text != '') {
 						//We need to change the scope values
@@ -141,7 +141,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 					$scope.tempRecipientPasteList = [];
 					$scope.tempPasteError = false;
 					var stateList = Resources.states;
-					var text = $('#myPasteBox').val();
+					var text = $('#myPasteBox').val().replace(/(\r\n|\n|\r)/gm,"").replace(/"/g,'');
 					if (text != '') {
 						//We need to change the scope values
 						$scope.$apply(function () {
