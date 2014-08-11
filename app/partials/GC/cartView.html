@@ -21,7 +21,7 @@
             </div>
             <div class="col-sm-6">
                 <ul ng-if="!!orderfields">
-                    <li ng-repeat="field in orderfields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Opening'}">
+                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Opening'}">
                         <customtextfield customfield="field" ng-if="field.ControlType == 'Text'" ng-required="field.IsRequired" holder="'ex. Dear Jane'"/>
                     </li>
                 </ul>
@@ -33,7 +33,7 @@
             </div>
             <div class="col-sm-6">
                 <ul ng-if="!!orderfields">
-                    <li ng-repeat="field in orderfields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Message'}">
+                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Message'}">
                         <customtextfield customfield="field" ng-if="field.ControlType == 'Text'" ng-required="field.IsRequired" holder="'ex. Thank You'" />
                     </li>
                 </ul>
@@ -45,7 +45,7 @@
             </div>
             <div class="col-sm-6">
                 <ul ng-if="!!orderfields">
-                    <li ng-repeat="field in orderfields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Closing'}">
+                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Closing'}">
                         <customtextfield customfield="field" ng-if="field.ControlType == 'Text'" ng-required="field.IsRequired" holder="'ex. Sincerely, John'"/>
                     </li>
                 </ul>

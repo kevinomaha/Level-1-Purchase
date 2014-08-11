@@ -10,6 +10,10 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	$scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
     $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
 
+    if (!$scope.tempOrder.OrderFields) {
+        $scope.tempOrder.OrderFields = $scope.orderfields;
+    }
+
     function getAllAddresses() {
         $scope.addressesLoading = true;
         CustomAddressList.getall(function(list) {
