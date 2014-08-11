@@ -70,6 +70,11 @@ function ($location, $route, $scope, $451, User, SpendingAccount) {
     });
 
     $scope.$watch('tempOrder.LineItems', function(newval) {
-        $scope.tempOrderCount = ($scope.tempOrder && $scope.tempOrder.LineItems) ? $scope.tempOrder.LineItems.length : null;
+        var order = angular.copy($scope.tempOrder);
+        if (typeof(order) != 'object') {
+            order = LZString.decompressFromUTF16(order);
+            order = JSON.parse(order);
+        }
+        $scope.tempOrderCount = (order && order.LineItems) ? order.LineItems.length : null;
     }, true);
 }]);
