@@ -251,14 +251,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				        if (address.status == "Valid") {
 					        Address.save(address,
 						        function(add) {
+                                    $scope.addresses.push(add);
 							        recipient.ShipAddressID = add.ID;
 							        $scope.recipientList.push(recipient);
 							        store.set("451Cache.RecipientList",[]);
 							        store.set("451Cache.RecipientList",$scope.recipientList);
 							        $scope.clearRecipient('recipient');
-							        AddressList.query(function(list) {
-								        $scope.addresses = list;
-							        });
 						        },
 						        function(ex) {
 							        //
