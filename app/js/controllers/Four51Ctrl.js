@@ -94,6 +94,7 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
     $scope.$on('event:auth-loginRequired', cleanup);
 
     //GC INCENTIVES PURCHASE
+    var attempt = 0;
     function getShippers() {
         Category.tree(function(data) {
             $scope.tree = data;
@@ -148,24 +149,23 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                                 o.OrderFields.length > 0 ? store.set("451Cache.GCOrderFields", o.OrderFields) : console.log("No Order Fields");
 
                                 var attempt = 0;
-                                function getShippers() {
                                     Shipper.query(o, function(list) {
                                         $scope.shippers = list;
                                         $scope.shippers.length > 0 ? store.set("451Cache.GCShippers", $scope.shippers) : console.log("Shippers empty");
                                         if ($scope.shippers.length > 0) {
-                                            console.log("Shippers:" + $scope.shippers.length);
+                                            console.log("Shipper Count:" + $scope.shippers.length);
                                             fauxOrder = null;
                                             Order.delete(o,
                                                 function() {
-                                                    console.log("Ship Order Deleted");
+                                                    //console.log("Ship Order Deleted");
                                                 },
                                                 function(ex) {
-                                                    console.log("Failed to delete ship order");
+                                                    //console.log("Failed to delete ship order");
                                                 }
                                             );
                                         }
                                         else {
-                                            console.log("Shippers Failed");
+                                            console.log("Shippers Count: 0");
                                             console.log(o);
                                             attempt++;
                                             if (attempt < 5) {
@@ -173,9 +173,6 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                                             }
                                         }
                                     });
-                                }
-
-                                getShippers();
                             },
                             function(ex) {
                                 console.log("Order save failed for shippers");
@@ -186,4 +183,5 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
             }, 1, 100);
         });
     }
+    getShippers();
 }]);
