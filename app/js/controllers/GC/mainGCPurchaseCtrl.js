@@ -1035,7 +1035,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         var month = date.getMonth() + 1;
         var day = date.getDate();
         var year = date.getFullYear();
-        var saveAs = month + '/' + day + '/' + year + ' - Recipients: ' + $scope.recipientGroup.length;
+        var saveAs = month + '/' + day + '/' + year + ' - Recipients: ';
 
 		for (var recip = 0; recip < $scope.recipientGroup.length; recip++) {
 
@@ -1139,6 +1139,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
                             "V17P_LogoFileID":{
                                 "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
+                            },
+                            "Recipients":{
+                                "Value":"1"
                             }
                         }
                     };
@@ -1235,6 +1238,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
                             "V17D_LogoFileID":{
                                 "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
+                            },
+                            "Recipients":{
+                                "Value":"1"
                             }
                         }
                     };
@@ -1323,6 +1329,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
                             "V17P_LogoFileID":{
                                 "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
+                            },
+                            "Recipients":{
+                                "Value":"1"
                             }
                         }
                     };
@@ -1422,6 +1431,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
                             "V17P_LogoFileID":{
                                 "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
+                            },
+                            "Recipients":{
+                                "Value":"1"
                             }
                         }
                     };
@@ -1518,6 +1530,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
                             "V17D_LogoFileID":{
                                 "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
+                            },
+                            "Recipients":{
+                                "Value":"1"
                             }
                         }
                     };
@@ -1603,6 +1618,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             },
                             "V17P_LogoFileID":{
                                 "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
+                            },
+                            "Recipients":{
+                                "Value":"1"
                             }
                         }
                     };
