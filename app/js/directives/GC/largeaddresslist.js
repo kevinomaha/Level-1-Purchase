@@ -102,7 +102,7 @@ four51.app.directive('largebillingaddresslist', function() {
         restrict: 'E',
         template: '<style>.dropdown-menu { font-size: 11px; }</style>' +
             '<div ng-show="(addresses | filter:{IsBilling:true}).length > 0" style="margin: 35px 0 0;">' +
-            '<label ng-class="{required: !tempOrder.IsMultipleShip()}" ng-show="tempOrder.ShipAddressID || !tempOrder.IsMultipleShip()">{{\'Billing\' | r}} {{\'Address\' | r}}</label>' +
+            '<label class="required">{{\'Billing\' | r}} {{\'Address\' | r}}</label>' +
             '<input type="text" ng-model="tempOrder.BillAddress" placeholder="{{orderBillAddress ? orderBillAddress.AddressName : \'Search for Billing Address\' | r}}"' +
             'typeahead="address as (address.AddressName + \' \' + (address.FirstName || \'\') + \' \' + (address.LastName || \'\') + \' \' + (address.Street1 || \'\') + \' \' + (address.Street2 || \'\') + \' \' + (address.City || \'\') + \'' +  '\' + (address.State || \'\') + \' \' + (address.Zip || \'\')) for address in addresses | largeaddress:$viewValue | filter:{IsBilling:true}"' +
             'class="form-control"><i class="fa fa-map-marker"></i></div>',
