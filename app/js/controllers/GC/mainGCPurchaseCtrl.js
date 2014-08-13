@@ -17,11 +17,15 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
 	function getPersonalMessages(variants) {
 		var variantArray = [];
-		for (var i = 0; i < variants.length; i++) {
-			if (variants[i].InteropID) {
-				variantArray.push(variants[i].InteropID);
-			}
-		}
+        var stopIndex = (variants.length >= 10) ? (variants.length - 10) : 0;
+        var startIndex = (variants.length > 0) ? (variants.length - 1) : 0;
+        if (startIndex > 0) {
+            for (var i = startIndex; i >= stopIndex; i--) {
+                if (variants[i].InteropID) {
+                    variantArray.push(variants[i].InteropID);
+                }
+            }
+        }
 
 		$scope.selectedProductDetails.PersonalMessages = [];
 
