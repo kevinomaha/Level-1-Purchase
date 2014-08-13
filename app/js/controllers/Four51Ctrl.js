@@ -137,13 +137,12 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                     Product.get(productInteropID, function(p) {
                         var fauxOrder = {};
                         fauxOrder.LineItems = [];
+                        var product = angular.copy(p);
                         var li = {
-                            LineTotal: p.StandardPriceSchedule.PriceBreaks[0].Price,
                             PriceSchedule: p.StandardPriceSchedule,
-                            Product: angular.copy(p),
+                            Product: {"InteropID": p.InteropID},
                             Quantity: 1,
                             Specs: {},
-                            UnitPrice: p.StandardPriceSchedule.PriceBreaks[0].Price,
                             qtyError: null
                         }
                         li.ShipAddressID = shipAddress.ID;
