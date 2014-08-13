@@ -100,8 +100,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		}
 
 		if ($scope.selectedProduct.StandardID && $scope.selectedProduct.StandardID != "MerchantCards") {
+            if ($scope.selectedProductDetails) {
+                $scope.selectedProductDetails.Variants = [];
+                $scope.selectedProductDetails = {};
+            }
             Product.get($scope.selectedProduct.StandardID, function(product){
-				$scope.selectedProductDetails = product;
+				$scope.selectedProductDetails = angular.copy(product);
 				//Call function to obtain variant information and save personal messages
 				getPersonalMessages($scope.selectedProductDetails.Variants);
 			});
@@ -876,7 +880,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         if ($scope.selectedProduct.InteropID && $scope.selectedProduct.InteropID != "MerchantCards") {
             $scope.selectedProduct.productLoadingIndicator = true;
             Product.get($scope.selectedProduct.InteropID, function(product){
-                $scope.selectedProductDetails = product;
+                $scope.selectedProductDetails = angular.copy(product);
                 $scope.selectedProduct.productLoadingIndicator = false;
             });
         }

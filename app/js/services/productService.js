@@ -42,17 +42,17 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
     var _get = function(param, success, page, pagesize, searchTerm) {
         page = page || 1;
         pagesize = pagesize || 100;
-        if (!angular.isUndefined(searchTerm)) {
+        /*if (!angular.isUndefined(searchTerm)) {
             variantCache.splice(0, variantCache.length);
-        }
+        }*/
         //var product = store.get(_cacheName + param);
         //product ? (function() { _extend(product);	_then(success, product); })() :
         var product = $resource($451.api('Products/:interopID'), { interopID: '@ID' }).get({ interopID: param, page: page || 1, pagesize: pagesize || 10, searchTerm: searchTerm }).$promise.then(function(product) {
-            for (var i = 0; i <= product.VariantCount-1; i++) {
+            /*for (var i = 0; i <= product.VariantCount-1; i++) {
                 if (typeof variantCache[i] == 'object') continue;
                 variantCache[i] = product.Variants[i - (page - 1) * pagesize] || i;
             }
-            product.Variants = variantCache;
+            product.Variants = variantCache;*/
 
             _extend(product);
             //store.set(_cacheName + product.InteropID, product);

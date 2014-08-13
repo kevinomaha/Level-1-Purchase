@@ -55,10 +55,6 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                 }
 
                 $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
-                if (typeof($scope.tempOrder) != 'object') {
-                    $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
-                    $scope.tempOrder = JSON.parse($scope.tempOrder);
-                }
                 if ($scope.tempOrder) {
                     $scope.$broadcast("event:tempOrderUpdated", $scope.tempOrder);
                 }
@@ -157,7 +153,6 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                                 //save the order fields for use later
                                 o.OrderFields.length > 0 ? store.set("451Cache.GCOrderFields", o.OrderFields) : console.log("No Order Fields");
 
-                                var attempt = 0;
                                     Shipper.query(o, function(list) {
                                         $scope.shippers = list;
                                         $scope.shippers.length > 0 ? store.set("451Cache.GCShippers", $scope.shippers) : console.log("Shippers empty");
