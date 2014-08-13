@@ -32,6 +32,9 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
             User.get(function(user) {
                 $scope.user = user;
 
+                user.Company.GoogleAnalyticsCode = "UA-4208136-57";
+                analytics(user.Company.GoogleAnalyticsCode);
+
 	            if (!$scope.user.TermsAccepted)
 		            $location.path('conditions');
 
@@ -52,9 +55,14 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                 }
 
                 $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
+                if (typeof($scope.tempOrder) != 'object') {
+                    $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
+                    $scope.tempOrder = JSON.parse($scope.tempOrder);
+                }
                 if ($scope.tempOrder) {
                     $scope.$broadcast("event:tempOrderUpdated", $scope.tempOrder);
                 }
+
             });
             Category.tree(function(data) {
 				$scope.tree = data;
@@ -87,6 +95,7 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
     $scope.$on('event:auth-loginConfirmed', function(){
         $route.reload();
 	    User.get(function(user) {
+            user.Company.GoogleAnalyticsCode = "UA-4208136-57";
 		    analytics(user.Company.GoogleAnalyticsCode);
 	    });
 	});
