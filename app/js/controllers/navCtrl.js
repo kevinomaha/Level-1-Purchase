@@ -2,6 +2,7 @@ four51.app.controller('NavCtrl', ['$location', '$route', '$scope', '$451', 'User
 function ($location, $route, $scope, $451, User, SpendingAccount) {
     $scope.Logout = function(){
         User.logout();
+        $scope.gettingShippers = false;
         if ($scope.isAnon) {
             $location.path("/catalog");
             User.login();

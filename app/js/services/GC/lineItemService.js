@@ -5,7 +5,7 @@ function($resource, $451, Address) {
 			fn(data);
 	}
 
-	var _group = function(order) {
+	var _groupPreSubmit = function(order) {
 
 		if (!order.lineItemGroups) {
 			order.lineItemGroups = [];
@@ -147,11 +147,39 @@ function($resource, $451, Address) {
         return ps;
     }
 
+    var _groupOrderHistory = function(order) {
+        order.lineItemGroups = [];
+        var addressList = [];
+
+        angular.forEach(order.LineItems, function(i) {
+            var addressID = i.ShipAddressID;
+            var isDigital = i.Specs['Physical/Digital'].Value == 'Digital';
+            if (i.LineTotal > 399) {
+                order.lineItemGroups.push({"ID":addressID,"LineItems":[i],"IsDigital":isDigital,"Total": i.LineTotal});
+            }
+            else {
+                if (addressList.indexOf(addressID) == -1) {
+                    addressList.push(addressID);
+                    order.lineItemGroups.push({"ID":addressID,"LineItems":[i],"IsDigital":isDigital,"Total": i.LineTotal});
+                }
+                else {
+                    for (var g = 0; g < order.lineItemGroups.length; g++) {
+                        if (order.lineItemGroups[g].ID == addressID) {
+                            order.lineItemGroups[g].LineItems.push(i);
+                            order.lineItemGroups[g].Total += i.LineTotal;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 	return {
-		group: _group,
+        groupPreSubmit: _groupPreSubmit,
         clean: _clean,
         reduceVariant: _reduceV,
         reduceProduct: _reduceP,
-        reducePriceSchedule: _reducePS
+        reducePriceSchedule: _reducePS,
+        groupOrderHistory: _groupOrderHistory
 	}
 }]);

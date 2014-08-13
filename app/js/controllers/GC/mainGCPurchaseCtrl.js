@@ -640,6 +640,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 					 if (!recip.ShipAddressID) {
 						 for (var a = 0; a < $scope.addresses.length; a++) {
 							 var add = $scope.addresses[a];
+                             recip.Phone = recip.Phone ? recip.Phone : " ";
 							 if (recip.Street1 == add.AddressName &&
 								 recip.ShipToFirstName == add.FirstName &&
 								 recip.ShipToLastName == add.LastName &&
@@ -648,7 +649,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 								 recip.City == add.City &&
 								 recip.State == add.State &&
 								 recip.Zip == add.Zip &&
-								 recip.Country == add.Country)
+								 recip.Country == add.Country &&
+                                 recip.Phone == add.Phone)
 							 {
 								 $scope.recipientList[r].ShipAddressID = add.ID;
 							 }
@@ -663,11 +665,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 			$scope.savingRecipientsLoadingIndicator = false;
 		}
 
+        var addressSaveCount = 0;
 		for (var i = 0; i < addresses.length; i++) {
             addresses[i].Phone = addresses[i].Phone == "" ? " " : addresses[i].Phone;
 			Address.save(addresses[i], function(add) {
 				$scope.addresses.push(add);
-				if (i == addresses.length) assignAddresses();
+                addressSaveCount++;
+				if (addressSaveCount == addresses.length) assignAddresses();
 			});
 		}
 		if (addresses.length == 0) {

@@ -4,13 +4,6 @@
             {{item.ProductIDText}}
         </h3>
         <span>{{item.Product.Name}}</span>
-        <!--<ul ng-show="item.Specs | filter:{'CanSetForLineItem':true}.length > 0">
-            <li class="text-center" ng-repeat="spec in item.Specs | filter:{'CanSetForLineItem':true} ">
-                <span class="text-info">{{spec.Name}} </span>
-                <span ng-if="spec.ControlType == 'File'"><a ng-href="{{spec.File.Url}}">{{spec.File.OriginalName + Extension}}</a></span></span>
-                <span ng-if="spec.ControlType != 'File'">{{spec.Value || '(unspecified)'}}</span>
-            </li>
-        </ul>-->
      </div>
     <div class="col-sm-6">
         <div class="row">

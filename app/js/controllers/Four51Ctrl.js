@@ -38,7 +38,7 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
 	            if (!$scope.user.TermsAccepted)
 		            $location.path('conditions');
 
-	            if (user.CurrentOrderID) {
+	            /*if (user.CurrentOrderID) {
                     Order.get(user.CurrentOrderID, function(ordr) {
                         $scope.currentOrder = ordr;
 			            OrderConfig.costcenter(ordr, user);
@@ -46,10 +46,11 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                 }
                 else {
                     $scope.currentOrder = null;
-                }
+                }*/
+                $scope.currentOrder = null;
 
                 $scope.gcShippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : null;
-                if (!$scope.gcShippers && !$scope.gettingShippers) {
+                if (!$scope.gcShippers && !$scope.gettingShippers && window.location.href.indexOf('cart') > -1) {
                     $scope.gettingShippers = true;
                     getShippers();
                 }
@@ -139,7 +140,7 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                         var li = {
                             LineTotal: p.StandardPriceSchedule.PriceBreaks[0].Price,
                             PriceSchedule: p.StandardPriceSchedule,
-                            Product: p,
+                            Product: angular.copy(p),
                             Quantity: 1,
                             Specs: {},
                             UnitPrice: p.StandardPriceSchedule.PriceBreaks[0].Price,
@@ -148,14 +149,21 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                         li.ShipAddressID = shipAddress.ID;
                         fauxOrder.ShipAddressID = shipAddress.ID;
                         fauxOrder.LineItems.push(li);
-                        Order.save(fauxOrder,
-                            function(o){
-                                //save the order fields for use later
-                                o.OrderFields.length > 0 ? store.set("451Cache.GCOrderFields", o.OrderFields) : console.log("No Order Fields");
+                        if (!store.get("451Cache.GCShippers")) {
+                            Order.save(fauxOrder,
+                                function(o){
+                                    //save the order fields for use later
+                                    o.OrderFields.length > 0 ? store.set("451Cache.GCOrderFields", o.OrderFields) : console.log("No Order Fields");
 
                                     Shipper.query(o, function(list) {
-                                        $scope.shippers = list;
-                                        $scope.shippers.length > 0 ? store.set("451Cache.GCShippers", $scope.shippers) : console.log("Shippers empty");
+                                        $scope.shippers = angular.copy(list);
+                                        if ($scope.shippers.length > 0) {
+                                            store.set("451Cache.GCShippers", $scope.shippers);
+                                            $scope.$broadcast('event:shippersObtained');
+                                        }
+                                        else {
+                                            console.log("Shippers empty");
+                                        }
                                         if ($scope.shippers.length > 0) {
                                             console.log("Shipper Count:" + $scope.shippers.length);
                                             fauxOrder = null;
@@ -177,11 +185,16 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                                             }
                                         }
                                     });
-                            },
-                            function(ex) {
-                                console.log("Order save failed for shippers");
-                            }
-                        );
+                                },
+                                function(ex) {
+                                    console.log("Order save failed for shippers");
+                                    attempt++;
+                                    if (attempt < 5) {
+                                        getShippers();
+                                    }
+                                }
+                            );
+                        }
                     });
                 });
             }, 1, 100);

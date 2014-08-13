@@ -6,6 +6,7 @@ function ($scope, $location, $routeParams, Order, FavoriteOrder, Address, User, 
 	Order.get($routeParams.id, function(data){
 		$scope.loadingIndicator = false;
         $scope.order = data;
+        LineItems.groupOrderHistory($scope.order);
         $scope.hasSpecsOnAnyLineItem = false;
 		for(var i = 0; i < data.LineItems.length ; i++) {
 			if (data.LineItems[i].Specs) {

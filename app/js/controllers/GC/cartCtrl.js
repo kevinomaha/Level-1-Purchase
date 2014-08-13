@@ -10,6 +10,10 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	$scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
     $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
 
+    $scope.$on('event:shippersObtained', function() {
+        $scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
+    });
+
     if (!$scope.tempOrder.OrderFields) {
         $scope.tempOrder.OrderFields = $scope.orderfields;
     }
@@ -31,7 +35,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
     }
 
     if ($scope.tempOrder.LineItems.length > 0) {
-        LineItems.group($scope.tempOrder);
+        LineItems.groupPreSubmit($scope.tempOrder);
 
         //Order Submit
         $scope.tempOrder.ExternalID = 'auto';
