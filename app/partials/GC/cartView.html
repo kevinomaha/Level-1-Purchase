@@ -10,7 +10,7 @@
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.lineItemGroups.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.merchantCardLineItems.length > 0"  ng-click="browseMerchantCards()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Browse Merchant Cards</div>
     <hr style="margin-top:5px;"/>
-    <div class="container white-wrapper" style="border:1px solid #ddd;padding-bottom: 10px;padding-top: 10px;margin-bottom: 20px;" ng-if="!tempOrder.isAllDigital">
+    <div class="container white-wrapper" style="border:1px solid #ddd;padding-bottom: 10px;padding-top: 10px;margin-bottom: 20px;" ng-hide="tempOrder.merchantCardsAllDigital">
         <div>
             <p><b>Personalize Physical Merchant Gift Cards Message Sheet: </b><span class="label label-default">Optional</span></p>
             <p><small>You may enter a personalized message to be included in the envelope with you merchant gift cards. Only one message sheet will be included per order.</small></p>
@@ -302,7 +302,7 @@
                 </div>
             </div>
         </div>
-        <div ng-show="tempOrder.merchantCardLineItems.length > 0 && !tempOrder.merchangtCardsAllDigital" class="bg-dark row" style="border-right:1px solid #ddd; border-left:1px solid #ddd;">
+        <div ng-show="tempOrder.merchantCardLineItems.length > 0 && !tempOrder.merchantCardsAllDigital" class="bg-dark row" style="border-right:1px solid #ddd; border-left:1px solid #ddd;">
             <div class="container" style="padding-top:10px;">
                 <div ng-show="shipaddressform" class="row">
                     <addressinput address='shipaddress' user='user'></addressinput>

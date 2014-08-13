@@ -336,6 +336,16 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                 $scope.tempOrder.Total += shipRate;
             }
         });
+        var merchantCardShipMethod = $scope.tempOrder.MerchantCardShipMethod;
+        angular.forEach($scope.tempOrder.merchantCardLineItems, function(item) {
+            if (merchantCardShipMethod) {
+                var shipRate = +(merchantCardShipMethod.split('$')[1]);
+                if (!item.IsDigital) {
+                    $scope.tempOrder.ShippingTotal += shipRate;
+                    $scope.tempOrder.Total += shipRate;
+                }
+            }
+        });
     }
 
 	$scope.updateAllShippers = function() {
@@ -440,19 +450,20 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			}
 		});
 		for (var i = 0; i < $scope.tempOrder.LineItems.length; i++) {
-			if (!$scope.tempOrder.LineItems[i].Shipper && $scope.tempOrder.LineItems[i].MerchantCardUniqueID) {
+			if ($scope.tempOrder.LineItems[i].MerchantCardUniqueID && !$scope.tempOrder.LineItems[i].IsDigital) {
 				$scope.tempOrder.LineItems[i].Shipper = shipper;
 				$scope.tempOrder.LineItems[i].ShipperName = shipper.Name;
 				$scope.tempOrder.LineItems[i].ShipperID = shipper.ID;
 			}
 		}
 		for (var li = 0; li < $scope.tempOrder.merchantCardLineItems.length; li++) {
-			if (!$scope.tempOrder.merchantCardLineItems[li].Shipper && $scope.tempOrder.merchantCardLineItems[li].MerchantCardUniqueID) {
+			if ($scope.tempOrder.merchantCardLineItems[li].MerchantCardUniqueID && !$scope.tempOrder.merchantCardLineItems[li].IsDigital) {
 				$scope.tempOrder.merchantCardLineItems[li].Shipper = shipper;
 				$scope.tempOrder.merchantCardLineItems[li].ShipperName = shipper.Name;
 				$scope.tempOrder.merchantCardLineItems[li].ShipperID = shipper.ID;
 			}
 		}
+        analyzeShipping();
         $scope.cacheOrder($scope.tempOrder);
 	}
 
@@ -466,8 +477,12 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	}
 
 	$scope.$watch('tempOrder.merchantCardLineItems', function(event) {
+        $scope.tempOrder.merchantCardsAllDigital = true;
 		angular.forEach(event, function(li) {
 			var mID = li.MerchantCardUniqueID;
+            if (!li.IsDigital) {
+                $scope.tempOrder.merchantCardsAllDigital = false;
+            }
 			for (var i = 0; i < $scope.tempOrder.LineItems.length; i++) {
 				if ($scope.tempOrder.LineItems[i].MerchantCardUniqueID && $scope.tempOrder.LineItems[i].MerchantCardUniqueID == mID) {
 					$scope.tempOrder.LineItems[i] = li;
@@ -475,6 +490,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			}
 		});
 		calculateOrderTotal();
+        analyzeShipping();
 	}, true);
 
 	if ($scope.tempOrder.merchantCardLineItems.length > 0 && $scope.tempOrder.MerchantCardShipAddressID) {

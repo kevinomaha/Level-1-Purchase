@@ -43,7 +43,7 @@ function($resource, $451, Address) {
                         i.Anonymous = false;
                     }
 					var randomGroupID = randomString();
-					var isDigital = i.Specs['Physical/Digital'].Value == 'Digital';
+					var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
 					if (i.LineTotal > 399) {
 						order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[i],"IsDigital":isDigital,"Total": i.LineTotal,"Anonymous": i.Anonymous});
 					}
@@ -153,7 +153,7 @@ function($resource, $451, Address) {
 
         angular.forEach(order.LineItems, function(i) {
             var addressID = i.ShipAddressID;
-            var isDigital = i.Specs['Physical/Digital'].Value == 'Digital';
+            var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
             if (i.LineTotal > 399) {
                 order.lineItemGroups.push({"ID":addressID,"LineItems":[i],"IsDigital":isDigital,"Total": i.LineTotal});
             }
