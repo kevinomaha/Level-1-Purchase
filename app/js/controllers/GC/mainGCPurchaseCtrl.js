@@ -774,6 +774,26 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		store.set("451Cache.RecipientList",[]);
 		store.set("451Cache.RecipientList",$scope.recipientList);
 	}
+
+    $scope.selectRecipientsWithoutAwards = function() {
+        $scope.recipientGroup = [];
+        $scope.selectAllRecipients = "false";
+        for (var r = 0; r < $scope.recipientList.length; r++) {
+            if (!$scope.recipientList[r].Invalid && ($scope.recipientList[r].AwardCount < 1)) {
+                $scope.recipientList[r].Selected = true;
+                $scope.recipientGroup.push($scope.recipientList[r]);
+            }
+            else {
+                $scope.recipientList[r].Selected = false;
+            }
+        }
+        $scope.analyzeRecipientGroup();
+        store.set("451Cache.RecipientGroup",[]);
+        store.set("451Cache.RecipientGroup",$scope.recipientGroup);
+        store.set("451Cache.RecipientList",[]);
+        store.set("451Cache.RecipientList",$scope.recipientList);
+    }
+
     $scope.selectedLogoSRC = "";
     $scope.logoCheckingIndicator = true;
 
@@ -822,7 +842,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
     $scope.stepToCustomization = function(){
         $scope.checkForLogos();
-        $scope.selectAllRecipientsToggle();
+        $scope.selectRecipientsWithoutAwards();
         $scope.step = 3;
     }
 
