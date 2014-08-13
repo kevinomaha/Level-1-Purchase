@@ -69,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div ng-repeat="group in tempOrder.lineItemGroups | limitTo:10" ng-if="!group.Anonymous">
+        <div ng-repeat="group in tempOrder.lineItemGroups" ng-if="!group.Anonymous">
             <div class="white-wrapper" style="border:1px solid #ddd;">
                 <div class="container" style="padding:0 10px;">
                     <h4>
