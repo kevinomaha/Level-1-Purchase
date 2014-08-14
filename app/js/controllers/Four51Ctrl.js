@@ -142,11 +142,11 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                             PriceSchedule: p.StandardPriceSchedule,
                             Product: {"InteropID": p.InteropID},
                             Quantity: 1,
-                            Specs: {},
-                            qtyError: null
+                            Specs: {}
                         }
                         li.ShipAddressID = shipAddress.ID;
                         fauxOrder.ShipAddressID = shipAddress.ID;
+                        fauxOrder.ExternalID = 'auto';
                         fauxOrder.LineItems.push(li);
                         if (!store.get("451Cache.GCShippers")) {
                             Order.save(fauxOrder,
