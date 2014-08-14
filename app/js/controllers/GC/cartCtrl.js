@@ -12,6 +12,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
     $scope.$on('event:shippersObtained', function() {
         $scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
+        $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
     });
 
     if (!$scope.tempOrder.OrderFields) {
