@@ -8,7 +8,7 @@ four51.app.factory('AddressList', ['$q', '$resource', '$451', function($q, $reso
     var _query = function(success, page, pagesize) {
         page = page || 1;
         pagesize = pagesize || 100;
-        if (typeof cache[(page-1) * pagesize] == 'object' && typeof cache[(page * pagesize) - 1] == 'object') {
+        /*if (typeof cache[(page-1) * pagesize] == 'object' && typeof cache[(page * pagesize) - 1] == 'object') {
             _then(success, cache, cache.length);
         }
         else {
@@ -19,7 +19,10 @@ four51.app.factory('AddressList', ['$q', '$resource', '$451', function($q, $reso
                 }
                 _then(success, cache, list.Count);
             });
-        }
+        }*/
+        $resource($451.api('address')).get({ page: page, pagesize: pagesize}).$promise.then(function (list) {
+            _then(success, list.List, list.Count);
+        });
     }
 
     var _delete = function(addresses, success) {
