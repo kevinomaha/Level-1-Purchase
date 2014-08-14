@@ -116,13 +116,15 @@
                             </p><br/>
                             <span class="text-info">{{lineitem.Product.Name}}</span>
                         </div>
-                        <div class="col-xs-2" ng-hide="group.LineItems.length == 1" ng-init="showPreview = false" ng-click="showPreview = !showPreview">
-                            <i style="cursor:pointer;" class="fa text-muted fa-2x" ng-class="{'fa-circle-o':!showPreview, 'fa-circle':showPreview}"></i> <span style="position:relative; top:-5px; cursor:pointer;">PREVIEW</span>
+                        <div class="col-xs-3" ng-hide="group.LineItems.length == 1" ng-init="showPreview = false">
+                            <i ng-click="showPreview = !showPreview" style="cursor:pointer;" class="fa text-muted fa-2x" ng-class="{'fa-circle-o':!showPreview, 'fa-circle':showPreview}"></i> <span ng-click="showPreview = !showPreview" class="text-muted" style="position:relative; top:-5px; cursor:pointer;">PREVIEW</span>
+                            <i ng-click="editAward(lineitem, $index)" style="cursor:pointer;" class="fa fa-2x text-muted fa-edit"></i> <span ng-click="editAward(lineitem, $index)" class="text-muted" style="position:relative; top:-5px; cursor:pointer;">EDIT</span>
                         </div>
-                        <div class="col-xs-6 text-right text-muted" ng-show="group.LineItems.length == 1" ng-init="showPreview = false" ng-click="showPreview = !showPreview">
-                            <i style="cursor:pointer; padding-top:5px;" class="fa fa-2x" ng-class="{'fa-circle-o':!showPreview, 'fa-circle':showPreview}"></i> <span style="cursor:pointer; position:relative; top:-5px; margin-left:10px;">PREVIEW</span>
+                        <div class="col-xs-6 text-right text-muted" ng-show="group.LineItems.length == 1" ng-init="showPreview = false">
+                            <i ng-click="showPreview = !showPreview" style="cursor:pointer; padding-top:5px;" class="fa fa-2x" ng-class="{'fa-circle-o':!showPreview, 'fa-circle':showPreview}"></i> <span ng-click="showPreview = !showPreview" style="cursor:pointer; position:relative; top:-5px; margin-left:5px;margin-right:5px;">PREVIEW</span>
+                            <i ng-click="editAward(lineitem, $index)" style="cursor:pointer; padding-top:5px;" class="fa fa-2x fa-edit"></i> <span ng-click="editAward(lineitem, $index)" style="cursor:pointer; position:relative; top:-5px; margin-left:5px;">EDIT</span>
                         </div>
-                        <div class="col-xs-4 text-right" ng-show="group.LineItems.length > 1">
+                        <div class="col-xs-3 text-right" ng-show="group.LineItems.length > 1">
                             <!--<select class="form-control" ng-change="updateLineItemShipper(lineitem)" name="shipMethod"
                                     ng-model="lineitem.ShipMethod"
                                     ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
@@ -240,9 +242,11 @@
                         </div>
                         <div class="col-xs-1" ng-hide="group.LineItems.length == 1">
                             <i style="cursor:pointer;" class="fa text-muted fa-2x" ng-class="{'fa-circle-o':!showPreview, 'fa-circle':showPreview}" ng-init="showPreview = false" ng-click="showPreview = !showPreview"></i>
+                            <i style="cursor:pointer;" class="fa text-muted fa-2x fa-edit" ng-click="editAward(lineitem, $index)"></i>
                         </div>
-                        <div class="col-xs-6 text-right text-muted" ng-show="group.LineItems.length == 1" ng-init="showPreview = false" ng-click="showPreview = !showPreview">
-                            <i style="cursor:pointer; padding-top:5px;" class="fa fa-2x" ng-class="{'fa-circle-o':!showPreview, 'fa-circle':showPreview}"></i> <span style="cursor:pointer; position:relative; top:-5px; margin-left:10px;">PREVIEW</span>
+                        <div class="col-xs-6 text-right text-muted" ng-show="group.LineItems.length == 1" ng-init="showPreview = false">
+                            <i ng-click="showPreview = !showPreview" style="cursor:pointer; padding-top:5px;" class="fa fa-2x" ng-class="{'fa-circle-o':!showPreview, 'fa-circle':showPreview}"></i> <span ng-click="showPreview = !showPreview" style="cursor:pointer; position:relative; top:-5px; margin-left:10px;">PREVIEW</span>
+                            <i ng-click="editAward(lineitem, $index)" style="cursor:pointer; padding-top:5px;" class="fa fa-2x fa-edit"></i> <span ng-click="editAward(lineitem, $index)" style="cursor:pointer; position:relative; top:-5px; margin-left:10px;">EDIT</span>
                         </div>
                         <div class="col-xs-5 text-right" ng-show="group.LineItems.length > 1">
                             <select class="form-control" ng-change="updateLineItemShipper(lineitem)" name="shipMethod"
@@ -291,15 +295,38 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-9">
+                <div class="col-xs-8">
                     <h4><b class="text-info">{{item.Product.Name | gcproductnames}}{{item.Quantity > 1 ? 's' : ''}}</b>
                         <span class="pull-right text-success">{{item.LineTotal | currency}}</span>
                     </h4>
                     <span class="pull-right text-success" ng-show="item.Markup"><span ng-show="item.Quantity > 1">(</span>{{item.Denomination | currency}} + {{item.Markup | currency}}<span ng-show="item.Quantity > 1">) x {{item.Quantity}}</span></span>
                 </div>
-                <div class="col-xs-1">
+                <div class="col-xs-2">
                     <i style="cursor:pointer; margin-right:-15px; padding-right:15px;" class="text-danger fa fa-2x fa-times pull-right" ng-click="removeItem(item)"></i>
+                    <i style="cursor:pointer; margin-right:-15px; padding-right:15px;" class="fa fa-2x fa-edit pull-right" ng-show="item.Specs.Email1 && !item.Editing" ng-click="editMerchantCard(item)"></i>
                 </div>
+            </div>
+            <div class="row" collapse="!item.Editing">
+                <form name="editSpecsForm">
+                    <div class="col-md-4">
+                        <div id="451_list_vspec">
+                            <div class="form-group" ng-repeat="s in LineItem.Specs" ng-if="!(s.DefaultValue) && (s.Name == 'Email1' || s.Name == 'Subject1')">
+                                <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="451_list_vspec">
+                            <div class="form-group" ng-repeat="s in LineItem.Specs" ng-if="!(s.DefaultValue) && (s.Name == 'Message1')">
+                                <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="btn btn-sm btn-success cart-view-line-items-remove-button" ng-click="updateMerchantCard(item)">Update</div>
+                        <div class="btn btn-sm btn-danger cart-view-line-items-remove-button" ng-click="cancelEditMerchantCard(item)">Cancel</div>
+                    </div>
+                </form>
             </div>
         </div>
         <div ng-show="tempOrder.merchantCardLineItems.length > 0 && !tempOrder.merchantCardsAllDigital" class="bg-dark row" style="border-right:1px solid #ddd; border-left:1px solid #ddd;">

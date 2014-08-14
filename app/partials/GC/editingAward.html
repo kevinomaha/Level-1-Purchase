@@ -1,0 +1,210 @@
+<div class="row">
+<form name="award_customization" novalidate="">
+<div ng-show="true" class="col-md-12">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title" ng-show="selectedProduct.Name"><b>Selected Product:</b> {{selectedProduct.Name}}</h3>
+    </div>
+    <div class="panel-body" ng-init="CSTEP = 1">
+        <div class="btn btn-lg btn-block btn-default" ng-click="CSTEP = 1" ng-class="{active: CSTEP == 1}">Configure Award</div>
+        <loadingindicator ng-show="selectedProduct.productLoadingIndicator" title="Please wait while your product is updated" />
+        <loadingindicator ng-show="selectedProduct.buildingProductsIndicator" title="Please wait while your product(s) are generated" />
+        <div class="row" collapse="CSTEP != 1">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <button style="border-top-right-radius:4px;" ng-show="selectedProductType == 'Standard'" class="btn btn-default btn-block text-primary" ng-click="productTypeSelect('Standard')" ng-class="{active:selectedProductType == 'Standard'}">
+                                <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Standard'"></i>-->
+                                Standard
+                            </button>
+                            <button class="btn btn-default btn-block text-success" ng-show="selectedProductType == 'Premium'" ng-click="productTypeSelect('Premium')" ng-class="{active:selectedProductType == 'Premium'}">
+                                <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Premium'"></i>-->
+                                Premium
+                            </button>
+                            <!--<button class="btn btn-default" ng-class="{'active': selectedProductType == 'Holiday'}" ng-click="productTypeSelect('Holiday')">Holiday</button>-->
+                            <button class="btn btn-default btn-block text-danger" ng-show="selectedProductType == 'Canadian'" ng-click="productTypeSelect('Canadian')" ng-class="{active:selectedProductType == 'Canadian'}">
+                                <!--<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Canadian'"></i>-->
+                                Canadian
+                            </button>
+                        </div>
+                        <div class="view-form-icon">
+                            <div>
+                                <label>Design</label>
+                                <select class="form-control"
+                                        ng-required="true"
+                                        ng-change="designChanged()"
+                                        ng-model="selectedProduct.designSelection"
+                                        ng-options="option.Value as (option.Value | gcProductDesignNames) for option in selectedProductDetails.Specs | gcProductDesigns:selectedProduct">
+                                    <option class="view-select-placeholder" selected="" value="">Select a design</option>
+                                </select>
+                                <i class="fa fa-picture-o"></i>
+                            </div>
+                        </div>
+                        <div class="view-form-icon">
+                            <div>
+                                <label>Occasion Message</label>
+                                <select class="form-control"
+                                        ng-required="true"
+                                        ng-change="occasionMessageChanged()"
+                                        ng-model="selectedProduct.occasionMessage"
+                                        ng-options="message for message in occasionMessages">
+                                    <option class="view-select-placeholder" selected="" value="">Select a message</option>
+                                </select>
+                                <i class="fa fa-comment"></i>
+                            </div>
+                        </div>
+                        <div class="view-form-icon">
+                            <div>
+                                <label>Denomination</label>
+                                <select class="form-control"
+                                        ng-required="denominationRequired"
+                                        ng-change="denominationChange()"
+                                        ng-model="selectedProduct.denomination"
+                                        ng-options="denom.Value as denom.Value for denom in selectedProductDetails.Specs | gcProductDenominations">
+                                    <option class="view-select-placeholder" selected="" value="">Select a denomination</option>
+                                </select>
+                                <i class="fa fa-dollar"></i>
+                            </div>
+                        </div>
+                        <div class="view-form-icon">
+                            <div ng-show="showLogoSelection">
+                                <label>Logo Selection</label>
+                                <select class="form-control"
+                                        ng-model="selectedProduct.selectedLogo"
+                                        ng-change = "showLogo()"
+                                        ng-options="logo as logo.name for logo in logoOptions">
+                                    <option class="view-select-placeholder" selected="" value="">Select a logo</option>
+                                </select>
+                                <i class="fa fa-dollar"></i>
+                            </div>
+                        </div>
+                        <div ng-hide="showLogoSelection" class="alert alert-info" style="padding:5px; margin-top:10px;">
+                            <loadingindicator ng-show="logoCheckingIndicator" title="Checking For Logos..."/>
+                            <p><i class="fa fa-info-circle pull-left fa-2x" style="margin:5px 5px 0 0;"></i><small>There are currently no logos saved to your account. To add a logo for a future order, please email your logo to LogoSupport@giftcertificates.com.</small></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="well">
+                            <small ng-show="selectedProductType == 'Standard'">Our SuperCertificate® REWARD is redeemable for gift cards to hundreds of nationwide merchants, it’s the Reward of Choice. This physical or digital certificate will be emailed to your recipient and can be redeemed online for original gift cards from hundreds of nationwide merchants.</small>
+                            <small ng-show="selectedProductType == 'Premium'">Our SuperCertificate® REWARD is redeemable for gift cards to hundreds of nationwide merchants, it’s the Reward of Choice. This physical or digital certificate will be emailed to your recipient and can be redeemed online for original gift cards from hundreds of nationwide merchants, including premium merchants such as Amazon, Best Buy, Kohl’s and more. Additional fee of 10% of face is applied.</small>
+                            <small ng-show="selectedProductType == 'Canadian'">Our SuperCertificate® REWARD is available with a Canadian redemption catalog for Canadian recipients. Redeemable for original gift cards from merchants that accept U.S. denominated gift cards at their Canadian locations or ship their products to Canada.</small>
+
+                        </div>
+                        <figure style="max-height:400px;">
+                            <img ng-src="{{designPreviewSRC}}" style="margin:0 auto;">
+                        </figure>
+                        <figure style="max-height:400px;">
+                            <img ng-src="{{selectedLogoSRC}}" style="margin:0 auto;width: 144px;">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn btn-lg btn-block btn-default" ng-click="CSTEP = 2" ng-class="{active: CSTEP == 2}">Personalize</div>
+        <div>
+            <div collapse="CSTEP != 2">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="view-form-icon">
+                            <div>
+                                <label>{{selectedProduct.OpeningMessageOption == 'Custom Message' ? 'Custom ' : ''}} Opening Message</label>
+                                <div ng-hide="selectedProduct.OpeningMessageOption == 'Custom Message'" class="btn-group btn-group-justified" ng-init="selectedProduct.OpeningMessageOption = 'First and Last Name'">
+                                    <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'First and Last Name'" ng-class="{active:selectedProduct.OpeningMessageOption == 'First and Last Name'}">Full Name</div>
+                                    <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'First Name Only'" ng-class="{active:selectedProduct.OpeningMessageOption == 'First Name Only'}">First Name</div>
+                                    <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'Custom Message'" ng-class="{active:selectedProduct.OpeningMessageOption == 'Custom Message'}">Custom Text</div>
+                                    <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'None'" ng-class="{active:selectedProduct.OpeningMessageOption == 'None'}">None</div>
+                                </div>
+                                <div ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'" class="input-group">
+                                    <input style="min-height: 0;" ng-required="selectedProduct.OpeningMessageOption == 'Custom Message'" class="form-control" ng-maxlength="50" ng-model="selectedProduct.CustomOpeningMessage" type="text" placeholder="Ex. Dear Employee, (Up to 50 characters)">
+                                    <div class="input-group-btn"><div class="btn btn-danger" ng-click="selectedProduct.CustomOpeningMessage = ''; selectedProduct.OpeningMessageOption = 'First and Last Name'">Cancel</div></div>
+                                </div>
+                                <i ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'" class="fa fa-comment" style="top: 9px;"></i>
+                            </div>
+                        </div>
+
+                        <div class="view-form-icon" ng-show="selectedProductDetails.PersonalMessages.length > 0">
+                            <div>
+                                <label>Select From a Previous Personal Message</label>
+                                <select class="form-control"
+                                        ng-model="selectedProduct.PersonalMessage"
+                                        ng-options="message for message in selectedProductDetails.PersonalMessages">
+                                    <option class="view-select-placeholder" selected="" value="">Select a message</option>
+                                </select>
+                                <i class="fa fa-comment"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top:15px;">
+                            <textarea class="form-control" ng-maxlength="300" ng-model="selectedProduct.PersonalMessage" placeholder="Custom personal message..."/>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-maxlength="50" ng-model="selectedProduct.ClosingMessage" placeholder="Custom closing message..."/>
+                        </div>
+
+                        <div class="row" ng-show="digitalProduct">
+                            <div class="col-sm-6">
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>Email Subject <span style="color: rgb(128, 128, 128);font-size: x-small;">(up to 75 characters)</span></label>
+                                        <input type="text" class="form-control" placeholder="Email Subject..." ng-required="digitalProduct && emailSubjectRequired" ng-model="selectedProduct.EmailSubject"/>
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>{{'Requested Delivery Date' | r}}<span style="color: rgb(128, 128, 128);font-size: x-small;"> (MM/DD/YYYY)</span></label>
+                                        <!--Default Datepicker -->
+                                        <input class="form-control hidden-lg hidden-md"
+                                               type="date"
+                                               ng-model="selectedProduct.DeliveryDate"
+                                               ng-required="deliveryDateRequired"
+                                               ng-show="!selectedProduct.DeliveryDate"
+                                               style="margin:0; height:40px; padding-top:8px;"/>
+                                        <div class="btn btn-default btn-block text-info hidden-lg hidden-md" ng-show="selectedProduct.DeliveryDate" ng-click="selectedProduct.DeliveryDate = null">{{selectedProduct.DeliveryDate | date:'MM/dd/yy'}}</div>
+                                        <input name="dateneeded" placeholder="Requested Delivery Date" ng-model="selectedProduct.DeliveryDate" ng-required="deliveryDateRequired"
+                                               type="text"
+                                               class="form-control hidden-sm hidden-xs"
+                                               datepicker-popup="MM/dd/yy"
+                                               data-placement="top"
+                                               is-open="opened"
+                                               min="currentDate"
+                                               max="maxDate" />
+                                        <i class="fa fa-calendar"></i>
+                                        <div style="color: rgb(128, 128, 128);font-size: x-small;padding-top:5px;">Provide an optional future delivery date, up to 120 days from today.<br />Leave blank to deliver immediately.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="award_customization.$invalid" ng-click="updateAward(selectedProduct, editingLineItem)">Update Award</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="view-footer navbar-fixed-bottom hidden-lg hidden-md">
+    <ul class="view-footer-buttons" ng-show="!showAwardMaker">
+        <li style="width:50%;">
+            <button class="btn btn-warning" ng-click="$parent.step = 2">Edit List</button>
+        </li>
+        <li style="width:50%;">
+            <button class="btn btn-primary" ng-click="showAwardMaker = true;">Done Selecting</button>
+        </li>
+    </ul>
+    <ul class="view-footer-buttons" ng-show="showAwardMaker">
+        <li style="width:50%;">
+            <button class="btn btn-primary" ng-click="showAwardMaker = false;">Select Recipients</button>
+        </li>
+        <li style="width:50%;">
+            <button class="btn btn-success" ng-click="createAwards()" ng-disabled="award_customization.$invalid">Create Awards</button>
+        </li>
+    </ul>
+</div>
+</form>
+</div>

@@ -530,4 +530,32 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.tempOrder.anonymousShipAddressForm = false;
 	});
 
+    $scope.editAward = function(lineitem, index) {
+        store.set('451Cache:EditingAward', lineitem);
+        $location.path('main/edit/' + index);
+    };
+
+    $scope.editMerchantCard = function(item) {
+        $scope.originalItemSpecs = angular.copy(item.Specs);
+        item.Specs['Email1'].InputType = "email";
+        item.Editing = true;
+        $scope.LineItem = item;
+    }
+
+    $scope.updateMerchantCard = function(item) {
+        item.Editing = false;
+        for (var i = 0; i < $scope.tempOrder.LineItems; i++) {
+            if (item.MerchantCardUniqueID == $scope.tempOrder.LineItem[i].MerchantCardUniqueID) {
+                $scope.tempOrder.LineItem[i].Specs = item.Specs;
+            }
+        }
+        $scope.cacheOrder($scope.tempOrder);
+    };
+
+    $scope.cancelEditMerchantCard = function(item) {
+        item.Editing = false;
+        item.Specs = $scope.originalItemSpecs;
+        $scope.cacheOrder($scope.tempOrder);
+    };
+
 }]);

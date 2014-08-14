@@ -58,7 +58,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		}
 	}
 
-	var _extendProduct = function(product) {
+	var _extendProduct = function(product, lineitem) {
 		$scope.selectedProduct = angular.copy(product);
 		$scope.digitalProduct = product.StandardID.indexOf("SCD") > -1 ? true : false;
 		$scope.selectedProductDetails = {};
@@ -67,7 +67,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		$scope.selectedProduct.imageName = null;
 		$scope.selectedProduct.designSelection = null;
 		$scope.selectedProduct.selectedDesignID = null;
+        $scope.selectedProduct.OpeningMessageOption = 'None';
 		$scope.occasionMessages = [];
+
+        if (lineitem) {
+            $scope.checkForLogos();
+        }
 
 		switch (product.StandardID) {
 			case "SCD-GC1":
@@ -112,6 +117,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				$scope.selectedProductDetails = angular.copy(product);
 				//Call function to obtain variant information and save personal messages
 				getPersonalMessages($scope.selectedProductDetails.Variants);
+                if (lineitem) {
+                    var type = LineItems.getProductType(lineitem);
+                    $scope.$broadcast('event:ProductTypeSelected', type, lineitem);
+                }
 			});
 		}
 		else if ($scope.selectedProduct.StandardID == "MerchantCards") {
@@ -137,8 +146,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		store.set("451Cache.SelectedProductInteropID",$scope.selectedProduct.InteropID);
 	}
 
-	$scope.$on('event:ProductSelected', function(event,product) {
-		_extendProduct(product);
+	$scope.$on('event:ProductSelected', function(event,product, lineitem) {
+		_extendProduct(product, lineitem);
 
 		RecipientList.validate($scope.recipientList,$scope.digitalProduct);
 		store.set("451Cache.RecipientList",[]);
@@ -164,27 +173,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		var country = $scope[r] ? $scope[r].Country : "US";
 
 		$scope[r] = {
-			FirstName:"",
-			LastName:"",
-			RecipientID:"",
-			Email:"",
-			ShipToFirstName:"",
-			ShipToLastName:"",
-			ShipToCompanyName:"",
-			Street1:"",
-			Street2:"",
-			City:"",
-			State:"",
-			Zip:"",
-			Country:country,
-			Phone:"",
-			Invalid:false,
-			ErrorMessage:null,
-			Selected: false,
-			AwardCount:0,
-			ShipAddressID:null
+			FirstName:"",LastName:"",RecipientID:"",Email:"",ShipToFirstName:"",ShipToLastName:"",ShipToCompanyName:"",
+			Street1:"",Street2:"",City:"",State:"",Zip:"",Country:country,Phone:"",Invalid:false,ErrorMessage:null,Selected: false,AwardCount:0,ShipAddressID:null
 		};
-	}
+	};
 
 	var randomString = function() {
 		var chars = "0123456789abcdefghijklmnop";
@@ -306,17 +298,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         recipient.City = $scope.recipient.newAddress.City;
         recipient.State = $scope.recipient.newAddress.State;
         recipient.Zip = $scope.recipient.newAddress.Zip;
-	    var address = {};
-	    address.AddressName = $scope.recipient.newAddress.Street1;
-	    address.FirstName = $scope.recipient.ShipToFirstName;
-	    address.LastName = $scope.recipient.ShipToLastName;
-	    address.Street1 = $scope.recipient.newAddress.Street1;
-	    address.Street2 = $scope.recipient.newAddress.Street2;
-	    address.City = $scope.recipient.newAddress.City;
-	    address.State = $scope.recipient.newAddress.State;
-	    address.Zip = $scope.recipient.newAddress.Zip;
-	    address.Country = $scope.recipient.newAddress.Country;
-	    address.Phone = $scope.recipient.Phone;
+	    var address = angular.copy($scope.recipient.newAddress);
 	    address.IsShipping = true;
 	    address.IsBilling = false;
 	    $scope.recipient.newAddress = null;
@@ -542,29 +524,15 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	$scope.useExistingAddress = function() {
 		var address = this.existingAddress;
 		if (address) {
-			$scope.recipient.Street1 = address.Street1;
-			$scope.recipient.Street2 = address.Street2;
-			$scope.recipient.City = address.City;
-			$scope.recipient.State = address.State;
-			$scope.recipient.Zip = address.Zip;
-			$scope.recipient.Country = address.Country;
-			$scope.recipient.Phone = address.Phone;
-			$scope.recipient.ShipToFirstName = address.FirstName;
-			$scope.recipient.ShipToLastName = address.LastName;
+			$scope.recipient.Street1 = address.Street1;$scope.recipient.Street2 = address.Street2;$scope.recipient.City = address.City;
+			$scope.recipient.State = address.State;$scope.recipient.Zip = address.Zip;$scope.recipient.Country = address.Country;
+			$scope.recipient.Phone = address.Phone;$scope.recipient.ShipToFirstName = address.FirstName;$scope.recipient.ShipToLastName = address.LastName;
 			$scope.recipient.ShipToCompanyName = address.CompanyName;
 			$scope.recipient.ShipAddressID = address.ID;
 		}
 		else {
-			$scope.recipient.Street1 = "";
-			$scope.recipient.Street2 = "";
-			$scope.recipient.City = "";
-			$scope.recipient.State = "";
-			$scope.recipient.Zip = "";
-			$scope.recipient.Country = "";
-			$scope.recipient.Phone = "";
-			$scope.recipient.ShipToFirstName = "";
-			$scope.recipient.ShipToLastName = "";
-			$scope.recipient.ShipToCompanyName = "";
+			$scope.recipient.Street1 = "";$scope.recipient.Street2 = "";$scope.recipient.City = "";$scope.recipient.State = "";$scope.recipient.Zip = "";
+			$scope.recipient.Country = "";$scope.recipient.Phone = "";$scope.recipient.ShipToFirstName = "";$scope.recipient.ShipToLastName = "";$scope.recipient.ShipToCompanyName = "";
 		}
 	}
 
@@ -578,23 +546,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 			var recipient = {};
 			recipient = list[i];
 			recipient['ID'] = randomString();
-
 			var address = {};
-			address.AddressName = recipient.Street1;
-			address.FirstName = recipient.ShipToFirstName;
-			address.LastName = recipient.ShipToLastName;
-			address.Street1 = recipient.Street1;
-			address.Street2 = recipient.Street2;
-			address.City = recipient.City;
-			address.State = recipient.State;
-			address.Zip = recipient.Zip;
-			address.Country = recipient.Country;
-			address.Phone = recipient.Phone;
-			address.IsShipping = true;
-			address.IsBilling = false;
+			address.AddressName = recipient.Street1;address.FirstName = recipient.ShipToFirstName;address.LastName = recipient.ShipToLastName;
+			address.Street1 = recipient.Street1;address.Street2 = recipient.Street2;address.City = recipient.City;address.State = recipient.State;
+			address.Zip = recipient.Zip;address.Country = recipient.Country;address.Phone = recipient.Phone;address.IsShipping = true;address.IsBilling = false;
 
 			ExistingAddress.check($scope.addresses,address);
-
 
 			if (!recipient.AddressInvalid) {
 				if (!address.IsExisting) {
@@ -606,16 +563,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 						address.matchCount = 0;
 						for (var a = 0; a < addresses.length; a++) {
 							var add = addresses[a];
-							if (address.AddressName == add.AddressName &&
-								address.FirstName == add.FirstName &&
-								address.LastName == add.LastName &&
-								address.Street1 == add.Street1 &&
-								address.Street2 == add.Street2 &&
-								address.City == add.City &&
-								address.State == add.State &&
-								address.Zip == add.Zip &&
-								address.Country == add.Country &&
-								address.Phone == add.Phone)
+							if (address.AddressName == add.AddressName && address.FirstName == add.FirstName && address.LastName == add.LastName &&
+								address.Street1 == add.Street1 && address.Street2 == add.Street2 && address.City == add.City && address.State == add.State &&
+								address.Zip == add.Zip && address.Country == add.Country && address.Phone == add.Phone)
 							{
 								address.matchCount++;
 							}
@@ -641,16 +591,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 						 for (var a = 0; a < $scope.addresses.length; a++) {
 							 var add = $scope.addresses[a];
                              recip.Phone = recip.Phone ? recip.Phone : " ";
-							 if (recip.Street1 == add.AddressName &&
-								 recip.ShipToFirstName == add.FirstName &&
-								 recip.ShipToLastName == add.LastName &&
-								 recip.Street1 == add.Street1 &&
-								 recip.Street2 == add.Street2 &&
-								 recip.City == add.City &&
-								 recip.State == add.State &&
-								 recip.Zip == add.Zip &&
-								 recip.Country == add.Country &&
-                                 recip.Phone == add.Phone)
+							 if (recip.Street1 == add.AddressName && recip.ShipToFirstName == add.FirstName && recip.ShipToLastName == add.LastName &&
+								 recip.Street1 == add.Street1 && recip.Street2 == add.Street2 && recip.City == add.City && recip.State == add.State &&
+								 recip.Zip == add.Zip && recip.Country == add.Country && recip.Phone == add.Phone)
 							 {
 								 $scope.recipientList[r].ShipAddressID = add.ID;
 							 }
@@ -873,7 +816,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
 	$scope.selectedProduct.productLoadingIndicator = false;
 
-	$scope.$on('event:ProductTypeSelected', function(event,type) {
+	$scope.$on('event:ProductTypeSelected', function(event,type, lineitem) {
 		$scope.selectedProduct.productLoadingIndicator = true;
         $scope.selectedProductType = type;
 		$scope.selectedProductDetails = {};
@@ -909,6 +852,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             $scope.selectedProduct.productLoadingIndicator = true;
             Product.get($scope.selectedProduct.InteropID, function(product){
                 $scope.selectedProductDetails = angular.copy(product);
+                if (lineitem) {
+                    LineItems.setProductSpecs(lineitem, $scope.selectedProduct);
+                    $scope.designChanged(lineitem);
+                }
                 $scope.selectedProduct.productLoadingIndicator = false;
             });
         }
@@ -956,21 +903,23 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         }
     };
 
-	$scope.designChanged = function() {
+	$scope.designChanged = function(lineitem) {
 
 		$scope.occasionMessages = [];
-        $scope.selectedProduct.selectedDesignName = (this.selectedProduct.designSelection) ? this.selectedProduct.designSelection.Value.split(' | ')[0] : "Select a design";
-        $scope.selectedProduct.selectedDesignID = (this.selectedProduct.designSelection) ? this.selectedProduct.designSelection.Value.split(' | ')[1] : "Select a design";
-		$scope.selectedProduct.occasionMessage = null;
-		$scope.selectedProduct.occasionMessageID = null;
-		$scope.selectedProduct.imageName = null;
+        $scope.selectedProduct.selectedDesignName = (this.selectedProduct.designSelection && this.selectedProduct.designSelection.Value) ? this.selectedProduct.designSelection.Value.split(' | ')[0] : ((this.selectedProduct.designSelection) ? this.selectedProduct.designSelection.split(' | ')[0] : "Select a design");
+        $scope.selectedProduct.selectedDesignID = (this.selectedProduct.designSelection && this.selectedProduct.designSelection.Value) ? this.selectedProduct.designSelection.Value.split(' | ')[1] : ((this.selectedProduct.designSelection) ? this.selectedProduct.designSelection.split(' | ')[1] : "Select a design");
+		if (!lineitem) {
+            $scope.selectedProduct.occasionMessage = null;
+            $scope.selectedProduct.occasionMessageID = null;
+            $scope.selectedProduct.imageName = null;
+        }
 
 		switch ($scope.selectedProduct.StandardID) {
 			case "SCD-GC1":
 				for (var i = 0; i < $scope.digitalOM.length; i++) {
 					if ($scope.digitalOM[i].TemplateID == $scope.selectedProduct.selectedDesignID) {
 						$scope.occasionMessages.push($scope.digitalOM[i].OccasionName)
-						$scope.selectedProduct.occasionMessage = null;
+						//$scope.selectedProduct.occasionMessage = null;
 					}
 				}
                 $scope.showPreview("digital", $scope.selectedProduct.selectedDesignName);
@@ -979,7 +928,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				for (var i = 0; i < $scope.physicalOM.length; i++) {
 					if ($scope.physicalOM[i].TemplateID.replace('pht_','') == $scope.selectedProduct.selectedDesignID) {
 						$scope.occasionMessages.push($scope.physicalOM[i].OccasionName)
-						$scope.selectedProduct.occasionMessage = null;
+						//$scope.selectedProduct.occasionMessage = null;
 					}
 				}
                 $scope.showPreview("physical", $scope.selectedProduct.selectedDesignName);
@@ -988,7 +937,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				for (var i = 0; i < $scope.physicalOM.length; i++) {
 					if ($scope.physicalOM[i].TemplateID.replace('pht_','') == $scope.selectedProduct.selectedDesignID) {
 						$scope.occasionMessages.push($scope.physicalOM[i].OccasionName)
-						$scope.selectedProduct.occasionMessage = null;
+						//$scope.selectedProduct.occasionMessage = null;
 					}
 				}
                 $scope.showPreview("giftcard", $scope.selectedProduct.selectedDesignName);
@@ -1112,69 +1061,27 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     var variant = {
                         "ProductInteropID":$scope.selectedProduct.InteropID,
                         "Specs": {
-                            "V10DesignSelection":{
-                                "Value":$scope.selectedProduct.designSelection.Value
-                            },
-                            "V00MessageSelectionList":{
-                                "Value":$scope.selectedProduct.occasionMessage
-                            },
-                            "V11MessageSelection":{
-                                "Value":messageSelection
-                            },
-                            "Denomination1":{
-                                "Value":denominationValue
-                            },
-                            "FirstName1":{
-                                "Value":$scope.recipientGroup[recip].FirstName
-                            },
-                            "LastName1":{
-                                "Value":$scope.recipientGroup[recip].LastName
-                            },
-                            "EnvelopeLineTwo1":{
-                                "Value":$scope.recipientGroup[recip].EnvelopeLineTwo
-                            },
-                            "R1CL1":{
-                                "Value":$scope.recipientGroup[recip].RecipientID
-                            },
-	                        "R1CL2":{
-		                        "Value":$scope.recipientGroup[recip].ID
-	                        },
-                            "V15Message":{
-                                "Value":personalMessage
-                            },
-                            "V16Closing":{
-                                "Value":closingMessage
-                            },
-                            "V14Opening":{
-                                "Value":customMessageText
-                            },
-	                        "Opening1": {
-		                        "Value":openingText
-	                        },
-                            "IsMultiRecipient":{
-                                "Value":"True"
-                            },
-                            "V17OccasionMessageImage":{
-                                "Value":$scope.selectedProduct.imageName
-                            },
-                            "SaveAs":{
-                                "Value":saveAs
-                            },
-                            "V14OpeningPesonalization":{
-                                "Value":customMessageOption
-                            },
-	                        "PersonalMessageCheck":{
-		                        "Value":"Pass"
-	                        },
-                            "V11_CustomerLogo":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
-                            },
-                            "V17P_LogoFileID":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
-                            },
-                            "Recipients":{
-                                "Value":"1"
-                            }
+                            "V10DesignSelection":{"Value":$scope.selectedProduct.designSelection.Value},
+                            "V00MessageSelectionList":{"Value":$scope.selectedProduct.occasionMessage},
+                            "V11MessageSelection":{"Value":messageSelection},
+                            "Denomination1":{"Value":denominationValue},
+                            "FirstName1":{"Value":$scope.recipientGroup[recip].FirstName},
+                            "LastName1":{"Value":$scope.recipientGroup[recip].LastName},
+                            "EnvelopeLineTwo1":{"Value":$scope.recipientGroup[recip].EnvelopeLineTwo},
+                            "R1CL1":{"Value":$scope.recipientGroup[recip].RecipientID},
+	                        "R1CL2":{"Value":$scope.recipientGroup[recip].ID},
+                            "V15Message":{"Value":personalMessage},
+                            "V16Closing":{"Value":closingMessage},
+                            "V14Opening":{"Value":customMessageText},
+	                        "Opening1": {"Value":openingText},
+                            "IsMultiRecipient":{"Value":"True"},
+                            "V17OccasionMessageImage":{"Value":$scope.selectedProduct.imageName},
+                            "SaveAs":{"Value":saveAs},
+                            "V14OpeningPesonalization":{"Value":customMessageOption},
+	                        "PersonalMessageCheck":{"Value":"Pass"},
+                            "V11_CustomerLogo":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
+                            "V17P_LogoFileID":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
+                            "Recipients":{"Value":"1"}
                         }
                     };
                     break;
@@ -1205,75 +1112,29 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     var variant = {
                         "ProductInteropID":$scope.selectedProduct.InteropID,
                         "Specs": {
-                            "V01Design":{
-                                "Value":$scope.selectedProduct.designSelection.Value
-                            },
-                            "V00OccasionList":{
-                                "Value":$scope.selectedProduct.occasionMessage
-                            },
-                            "V02Occasion":{
-                                "Value":messageSelection
-                            },
-                            "Denomination1":{
-                                "Value":denominationValue
-                            },
-                            "FirstName1":{
-                                "Value":$scope.recipientGroup[recip].FirstName
-                            },
-                            "LastName1":{
-                                "Value":$scope.recipientGroup[recip].LastName
-                            },
-                            "Email1":{
-                                "Value":$scope.recipientGroup[recip].Email
-                            },
-                            "R1CL1":{
-                                "Value":$scope.recipientGroup[recip].RecipientID
-                            },
-	                        "R1CL2":{
-		                        "Value":$scope.recipientGroup[recip].ID
-	                        },
-                            "R1CL3":{
-                                "Value":emailSubject
-                            },
-                            "R1CL4":{
-                                "Value":deliveryDate
-                            },
-                            "V04PersonalMessage":{
-                                "Value":personalMessage
-                            },
-                            "V05ClosingMessage":{
-                                "Value":closingMessage
-                            },
-                            "Opening1":{
-                                "Value":openingText
-                            },
-	                        "V03OpeningMessage":{
-		                        "Value":customMessageText
-	                        },
-                            "IsMultiRecipient":{
-                                "Value":"True"
-                            },
-                            "V14OccasionImageName":{
-                                "Value":$scope.selectedProduct.imageName
-                            },
-                            "SaveAs":{
-                                "Value":saveAs
-                            },
-                            "V14OpeningPesonalization":{
-                                "Value":customMessageOption
-                            },
-	                        "PersonalMessageCheck":{
-		                        "Value":"Pass"
-	                        },
-                            "V11_CustomerLogo":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
-                            },
-                            "V17D_LogoFileID":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
-                            },
-                            "Recipients":{
-                                "Value":"1"
-                            }
+                            "V01Design":{"Value":$scope.selectedProduct.designSelection.Value},
+                            "V00OccasionList":{"Value":$scope.selectedProduct.occasionMessage},
+                            "V02Occasion":{"Value":messageSelection},
+                            "Denomination1":{"Value":denominationValue},
+                            "FirstName1":{"Value":$scope.recipientGroup[recip].FirstName},
+                            "LastName1":{"Value":$scope.recipientGroup[recip].LastName},
+                            "Email1":{"Value":$scope.recipientGroup[recip].Email},
+                            "R1CL1":{"Value":$scope.recipientGroup[recip].RecipientID},
+	                        "R1CL2":{"Value":$scope.recipientGroup[recip].ID},
+                            "R1CL3":{"Value":emailSubject},
+                            "R1CL4":{"Value":deliveryDate},
+                            "V04PersonalMessage":{"Value":personalMessage},
+                            "V05ClosingMessage":{"Value":closingMessage},
+                            "Opening1":{"Value":openingText},
+	                        "V03OpeningMessage":{"Value":customMessageText},
+                            "IsMultiRecipient":{"Value":"True"},
+                            "V14OccasionImageName":{"Value":$scope.selectedProduct.imageName},
+                            "SaveAs":{"Value":saveAs},
+                            "V14OpeningPesonalization":{"Value":customMessageOption},
+	                        "PersonalMessageCheck":{"Value":"Pass"},
+                            "V11_CustomerLogo":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
+                            "V17D_LogoFileID":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
+                            "Recipients":{"Value":"1"}
                         }
                     };
                     break;
@@ -1302,69 +1163,27 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     var variant = {
                         "ProductInteropID":$scope.selectedProduct.InteropID,
                         "Specs": {
-                            "V10DesignSelection":{
-                                "Value":$scope.selectedProduct.designSelection.Value
-                            },
-                            "V11MessageSelection":{
-                                "Value":$scope.selectedProduct.occasionMessage
-                            },
-                            "V02Occasion":{
-                                "Value":messageSelection
-                            },
-                            "Denomination1":{
-                                "Value":denominationValue
-                            },
-                            "FirstName1":{
-                                "Value":$scope.recipientGroup[recip].FirstName
-                            },
-                            "LastName1":{
-                                "Value":$scope.recipientGroup[recip].LastName
-                            },
-                            "EnvelopeLineTwo1":{
-                                "Value":$scope.recipientGroup[recip].EnvelopeLineTwo
-                            },
-                            "Email1":{
-                                "Value":$scope.recipientGroup[recip].Email
-                            },
-                            "R1CL1":{
-                                "Value":$scope.recipientGroup[recip].RecipientID
-                            },
-	                        "R1CL2":{
-		                        "Value":$scope.recipientGroup[recip].ID
-	                        },
-                            "V04PersonalMessage":{
-                                "Value":personalMessage
-                            },
-                            "V05ClosingMessage":{
-                                "Value":closingMessage
-                            },
-                            "Opening1":{
-                                "Value":openingText
-                            },
-	                        "V03OpeningMessage":{
-		                        "Value":customMessageText
-	                        },
-                            "IsMultiRecipient":{
-                                "Value":"True"
-                            },
-                            "V14OccasionImageName":{
-                                "Value":$scope.selectedProduct.imageName
-                            },
-                            "SaveAs":{
-                                "Value":saveAs
-                            },
-	                        "PersonalMessageCheck":{
-		                        "Value":"Pass"
-	                        },
-                            "V11_CustomerLogo":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
-                            },
-                            "V17P_LogoFileID":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
-                            },
-                            "Recipients":{
-                                "Value":"1"
-                            }
+                            "V10DesignSelection":{"Value":$scope.selectedProduct.designSelection.Value},
+                            "V11MessageSelection":{"Value":$scope.selectedProduct.occasionMessage},
+                            "V02Occasion":{"Value":messageSelection},
+                            "Denomination1":{"Value":denominationValue},
+                            "FirstName1":{"Value":$scope.recipientGroup[recip].FirstName},
+                            "LastName1":{"Value":$scope.recipientGroup[recip].LastName},
+                            "EnvelopeLineTwo1":{"Value":$scope.recipientGroup[recip].EnvelopeLineTwo},
+                            "Email1":{"Value":$scope.recipientGroup[recip].Email},
+                            "R1CL1":{"Value":$scope.recipientGroup[recip].RecipientID},
+	                        "R1CL2":{"Value":$scope.recipientGroup[recip].ID},
+                            "V04PersonalMessage":{"Value":personalMessage},
+                            "V05ClosingMessage":{"Value":closingMessage},
+                            "Opening1":{"Value":openingText},
+	                        "V03OpeningMessage":{"Value":customMessageText},
+                            "IsMultiRecipient":{"Value":"True"},
+                            "V14OccasionImageName":{"Value":$scope.selectedProduct.imageName},
+                            "SaveAs":{"Value":saveAs},
+	                        "PersonalMessageCheck":{"Value":"Pass"},
+                            "V11_CustomerLogo":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
+                            "V17P_LogoFileID":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
+                            "Recipients":{"Value":"1"}
                         }
                     };
                     break;
@@ -1407,66 +1226,26 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     var variant = {
                         "ProductInteropID":$scope.selectedProduct.InteropID,
                         "Specs": {
-                            "V10DesignSelection":{
-                                "Value":$scope.selectedProduct.designSelection.Value
-                            },
-                            "V00MessageSelectionList":{
-                                "Value":$scope.selectedProduct.occasionMessage
-                            },
-                            "V11MessageSelection":{
-                                "Value":messageSelection
-                            },
-                            "Denomination1":{
-                                "Value":denominationValue
-                            },
-                            "FirstName1":{
-                                "Value":""
-                            },
-                            "LastName1":{
-                                "Value":""
-                            },
-                            "R1CL1":{
-                                "Value":""
-                            },
-                            "R1CL2":{
-                                "Value":""
-                            },
-                            "V15Message":{
-                                "Value":personalMessage
-                            },
-                            "V16Closing":{
-                                "Value":closingMessage
-                            },
-                            "V14Opening":{
-                                "Value":customMessageText
-                            },
-                            "Opening1": {
-                                "Value":openingText
-                            },
-                            "IsMultiRecipient":{
-                                "Value":"True"
-                            },
-                            "V17OccasionMessageImage":{
-                                "Value":$scope.selectedProduct.imageName
-                            },
-                            "SaveAs":{
-                                "Value":saveAs
-                            },
-                            "V14OpeningPesonalization":{
-                                "Value":customMessageOption
-                            },
-                            "PersonalMessageCheck":{
-                                "Value":"Pass"
-                            },
-                            "V11_CustomerLogo":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
-                            },
-                            "V17P_LogoFileID":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
-                            },
-                            "Recipients":{
-                                "Value":"1"
-                            }
+                            "V10DesignSelection":{"Value":$scope.selectedProduct.designSelection.Value},
+                            "V00MessageSelectionList":{"Value":$scope.selectedProduct.occasionMessage},
+                            "V11MessageSelection":{"Value":messageSelection},
+                            "Denomination1":{"Value":denominationValue},
+                            "FirstName1":{"Value":""},
+                            "LastName1":{"Value":""},
+                            "R1CL1":{"Value":""},
+                            "R1CL2":{"Value":""},
+                            "V15Message":{"Value":personalMessage},
+                            "V16Closing":{"Value":closingMessage},
+                            "V14Opening":{"Value":customMessageText},
+                            "Opening1": {"Value":openingText},
+                            "IsMultiRecipient":{"Value":"True"},
+                            "V17OccasionMessageImage":{"Value":$scope.selectedProduct.imageName},
+                            "SaveAs":{"Value":saveAs},
+                            "V14OpeningPesonalization":{"Value":customMessageOption},
+                            "PersonalMessageCheck":{"Value":"Pass"},
+                            "V11_CustomerLogo":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
+                            "V17P_LogoFileID":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
+                            "Recipients":{"Value":"1"}
                         }
                     };
                     break;
@@ -1497,75 +1276,29 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     var variant = {
                         "ProductInteropID":$scope.selectedProduct.InteropID,
                         "Specs": {
-                            "V01Design":{
-                                "Value":$scope.selectedProduct.designSelection.Value
-                            },
-                            "V00OccasionList":{
-                                "Value":$scope.selectedProduct.occasionMessage
-                            },
-                            "V02Occasion":{
-                                "Value":messageSelection
-                            },
-                            "Denomination1":{
-                                "Value":denominationValue
-                            },
-                            "FirstName1":{
-                                "Value":""
-                            },
-                            "LastName1":{
-                                "Value":""
-                            },
-                            "Email1":{
-                                "Value":""
-                            },
-                            "R1CL1":{
-                                "Value":""
-                            },
-                            "R1CL2":{
-                                "Value":""
-                            },
-                            "R1CL3":{
-                                "Value":emailSubject
-                            },
-                            "R1CL4":{
-                                "Value":deliveryDate
-                            },
-                            "V04PersonalMessage":{
-                                "Value":personalMessage
-                            },
-                            "V05ClosingMessage":{
-                                "Value":closingMessage
-                            },
-                            "Opening1":{
-                                "Value":openingText
-                            },
-                            "V03OpeningMessage":{
-                                "Value":customMessageText
-                            },
-                            "IsMultiRecipient":{
-                                "Value":"True"
-                            },
-                            "V14OccasionImageName":{
-                                "Value":$scope.selectedProduct.imageName
-                            },
-                            "SaveAs":{
-                                "Value":saveAs
-                            },
-                            "V14OpeningPesonalization":{
-                                "Value":customMessageOption
-                            },
-                            "PersonalMessageCheck":{
-                                "Value":"Pass"
-                            },
-                            "V11_CustomerLogo":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
-                            },
-                            "V17D_LogoFileID":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
-                            },
-                            "Recipients":{
-                                "Value":"1"
-                            }
+                            "V01Design":{"Value":$scope.selectedProduct.designSelection.Value},
+                            "V00OccasionList":{"Value":$scope.selectedProduct.occasionMessage},
+                            "V02Occasion":{"Value":messageSelection},
+                            "Denomination1":{"Value":denominationValue},
+                            "FirstName1":{"Value":""},
+                            "LastName1":{"Value":""},
+                            "Email1":{"Value":""},
+                            "R1CL1":{"Value":""},
+                            "R1CL2":{"Value":""},
+                            "R1CL3":{"Value":emailSubject},
+                            "R1CL4":{"Value":deliveryDate},
+                            "V04PersonalMessage":{"Value":personalMessage},
+                            "V05ClosingMessage":{"Value":closingMessage},
+                            "Opening1":{"Value":openingText},
+                            "V03OpeningMessage":{"Value":customMessageText},
+                            "IsMultiRecipient":{"Value":"True"},
+                            "V14OccasionImageName":{"Value":$scope.selectedProduct.imageName},
+                            "SaveAs":{"Value":saveAs},
+                            "V14OpeningPesonalization":{"Value":customMessageOption},
+                            "PersonalMessageCheck":{"Value":"Pass"},
+                            "V11_CustomerLogo":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
+                            "V17D_LogoFileID":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
+                            "Recipients":{"Value":"1"}
                         }
                     };
                     break;
@@ -1594,66 +1327,26 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     var variant = {
                         "ProductInteropID":$scope.selectedProduct.InteropID,
                         "Specs": {
-                            "V01Design":{
-                                "Value":$scope.selectedProduct.designSelection.Value
-                            },
-                            "V11MessageSelection":{
-                                "Value":$scope.selectedProduct.occasionMessage
-                            },
-                            "V02Occasion":{
-                                "Value":messageSelection
-                            },
-                            "Denomination1":{
-                                "Value":denominationValue
-                            },
-                            "FirstName1":{
-                                "Value":""
-                            },
-                            "LastName1":{
-                                "Value":""
-                            },
-                            "Email1":{
-                                "Value":""
-                            },
-                            "R1CL1":{
-                                "Value":""
-                            },
-                            "R1CL2":{
-                                "Value":""
-                            },
-                            "V04PersonalMessage":{
-                                "Value":personalMessage
-                            },
-                            "V05ClosingMessage":{
-                                "Value":closingMessage
-                            },
-                            "Opening1":{
-                                "Value":openingText
-                            },
-                            "V03OpeningMessage":{
-                                "Value":customMessageText
-                            },
-                            "IsMultiRecipient":{
-                                "Value":"True"
-                            },
-                            "V14OccasionImageName":{
-                                "Value":$scope.selectedProduct.imageName
-                            },
-                            "SaveAs":{
-                                "Value":saveAs
-                            },
-                            "PersonalMessageCheck":{
-                                "Value":"Pass"
-                            },
-                            "V11_CustomerLogo":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""
-                            },
-                            "V17P_LogoFileID":{
-                                "Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""
-                            },
-                            "Recipients":{
-                                "Value":"1"
-                            }
+                            "V01Design":{"Value":$scope.selectedProduct.designSelection.Value},
+                            "V11MessageSelection":{"Value":$scope.selectedProduct.occasionMessage},
+                            "V02Occasion":{"Value":messageSelection},
+                            "Denomination1":{"Value":denominationValue},
+                            "FirstName1":{"Value":""},
+                            "LastName1":{"Value":""},
+                            "Email1":{"Value":""},
+                            "R1CL1":{"Value":""},
+                            "R1CL2":{"Value":""},
+                            "V04PersonalMessage":{"Value":personalMessage},
+                            "V05ClosingMessage":{"Value":closingMessage},
+                            "Opening1":{"Value":openingText},
+                            "V03OpeningMessage":{"Value":customMessageText},
+                            "IsMultiRecipient":{"Value":"True"},
+                            "V14OccasionImageName":{"Value":$scope.selectedProduct.imageName},
+                            "SaveAs":{"Value":saveAs},
+                            "PersonalMessageCheck":{"Value":"Pass"},
+                            "V11_CustomerLogo":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
+                            "V17P_LogoFileID":{"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
+                            "Recipients":{"Value":"1"}
                         }
                     };
                     break;
@@ -1661,11 +1354,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
             variants.push(variant);
         }
-
 		var variantCount = variants.length;
-
 		var _orderSave = function(lineItems) {
-
 			if(!$scope.tempOrder){
 				$scope.tempOrder = {};
 				$scope.tempOrder.LineItems = [];
@@ -1673,7 +1363,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 			if (!$scope.tempOrder.LineItems) {
 				$scope.tempOrder.LineItems = [];
 			}
-
 			for (var li = 0; li < lineItems.length; li++) {
 				if (lineItems[li].UniqueID) {
 					if (lineItems[li].Product.ExternalID.indexOf('SCD') > -1) {
@@ -1691,7 +1380,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 					}
 				}
 			}
-
 			for (var li = 0; li < $scope.tempOrder.LineItems.length; li++) {
 				if ($scope.tempOrder.LineItems[li].UniqueID) {
 					var lineItemVariantSpecs = {};
@@ -1703,9 +1391,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 					$scope.tempOrder.LineItems[li].Variant.Specs = lineItemVariantSpecs;
 				}
 			}
-
             $scope.cacheOrder($scope.tempOrder);
-
 			$scope.recipientGroup = [];
 			for (var i = 0; i < $scope.recipientList.length; i++) {
 				$scope.recipientList[i].Selected = false;
@@ -1720,9 +1406,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             store.set("451Cache.SelectedProduct", $scope.selectedProduct);
 			$location.path('cart');
 		}
-
 		var lineItems = [];
-
 		for (var v = 0; v < variants.length; v++) {
 			Variant.save(variants[v], function(data){
 				variantCount--;
@@ -1769,18 +1453,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                         "Quantity":qty,
 	                    "ShipAddressID":$scope.digitalAddressID,
                         "Specs":{
-                            "EmailSubject":{
-                                "Name":"EmailSubject",
-                                "Value":emailSubject
-                            },
-                            "FutureShipDate":{
-                                "Name":"FutureShipDate",
-                                "Value":futureShipDate
-                            },
-                            "Physical/Digital":{
-                                "Name":"Physical/Digital",
-                                "Value":"Digital"
-                            }
+                            "EmailSubject":{"Name":"EmailSubject","Value":emailSubject},
+                            "FutureShipDate":{"Name":"FutureShipDate","Value":futureShipDate},
+                            "Physical/Digital":{"Name":"Physical/Digital","Value":"Digital"}
                         },
                         "UnitPrice":$scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price,
                         "Variant":reducedVariant,
@@ -1797,10 +1472,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                         "Product":reducedProduct,
                         "Quantity":qty,
 	                    "Specs":{
-		                    "Physical/Digital":{
-			                    "Name":"Physical/Digital",
-			                    "Value":"Physical"
-		                    }
+		                    "Physical/Digital":{"Name":"Physical/Digital","Value":"Physical"}
 	                    },
                         "UnitPrice":$scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price,
                         "Variant":reducedVariant,
@@ -1822,9 +1494,222 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
 	/*** Handle Step On 'Main' Return ***/
 
-	$scope.step = 1;
+	if ($scope.step != 4) $scope.step = 1;
 
-	if ($scope.selectedProduct.InteropID && $scope.recipientList.length > 0 && $scope.selectedProduct.InteropID != "MerchantCards") {
-        $scope.step = 3;
-	}
+    /*** Editing Award ***/
+
+    if (store.get('451Cache:EditingAward') && $routeParams.lineItemID) {
+        $scope.editingLineItem = angular.copy(store.get('451Cache:EditingAward'));
+        $scope.EditingAward = true;
+        $scope.step = 4;
+
+        $rootScope.$broadcast('event:ProductSelected', $scope.editingLineItem.Product, $scope.editingLineItem);
+    }
+    else {
+        store.remove('451Cache:EditingAward');
+        $scope.EditingAward = false;
+    }
+
+    $scope.updateAward = function(product, lineitem) {
+        $scope.selectedProduct.buildingProductsIndicator = true;
+
+        var denominationValue = $scope.selectedProduct.denomination;
+        var personalMessage = $scope.selectedProduct.PersonalMessage;
+        var closingMessage = $scope.selectedProduct.ClosingMessage;
+        var emailSubject = $scope.selectedProduct.EmailSubject;
+        var deliveryDate = $scope.selectedProduct.DeliveryDate;
+
+        var variant = {};
+        variant.Specs = angular.copy(lineitem.Variant.Specs);
+
+        switch ($scope.selectedProduct.StandardID) {
+            case "SCP-FD1":
+                var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_") + " | " + $scope.selectedProduct.occasionMessageID;
+                var customMessageText = "";
+                var openingText = "";
+                if ($scope.selectedProduct.OpeningMessageOption) {
+                    var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
+                    if (customMessageOption.indexOf('First and Last Name') > -1) {
+                        openingText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value;
+                        customMessageText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value
+                    }
+                    else if (customMessageOption.indexOf('First Name Only') > -1) {
+                        openingText = lineitem.Variant.Specs.FirstName1.Value;
+                        customMessageText = lineitem.Variant.Specs.FirstName1.Value;
+                    }
+                    else if (customMessageOption.indexOf('Custom Message') > -1) {
+                        openingText = "";
+                        customMessageText = product.CustomOpeningMessage;
+                    }
+                    else {
+                        openingText = "";
+                        customMessageText = "";
+                    }
+                }
+
+                variant.ProductInteropID = $scope.selectedProduct.InteropID;
+                variant.Specs.V10DesignSelection = {"Value":$scope.selectedProduct.designSelection};
+                variant.Specs.V00MessageSelectionList = {"Value":$scope.selectedProduct.occasionMessage};
+                variant.Specs.V11MessageSelection = {"Value":messageSelection};
+                variant.Specs.Denomination1 = {"Value":denominationValue};
+                variant.Specs.V15Message = {"Value":personalMessage};
+                variant.Specs.V16Closing = {"Value":closingMessage};
+                variant.Specs.V14Opening = {"Value":customMessageText};
+                variant.Specs.Opening1 = {"Value":openingText};
+                variant.Specs.V17OccasionMessageImage = {"Value":$scope.selectedProduct.imageName};
+                variant.Specs.V14OpeningPesonalization = {"Value":customMessageOption};
+                variant.Specs.V11_CustomerLogo = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""};
+                variant.Specs.V17P_LogoFileID = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""};
+
+                break;
+            case "SCD-GC1":
+                var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_");
+                var customMessageText = "";
+                var openingText = "";
+                if ($scope.selectedProduct.OpeningMessageOption) {
+                    var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
+                    if (customMessageOption.indexOf('First and Last Name') > -1) {
+                        openingText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value;
+                        customMessageText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value;
+                    }
+                    else if (customMessageOption.indexOf('First Name Only') > -1) {
+                        openingText = lineitem.Variant.Specs.FirstName1.Value;
+                        customMessageText = lineitem.Variant.Specs.FirstName1.Value;
+                    }
+                    else if (customMessageOption.indexOf('Custom Message') > -1) {
+                        openingText = "";
+                        customMessageText = product.CustomOpeningMessage;
+                    }
+                    else {
+                        openingText = "";
+                        customMessageText = "";
+                    }
+                }
+
+                variant.ProductInteropID = $scope.selectedProduct.InteropID;
+                variant.Specs.V01Design = {"Value":$scope.selectedProduct.designSelection};
+                variant.Specs.V00OccasionList = {"Value":$scope.selectedProduct.occasionMessage};
+                variant.Specs.V02Occasion = {"Value":messageSelection};
+                variant.Specs.Denomination1 = {"Value":denominationValue};
+                variant.Specs.R1CL3 = {"Value":emailSubject};
+                variant.Specs.R1CL4 = {"Value":deliveryDate};
+                variant.Specs.V04PersonalMessage = {"Value":personalMessage};
+                variant.Specs.V05ClosingMessage = {"Value":closingMessage};
+                variant.Specs.Opening1 = {"Value":openingText};
+                variant.Specs.V03OpeningMessage = {"Value":customMessageText};
+                variant.Specs.V14OccasionImageName = {"Value":$scope.selectedProduct.imageName};
+                variant.Specs.V14OpeningPesonalization = {"Value":customMessageOption};
+                variant.Specs.V11_CustomerLogo = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""};
+                variant.Specs.V17D_LogoFileID = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""};
+
+                break;
+            case "SCP-GC2":
+                var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_");
+                var customMessageOption = $scope.selectedProduct.OpeningMessageOption ? $scope.selectedProduct.OpeningMessageOption : "";
+                var customMessageText = "";
+                var openingText = "";
+                if (customMessageOption.indexOf('First and Last Name') > -1) {
+                    openingText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value;
+                    customMessageText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value;
+                }
+                else if (customMessageOption.indexOf('First Name Only') > -1) {
+                    openingText = lineitem.Variant.Specs.FirstName1.Value;
+                    customMessageText = lineitem.Variant.Specs.FirstName1.Value;
+                }
+                else if (customMessageOption.indexOf('Custom Message') > -1) {
+                    openingText = "";
+                    customMessageText = product.CustomOpeningMessage;
+                }
+                else {
+                    openingText = "";
+                    customMessageText = "";
+                }
+
+                variant.ProductInteropID = $scope.selectedProduct.InteropID;
+                variant.Specs.V10DesignSelection = {"Value":$scope.selectedProduct.designSelection};
+                variant.Specs.V11MessageSelection = {"Value":$scope.selectedProduct.occasionMessage};
+                variant.Specs.V02Occasion = {"Value":messageSelection};
+                variant.Specs.Denomination1 = {"Value":denominationValue};
+                variant.Specs.V04PersonalMessage = {"Value":personalMessage};
+                variant.Specs.V05ClosingMessage = {"Value":closingMessage};
+                variant.Specs.Opening1 = {"Value":openingText};
+                variant.Specs.V03OpeningMessage = {"Value":customMessageText};
+                variant.Specs.V14OccasionImageName = {"Value":$scope.selectedProduct.imageName};
+                variant.Specs.V11_CustomerLogo = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""};
+                variant.Specs.V17P_LogoFileID = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""};
+
+                break;
+        }
+
+        Variant.save(variant, function(data) {
+            var variantData = data;
+            var selectedDenom = variantData.Specs['Denomination1'].Value;
+            var markUp = 0;
+            for (var m = 0; m < variantData.Specs['Denomination1'].Options.length; m++) {
+                if (variantData.Specs['Denomination1'].Options[m].Value == selectedDenom) {
+                    markUp += variantData.Specs['Denomination1'].Options[m].Markup;
+                }
+            }
+            var lineTotal = markUp + $scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price;
+            var selectedProduct = $scope.selectedProductDetails;
+            selectedProduct.Specs = {};
+            selectedProduct.Description = "";
+            var reducedVariant = LineItems.reduceVariant(variantData);
+            var reducedPriceSchedule = LineItems.reducePriceSchedule(selectedProduct.StandardPriceSchedule);
+            if ($scope.digitalProduct) {
+                var date = (variantData.Specs['R1CL4'] && variantData.Specs['R1CL4'].Value) ? new Date(variantData.Specs['R1CL4'].Value) : ($scope.selectedProduct.DeliveryDate ? new Date($scope.selectedProduct.DeliveryDate) : null);
+                if (date) {
+                    var month = date.getMonth() + 1;
+                    var day = date.getDate();
+                    var year = date.getFullYear();
+                }
+                var futureShipDate = date ? month + "/" + day + "/" + year : "";
+                var emailSubject = data.Specs['R1CL3'].Value != "" ? data.Specs['R1CL3'].Value : $scope.selectedProduct.EmailSubject;
+                lineitem.Specs.FutureShipDate.Value = futureShipDate;
+                lineitem.Specs.EmailSubject.Value = emailSubject;
+            }
+            lineitem.LineTotal = lineTotal;
+            lineitem.Variant = reducedVariant;
+            lineitem.FaceValue = Number(data.Specs['Denomination1'].Value.split('$')[1]);
+            lineitem.InGroup = false;
+
+            var lineItemID = lineitem.UniqueID;
+            for (var g = 0; g < $scope.tempOrder.lineItemGroups.length; g++) {
+                for (var li = 0; li < $scope.tempOrder.lineItemGroups[g].LineItems.length; li++) {
+                    if ($scope.tempOrder.lineItemGroups[g].LineItems[li].UniqueID == lineItemID) {
+                        $scope.tempOrder.lineItemGroups[g].Total -= lineitem.LineTotal;
+                        $scope.tempOrder.lineItemGroups[g].LineItems.splice(li,1);
+                    }
+                }
+                if ($scope.tempOrder.lineItemGroups[g].LineItems.length == 0) {
+                    $scope.tempOrder.lineItemGroups.splice(g,1);
+                }
+            }
+            for (var li = 0; li < $scope.tempOrder.LineItems.length; li++) {
+                if ($scope.tempOrder.LineItems[li].UniqueID == lineItemID) {
+                    $scope.tempOrder.LineItems.splice(li,1);
+                }
+            }
+
+            $scope.tempOrder.LineItems.push(lineitem);
+            $scope.cacheOrder($scope.tempOrder);
+            $scope.recipientGroup = [];
+            for (var i = 0; i < $scope.recipientList.length; i++) {
+                $scope.recipientList[i].Selected = false;
+            }
+            $scope.occasionMessages = [];
+            store.set("451Cache.RecipientGroup",[]);
+            store.set("451Cache.RecipientGroup",$scope.recipientGroup);
+            store.set("451Cache.RecipientList",[]);
+            store.set("451Cache.RecipientList",$scope.recipientList);
+            $scope.selectedProduct.buildingProductsIndicator = false;
+            $scope.selectedProduct = {};
+            store.set("451Cache.SelectedProduct", $scope.selectedProduct);
+            $location.path('cart');
+        });
+
+
+        //lineitem.UniqueID;
+    }
+
 }]);

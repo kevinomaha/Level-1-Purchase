@@ -77,6 +77,7 @@ function($resource, $451, Address) {
 			else {
 				if (!i.MerchantCardAdded) {
 					i.MerchantCardAdded = true;
+                    i.Editing = false;
 					if (!i.Product.Specs['Email1']) {
 						order.merchangeCardsAllDigital = false;
 					}
@@ -136,6 +137,17 @@ function($resource, $451, Address) {
         var p = {};
         p.InteropID = product.InteropID;
         p.ExternalID = product.ExternalID;
+        p.Name = product.Name;
+
+        if (p.ExternalID.indexOf('SCD') > -1) {
+            p.StandardID = "SCD-GC1";
+        }
+        else if (p.ExternalID.indexOf('SCP-GC') > -1) {
+            p.StandardID = "SCP-GC2";
+        }
+        else {
+            p.StandardID = "SCP-FD1";
+        }
 
         return p;
     }
@@ -174,12 +186,75 @@ function($resource, $451, Address) {
         });
     }
 
+    var _getProductType = function(lineitem) {
+        var type = "";
+
+        if (["SCD-GC1","SCP-FD1","SCP-GC2"].indexOf(lineitem.Product.ExternalID) > -1) {
+            type = "Standard";
+        }
+        else if (["SCD-ES1","SCP-PS1","SCP-GCS"].indexOf(lineitem.Product.ExternalID) > -1) {
+            type = "Premium";
+        }
+        else if (["CSCD-SC1","CSCP-SC1"].indexOf(lineitem.Product.ExternalID) > -1) {
+            type = "Canadian";
+        }
+        else {
+            type = "Standard";
+        }
+
+        return type;
+    }
+
+    var _setProductSpecs = function(lineitem, product) {
+        switch (lineitem.Product.StandardID) {
+            case "SCP-FD1":
+                product.designSelection = lineitem.Variant.Specs.V10DesignSelection.Value;
+                product.occasionMessage = lineitem.Variant.Specs.V00MessageSelectionList.Value;
+                product.PersonalMessage = lineitem.Variant.Specs.V15Message.Value;
+                product.ClosingMessage = lineitem.Variant.Specs.V16Closing.Value;
+                break;
+            case "SCD-GC1":
+                product.designSelection = lineitem.Variant.Specs.V01Design.Value;
+                product.occasionMessage = lineitem.Variant.Specs.V02Occasion.Value.replace(/_/g," ");
+                product.PersonalMessage = lineitem.Variant.Specs.V04PersonalMessage.Value;
+                product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage.Value;
+                product.EmailSubject = lineitem.Specs.EmailSubject.Value;
+                product.DeliveryDate = lineitem.Specs.FutureShipDate.Value;
+                break;
+            case "SCP-GC2":
+                product.designSelection = lineitem.Variant.Specs.V10DesignSelection.Value;
+                product.occasionMessage = lineitem.Variant.Specs.V11MessageSelection.Value;
+                product.PersonalMessage = lineitem.Variant.Specs.V04PersonalMessage.Value;
+                product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage.Value;
+                break;
+        }
+        product.denomination = lineitem.Variant.Specs.Denomination1.Value;
+
+        var openingText = (lineitem.Variant.Specs.Opening1) ? lineitem.Variant.Specs.Opening1.Value : null;
+        if (openingText) {
+            if (openingText == (lineitem.Variant.Specs.FirstName1.Value + ' ' + lineitem.Variant.Specs.LastName1.Value)) {
+                product.OpeningMessageOption = "First and Last Name";
+            }
+            else if (openingText == lineitem.Variant.Specs.FirstName1.Value) {
+                product.OpeningMessageOption = "First Name Only";
+            }
+            else {
+                product.OpeningMessageOption = "Custom Message";
+            }
+        }
+        else {
+            product.OpeningMessageOption = "None";
+        }
+    }
+
 	return {
         groupPreSubmit: _groupPreSubmit,
         clean: _clean,
         reduceVariant: _reduceV,
         reduceProduct: _reduceP,
         reducePriceSchedule: _reducePS,
-        groupOrderHistory: _groupOrderHistory
+        groupOrderHistory: _groupOrderHistory,
+        getProductType: _getProductType,
+        setProductSpecs: _setProductSpecs
 	}
 }]);
