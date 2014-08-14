@@ -1,5 +1,5 @@
-four51.app.factory('LineItems', ['$resource', '$451', 'Address',
-function($resource, $451, Address) {
+four51.app.factory('LineItems', ['$resource', '$451', 'Address', 'Variant',
+function($resource, $451, Address, Variant) {
 	function _then(fn, data) {
 		if (angular.isFunction(fn))
 			fn(data);
@@ -160,30 +160,46 @@ function($resource, $451, Address) {
     }
 
     var _groupOrderHistory = function(order) {
-        order.lineItemGroups = [];
-        var addressList = [];
+        var itemCount = order.LineItems.length;
+        var variantCount = 0;
 
-        angular.forEach(order.LineItems, function(i) {
-            var addressID = i.ShipAddressID;
-            var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
-            if (i.LineTotal > 399) {
-                order.lineItemGroups.push({"ID":addressID,"LineItems":[i],"IsDigital":isDigital,"Total": i.LineTotal});
-            }
-            else {
-                if (addressList.indexOf(addressID) == -1) {
-                    addressList.push(addressID);
-                    order.lineItemGroups.push({"ID":addressID,"LineItems":[i],"IsDigital":isDigital,"Total": i.LineTotal});
+        angular.forEach(order.LineItems, function(li) {
+            Variant.get({VariantInteropID: li.Variant.InteropID, ProductInteropID: li.Product.InteropID}, function(data) {
+                li.Variant = data;
+                variantCount++;
+
+                if (variantCount == itemCount) {
+                    groupOrder(order);
+                }
+            });
+        });
+
+        function groupOrder(order) {
+            order.lineItemGroups = [];
+            var addressList = [];
+
+            angular.forEach(order.LineItems, function (i) {
+                var addressID = i.ShipAddressID;
+                var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
+                if (i.LineTotal > 399) {
+                    order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal});
                 }
                 else {
-                    for (var g = 0; g < order.lineItemGroups.length; g++) {
-                        if (order.lineItemGroups[g].ID == addressID) {
-                            order.lineItemGroups[g].LineItems.push(i);
-                            order.lineItemGroups[g].Total += i.LineTotal;
+                    if (addressList.indexOf(addressID) == -1) {
+                        addressList.push(addressID);
+                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal});
+                    }
+                    else {
+                        for (var g = 0; g < order.lineItemGroups.length; g++) {
+                            if (order.lineItemGroups[g].ID == addressID) {
+                                order.lineItemGroups[g].LineItems.push(i);
+                                order.lineItemGroups[g].Total += i.LineTotal;
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     var _getProductType = function(lineitem) {
