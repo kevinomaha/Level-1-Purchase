@@ -538,8 +538,8 @@ four51.app.factory('Resources', function() {
             StandardID:"SCD-GC1",
             PremiumID:"SCD-ES1",
             CanadianID:"CSCD-SC1",
-            HolidayID:"#HOL#SCD-GC1",
-            PremiumHolidayID:"#HOL#SCD-ES1",
+            HolidayID:"HOLSCD-GC1",
+            PremiumHolidayID:"HOLSCD-ES1",
             DisplayName: "Digital e-SuperCertificate®"
         },
         {
@@ -547,8 +547,8 @@ four51.app.factory('Resources', function() {
             StandardID:"SCP-FD1",
             PremiumID:"SCP-PS1",
             CanadianID:"CSCP-SC1",
-            HolidayID:"#HOL#SCP-FD1",
-            PremiumHolidayID:"#HOL#SCP-PS1",
+            HolidayID:"HOLSCP-FD1",
+            PremiumHolidayID:"HOLSCP-PS1",
             DisplayName: "Original SuperCertificate®"
         },
         {
@@ -557,8 +557,8 @@ four51.app.factory('Resources', function() {
             StandardID:"SCP-GC2",
             PremiumID:"SCP-GCS",
             CanadianID:null,
-            HolidayID:"#HOL#SCP-GC",
-            PremiumHolidayID:"#HOL#SCP-GCS",
+            HolidayID:"HOLSCP-GC",
+            PremiumHolidayID:"HOLSCP-GCS",
             DisplayName: "Greeting Card SuperCertificate®"
         },
         {
