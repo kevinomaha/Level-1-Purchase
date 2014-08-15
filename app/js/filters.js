@@ -322,14 +322,14 @@ four51.app.filter('gcProductDesigns', function() {
         if (specs) {
             for (var s in specs) {
                 switch (selectedproduct.StandardID) {
-                    case "SCD-GC1":
+                    case "SCD-GC12":
                         if (specs[s].Name == "V01Design") {
                             for (var o in specs[s].Options) {
                                 results.push(specs[s].Options[o]);
                             }
                         }
                         break;
-                    case "SCP-FD1":
+                    case "SCP-FD12":
                         if (specs[s].Name == "V10DesignSelection") {
                             for (var o in specs[s].Options) {
                                 results.push(specs[s].Options[o]);

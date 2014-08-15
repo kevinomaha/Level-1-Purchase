@@ -33,12 +33,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 			Variant.get({VariantInteropID: variantArray[v], ProductInteropID: $scope.selectedProduct.StandardID}, function(data){
                 if ($scope.selectedProductDetails.PersonalMessages) {
                     switch ($scope.selectedProduct.StandardID) {
-                        case "SCD-GC1":
+                        case "SCD-GC12":
                             if ($scope.selectedProductDetails.PersonalMessages.indexOf(data.Specs['V04PersonalMessage'].Value) == -1 && data.Specs['V04PersonalMessage'].Value != "") {
                                 $scope.selectedProductDetails.PersonalMessages.push(data.Specs['V04PersonalMessage'].Value);
                             }
                             break;
-                        case "SCP-FD1":
+                        case "SCP-FD12":
                             if ($scope.selectedProductDetails.PersonalMessages.indexOf(data.Specs['V15Message'].Value) == -1 && data.Specs['V15Message'].Value !=  "") {
                                 $scope.selectedProductDetails.PersonalMessages.push(data.Specs['V15Message'].Value);
                             }
@@ -74,21 +74,21 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         }
 
 		switch (product.StandardID) {
-			case "SCD-GC1":
+			case "SCD-GC12":
 				$scope.digitalProduct = true;
 				$scope.physicalProduct = false;
 				$scope.merchantCards = false;
 				$scope.productType = "DigitalSuperCert";
 				$scope.selectedProductType = 'Standard';
-				$scope.selectedProduct.InteropID = "SCD-GC1";
+				$scope.selectedProduct.InteropID = "SCD-GC12";
 				break;
-			case "SCP-FD1":
+			case "SCP-FD12":
 				$scope.digitalProduct = false;
 				$scope.physicalProduct = true;
 				$scope.merchantCards = false;
 				$scope.productType = "PhysicalSuperCert";
 				$scope.selectedProductType = 'Standard';
-				$scope.selectedProduct.InteropID = "SCP-FD1";
+				$scope.selectedProduct.InteropID = "SCP-FD12";
 				break;
 			case "SCP-GC2":
 				$scope.digitalProduct = false;
@@ -832,7 +832,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 	});
 
 	$scope.selectedProductType = store.get("451Cache.SelectedProductType") ? store.get("451Cache.SelectedProductType") : "Standard";
-	$scope.selectedProduct.InteropID = store.get("451Cache.SelectedProductInteropID") ? store.get("451Cache.SelectedProductInteropID") : "SCP-FD1";
+	$scope.selectedProduct.InteropID = store.get("451Cache.SelectedProductInteropID") ? store.get("451Cache.SelectedProductInteropID") : "SCP-FD12";
 
 	$scope.selectedProduct.loadingMerchantProducts = false;
 
@@ -882,7 +882,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         }
 
 		switch ($scope.selectedProduct.StandardID) {
-			case "SCD-GC1":
+			case "SCD-GC12":
 				for (var i = 0; i < $scope.digitalOM.length; i++) {
 					if ($scope.digitalOM[i].TemplateID == $scope.selectedProduct.selectedDesignID) {
 						$scope.occasionMessages.push($scope.digitalOM[i].OccasionName)
@@ -891,7 +891,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				}
                 $scope.showPreview("digital", $scope.selectedProduct.selectedDesignName);
 				break;
-			case "SCP-FD1":
+			case "SCP-FD12":
 				for (var i = 0; i < $scope.physicalOM.length; i++) {
 					if ($scope.physicalOM[i].TemplateID.replace('pht_','') == $scope.selectedProduct.selectedDesignID) {
 						$scope.occasionMessages.push($scope.physicalOM[i].OccasionName)
@@ -914,7 +914,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
 	$scope.occasionMessageChanged = function() {
 		switch ($scope.selectedProduct.StandardID) {
-			case "SCD-GC1":
+			case "SCD-GC12":
 				for (var i = 0; i < $scope.digitalOM.length; i++) {
 					if ($scope.digitalOM[i].TemplateID == $scope.selectedProduct.selectedDesignID && $scope.digitalOM[i].OccasionName == this.selectedProduct.occasionMessage) {
 						$scope.selectedProduct.imageName = $scope.digitalOM[i].ImageFileName;
@@ -922,7 +922,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 					}
 				}
 				break;
-			case "SCP-FD1":
+			case "SCP-FD12":
 				for (var i = 0; i < $scope.physicalOM.length; i++) {
 					if ($scope.physicalOM[i].TemplateID.replace('pht_','') == $scope.selectedProduct.selectedDesignID && $scope.physicalOM[i].OccasionName == this.selectedProduct.occasionMessage) {
 						$scope.selectedProduct.imageName = $scope.physicalOM[i].ImageFileName;
@@ -1001,7 +1001,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             var deliveryDate = $scope.recipientGroup[recip].DeliveryDate ? $scope.recipientGroup[recip].DeliveryDate : $scope.selectedProduct.DeliveryDate;
 
             switch ($scope.selectedProduct.StandardID) {
-                case "SCP-FD1":
+                case "SCP-FD12":
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_") + " | " + $scope.selectedProduct.occasionMessageID;
                     var customMessageText = "";
                     var openingText = "";
@@ -1052,7 +1052,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                         }
                     };
                     break;
-                case "SCD-GC1":
+                case "SCD-GC12":
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_");
 	                var customMessageText = "";
 	                var openingText = "";
@@ -1166,7 +1166,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             var emailSubject = $scope.selectedProduct.EmailSubject;
 
             switch ($scope.selectedProduct.StandardID) {
-                case "SCP-FD1":
+                case "SCP-FD12":
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_") + " | " + $scope.selectedProduct.occasionMessageID;
                     var customMessageText = "";
                     var openingText = "";
@@ -1216,7 +1216,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                         }
                     };
                     break;
-                case "SCD-GC1":
+                case "SCD-GC12":
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_");
                     var customMessageText = "";
                     var openingText = "";
@@ -1488,7 +1488,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         variant.Specs = angular.copy(lineitem.Variant.Specs);
 
         switch ($scope.selectedProduct.StandardID) {
-            case "SCP-FD1":
+            case "SCP-FD12":
                 var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_") + " | " + $scope.selectedProduct.occasionMessageID;
                 var customMessageText = "";
                 var openingText = "";
@@ -1526,7 +1526,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 variant.Specs.V11_CustomerLogo = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""};
                 variant.Specs.V17P_LogoFileID = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""};
                 break;
-            case "SCD-GC1":
+            case "SCD-GC12":
                 var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_");
                 var customMessageText = "";
                 var openingText = "";

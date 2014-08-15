@@ -140,13 +140,13 @@ function($resource, $451, Address, Variant) {
         p.Name = product.Name;
 
         if (p.ExternalID.indexOf('SCD') > -1) {
-            p.StandardID = "SCD-GC1";
+            p.StandardID = "SCD-GC12";
         }
         else if (p.ExternalID.indexOf('SCP-GC') > -1) {
             p.StandardID = "SCP-GC2";
         }
         else {
-            p.StandardID = "SCP-FD1";
+            p.StandardID = "SCP-FD12";
         }
 
         return p;
@@ -205,13 +205,13 @@ function($resource, $451, Address, Variant) {
     var _getProductType = function(lineitem) {
         var type = "";
 
-        if (["SCD-GC1","SCP-FD1","SCP-GC2"].indexOf(lineitem.Product.ExternalID) > -1) {
+        if (["SCD-GC12","SCP-FD12","SCP-GC2"].indexOf(lineitem.Product.ExternalID) > -1) {
             type = "Standard";
         }
-        else if (["SCD-ES1","SCP-PS1","SCP-GCS"].indexOf(lineitem.Product.ExternalID) > -1) {
+        else if (["SCD-ES12","SCP-PS12","SCP-GCS2"].indexOf(lineitem.Product.ExternalID) > -1) {
             type = "Premium";
         }
-        else if (["CSCD-SC1","CSCP-SC1"].indexOf(lineitem.Product.ExternalID) > -1) {
+        else if (["CSCD-SC12","CSCP-SC12"].indexOf(lineitem.Product.ExternalID) > -1) {
             type = "Canadian";
         }
         else {
@@ -223,13 +223,13 @@ function($resource, $451, Address, Variant) {
 
     var _setProductSpecs = function(lineitem, product) {
         switch (lineitem.Product.StandardID) {
-            case "SCP-FD1":
+            case "SCP-FD12":
                 product.designSelection = lineitem.Variant.Specs.V10DesignSelection.Value;
                 product.occasionMessage = lineitem.Variant.Specs.V00MessageSelectionList.Value;
                 product.PersonalMessage = lineitem.Variant.Specs.V15Message.Value;
                 product.ClosingMessage = lineitem.Variant.Specs.V16Closing.Value;
                 break;
-            case "SCD-GC1":
+            case "SCD-GC12":
                 product.designSelection = lineitem.Variant.Specs.V01Design.Value;
                 product.occasionMessage = lineitem.Variant.Specs.V02Occasion.Value.replace(/_/g," ");
                 product.PersonalMessage = lineitem.Variant.Specs.V04PersonalMessage.Value;

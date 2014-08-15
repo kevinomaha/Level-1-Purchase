@@ -535,18 +535,18 @@ four51.app.factory('Resources', function() {
     var products = [
         {
             Name:"Digital e-SuperCertificate® REWARD (emailable)",
-            StandardID:"SCD-GC1",
-            PremiumID:"SCD-ES1",
-            CanadianID:"CSCD-SC1",
+            StandardID:"SCD-GC12",
+            PremiumID:"SCD-ES12",
+            CanadianID:"CSCD-SC12",
             HolidayID:"HOLSCD-GC1",
             PremiumHolidayID:"HOLSCD-ES1",
             DisplayName: "Digital e-SuperCertificate®"
         },
         {
             Name:"Original SuperCertificate® REWARD",
-            StandardID:"SCP-FD1",
-            PremiumID:"SCP-PS1",
-            CanadianID:"CSCP-SC1",
+            StandardID:"SCP-FD12",
+            PremiumID:"SCP-PS12",
+            CanadianID:"CSCP-SC12",
             HolidayID:"HOLSCP-FD1",
             PremiumHolidayID:"HOLSCP-PS1",
             DisplayName: "Original SuperCertificate®"
@@ -555,7 +555,7 @@ four51.app.factory('Resources', function() {
             Name:"Greeting Card SuperCertificate® REWARD",
             /*StandardID:"SCP-GC",*/
             StandardID:"SCP-GC2",
-            PremiumID:"SCP-GCS",
+            PremiumID:"SCP-GCS2",
             CanadianID:null,
             HolidayID:"HOLSCP-GC",
             PremiumHolidayID:"HOLSCP-GCS",
