@@ -1,10 +1,16 @@
-four51.app.controller('NavCtrl', ['$location', '$route', '$scope', '$451', 'User','SpendingAccount',
-function ($location, $route, $scope, $451, User, SpendingAccount) {
+four51.app.controller('NavCtrl', ['$location', '$route', '$scope', '$451', 'User','SpendingAccount', '$window',
+function ($location, $route, $scope, $451, User, SpendingAccount, $window) {
     $scope.Logout = function(){
         User.logout();
+        if ($window.location.href.indexOf('teststore') > -1 || $window.location.href.indexOf('qastore') > -1) {
+            $window.location.href =  "http://spa-test.gcincentives.com/"
+        }
+        else {
+            $window.location.href = "http://login.gcincentives.com/";
+        }
         $scope.gettingShippers = false;
         if ($scope.isAnon) {
-            $location.path("/catalog");
+            $location.path("/main");
             User.login();
         }
     };
