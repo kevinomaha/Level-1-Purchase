@@ -50,7 +50,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                             break;
                     }
                 }
-				store.set("451Cache.SelectedProductDetails",{});
 				store.set("451Cache.SelectedProductDetails",$scope.selectedProductDetails);
 			}, function(ex){
 				$scope.selectedProductDetails.PersonalMessages = [];
@@ -133,16 +132,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 			$scope.selectedProduct.selectedMerchantCategory = null;
 		}
 
-		store.set("451Cache.SelectedProduct",{});
 		store.set("451Cache.SelectedProduct",$scope.selectedProduct);
-
-		store.set("451Cache.SelectedProductType","");
 		store.set("451Cache.SelectedProductType",$scope.selectedProductType);
-
-		store.set("451Cache.SelectedProductDetails",{});
 		store.set("451Cache.SelectedProductDetails",$scope.selectedProductDetails);
-
-		store.set("451Cache.SelectedProductInteropID","");
 		store.set("451Cache.SelectedProductInteropID",$scope.selectedProduct.InteropID);
 	}
 
@@ -150,7 +142,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		_extendProduct(product, lineitem);
 
 		RecipientList.validate($scope.recipientList,$scope.digitalProduct);
-		store.set("451Cache.RecipientList",[]);
 		store.set("451Cache.RecipientList",$scope.recipientList);
 
 	});
@@ -238,7 +229,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		        recipient.ShipAddressID = address.AddressID;
 		        recipient.savingIndicator = false;
 		        $scope.recipientList.push(recipient);
-		        store.set("451Cache.RecipientList",[]);
 		        store.set("451Cache.RecipientList",$scope.recipientList);
 		        $scope.clearRecipient('recipient');
 		        AddressList.query(function(list) {
@@ -254,7 +244,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                                     $scope.addresses.push(add);
 							        recipient.ShipAddressID = add.ID;
 							        $scope.recipientList.push(recipient);
-							        store.set("451Cache.RecipientList",[]);
 							        store.set("451Cache.RecipientList",$scope.recipientList);
 							        $scope.clearRecipient('recipient');
 						        },
@@ -281,7 +270,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         else {
             recipient.savingIndicator = false;
             $scope.recipientList.push(recipient);
-            store.set("451Cache.RecipientList",[]);
             store.set("451Cache.RecipientList",$scope.recipientList);
             $scope.clearRecipient('recipient');
             AddressList.query(function(list) {
@@ -310,7 +298,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             recipient.ShipAddressID = address.AddressID;
             recipient.savingIndicator = false;
             $scope.recipientList.push(recipient);
-            store.set("451Cache.RecipientList",[]);
             store.set("451Cache.RecipientList",$scope.recipientList);
             $scope.clearRecipient('recipient');
             AddressList.query(function(list) {
@@ -322,7 +309,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 function(add) {
                     recipient.ShipAddressID = add.ID;
                     $scope.recipientList.push(recipient);
-                    store.set("451Cache.RecipientList",[]);
                     store.set("451Cache.RecipientList",$scope.recipientList);
                     $scope.clearRecipient('recipient');
                     AddressList.query(function(list) {
@@ -360,7 +346,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             recipient.ShipAddressID = address.AddressID;
             recipient.savingIndicator = false;
             $scope.recipientList.push(recipient);
-            store.set("451Cache.RecipientList",[]);
             store.set("451Cache.RecipientList",$scope.recipientList);
             $scope.clearRecipient('recipient');
             AddressList.query(function(list) {
@@ -372,7 +357,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 function(add) {
                     recipient.ShipAddressID = add.ID;
                     $scope.recipientList.push(recipient);
-                    store.set("451Cache.RecipientList",[]);
                     store.set("451Cache.RecipientList",$scope.recipientList);
                     $scope.clearRecipient('recipient');
                     AddressList.query(function(list) {
@@ -447,7 +431,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 for (var r = 0; r < $scope.recipientList.length; r ++) {
                     $scope.recipientList[r].BeingEdited = false;
                 }
-                store.set("451Cache.RecipientList",[]);
                 store.set("451Cache.RecipientList",$scope.recipientList);
                 AddressList.query(function(list) {
                     $scope.addresses = list;
@@ -462,7 +445,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		                        $scope.recipientList[r].BeingEdited = false;
 	                        }
                         }
-                        store.set("451Cache.RecipientList",[]);
                         store.set("451Cache.RecipientList",$scope.recipientList);
                         $scope.clearRecipient('recipient');
                         $scope.editingRecipient = false;
@@ -480,7 +462,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             for (var r = 0; r < $scope.recipientList.length; r ++) {
                 $scope.recipientList[r].BeingEdited = false;
             }
-            store.set("451Cache.RecipientList",[]);
             store.set("451Cache.RecipientList",$scope.recipientList);
             $scope.clearRecipient('recipient');
             $scope.editingRecipient = false;
@@ -506,7 +487,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             $scope.recipientList[r].BeingEdited = false;
         }
 		RecipientList.validate($scope.recipientList,$scope.digitalProduct);
-		store.set("451Cache.RecipientList",[]);
 		store.set("451Cache.RecipientList",$scope.recipientList);
     }
 
@@ -517,7 +497,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				break;
 			}
 		}
-		store.set("451Cache.RecipientList",[]);
 		store.set("451Cache.RecipientList",$scope.recipientList);
 	}
 
@@ -602,7 +581,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				 }
 			 }
 			RecipientList.validate($scope.recipientList,$scope.digitalProduct);
-			store.set("451Cache.RecipientList",[]);
 			store.set("451Cache.RecipientList",$scope.recipientList);
 			$("#myPasteBox").val('');
 			$scope.savingRecipientsLoadingIndicator = false;
@@ -619,7 +597,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		}
 		if (addresses.length == 0) {
 			RecipientList.validate($scope.recipientList,$scope.digitalProduct);
-			store.set("451Cache.RecipientList",[]);
 			store.set("451Cache.RecipientList",$scope.recipientList);
 			$("#myPasteBox").val('');
 			$scope.savingRecipientsLoadingIndicator = false;
@@ -692,9 +669,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 			}
 		}
         $scope.analyzeRecipientGroup();
-		store.set("451Cache.RecipientGroup",[]);
 		store.set("451Cache.RecipientGroup",$scope.recipientGroup);
-		store.set("451Cache.RecipientList",[]);
 		store.set("451Cache.RecipientList",$scope.recipientList);
 	}
 
@@ -716,9 +691,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 			}
 		}
         $scope.analyzeRecipientGroup();
-		store.set("451Cache.RecipientGroup",[]);
 		store.set("451Cache.RecipientGroup",$scope.recipientGroup);
-		store.set("451Cache.RecipientList",[]);
 		store.set("451Cache.RecipientList",$scope.recipientList);
 	}
 
@@ -735,9 +708,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             }
         }
         $scope.analyzeRecipientGroup();
-        store.set("451Cache.RecipientGroup",[]);
         store.set("451Cache.RecipientGroup",$scope.recipientGroup);
-        store.set("451Cache.RecipientList",[]);
         store.set("451Cache.RecipientList",$scope.recipientList);
     }
 
@@ -842,10 +813,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				break;
 		}
 
-		store.set("451Cache.SelectedProductType","");
 		store.set("451Cache.SelectedProductType",$scope.selectedProductType);
-
-		store.set("451Cache.SelectedProductInteropID","");
 		store.set("451Cache.SelectedProductInteropID",$scope.selectedProduct.InteropID);
 
         if ($scope.selectedProduct.InteropID && $scope.selectedProduct.InteropID != "MerchantCards") {
@@ -860,7 +828,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
             });
         }
 
-		store.set("451Cache.SelectedProductDetails",{});
 		store.set("451Cache.SelectedProductDetails",$scope.selectedProductDetails);
 	});
 
@@ -1397,9 +1364,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 				$scope.recipientList[i].Selected = false;
 			}
 			$scope.occasionMessages = [];
-			store.set("451Cache.RecipientGroup",[]);
 			store.set("451Cache.RecipientGroup",$scope.recipientGroup);
-			store.set("451Cache.RecipientList",[]);
 			store.set("451Cache.RecipientList",$scope.recipientList);
             $scope.selectedProduct.buildingProductsIndicator = false;
             $scope.selectedProduct = {};
@@ -1560,7 +1525,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 variant.Specs.V14OpeningPesonalization = {"Value":customMessageOption};
                 variant.Specs.V11_CustomerLogo = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""};
                 variant.Specs.V17P_LogoFileID = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""};
-
                 break;
             case "SCD-GC1":
                 var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_");
@@ -1601,7 +1565,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 variant.Specs.V14OpeningPesonalization = {"Value":customMessageOption};
                 variant.Specs.V11_CustomerLogo = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""};
                 variant.Specs.V17D_LogoFileID = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""};
-
                 break;
             case "SCP-GC2":
                 var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g,"_");
@@ -1637,7 +1600,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 variant.Specs.V14OccasionImageName = {"Value":$scope.selectedProduct.imageName};
                 variant.Specs.V11_CustomerLogo = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""};
                 variant.Specs.V17P_LogoFileID = {"Value":($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""};
-
                 break;
         }
 
@@ -1698,18 +1660,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 $scope.recipientList[i].Selected = false;
             }
             $scope.occasionMessages = [];
-            store.set("451Cache.RecipientGroup",[]);
             store.set("451Cache.RecipientGroup",$scope.recipientGroup);
-            store.set("451Cache.RecipientList",[]);
             store.set("451Cache.RecipientList",$scope.recipientList);
             $scope.selectedProduct.buildingProductsIndicator = false;
             $scope.selectedProduct = {};
             store.set("451Cache.SelectedProduct", $scope.selectedProduct);
             $location.path('cart');
         });
-
-
-        //lineitem.UniqueID;
     }
-
 }]);
