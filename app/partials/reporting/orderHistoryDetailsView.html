@@ -1,4 +1,8 @@
 <div>
+    <p>
+        <span class="text-info">{{order.Type}} {{'Order' | r}}<span ng-show="order.ExternalID"> {{'ID' | r}}: </span></span>
+        <span class="pull-right">{{order.ExternalID}}</span>
+    </p>
     <p ng-show="order.DateSubmitted">
         <span class="text-info">{{'Date' | r}} {{'Submitted' | r}}</span>
         <span class="pull-right">{{order.DateSubmitted | date:'short'}}</span>
