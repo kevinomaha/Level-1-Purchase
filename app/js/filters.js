@@ -205,22 +205,24 @@ four51.app.filter('gcshipaddress', function() {
 
 four51.app.filter('specnames', function() {
     return function(value) {
-        switch (value) {
-            case "Email1":
-                value = "Email Address";
-                break;
-            case "OrderEmailAddress":
-                value = "Email Address for Order Notifications";
-                break;
-            case "EmailAddress":
-                value = "Email Address for Order Notifications";
-                break;
-            case "Subject1":
-                value = "Subject"
-                break;
-            case "Message1":
-                value = "Message";
-                break;
+        if (value) {
+            switch (value) {
+                case "Email1":
+                    value = "Email Address";
+                    break;
+                case "OrderEmailAddress":
+                    value = "Email Address for Order Notifications";
+                    break;
+                case "EmailAddress":
+                    value = "Email Address for Order Notifications";
+                    break;
+                case "Subject1":
+                    value = "Subject";
+                    break;
+                case "Message1":
+                    value = "Message";
+                    break;
+            }
         }
 
         return value;
