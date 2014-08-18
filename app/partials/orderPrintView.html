@@ -4,7 +4,6 @@
             <figure>
                 <img class="branding-print-view-logo" ng-src="{{user.Company.LogoUrl}}" />
             </figure>
-            <h3>{{user.Company.Name}}</h3>
         </div>
         <div>
             <h5>
@@ -37,7 +36,7 @@
                         {{order.ShipAddress.City}}, {{order.ShipAddress.State}} {{order.ShipAddress.Zip}}
                         <div ng-if="order.ShipAddress.Country != 'US'">{{order.ShipAddress.Country}}</div>
                     </address><br />
-                    <address ng-show="order.BillAddress">
+                    <address ng-show="order.BillAddress && order.BillAddress.AddressName != 'Main Billing Address'">
                         <span class="text-primary"><strong>{{'Bill to' | r}}</strong></span><br />
                         <span ng-show="order.BillFirstName || order.BillLastName">{{order.BillFirstName}} {{order.BillLastName}}</span>
                         <span ng-show="!order.BillFirstName || !order.BillLastName">{{order.BillAddress.FirstName}} {{order.BillAddress.LastName}}</span>
@@ -74,46 +73,45 @@
                     </h3>
                 </div>
                 <div>
-                    <div class="order-print-view-line-items-repeater" ng-repeat="item in order.LineItems">
-                        <div class="order-print-view-line-items-product">
-                            <p>{{item.ProductIDText}}</p>
-                            <p>{{item.Product.Name}}</p>
-                            <ul class="list-group" ng-show="item.Specs | filter:{'CanSetForLineItem':true}.length > 0">
-                                <li class="list-group-item" ng-repeat="spec in item.Specs | filter:{'CanSetForLineItem':true} ">
-                                    <span class="text-info">{{spec.Name}}: </span>
-                                    <span ng-if="spec.ControlType == 'File'"><a ng-href="{{spec.File.Url}}">{{spec.File.OriginalName + Extension}}</a></span></span>
-                                    <span ng-if="spec.ControlType != 'File'">{{spec.Value || '(unspecified)'}}</span>
-                                </li>
-                            </ul>
-                            <div>
-                                <div>
-                                    <p ng-show="hasShipperOnAnyLineItem()">{{item.ShipperName}}</p>
+                    <div class="panel-order-history" ng-repeat="item in order.LineItems" style="border-bottom:1px solid #ddd;">
+                        <div class="col-sm-6 col-lg-5">
+                            <h4 class="text-primary">
+                                {{item.Product.Name}}
+                            </h4>
+                            <p ng-show="item.Variant.Specs.FirstName1 || item.Variant.Specs.LastName1"><b>Recipient Name:</b> {{(item.Variant.Specs.FirstName1.Value + ' ' + item.Variant.Specs.LastName1.Value) || 'Anonymous'}}</p>
+                        </div>
+                        <div class="col-sm-6 col-lg-7">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div ng-if="!(user.Permissions.contains('HidePricing'))" class="col-xs-12 col-sm-6">
+                                            <p>
+                                                <small class="text-info">{{'Total' | r}}</small><br />
+                                                <span class="text-success">{{item.LineTotal | currency:"$"}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p ng-show="hasShipAccountOnAnyLineItem()">{{item.ShipAccount}}</p>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <p ng-if="item.ShipperName">
+                                                <strong>{{'Shipper' | r}} {{'Name' | r}}</strong><br />
+                                                {{item.ShipperName | gcshipping}}
+                                            </p>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <address ng-show="item.ShipAddress">
+                                                <strong>{{'Ship to' | r}}</strong><br>
+                                                {{item.ShipAddress.Street1}}<br>
+                                                {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
+                                                {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
+                                            </address>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div ng-show="item.ShipAddress">
-                                <address>
-                                    <strong> {{'Ship to' | r}}:</strong><br>
-                                    <span ng-show="item.ShipFirstName || item.ShipLastName">{{item.ShipFirstName}} {{item.ShipLastName}}</span>
-                                    {{item.ShipAddress.Street1}}<br>
-                                    {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
-                                    {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
-                                </address>
-                            </div>
                         </div>
-                        <div ng-if="!(user.Permissions.contains('HidePricing'))">
-                            <p>{{item.UnitPrice | currency:"$"}}</p>
-                        </div>
-                        <div>
-                            <p ng-show="item.Product.QuantityMultiplier == 1">x {{item.Quantity}}</span>
-                            <p ng-show="item.Product.QuantityMultiplier > 1" >x {{item.Product.QuantityMultiplier * item.Quantity}}</span>
-                        </div>
-                        <div ng-if="!(user.Permissions.contains('HidePricing'))">
-                            {{item.LineTotal | currency:"$"}}
-                        </div>
-                        <div ng-show="item.TotalShipped">{{'Quantity' | r}} {{'Shipped' | r}}: {{item.TotalShipped}}</div>
                     </div>
                 </div>
             </div>
