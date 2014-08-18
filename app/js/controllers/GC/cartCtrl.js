@@ -274,6 +274,8 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         Order.save(orderSave,
             function(o) {
                 LineItems.clean(o);
+                o.Variant = LineItems.reduceVariant(o.Variant);
+                o.Product = LineItems.reduceProduct(o.Product);
                 var orderSubmit = angular.copy(o);
                 orderSubmit.CreditCard = CC;
                 Order.submit(orderSubmit, function(data) {

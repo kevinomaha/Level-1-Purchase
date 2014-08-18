@@ -224,31 +224,31 @@ function($resource, $451, Address, Variant) {
     var _setProductSpecs = function(lineitem, product) {
         switch (lineitem.Product.StandardID) {
             case "SCP-FD12":
-                product.designSelection = lineitem.Variant.Specs.V10DesignSelection.Value;
-                product.occasionMessage = lineitem.Variant.Specs.V00MessageSelectionList.Value;
-                product.PersonalMessage = lineitem.Variant.Specs.V15Message.Value;
-                product.ClosingMessage = lineitem.Variant.Specs.V16Closing.Value;
+                product.designSelection = lineitem.Variant.Specs.V10DesignSelection ? lineitem.Variant.Specs.V10DesignSelection.Value : "";
+                product.occasionMessage = lineitem.Variant.Specs.V00MessageSelectionList ? lineitem.Variant.Specs.V00MessageSelectionList.Value : "";
+                product.PersonalMessage = lineitem.Variant.Specs.V15Message ? lineitem.Variant.Specs.V15Message.Value : "";
+                product.ClosingMessage = lineitem.Variant.Specs.V16Closing ? lineitem.Variant.Specs.V16Closing.Value : "";
                 break;
             case "SCD-GC12":
-                product.designSelection = lineitem.Variant.Specs.V01Design.Value;
-                product.occasionMessage = lineitem.Variant.Specs.V02Occasion.Value.replace(/_/g," ");
-                product.PersonalMessage = lineitem.Variant.Specs.V04PersonalMessage.Value;
-                product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage.Value;
-                product.EmailSubject = lineitem.Specs.EmailSubject.Value;
-                product.DeliveryDate = lineitem.Specs.FutureShipDate.Value;
+                product.designSelection = lineitem.Variant.Specs.V01Design ? lineitem.Variant.Specs.V01Design.Value : "";
+                product.occasionMessage = lineitem.Variant.Specs.V02Occasion ? lineitem.Variant.Specs.V02Occasion.Value.replace(/_/g," ") : "";
+                product.PersonalMessage = lineitem.Variant.Specs.V04PersonalMessage ? lineitem.Variant.Specs.V04PersonalMessage.Value : "";
+                product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage ? lineitem.Variant.Specs.V05ClosingMessage.Value : "";
+                product.EmailSubject = lineitem.Specs.EmailSubject ? lineitem.Specs.EmailSubject.Value : "";
+                product.DeliveryDate = lineitem.Specs.FutureShipDate ? lineitem.Specs.FutureShipDate.Value : "";
                 break;
             case "SCP-GC2":
-                product.designSelection = lineitem.Variant.Specs.V10DesignSelection.Value;
-                product.occasionMessage = lineitem.Variant.Specs.V11MessageSelection.Value;
-                product.PersonalMessage = lineitem.Variant.Specs.V04PersonalMessage.Value;
-                product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage.Value;
+                product.designSelection = lineitem.Variant.Specs.V10DesignSelection ? lineitem.Variant.Specs.V10DesignSelection.Value : "";
+                product.occasionMessage = lineitem.Variant.Specs.V11MessageSelection ? lineitem.Variant.Specs.V11MessageSelection.Value : "";
+                product.PersonalMessage = lineitem.Variant.Specs.V04PersonalMessage ? lineitem.Variant.Specs.V04PersonalMessage.Value : "";
+                product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage ? lineitem.Variant.Specs.V05ClosingMessage.Value : "";
                 break;
         }
-        product.denomination = lineitem.Variant.Specs.Denomination1.Value;
+        product.denomination = lineitem.Variant.Specs.Denomination1 ? lineitem.Variant.Specs.Denomination1.Value : "";
 
         var openingText = (lineitem.Variant.Specs.Opening1) ? lineitem.Variant.Specs.Opening1.Value : null;
         if (openingText) {
-            if (openingText == (lineitem.Variant.Specs.FirstName1.Value + ' ' + lineitem.Variant.Specs.LastName1.Value)) {
+            if ((lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1) && openingText == (lineitem.Variant.Specs.FirstName1.Value + ' ' + lineitem.Variant.Specs.LastName1.Value)) {
                 product.OpeningMessageOption = "First and Last Name";
             }
             else if (openingText == lineitem.Variant.Specs.FirstName1.Value) {
