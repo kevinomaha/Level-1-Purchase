@@ -120,15 +120,17 @@ function($resource, $451, Address, Variant) {
 
     var _reduceV = function(variant) {
         var v = {};
-        v.tempSpecs = angular.copy(variant.Specs);
-        v.Specs = {};
-        angular.forEach(v.tempSpecs, function(spec) {
-            v.Specs[spec.Name] = {"Value": spec.Value, "Name": spec.Name};
-        });
-        delete v.tempSpecs;
-        v.InteropID = variant.InteropID;
-        v.ProductInteropID = variant.ProductInteropID;
-        v.PreviewUrl = variant.PreviewUrl;
+        if (variant) {
+            v.tempSpecs = angular.copy(variant.Specs);
+            v.Specs = {};
+            angular.forEach(v.tempSpecs, function(spec) {
+                v.Specs[spec.Name] = {"Value": spec.Value, "Name": spec.Name};
+            });
+            delete v.tempSpecs;
+            v.InteropID = variant.InteropID;
+            v.ProductInteropID = variant.ProductInteropID;
+            v.PreviewUrl = variant.PreviewUrl;
+        }
 
         return v;
     }
@@ -138,6 +140,7 @@ function($resource, $451, Address, Variant) {
         p.InteropID = product.InteropID;
         p.ExternalID = product.ExternalID;
         p.Name = product.Name;
+        p.Specs = (product.Specs) ? product.Specs : {};
 
         if (p.ExternalID.indexOf('SCD') > -1) {
             p.StandardID = "SCD-GC12";
@@ -164,14 +167,16 @@ function($resource, $451, Address, Variant) {
         var variantCount = 0;
 
         angular.forEach(order.LineItems, function(li) {
-            Variant.get({VariantInteropID: li.Variant.InteropID, ProductInteropID: li.Product.InteropID}, function(data) {
-                li.Variant = data;
-                variantCount++;
+            if (li.Variant && li.Variant.InteropID) {
+                Variant.get({VariantInteropID: li.Variant.InteropID, ProductInteropID: li.Product.InteropID}, function(data) {
+                    li.Variant = data;
+                    variantCount++;
 
-                if (variantCount == itemCount) {
-                    groupOrder(order);
-                }
-            });
+                    if (variantCount == itemCount) {
+                        groupOrder(order);
+                    }
+                });
+            }
         });
 
         function groupOrder(order) {

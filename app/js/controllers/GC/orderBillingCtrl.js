@@ -1,5 +1,5 @@
-four51.app.controller('OrderBillingCtrl', ['$scope', '$location', '$451', 'SpendingAccount', 'Address',
-function ($scope, $location, $451, SpendingAccount, Address) {
+four51.app.controller('OrderBillingCtrl', ['$scope', '$location', '$451', 'SpendingAccount', 'Address', 'CustomAddressList',
+function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) {
 	SpendingAccount.query(function(data) {
 		$scope.SpendingAccounts = data;
 		budgetAccountCalculation($scope.tempOrder.BudgetAccountID);
@@ -17,10 +17,14 @@ function ($scope, $location, $451, SpendingAccount, Address) {
 				$scope.tempOrder.PaymentMethod = 'CreditCard';
 			}
 			else {
-                angular.forEach($scope.addresses, function(a) {
-                    if (a.AddressName == "Main Billing Address") {
-                        $scope.tempOrder.BillAddressID = a.ID;
-                    }
+                $scope.loadingAddresses = true;
+                CustomAddressList.getall(function(list) {
+                    $scope.loadingAddresses = false;
+                    angular.forEach(list, function(a) {
+                        if (a.AddressName == "Main Billing Address") {
+                            $scope.tempOrder.BillAddressID = a.ID;
+                        }
+                    });
                 });
 			}
 

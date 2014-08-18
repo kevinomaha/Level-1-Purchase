@@ -25,6 +25,12 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         CustomAddressList.getall(function(list) {
             $scope.addresses = list;
             $scope.addressesLoading = false;
+            for (var a = 0; a < list.length; a++) {
+                if (list[a].AddressName == 'Email Delivery') {
+                    $scope.digitalShipAddressID = list[a].ID;
+                    assignDigitalShipInfo();
+                }
+            }
         });
     }
     getAllAddresses();
@@ -41,27 +47,6 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
         //Order Submit
         $scope.tempOrder.ExternalID = 'auto';
-
-        for (var i = 0; i < $scope.tempOrder.LineItems.length; i++) {
-            if ($scope.tempOrder.LineItems[i].Product.ExternalID.indexOf('SCD') > -1) {
-                $scope.tempOrder.LineItems[i].Shipper = $scope.digitalShipper;
-                $scope.tempOrder.LineItems[i].ShipperName = $scope.digitalShipper.Name;
-                $scope.tempOrder.LineItems[i].ShipMethod = $scope.digitalShipper.Name;
-                $scope.tempOrder.LineItems[i].ShipperID = $scope.digitalShipper.ID;
-            }
-        }
-        for (var g = 0; g < $scope.tempOrder.lineItemGroups.length; g++) {
-            for (var l = 0; l < $scope.tempOrder.lineItemGroups[g].LineItems.length; l++) {
-                if ($scope.tempOrder.lineItemGroups[g].LineItems[l].Product.ExternalID.indexOf('SCD') > -1) {
-                    $scope.tempOrder.lineItemGroups[g].LineItems[l].Shipper = $scope.digitalShipper;
-                    $scope.tempOrder.lineItemGroups[g].LineItems[l].ShipperName = $scope.digitalShipper.Name;
-                    $scope.tempOrder.lineItemGroups[g].LineItems[l].ShipMethod = $scope.digitalShipper.Name;
-                    $scope.tempOrder.lineItemGroups[g].LineItems[l].ShipperID = $scope.digitalShipper.ID;
-
-                    $scope.tempOrder.lineItemGroups[g].ShipMethod = $scope.digitalShipper.Name;
-                }
-            }
-        }
 
         //Order Summary
         $scope.tempOrder.SubTotal = 0;
@@ -80,6 +65,30 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.tempOrder.CreditCard = {};
 
         $scope.cacheOrder($scope.tempOrder);
+    }
+
+    function assignDigitalShipInfo() {
+        for (var i = 0; i < $scope.tempOrder.LineItems.length; i++) {
+            if ($scope.tempOrder.LineItems[i].Product.ExternalID.indexOf('SCD') > -1 || $scope.tempOrder.LineItems[i].Product.Name.toLowerCase().indexOf('e-gift') > -1) {
+                $scope.tempOrder.LineItems[i].ShipAddressID = $scope.digitalShipAddressID;
+                $scope.tempOrder.LineItems[i].Shipper = angular.copy($scope.digitalShipper);
+                $scope.tempOrder.LineItems[i].ShipperName = $scope.digitalShipper.Name;
+                $scope.tempOrder.LineItems[i].ShipMethod = $scope.digitalShipper.Name;
+                $scope.tempOrder.LineItems[i].ShipperID = $scope.digitalShipper.ID;
+            }
+        }
+        for (var g = 0; g < $scope.tempOrder.lineItemGroups.length; g++) {
+            for (var l = 0; l < $scope.tempOrder.lineItemGroups[g].LineItems.length; l++) {
+                if ($scope.tempOrder.lineItemGroups[g].LineItems[l].Product.ExternalID.indexOf('SCD') > -1 || $scope.tempOrder.lineItemGroups[g].LineItems[l].Product.Name.toLowerCase().indexOf('e-gift') > -1) {
+                    $scope.tempOrder.lineItemGroups[g].LineItems[l].ShipAddressID = $scope.digitalShipAddressID;
+                    $scope.tempOrder.lineItemGroups[g].LineItems[l].Shipper = $scope.digitalShipper;
+                    $scope.tempOrder.lineItemGroups[g].LineItems[l].ShipperName = $scope.digitalShipper.Name;
+                    $scope.tempOrder.lineItemGroups[g].LineItems[l].ShipMethod = $scope.digitalShipper.Name;
+                    $scope.tempOrder.lineItemGroups[g].LineItems[l].ShipperID = $scope.digitalShipper.ID;
+                    $scope.tempOrder.lineItemGroups[g].ShipMethod = $scope.digitalShipper.Name;
+                }
+            }
+        }
     }
 
     $scope.tempOrder.isAllDigital;
@@ -274,8 +283,10 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         Order.save(orderSave,
             function(o) {
                 LineItems.clean(o);
-                o.Variant = LineItems.reduceVariant(o.Variant);
-                o.Product = LineItems.reduceProduct(o.Product);
+                /*angular.forEach(o.LineItems, function(li) {
+                    li.Product = LineItems.reduceProduct(li.Product);
+                    li.Variant = LineItems.reduceVariant(li.Variant);
+                });*/
                 var orderSubmit = angular.copy(o);
                 orderSubmit.CreditCard = CC;
                 Order.submit(orderSubmit, function(data) {

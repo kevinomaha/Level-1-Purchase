@@ -18,12 +18,6 @@
                         <orderhistorydetails></orderhistorydetails>
                         <orderhistorysummary ng-if="!(user.Permissions.contains('HidePricing'))"></orderhistorysummary>
                     </div>
-                    <div class="panel-footer" ng-if="order.FromUserID == user.ID">
-                        <button ng-disabled="currentOrder" class="btn btn-primary pull-right" ng-click="repeatOrder()">
-                            <i ng-show="currentOrder" class="fa fa-warning"></i>
-                            {{'Repeat' | r}} {{'Order' | r}}
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

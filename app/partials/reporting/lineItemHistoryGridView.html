@@ -3,7 +3,7 @@
         <h4 class="text-primary">
             {{item.Product.Name}}
         </h4>
-        <p><b>Recipient Name:</b> {{(item.Variant.Specs.FirstName1.Value + ' ' + item.Variant.Specs.LastName1.Value) || 'Anonymous'}}</p>
+        <p ng-show="item.Variant.Specs.FirstName1 || item.Variant.Specs.LastName1"><b>Recipient Name:</b> {{(item.Variant.Specs.FirstName1.Value + ' ' + item.Variant.Specs.LastName1.Value) || 'Anonymous'}}</p>
      </div>
     <div class="col-sm-6 col-lg-7">
         <div class="row">

@@ -1,5 +1,5 @@
 <div>
-    <loadingindicator ng-show="addressesLoading"></loadingindicator>
+    <loadingindicator ng-show="loadingAddresses"></loadingindicator>
     <div ng-show="!billaddressform">
         <paymentselectorgc></paymentselectorgc>
         <div class="view-form-icon" ng-hide="BillAddress.AddressName == 'Main Billing Address' && tempOrder.PaymentMethod == 'BudgetAccount'">
