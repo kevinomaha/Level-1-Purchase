@@ -71,7 +71,7 @@ function ($location, $route, $scope, $451, User, SpendingAccount, $window) {
     $scope.$on('event:tempOrderUpdated', function(event, order) {
         if (typeof(order) != 'object') {
             order = LZString.decompressFromUTF16(order);
-            order = JSON.parse(order);
+            order = (order && typeof(order) == 'string') ? JSON.parse(order) : {};
         }
         $scope.tempOrderCount = order.LineItems ? order.LineItems.length : null;
     });
