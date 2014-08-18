@@ -17,23 +17,28 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 						//Pasted data split into rows
                         text = text.replace(/"/g,'');
 						var rows = text.split(/[\n\f\r]/);
-                        for (var i = 0; i < rows.length; i++) {
-                            if (rows[i].split("\t").length < 20) {
-                                rows[i] = rows[i].concat(rows[i+1]);
-                                rows.splice(i+1,1);
-                                i--;
-                            }
+                        if (rows[0] && rows[0].split("\t").length < 20) {
+                            $scope.tempPasteError = true;
+                            $scope.columnLengthError = true;
                         }
-						rows.forEach(function (thisRow) {
-							//var row = thisRow.trim();
-                            var row = thisRow;
-							if (row != '') {
-								var cols = row.split("\t");
-								if (cols.length < 13) { cols.unshift('');}
-								toReturn.push(cols);
-							}
-						});
-
+                        else {
+                            for (var i = 0; i < rows.length; i++) {
+                                if (rows[i].split("\t").length < 20) {
+                                    rows[i] = rows[i].concat(rows[i+1]);
+                                    rows.splice(i+1,1);
+                                    i--;
+                                }
+                            }
+                            rows.forEach(function (thisRow) {
+                                //var row = thisRow.trim();
+                                var row = thisRow;
+                                if (row != '') {
+                                    var cols = row.split("\t");
+                                    if (cols.length < 13) { cols.unshift('');}
+                                    toReturn.push(cols);
+                                }
+                            });
+                        }
 					}
 					catch (err) {
 						console.log('error parsing as tabular data');

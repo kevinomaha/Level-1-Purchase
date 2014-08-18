@@ -213,10 +213,13 @@
 
             <angular-paste ng-hide="recipientPasteList.length > 0" ng-model="rawPaste" ng-array="parsedPaste"></angular-paste>
 
-            <div class="text-info" ng-show="tempRecipientPasteList.length > 0 && tempPasteError">
+            <div class="text-info" ng-show="(tempRecipientPasteList.length > 0 && tempPasteError) || columnLengthError">
                 <strong>The following errors were detected:</strong>
                 <ul>
                     <li ng-repeat="recipient in tempRecipientPasteList | filter:{Invalid:true}">{{recipient.ErrorMessage}}</li>
+                </ul>
+                <ul ng-show="columnLengthError">
+                    <li>Please copy all 20 columns from spreadsheet</li>
                 </ul>
             </div>
             <div class="recipient-upload-table">

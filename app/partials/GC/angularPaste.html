@@ -1,8 +1,8 @@
 <div class="row" ng-init="hideValidationBox = false">
     <div class="col-md-9">
         <textarea placeholder="Paste your spreadsheet cells here..." id="myPasteBox" class="form-control" rows="1"></textarea>
-        <div class="paste-box-validation" ng-show="tempRecipientPasteList.length > 0" ng-class="{pbinvalid: tempPasteError, pbvalid: !tempPasteError}">
-            <i class="fa fa-times fa-2x pull-right" ng-click="tempRecipientPasteList = []" id="clearPaste"></i>
+        <div class="paste-box-validation" ng-show="tempRecipientPasteList.length > 0 || tempPasteError" ng-class="{pbinvalid: tempPasteError, pbvalid: !tempPasteError}">
+            <i class="fa fa-times fa-2x pull-right" ng-click="tempRecipientPasteList = []; tempPasteError = null; columnLengthError = false" id="clearPaste"></i>
             <div class="paste-message">
                 {{tempPasteError ? 'INVALID SPREADSHEET.' : 'SPREADSHEET PASTE SUCCESSFUL!'}}
             </div>
