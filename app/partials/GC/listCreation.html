@@ -290,7 +290,7 @@
             <ul class="list-group" style="margin-bottom:0;">
                 <li class="list-group-item" ng-repeat="recipient in recipientList | filter:recipientListSearchTerm | invalidRecipients:invalidRecipients" ng-class="{'list-group-item-danger': recipient.Invalid, 'list-group-item-info': recipient.BeingEdited}">
                     <div class="pull-right">
-                        <div class="btn-group-vertical">
+                        <div class="btn-group-vertical" ng-show="!recipient.BeingEdited">
                             <div class="btn btn-primary btn-sm" ng-click="editRecipient(recipient); changeAddType('manual'); $parent.showMaker = true;"><i class="fa fa-edit"></i></div>
                             <div class="btn btn-danger btn-sm" ng-click="deleteRecipient(recipient)"><i class="fa fa-times"></i></div>
                         </div>
