@@ -4,7 +4,7 @@
         <div class="paste-box-validation" ng-show="tempRecipientPasteList.length > 0 || tempPasteError" ng-class="{pbinvalid: tempPasteError, pbvalid: !tempPasteError}">
             <i class="fa fa-times fa-2x pull-right" ng-click="tempRecipientPasteList = []; tempPasteError = null; columnLengthError = false" id="clearPaste"></i>
             <div class="paste-message">
-                {{tempPasteError ? 'INVALID SPREADSHEET.' : 'SPREADSHEET PASTE SUCCESSFUL!'}}
+                {{tempPasteError ? 'INVALID SPREADSHEET.' : ('SPREADSHEET PASTE SUCCESSFUL!  ' + tempRecipientPasteList.length + ' RECIPIENTS')}}
             </div>
         </div>
     </div>

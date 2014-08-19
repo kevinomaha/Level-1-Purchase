@@ -150,6 +150,8 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 
 				$rootScope.$on('event:generaterecipients', uploadList);
 
+                $rootScope.$on('event:cancelUpload', clearList);
+
 				function textChanged() {
 					$scope.tempRecipientPasteList = [];
 					$scope.tempPasteError = false;
@@ -286,6 +288,12 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 						});
 					}
 				}
+
+                function clearList() {
+                    $scope.tempRecipientPasteList = [];
+                    $scope.recipientPasteList = [];
+                    $('#myPasteBox').val('');
+                }
 
 
 				$document.ready(function () {

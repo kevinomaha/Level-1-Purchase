@@ -615,6 +615,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		}
 	}
 
+    $scope.cancelUpload = function() {
+        $rootScope.$broadcast('event:cancelUpload');
+    };
+
     $scope.showAwardMaker = false;
 
 	$scope.recipientGroup = [];
