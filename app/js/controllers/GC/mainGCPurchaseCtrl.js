@@ -996,6 +996,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 
             var denominationValue = $scope.recipientGroup[recip].Denomination ? $scope.recipientGroup[recip].Denomination : $scope.selectedProduct.denomination.Value;
             var personalMessage = $scope.recipientGroup[recip].PersonalMessage ? $scope.recipientGroup[recip].PersonalMessage : $scope.selectedProduct.PersonalMessage;
+            //Line Breaks
+            personalMessage = personalMessage.replace(/\n/g,"\r\n");
             var closingMessage = $scope.recipientGroup[recip].ClosingMessage ? $scope.recipientGroup[recip].ClosingMessage : $scope.selectedProduct.ClosingMessage;
             var emailSubject = $scope.recipientGroup[recip].EmailSubject ? $scope.recipientGroup[recip].EmailSubject : $scope.selectedProduct.EmailSubject;
             var deliveryDate = $scope.recipientGroup[recip].DeliveryDate ? $scope.recipientGroup[recip].DeliveryDate : $scope.selectedProduct.DeliveryDate;
@@ -1162,6 +1164,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
         if ($scope.selectedProduct.anonymousQty > 0) {
             var denominationValue = $scope.selectedProduct.denomination.Value;
             var personalMessage = $scope.selectedProduct.PersonalMessage;
+            //Line Breaks
+            personalMessage = personalMessage.replace(/\n/g,"\r\n");
             var closingMessage = $scope.selectedProduct.ClosingMessage;
             var emailSubject = $scope.selectedProduct.EmailSubject;
 
