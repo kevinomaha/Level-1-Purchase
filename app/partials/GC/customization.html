@@ -202,12 +202,21 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group" style="margin-top:15px;">
-                                    <textarea class="form-control" ng-maxlength="500" ng-model="selectedProduct.PersonalMessage" placeholder="Custom personal message..."/>
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>Custom Personal Message</label>
+                                        <textarea class="form-control" style="min-height: 100px;" ng-show="!digitalProduct" ng-maxlength="300" ng-model="selectedProduct.PersonalMessage" placeholder="Custom personal message..."/>
+                                        <textarea class="form-control" style="min-height: 100px;" ng-show="digitalProduct" ng-maxlength="500" ng-model="selectedProduct.PersonalMessage" placeholder="Custom personal message..."/>
+                                        <i class="fa fa-comment"></i>
+                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <input type="text" class="form-control" ng-maxlength="50" ng-model="selectedProduct.ClosingMessage" placeholder="Custom closing message..."/>
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>Custom Closing Message</label>
+                                        <input type="text" class="form-control" ng-maxlength="50" ng-model="selectedProduct.ClosingMessage" placeholder="Custom closing message..."/>
+                                        <i class="fa fa-comment"></i>
+                                    </div>
                                 </div>
 
                                 <div class="row" ng-show="digitalProduct">
