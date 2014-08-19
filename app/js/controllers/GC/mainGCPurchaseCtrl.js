@@ -372,6 +372,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
     }
 
 	$scope.editRecipient = function(recipient) {
+        if ($scope.tempRecipient) $scope.cancelEditRecipient();
 		$scope.step = 2;
         $scope.tempRecipient = angular.copy(recipient);
 		$scope.recipient = recipient;
