@@ -377,6 +377,17 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		$scope.recipient = recipient;
 		$scope.editingRecipient = true;
 
+        if (recipient.ShipAddressID) {
+            angular.forEach($scope.addresses, function(address) {
+                if (address.ID == recipient.ShipAddressID) {
+                    $scope.existingAddress = address;
+                }
+            });
+        }
+        else {
+            $scope.existingAddress = null;
+        }
+
         var editingRecipientID = recipient.ID;
         for (var r = 0; r < $scope.recipientList.length; r ++) {
             $scope.recipientList[r].BeingEdited = $scope.recipientList[r].ID == editingRecipientID;
