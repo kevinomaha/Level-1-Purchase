@@ -168,12 +168,7 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 			return returnVal;
 		}
 		else {
-			if ($scope.tempOrder.PaymentMethod == "BudgetAccount") {
-				return true;
-			}
-			else {
-				return false;
-			}
+            return $scope.tempOrder.PaymentMethod == "BudgetAccount";
 		}
 	}
 
@@ -201,13 +196,9 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 			return returnVal;
 		}
 		else {
-            if ($scope.tempOrder.PaymentMethod == "BudgetAccount") {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return $scope.tempOrder.PaymentMethod == "BudgetAccount";
 		}
+        $scope.$apply();
 	}
 
 	$scope.$watch('tempOrder.CreditCard.ExpirationDate', function(event) {
