@@ -164,8 +164,9 @@
                                 </div>
                             </div>
                             <div class="col-xs-12">
+                                <loadingindicator ng-show="loadingImage" />
                                 <figure>
-                                    <img width="100%" ng-src="{{showPreview ? lineitem.Variant.PreviewUrl : ''}}"/>
+                                    <img width="100%" ng-src="{{showPreview ? lineitem.Variant.PreviewUrl : ''}}" imageonload/>
                                 </figure>
                             </div>
                         </div>

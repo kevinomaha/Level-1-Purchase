@@ -596,4 +596,10 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         }
     }, true);
 
+    $scope.loadingImage = true;
+    $scope.$on('event:imageLoaded', function(event, result) {
+        $scope.loadingImage = !result;
+        $scope.$apply();
+    });
+
 }]);
