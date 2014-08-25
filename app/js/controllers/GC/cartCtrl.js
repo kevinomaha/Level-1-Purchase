@@ -371,6 +371,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	}
 
 	$scope.updateGroupShipper = function(group) {
+        group.ShipperID = null;
 		angular.forEach($scope.shippers, function(s) {
 			if (s.Name == group.ShipMethod) {
 				group.Shipper = s;
@@ -389,7 +390,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 			     if (i.UniqueID == lineItemID) {
 				     i.Shipper = group.Shipper;
 				     i.ShipperName = group.Shipper.Name;
-				     i.ShipperID = group.Shipper.ID;
+				     i.ShipperID = group.ShipperID;
 			     }
 			});
 		});
@@ -570,5 +571,29 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         item.Specs = $scope.originalItemSpecs;
         $scope.cacheOrder($scope.tempOrder);
     };
+
+    $scope.errorMessages = [];
+    $scope.$watch('tempOrder', function(event) {
+        var order = angular.copy($scope.tempOrder);
+        $scope.errorMessages = [];
+        var shipAddressMissing = false; var shipperMissing = false; var qtyError = false;
+        angular.forEach(order.LineItems, function(li) {
+            if (!li.ShipAddressID) {shipAddressMissing = true;}
+            if (!li.ShipperID) {shipperMissing = true;}
+            if (!li.Quantity || li.Quantity == 0) {qtyError = true}
+        });
+        if (shipAddressMissing) {$scope.errorMessages.push("Please select a ship address for all items");}
+        if (shipperMissing) {$scope.errorMessages.push("Please select a ship method for all items");}
+        if (qtyError) {$scope.errorMessages.push("Please select a valid quantity for all items");}
+
+        if (order.PaymentMethod == 'CreditCard') {
+            var CC = angular.copy(order.CreditCard);
+            if (!CC.Type) {$scope.errorMessages.push("Please select a credit card type");}
+            if (!CC.AccountNumber) {$scope.errorMessages.push("Please enter a valid credit card account number");}
+            if (!CC.ExpirationDate) {$scope.errorMessages.push("Please enter a valid credit card expiration date");}
+            if (!CC.CVN) {$scope.errorMessages.push("Please enter a valid credit card CVN");}
+            if (!order.BillAddressID) {$scope.errorMessages.push("Please select a billing address");}
+        }
+    }, true);
 
 }]);

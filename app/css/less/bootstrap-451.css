@@ -5780,8 +5780,8 @@ ul:before,
 ul:after,
 .navbar .container .navbar-nav:before,
 .navbar .container .navbar-nav:after,
-.navbar-fixed-bottom ul:before,
-.navbar-fixed-bottom ul:after,
+.navbar-fixed-bottom ul.view-footer-buttons:before,
+.navbar-fixed-bottom ul.view-footer-buttons:after,
 .panel .panel-footer:before,
 .panel .panel-footer:after,
 .product-variants ul:before,
@@ -5821,7 +5821,7 @@ ul:after,
 .modal-footer:after,
 ul:after,
 .navbar .container .navbar-nav:after,
-.navbar-fixed-bottom ul:after,
+.navbar-fixed-bottom ul.view-footer-buttons:after,
 .panel .panel-footer:after,
 .product-variants ul:after,
 .panel-table:after,
@@ -6377,29 +6377,29 @@ button::-moz-focus-inner {
   animation-name: fadeInUp;
   -ms-animation-name: fadeInUp;
 }
-.navbar-fixed-bottom ul li {
+.navbar-fixed-bottom ul.view-footer-buttons li {
   display: inline-block;
   float: left;
 }
-.navbar-fixed-bottom ul li:nth-of-type(1) {
+.navbar-fixed-bottom ul.view-footer-buttons li:nth-of-type(1) {
   width: 25%;
 }
-.navbar-fixed-bottom ul li:nth-of-type(1) .btn {
+.navbar-fixed-bottom ul.view-footer-buttons li:nth-of-type(1) .btn {
   font-size: 11px;
 }
-.navbar-fixed-bottom ul li:nth-of-type(2) {
+.navbar-fixed-bottom ul.view-footer-buttons li:nth-of-type(2) {
   width: 25%;
 }
-.navbar-fixed-bottom ul li:nth-of-type(2) .btn {
+.navbar-fixed-bottom ul.view-footer-buttons li:nth-of-type(2) .btn {
   font-size: 11px;
 }
-.navbar-fixed-bottom ul li:last-child {
+.navbar-fixed-bottom ul.view-footer-buttons li:last-child {
   width: 50%;
 }
-.navbar-fixed-bottom ul li:last-child .btn {
+.navbar-fixed-bottom ul.view-footer-buttons li:last-child .btn {
   text-transform: uppercase;
 }
-.navbar-fixed-bottom ul li .btn {
+.navbar-fixed-bottom ul.view-footer-buttons li .btn {
   width: 100%;
   height: 60px;
   border: none;
@@ -6407,7 +6407,7 @@ button::-moz-focus-inner {
   padding: 20px 0;
   text-transform: lowercase;
 }
-.navbar-fixed-bottom ul li .btn-warning[disabled] {
+.navbar-fixed-bottom ul.view-footer-buttons li .btn-warning[disabled] {
   opacity: 1;
 }
 .nav ul li {

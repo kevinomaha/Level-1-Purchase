@@ -403,24 +403,21 @@
     </div>
     </div>
     <div class="view-footer navbar-fixed-bottom">
-        <div class="container" style="padding:0;">
             <div class="view-response-message alert-success" alert-show="currentOrder">
                 <p>{{actionMessage}}</p>
             </div>
-            <div class="view-error-message" ng-show="cart.$error.required.length + (errorMessage ? 1 : 0) > 0">
-                <ul class="row">
-                    <li class="col-sm-1 alert-warning">
+            <div class="view-error-message alert-warning" style="padding:10px 0;" ng-show="errorMessages.length > 0">
+                <ul class="row" ng-init="errorLimit = 50">
+                    <li class="col-sm-1  text-center">
                         <i class="fa fa-exclamation-circle text-danger"></i>
-                        <span class="badge" ng-show="cart.$error.required.length + (errorMessage ? 1 : 0) > 1">{{cart.$error.required.length + (errorMessage ? 1 : 0)}}</span>
+                        <span class="badge" ng-show="errorMessages.length > 0">{{errorMessages.length}}</span>
                     </li>
-                    <li class="col-sm-10 alert-warning" style="margin: 0; padding: 0">
+                    <li class="col-sm-10 text-center" style="margin: 0; padding:0;">
                         <ul>
-                            <li ng-show="cart.dateneeded.$invalid">Date needed is required</li>
-                            <li ng-show="cart.qtyInput.$invalid">You have entered an invalid quantity</li>
-                            <li ng-show="errorMessage">{{errorMessage}}</li>
+                            <li ng-repeat="error in errorMessages | limitTo:errorLimit">{{error}}</li>
                         </ul>
                     </li>
-                    <li class="col-sm-1"><a class="fa fa-caret-down"></a></li>
+                    <li class="col-sm-1 text-center" ng-click="(errorLimit > 1) ? (errorLimit = 1) : (errorLimit = 50)"><a class="fa fa-caret-down" ng-class="{'fa-caret-up':errorLimit == 1}"></a></li>
                 </ul>
             </div>
             <ul class="view-footer-buttons">
@@ -434,13 +431,12 @@
                     </button>
                 </li>
                 <li>
-                    <button class="btn" ng-class="{'btn-warning': (cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)), 'btn-success': (!cart_billing.$invalid && !cart_merchant_shipping.$invalid && (!cart_line_item_groups.$invalid || tempOrder.AnonymousShipAddressID)) }" ng-click="submitOrder()" ng-disabled="cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)">
+                    <button class="btn" ng-class="{'btn-warning': (errorMessages.length > 0 || cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)), 'btn-success': (!cart_billing.$invalid && !cart_merchant_shipping.$invalid && (!cart_line_item_groups.$invalid || tempOrder.AnonymousShipAddressID)) }" ng-click="submitOrder()" ng-disabled="errorMessages.length > 0 || cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)">
                         <i ng-show="cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)" class="fa fa-warning"></i>
                         <span>PAY {{tempOrder.Total | currency}}</span>
                     </button>
                 </li>
             </ul>
-        </div>
     </div>
     <cartprint class="visible-print" />
     </div>
