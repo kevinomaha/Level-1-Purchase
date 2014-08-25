@@ -963,6 +963,26 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
 		  }
 	}
 
+    $scope.personalMessageInvalid = false;
+    $scope.$watch('selectedProduct.PersonalMessage', function(newval, oldval) {
+        $scope.personalMessageInvalid = false;
+        if (newval) {
+            if ($scope.digitalProduct) {
+                $scope.personalMessageInvalid = $scope.selectedProduct.PersonalMessage.length > 500;
+            }
+            else {
+                $scope.personalMessageInvalid = $scope.selectedProduct.PersonalMessage.length > 300;
+            }
+        }
+    });
+    $scope.emailSubjectInvalid = false;
+    $scope.$watch('selectedProduct.EmailSubject', function(newval, oldval) {
+        $scope.emailSubjectInvalid = false;
+        if (newval) {
+            $scope.emailSubjectInvalid = $scope.selectedProduct.EmailSubject.length > 75;
+        }
+    });
+
 	$scope.selectedProduct.buildingProductsIndicator = false;
 
     $scope.messagepopover = {title: 'Custom Personal Message', content: 'Ex. Thanks for your hard work!<br/>(Up to 300 characters)'};
