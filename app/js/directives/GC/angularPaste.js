@@ -17,18 +17,20 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 						//Pasted data split into rows
                         text = text.replace(/"/g,'');
 						var rows = text.split(/[\n\f\r]/);
-                        if (rows[0] && rows[0].split("\t").length < 20) {
-                            $scope.tempPasteError = true;
-                            $scope.columnLengthError = true;
-                        }
-                        else {
-                            for (var i = 0; i < rows.length; i++) {
-                                if (rows[i].split("\t").length < 20) {
+                        for (var i = 0; i < rows.length; i++) {
+                            if (rows[i].split("\t").length < 20) {
+                                if (rows[i+1]) {
                                     rows[i] = rows[i].concat(rows[i+1]);
                                     rows.splice(i+1,1);
                                     i--;
                                 }
                             }
+                        }
+                        if (rows[0] && (rows[0].split("\t").length < 20 || rows[0].split("\t").length > 20)) {
+                            $scope.tempPasteError = true;
+                            $scope.columnLengthError = true;
+                        }
+                        else {
                             rows.forEach(function (thisRow) {
                                 //var row = thisRow.trim();
                                 var row = thisRow;
