@@ -839,6 +839,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 if (lineitem) {
                     LineItems.setProductSpecs(lineitem, $scope.selectedProduct);
                     $scope.designChanged(lineitem);
+                    $scope.occasionMessageChanged();
                 }
                 $scope.selectedProduct.productLoadingIndicator = false;
             });
