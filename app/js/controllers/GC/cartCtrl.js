@@ -9,6 +9,9 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
 	$scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
     $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
+    if ($scope.orderfields) {
+        $scope.tempOrder.OrderFields = $scope.orderfields;
+    }
 
     $scope.$on('event:shippersObtained', function() {
         $scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
@@ -105,6 +108,11 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                             $scope.tempOrder.isAllDigital = true;
                         }
                     }
+                }
+            }
+            else {
+                if ($scope.tempOrder.LineItems[li].Product.Name.toLowerCase().indexOf("e-gift") == -1) {
+                    $scope.tempOrder.isAllDigital = false;
                 }
             }
         }
