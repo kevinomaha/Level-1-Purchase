@@ -54,6 +54,9 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                     $scope.gettingShippers = true;
                     getShippers();
                 }
+                else if ($scope.gcShippers) {
+                    $scope.$broadcast('event:shippersObtained');
+                }
 
                 $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
                 if ($scope.tempOrder) {

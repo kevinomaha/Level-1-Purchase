@@ -1,8 +1,6 @@
 four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'LogoOptions', 'CategoryDescription', 'ExistingAddress', 'LineItems', 'CustomAddressList',
 function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems, CustomAddressList) {
 
-if ($scope.user) {
-
     $scope.productList = Resources.products;
     var today = new Date();
     $scope.currentDate = angular.copy(today);
@@ -1735,6 +1733,4 @@ if ($scope.user) {
             $location.path('cart');
         });
     }
-
-}
 }]);

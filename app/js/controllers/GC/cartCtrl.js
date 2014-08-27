@@ -17,6 +17,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
         $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
         $scope.tempOrder.OrderFields = $scope.orderfields;
+        assignDigitalShipInfo();
     });
 
     if (!$scope.tempOrder.OrderFields || $scope.tempOrder.OrderFields.length == 0) {
@@ -37,13 +38,6 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         });
     }
     getAllAddresses();
-
-    $scope.digitalShipper = {};
-    for (var s = 0; s < $scope.shippers.length; s++) {
-        if ($scope.shippers[s].Name.indexOf('Email Delivery') > -1) {
-            $scope.digitalShipper = $scope.shippers[s];
-        }
-    }
 
     if ($scope.tempOrder.LineItems.length > 0) {
         LineItems.groupPreSubmit($scope.tempOrder);
@@ -71,6 +65,12 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
     }
 
     function assignDigitalShipInfo() {
+        $scope.digitalShipper = {};
+        for (var s = 0; s < $scope.shippers.length; s++) {
+            if ($scope.shippers[s].Name.indexOf('Email Delivery') > -1) {
+                $scope.digitalShipper = $scope.shippers[s];
+            }
+        }
         for (var i = 0; i < $scope.tempOrder.LineItems.length; i++) {
             if ($scope.tempOrder.LineItems[i].Product.ExternalID.indexOf('SCD') > -1 || $scope.tempOrder.LineItems[i].Product.Name.toLowerCase().indexOf('e-gift') > -1) {
                 $scope.tempOrder.LineItems[i].ShipAddressID = $scope.digitalShipAddressID;
