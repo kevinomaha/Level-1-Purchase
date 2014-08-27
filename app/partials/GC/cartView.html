@@ -166,7 +166,7 @@
                     <div class="row" collapse="!showPreview">
                         <div class="container" style="padding:15px;">
                             <div class="col-xs-12 text-center text-muted" ng-show="!group.IsDigital" ng-init="showEnvelope = false" ng-click="showEnvelope = !showEnvelope"><span style="cursor:pointer;"><span ng-show="!showEnvelope">View</span><span ng-show="showEnvelope">Hide</span> Envelope</span></div>
-                            <div class="col-xs-12" ng-show="lineitem.Product.ExternalID == 'SCP-FD12'" collapse="!showEnvelope">
+                            <div class="col-xs-12" ng-show="lineitem.Product.ExternalID == 'SCP-FD1'" collapse="!showEnvelope">
                                 <div class="container" style="margin-bottom:20px;background-image:url('css/images/CenveoEnvelope.jpg');width:867px;height:377px;">
                                     <div style="color: #31708f;font-size: 75%;line-height: 1;margin-left: 90px;margin-top: 260px;">
                                         <div>{{group.Address.Street1}} {{group.Address.Street2}}</div>
@@ -176,7 +176,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-12" ng-show="lineitem.Product.ExternalID == 'SCP-GC2'" collapse="!showEnvelope">
+                            <div class="col-xs-12" ng-show="lineitem.Product.ExternalID == 'SCP-GC'" collapse="!showEnvelope">
                                 <div class="container" style="margin-bottom:20px;background-image:url('css/images/A9Envelope.jpg');width:867px;height:628px;">
                                     <div style="color: #31708f;font-size: 75%;line-height: 1;margin-left: 130px;margin-top: 470px;">
                                         <span>{{group.Address.Street1}} {{group.Address.Street2}}</span><br>
