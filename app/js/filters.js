@@ -252,6 +252,9 @@ four51.app.filter('gccustomorderfieldsnonemail', function() {
                 }
             });
         }
+        else {
+            results = fields;
+        }
 
         return results;
     }
