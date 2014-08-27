@@ -19,10 +19,6 @@ function ($location, $route, $scope, $451, User, SpendingAccount, $window) {
 		store.clear();
 	};
 
-    SpendingAccount.query(function(data) {
-        $scope.SpendingAccounts = data;
-    });
-
     // http://stackoverflow.com/questions/12592472/how-to-highlight-a-current-menu-item-in-angularjs
     $scope.isActive = function(path) {
         var cur_path = $location.path().replace('/', '');
@@ -78,7 +74,7 @@ function ($location, $route, $scope, $451, User, SpendingAccount, $window) {
 
     $scope.$watch('tempOrder.LineItems', function(newval) {
         var order = angular.copy($scope.tempOrder);
-        if (typeof(order) != 'object') {
+        if (order && typeof(order) != 'object') {
             order = LZString.decompressFromUTF16(order);
             order = JSON.parse(order);
         }

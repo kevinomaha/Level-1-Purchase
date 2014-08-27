@@ -199,5 +199,5 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
             }, 1, 100);
         });
     }
-    getShippers();
+    //getShippers();
 }]);
