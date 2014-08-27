@@ -64,6 +64,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.cacheOrder($scope.tempOrder);
     }
 
+    $scope.displayErrorMessages = false;
     function assignDigitalShipInfo() {
         $scope.digitalShipper = {};
         for (var s = 0; s < $scope.shippers.length; s++) {
@@ -92,6 +93,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                 }
             }
         }
+        $scope.displayErrorMessages = true;
     }
 
     $scope.tempOrder.isAllDigital;
@@ -604,9 +606,15 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         }
     }, true);
 
-    $scope.loadingImage = true;
-    $scope.$on('event:imageLoaded', function(event, result) {
-        $scope.loadingImage = !result;
+
+    $scope.$on('event:imageLoaded', function(event, result, id) {
+        angular.forEach($scope.tempOrder.lineItemGroups, function(group) {
+            angular.forEach(group.LineItems, function(li) {
+                if (li.UniqueID == id) {
+                    li.loadingImage = !result;
+                }
+            });
+        });
         $scope.$apply();
     });
 

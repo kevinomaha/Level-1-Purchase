@@ -186,9 +186,9 @@
                                 </div>
                             </div>
                             <div class="col-xs-12">
-                                <loadingindicator ng-show="loadingImage" />
+                                <loadingindicator ng-show="lineitem.loadingImage" />
                                 <figure>
-                                    <img width="100%" ng-src="{{showPreview ? lineitem.Variant.PreviewUrl : ''}}" imageonload/>
+                                    <img width="100%" ng-attr-id="{{lineitem.UniqueID}}" ng-src="{{showPreview ? lineitem.Variant.PreviewUrl : ''}}" imageonload/>
                                 </figure>
                             </div>
                         </div>
@@ -289,8 +289,9 @@
                     </div>
                     <div class="row" collapse="!showPreview">
                         <div class="container" style="padding:15px;">
+                            <loadingindicator ng-show="lineitem.loadingImage" />
                             <figure>
-                                <img width="100%" ng-src="{{showPreview ? lineitem.Variant.PreviewUrl : ''}}"/>
+                                <img width="100%" ng-attr-id="{{lineitem.UniqueID}}" ng-src="{{showPreview ? lineitem.Variant.PreviewUrl : ''}}" imageonload/>
                             </figure>
                         </div>
                     </div>
@@ -429,7 +430,7 @@
             <div class="view-response-message alert-success" alert-show="currentOrder">
                 <p>{{actionMessage}}</p>
             </div>
-            <div class="view-error-message alert-warning" style="padding:10px 0;" ng-show="errorMessages.length > 0">
+            <div class="view-error-message alert-warning" style="padding:10px 0;" ng-show="errorMessages.length > 0 && displayErrorMessages">
                 <ul class="row" ng-init="errorLimit = 50">
                     <li class="col-sm-1  text-center">
                         <i class="fa fa-exclamation-circle text-danger"></i>

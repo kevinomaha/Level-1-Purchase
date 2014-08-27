@@ -30,6 +30,7 @@ function($resource, $451, Address, Variant) {
 		}
 
 		angular.forEach(order.LineItems, function(i) {
+            i.loadingImage = true;
 			if (i.UniqueID) {
 				var addressID = i.ShipAddressID;
 				if (!i.InGroup) {
