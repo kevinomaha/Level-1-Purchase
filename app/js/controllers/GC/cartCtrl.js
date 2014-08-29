@@ -24,6 +24,13 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.tempOrder.OrderFields = $scope.orderfields;
     }
 
+    $scope.pagination = {
+        "IdentifiedPage":1,
+        "IdentifiedLimit":10,
+        "MerchantPage":1,
+        "MerchantLimit":5
+    };
+
     function getAllAddresses() {
         $scope.addressesLoading = true;
         CustomAddressList.getall(function(list) {
@@ -250,7 +257,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		else {
 			if (confirm('Are you sure you wish to remove this group from your cart?') == true) {
 				for (var g = 0; g < $scope.tempOrder.lineItemGroups.length; g++) {
-					if (group.UniqueID == $scope.tempOrder.lineItemGroups[g].UniqueID) {
+					if (group.Anonymous && group.UniqueID == $scope.tempOrder.lineItemGroups[g].UniqueID) {
 						for (var li = 0; li < $scope.tempOrder.lineItemGroups[g].LineItems.length; li++) {
 							var groupLineItemID = $scope.tempOrder.lineItemGroups[g].LineItems[li].UniqueID;
 							recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
@@ -270,6 +277,9 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 						}
 						$scope.tempOrder.lineItemGroups.splice(g,1);
 					}
+                    else if (group.Anonymous) {
+                        console.log('remove anon group');
+                    }
 				}
 			}
 		}

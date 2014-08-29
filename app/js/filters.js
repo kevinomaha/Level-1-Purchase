@@ -73,8 +73,13 @@ four51.app.filter('noliverates', function() {
 
 four51.app.filter('paginate', function() {
 	return function(input, start) {
-		start = +start; //parse to int
-		return input.slice(start);
+        if (input) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+        else {
+            return start;
+        }
 	}
 });
 
