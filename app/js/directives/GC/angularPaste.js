@@ -10,7 +10,48 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 				//a textbox
 				var inFocus = false;
 
-				function parseTabular(text) {
+                function validateEmail(email) {
+                    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(email);
+                }
+
+                function validDenomination(denom) {
+                    denom = denom.replace('$','');
+                    if ($scope.$parent.selectedProductDetails && $scope.$parent.selectedProductDetails.Specs.Denomination1.Options) {
+                        var denoms = [];
+                        angular.forEach($scope.$parent.selectedProductDetails.Specs.Denomination1.Options, function(o) {
+                            denoms.push(o.Value.replace('$',''));
+                        });
+                        var valid = false;
+                        if (denoms.indexOf(denom) > -1) {
+                            valid = true;
+                        }
+                        return valid;
+                    }
+                    else {
+                        return !isNaN(denom);
+                    }
+                }
+
+                function validDate(date) {
+                    if (date.indexOf('/') > -1) {
+                        var comp = date.split('/');
+                        var m = parseInt(comp[0], 10);
+                        var d = parseInt(comp[1], 10);
+                        var y = parseInt(comp[2], 10);
+                        var dt = new Date(y,m-1,d);
+                        if (dt.getFullYear() == y && dt.getMonth() + 1 == m && dt.getDate() == d) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+                function parseTabular(text) {
 					//The array we will return
 					var toReturn = [];
 					try {
@@ -91,6 +132,16 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 										recipient.ClosingMessage = $scope.parsedPaste[i][17];
 										recipient.EmailSubject = $scope.parsedPaste[i][18];
 										recipient.DeliveryDate = $scope.parsedPaste[i][19];
+
+                                        if (!validateEmail(recipient.Email)) {
+                                            recipient.Email = "";
+                                        }
+                                        if (recipient.Denomination && !validDenomination(recipient.Denomination)) {
+                                            recipient.Denomination = "";
+                                        }
+                                        if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
+                                            recipient.DeliveryDate = "";
+                                        }
 
 										var stateValid = false;
 										angular.forEach(stateList, function(state) {
@@ -202,10 +253,29 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 										recipient.Selected = false;
 										recipient.AwardCount = 0;
 
+                                        var errorCnt = 0;
+                                        var errors = [];
+
+                                        if (recipient.Email && !validateEmail(recipient.Email)) {
+                                            recipient.Invalid = true;
+                                            $scope.tempPasteError = true;
+                                            recipient.ErrorMessage = "Recipient " + (i + 1) + " has an invalid email address. This email address will not be uploaded.";
+                                        }
+                                        if (recipient.Denomination && !validDenomination(recipient.Denomination)) {
+                                            recipient.Invalid = true;
+                                            $scope.tempPasteError = true;
+                                            recipient.ErrorMessage = "Recipient " + (i + 1) + " has an invalid denomination. This value will not be uploaded.";
+                                        }
+                                        if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
+                                            recipient.Invalid = true;
+                                            $scope.tempPasteError = true;
+                                            recipient.ErrorMessage = "Recipient " + (i + 1) + " has an invalid delivery date. This value will not be uploaded.";
+                                        }
+
 										if ($scope.selectedProduct && $scope.digitalProduct) {
 											if (recipient.Email.length > 0) {
-												recipient.Invalid = false;
-												recipient.ErrorMessage = null;
+                                                recipient.Invalid = false;
+                                                recipient.ErrorMessage = null;
 											}
 											else {
 												$scope.tempPasteError = true;
@@ -232,8 +302,6 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 												}
 											}
 
-											var errorCnt = 0;
-											var errors = [];
 											if (recipient.ShipToFirstName == "") {
 												errorCnt++;
 												errors.push("Ship To First Name");
@@ -263,24 +331,23 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 												errors.push("Zip Code");
 											}
 
-											if (errorCnt > 0) {
-												$scope.tempPasteError = true;
-												recipient.Invalid = true;
+                                            if (errorCnt > 0) {
+                                                $scope.tempPasteError = true;
+                                                recipient.Invalid = true;
                                                 var recipientIdentifier = (recipient.FirstName != "" && recipient.LastName != "")
                                                     ? recipient.FirstName + " " + recipient.LastName
                                                     : "Recipient " + (i + 1);
-												recipient.ErrorMessage = recipientIdentifier + " is missing the following fields: ";
-												for (var e = 0; e < errors.length; e++) {
-													if (e < errors.length - 1) {
-														recipient.ErrorMessage += " " + errors[e] + ",";
-													}
-													else {
-														recipient.ErrorMessage += " " + errors[e];
-													}
-												}
-											}
+                                                recipient.ErrorMessage = recipientIdentifier + " is missing the following fields: ";
+                                                for (var e = 0; e < errors.length; e++) {
+                                                    if (e < errors.length - 1) {
+                                                        recipient.ErrorMessage += " " + errors[e] + ",";
+                                                    }
+                                                    else {
+                                                        recipient.ErrorMessage += " " + errors[e];
+                                                    }
+                                                }
+                                            }
 										}
-
 										recipientPasteList.push(recipient);
 									}
 
