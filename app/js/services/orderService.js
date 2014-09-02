@@ -15,6 +15,7 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
                     spec.File.Url += "&auth=" + Security.auth();
             });
             item.SpecsLength = Object.keys(item.Specs).length;
+            item.IsMerchantCard = item.Product.Name.indexOf('SuperCertificate') == -1;
         });
 
         order.forceMultipleShip = function(value) {

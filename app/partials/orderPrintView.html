@@ -1,5 +1,5 @@
 <section class="order-print-view">
-    <div class="order-print-view-header">
+    <div class="order-print-view-header" style="margin-bottom:10px;">
         <div>
             <figure>
                 <img class="branding-print-view-logo" ng-src="{{user.Company.LogoUrl}}" />
@@ -13,7 +13,7 @@
     </div>
     <div>
         <div class="row">
-            <div class="order-print-view-details col-sm-6">
+            <div class="order-print-view-details col-xs-5">
                 <div>
                     <h4>
                         {{'Order' | r}} {{'Details' | r}}
@@ -49,7 +49,7 @@
                     </address>
                 </div>
             </div>
-            <div ng-if="!(user.Permissions.contains('HidePricing'))" class="col-sm-6">
+            <div ng-if="!(user.Permissions.contains('HidePricing'))" class="col-xs-5 col-xs-offset-1">
                 <div>
                     <h4>
                         {{'Order' | r}} {{'Summary' | r}}
@@ -69,47 +69,45 @@
         <div class="order-print-view-grid">
             <div class="order-print-view-line-items">
                 <div>
-                    <h3>
+                    <h3 style="margin:0; text-align: center; padding:5px 0; background-color:#000 !important; color:#fff !important; -webkit-print-color-adjust: exact;">
                         {{order.LineItems.length}} {{'Item' + (order.LineItems.length > 1 ? 's' : '') | rl}} in this {{'Order' | rl}}
                     </h3>
                 </div>
                 <div>
-                    <div class="panel-order-history" ng-repeat="item in order.LineItems" style="border-bottom:1px solid #ddd;">
+                    <div class="panel-order-history row" ng-repeat="item in order.LineItems" style="border-bottom:1px solid #ddd; padding:5px 0;">
                         <div class="col-sm-6 col-lg-5">
-                            <h4 class="text-primary">
-                                {{item.Product.Name}}
-                            </h4>
-                            <p ng-show="item.Variant.Specs.FirstName1 || item.Variant.Specs.LastName1"><b>Recipient Name:</b> {{(item.Variant.Specs.FirstName1.Value + ' ' + item.Variant.Specs.LastName1.Value) || 'Anonymous'}}</p>
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <h4 class="text-primary">
+                                        {{item.Product.Name}}
+                                    </h4>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div ng-if="!(user.Permissions.contains('HidePricing'))" class="col-xs-12 col-sm-6">
+                                        <p>
+                                            <small class="text-info">{{'Total' | r}}</small><br />
+                                            <span class="text-success">{{item.LineTotal | currency:"$"}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-sm-6 col-lg-7">
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="row">
-                                        <div ng-if="!(user.Permissions.contains('HidePricing'))" class="col-xs-12 col-sm-6">
-                                            <p>
-                                                <small class="text-info">{{'Total' | r}}</small><br />
-                                                <span class="text-success">{{item.LineTotal | currency:"$"}}</span>
-                                            </p>
-                                        </div>
-                                    </div>
+                                <div class="col-xs-8">
+                                    <p ng-show="item.Variant.Specs.FirstName1 || item.Variant.Specs.LastName1"><b>Recipient Name:</b> {{(item.Variant.Specs.FirstName1.Value + ' ' + item.Variant.Specs.LastName1.Value) || 'Anonymous'}}</p>
+                                    <p ng-show="item.IsMerchantCard"><b>Quantity: </b>{{item.Quantity}}</p>
+                                    <p ng-if="item.ShipperName">
+                                        {{item.ShipperName | gcshipping}}
+                                    </p>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            <p ng-if="item.ShipperName">
-                                                <strong>{{'Shipper' | r}} {{'Name' | r}}</strong><br />
-                                                {{item.ShipperName | gcshipping}}
-                                            </p>
-                                        </div>
-                                        <div class="col-xs-6">
-                                            <address ng-show="item.ShipAddress">
-                                                <strong>{{'Ship to' | r}}</strong><br>
-                                                {{item.ShipAddress.Street1}}<br>
-                                                {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
-                                                {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
-                                            </address>
-                                        </div>
-                                    </div>
+                                <div class="col-xs-4" ng-if="(item.ShipperName | gcshipping) != 'Email Delivery'">
+                                    <address ng-show="item.ShipAddress" style="margin-bottom:0;">
+                                        <strong>{{'Ship to' | r}}</strong><br>
+                                        {{item.ShipAddress.Street1}}<br>
+                                        {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
+                                        {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
+                                    </address>
                                 </div>
                             </div>
                         </div>
