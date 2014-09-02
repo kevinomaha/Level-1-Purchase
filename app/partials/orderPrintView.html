@@ -12,12 +12,12 @@
         </div>
     </div>
     <div>
-        <div>
-            <div class="order-print-view-details">
+        <div class="row">
+            <div class="order-print-view-details col-sm-6">
                 <div>
-                    <h3>
+                    <h4>
                         {{'Order' | r}} {{'Details' | r}}
-                    </h3>
+                    </h4>
                 </div>
                 <div>
                     <p ng-show="order.DateSubmitted">{{'Date' | r}} {{'Submitted' | r}}: <span style="float:right;">{{order.DateSubmitted | date:'short'}}</span></p>
@@ -27,6 +27,8 @@
                     <p ng-show="order.Comments">{{'Comments' | r}}: <span style="float:right;">{{order.Comments}}</span></p>
                     <p ng-show="orderCostCenter">{{'Cost Center' | r}}: <span style="float:right;">{{(order.LineItems.length == 1) && order.LineItems[0].CostCenter || null}}</span></p>
                     <p>{{'Payment' | r}} {{'Method' | r}}: <span style="float:right;">{{order.PaymentMethodText}} <strong ng-show="order.CreditCard.Type">{{':' + order.CreditCard.DisplayName}}</strong></span></p>
+                    <p ng-repeat="field in order.OrderFields" ng-if="field.Name == 'PONumber' && field.Value">{{'PO Number' | r}}: <span style="float:right;">{{field.Value}}</span></p>
+                    <p ng-repeat="field in order.OrderFields" ng-if="field.Name == 'ExpenseCode' && field.Value">{{'Expense Code' | r}}: <span style="float:right;">{{field.Value}}</span></p>
                     <address ng-show="order.ShipAddress">
                         <span class="text-primary"><strong>{{'Ship to' | r}}</strong></span><br />
                         <span ng-show="order.LineItems[0].ShipFirstName || order.LineItems[0].ShipLastName">{{order.LineItems[0].ShipFirstName}} {{order.LineItems[0].ShipLastName}}</span>
@@ -47,12 +49,11 @@
                     </address>
                 </div>
             </div>
-
-            <div ng-if="!(user.Permissions.contains('HidePricing'))">
+            <div ng-if="!(user.Permissions.contains('HidePricing'))" class="col-sm-6">
                 <div>
-                    <h3>
+                    <h4>
                         {{'Order' | r}} {{'Summary' | r}}
-                    </h3>
+                    </h4>
                 </div>
                 <div>
                     <p>{{'Subtotal' | r}}:<span style="float: right;">{{order.Subtotal | currency:"$"}}</span></p>

@@ -39,6 +39,14 @@
         <span class="text-info">{{'Cost Center' | r}}</span>
         <span class="pull-right">{{order.CostCenter}}</span>
     </p>
+    <p ng-repeat="field in order.OrderFields" ng-if="field.Name == 'PONumber' && field.Value">
+        <span class="text-info">{{'PO Number' | r}}</span>
+        <span class="pull-right">{{field.Value}}</span>
+    </p>
+    <p ng-repeat="field in order.OrderFields" ng-if="field.Name == 'ExpenseCode' && field.Value">
+        <span class="text-info">{{'Expense Code' | r}}</span>
+        <span class="pull-right">{{field.Value}}</span>
+    </p>
     <hr />
     <address ng-show="!order.IsMultipleShip() && order.ShipAddress.AddressName != 'Email Delivery'">
         <span class="text-primary"><strong>{{'Ship to' | r}}</strong></span><br />
