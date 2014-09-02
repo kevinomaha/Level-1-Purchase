@@ -9,14 +9,14 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
 	$scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
     $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
-    if ($scope.orderfields) {
+    if ($scope.orderfields && !$scope.tempOrder.OrderFields) {
         $scope.tempOrder.OrderFields = $scope.orderfields;
     }
 
     $scope.$on('event:shippersObtained', function() {
         $scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
         $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
-        $scope.tempOrder.OrderFields = $scope.orderfields;
+        if (!$scope.tempOrder.OrderFields) $scope.tempOrder.OrderFields = $scope.orderfields;
         assignDigitalShipInfo();
     });
 

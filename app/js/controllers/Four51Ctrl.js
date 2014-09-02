@@ -25,7 +25,7 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
         store.set("451Cache.TempOrder",{});
         var o = angular.copy(order);
         store.set("451Cache.TempOrder",LZString.compressToUTF16(JSON.stringify(o)));
-    }
+    };
 
     function init() {
         if (Security.isAuthenticated()) {
@@ -50,7 +50,8 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                 $scope.currentOrder = null;
 
                 $scope.gcShippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : null;
-                if (!$scope.gcShippers && !$scope.gettingShippers && window.location.href.indexOf('cart') > -1) {
+                /*if (!$scope.gcShippers && !$scope.gettingShippers && window.location.href.indexOf('cart') > -1) {*/
+                if (!$scope.gcShippers && !$scope.gettingShippers) {
                     $scope.gettingShippers = true;
                     getShippers();
                 }
@@ -202,5 +203,5 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
             }, 1, 100);
         });
     }
-    if (window.location.href.indexOf('cart') > -1) getShippers();
+    getShippers();
 }]);
