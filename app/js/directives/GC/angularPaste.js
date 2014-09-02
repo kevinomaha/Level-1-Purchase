@@ -17,7 +17,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 
                 function validDenomination(denom) {
                     denom = denom.replace('$','');
-                    if ($scope.$parent.selectedProductDetails && $scope.$parent.selectedProductDetails.Specs.Denomination1.Options) {
+                    if ($scope.$parent.selectedProductDetails && $scope.$parent.selectedProductDetails.Specs && $scope.$parent.selectedProductDetails.Specs.Denomination1 && $scope.$parent.selectedProductDetails.Specs.Denomination1.Options) {
                         var denoms = [];
                         angular.forEach($scope.$parent.selectedProductDetails.Specs.Denomination1.Options, function(o) {
                             denoms.push(o.Value.replace('$',''));
@@ -273,14 +273,10 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                         }
 
 										if ($scope.selectedProduct && $scope.digitalProduct) {
-											if (recipient.Email.length > 0) {
-                                                recipient.Invalid = false;
-                                                recipient.ErrorMessage = null;
-											}
-											else {
-												$scope.tempPasteError = true;
-												recipient.Invalid = true;
-												recipient.ErrorMessage = "Recipient " + (i + 1) + " is missing an email address";
+											if (recipient.Email.length == 0) {
+                                                $scope.tempPasteError = true;
+                                                recipient.Invalid = true;
+                                                recipient.ErrorMessage = "Recipient " + (i + 1) + " is missing an email address";
 											}
 										}
 										else if ($scope.selectedProduct && !$scope.digitalProduct) {
