@@ -471,7 +471,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     }
                 );
             }
-            $scope.clearRecipient('tempRecipient');
         }
         else {
             for (var r = 0; r < $scope.recipientList.length; r++) {
@@ -484,6 +483,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 $scope.addresses = list;
             });
         }
+        $scope.clearRecipient('tempRecipient');
     }
 
     $scope.cancelEditRecipient = function (recipient) {

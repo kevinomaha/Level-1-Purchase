@@ -298,7 +298,16 @@
                     </div>
                     <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
                     <p>{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}} <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span> <span style="margin-left:5px;" class="badge" ng-show="recipient.DeliveryDate">{{recipient.DeliveryDate}}</span></p>
-                    <p><small><span ng-show="recipient.ShipAddressID"><i class="fa fa-map-marker text-muted"></i> <em>{{recipient.Street1}}</em> </span><i style="margin-left:4px;" class="fa fa-circle text-muted" ng-show="recipient.Street1 && (recipient.Email || recipient.City)"></i> <em>{{recipient.Email || recipient.City + ', ' +recipient.State}}</em></small></p>
+                    <p><small>
+                        <span ng-show="recipient.ShipAddressID">
+                            <i class="fa fa-map-marker text-muted"></i>
+                            <em> {{recipient.Street1}} </em>
+                        </span>
+                        <span ng-show="recipient.Street1 && (recipient.Email || recipient.City)">
+                            <i style="margin-left:4px;" class="fa fa-circle text-muted"></i>
+                            <em> {{recipient.Email || recipient.City + ', ' + recipient.State}}</em>
+                        </span>
+                    </small></p>
                 </li>
             </ul>
         </div>

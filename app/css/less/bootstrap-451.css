@@ -7607,6 +7607,7 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
 }
 .recipient-list-container .list-group-item {
   cursor: pointer;
+  min-height: 75px;
 }
 .recipient-upload-table .col-xs-12 .row {
   padding: 15px 0;
