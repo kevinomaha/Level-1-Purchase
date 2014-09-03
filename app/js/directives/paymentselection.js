@@ -9,7 +9,7 @@ four51.app.directive('paymentselector', function() {
 
 	       var getCardByID = function(id) {
 		       var selectedCard = null;
-		       angular.forEach($scope.paymentSelection.SavedCards, function(card) {
+		       angular.forEach($scope.tempOrder.SavedCards, function(card) {
 			       if (card.ID == id)
 				       selectedCard = card;
 		       });

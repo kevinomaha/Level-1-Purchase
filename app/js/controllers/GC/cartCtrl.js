@@ -608,7 +608,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         if (shipperMissing) {$scope.errorMessages.push("Please select a ship method for all items");}
         if (qtyError) {$scope.errorMessages.push("Please select a valid quantity for all items");}
 
-        if (order.PaymentMethod == 'CreditCard') {
+        if (order.PaymentMethod == 'CreditCard' && !order.CreditCardID) {
             var CC = angular.copy(order.CreditCard);
             if (!CC.Type) {$scope.errorMessages.push("Please select a credit card type");}
             if (!CC.AccountNumber) {$scope.errorMessages.push("Please enter a valid credit card account number");}

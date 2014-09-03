@@ -1,5 +1,5 @@
-four51.app.controller('PaymentSelectionController', ['$scope', '$rootScope',
-function ($scope, $rootScope) {
+four51.app.controller('PaymentSelectionController', ['$scope', '$rootScope', 'SavedCreditCard',
+function ($scope, $rootScope, SavedCreditCard) {
 	$scope.setPaymentMethod = function(type) {
 		$scope.tempOrder.PaymentMethod = type;
         $scope.cacheOrder($scope.tempOrder);
@@ -22,6 +22,10 @@ function ($scope, $rootScope) {
         });
 	};
 
+    SavedCreditCard.query(function(cards) {
+        $scope.tempOrder.SavedCards = cards;
+    });
+
     $scope.$watch('tempOrder.BudgetAccountID', function() {
         if ($scope.tempOrder.BudgetAccountID) {
             $scope.setBudgetAccount();
@@ -42,5 +46,31 @@ function ($scope, $rootScope) {
 			});
 		}
 	});
+
+    var getCardByID = function(id) {
+        var selectedCard = null;
+        angular.forEach($scope.tempOrder.SavedCards, function(card) {
+            if (card.ID == id)
+                selectedCard = card;
+        });
+        return selectedCard;
+    };
+
+    $scope.deleteSavedCard = function(id) {
+        if (confirm('Are you sure you wish to delete this saved credit card? This cannot be undone') == true) {
+            var card = getCardByID(id);
+            SavedCreditCard.delete(card, function() {
+                SavedCreditCard.query(function(cards) {
+                    $scope.tempOrder.CreditCardID = null;
+                    $scope.tempOrder.SavedCards = cards;
+                });
+            });
+        }
+    };
+    $scope.showDelete = function(id) {
+        if (id == null) return false;
+        var card = getCardByID(id);
+        return card.IsCustEditable;
+    };
 }]);
 
