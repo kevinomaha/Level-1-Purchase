@@ -90,6 +90,13 @@ function($resource, $451, Address, Variant) {
 			}
 		});
 
+        for (var g = 0; g < order.lineItemGroups.length; g++) {
+            order.lineItemGroups[g].Total = 0;
+            for (var li = 0; li < order.lineItemGroups[g].LineItems.length; li++) {
+                order.lineItemGroups[g].Total += order.lineItemGroups[g].LineItems[li].LineTotal;
+            }
+        }
+
 		for (var i = 0; i < addressList.length; i++) {
             if (addressList[i] && addressList[i].indexOf('anonymous') == -1) {
                 Address.get(addressList[i], function(add) {
