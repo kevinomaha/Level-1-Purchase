@@ -47,13 +47,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
     }
     getAllAddresses();
 
-    if ($scope.tempOrder.LineItems.length > 0) {
-        if (!$scope.tempOrder.LineItemGroups) LineItems.groupPreSubmit($scope.tempOrder);
-
-        //Order Submit
-        $scope.tempOrder.ExternalID = 'auto';
-
-        //Order Summary
+    function analyzeTotals() {
         $scope.tempOrder.SubTotal = 0;
         $scope.tempOrder.Total = 0;
         $scope.tempOrder.ShippingTotal = 0;
@@ -64,6 +58,27 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
         $scope.tempOrder.SubTotal = $scope.tempOrder.SubTotal.toFixed(2);
         $scope.tempOrder.Total = $scope.tempOrder.Total.toFixed(2);
+    }
+
+    if ($scope.tempOrder.LineItems.length > 0) {
+        if (!$scope.tempOrder.LineItemGroups) LineItems.groupPreSubmit($scope.tempOrder);
+
+        //Order Submit
+        $scope.tempOrder.ExternalID = 'auto';
+
+        //Order Summary
+        analyzeTotals();
+        /*$scope.tempOrder.SubTotal = 0;
+        $scope.tempOrder.Total = 0;
+        $scope.tempOrder.ShippingTotal = 0;
+        angular.forEach($scope.tempOrder.LineItems, function(li) {
+            $scope.tempOrder.SubTotal += li.LineTotal;
+            $scope.tempOrder.Total += li.LineTotal;
+        });
+
+        $scope.tempOrder.SubTotal = $scope.tempOrder.SubTotal.toFixed(2);
+        $scope.tempOrder.Total = $scope.tempOrder.Total.toFixed(2);*/
+
         analyzeShipping();
 
         //Order Billing
@@ -258,7 +273,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		else {
 			if (confirm('Are you sure you wish to remove this group from your cart?') == true) {
 				for (var g = 0; g < $scope.tempOrder.lineItemGroups.length; g++) {
-					if (group.Anonymous && group.UniqueID == $scope.tempOrder.lineItemGroups[g].UniqueID) {
+					if (!group.Anonymous && group.UniqueID == $scope.tempOrder.lineItemGroups[g].UniqueID) {
 						for (var li = 0; li < $scope.tempOrder.lineItemGroups[g].LineItems.length; li++) {
 							var groupLineItemID = $scope.tempOrder.lineItemGroups[g].LineItems[li].UniqueID;
 							recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
@@ -278,17 +293,20 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 						}
 						$scope.tempOrder.lineItemGroups.splice(g,1);
 					}
-                    else if (group.Anonymous) {
-                        console.log('remove anon group');
+                    else if (group.Anonymous && group.UniqueID == $scope.tempOrder.lineItemGroups[g].UniqueID) {
+                        for (var d = 0; d < $scope.tempOrder.LineItems.length; d++) {
+                            if ($scope.tempOrder.LineItems[d].UniqueID == group.LineItems[0].UniqueID) {
+                                $scope.tempOrder.LineItems.splice(d,1);
+                            }
+                        }
+                        $scope.tempOrder.lineItemGroups.splice(g,1);
                     }
 				}
 			}
 		}
 
-		$scope.tempOrder.Total = 0;
-		angular.forEach($scope.tempOrder.LineItems, function(li) {
-			$scope.tempOrder.Total += li.LineTotal;
-		});
+		analyzeTotals();
+        analyzeShipping();
 
         $scope.cacheOrder($scope.tempOrder);
 		$rootScope.$broadcast('event:tempOrderUpdated', $scope.tempOrder);
