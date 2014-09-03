@@ -254,7 +254,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="alert alert-warning" style="margin-top:10px;" ng-show="(!selectedProduct.designSelection) || (!selectedProduct.occasionMessage) || (denominationRequired && !selectedProduct.denomination) || (digitalProduct && emailSubjectRequired && !selectedProduct.EmailSubject) || (selectedProduct.EmailSubject && emailSubjectInvalid) || (personalMessageInvalid) || (anonymousAwards != 'true' && recipientGroup.length == 0)">
+                                <div class="alert alert-warning" style="margin-top:10px;" ng-show="!hideErrorMessages && ((!selectedProduct.designSelection) || (!selectedProduct.occasionMessage) || (denominationRequired && !selectedProduct.denomination) || (digitalProduct && emailSubjectRequired && !selectedProduct.EmailSubject) || (selectedProduct.EmailSubject && emailSubjectInvalid) || (personalMessageInvalid) || (anonymousAwards != 'true' && recipientGroup.length == 0))">
                                     <b>Please resolve the following issues:</b>
                                     <ul>
                                         <li ng-show="!selectedProduct.designSelection">Select an award design</li>

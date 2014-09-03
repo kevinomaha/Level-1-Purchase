@@ -298,6 +298,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
 	function submitOrder() {
         $scope.orderSubmitLoadingIndicator = true;
+        $scope.displayErrorMessages = false;
         var orderSave = angular.copy($scope.tempOrder);
         $scope.tempOrder = {LineItems:[]};
         $rootScope.$broadcast('event:tempOrderUpdated');

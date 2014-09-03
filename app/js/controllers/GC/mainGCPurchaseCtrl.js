@@ -1425,6 +1425,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                 }
             }
             $scope.cacheOrder($scope.tempOrder);
+            $scope.hideErrorMessages = true;
             $scope.recipientGroup = [];
             for (var i = 0; i < $scope.recipientList.length; i++) {
                 $scope.recipientList[i].Selected = false;
