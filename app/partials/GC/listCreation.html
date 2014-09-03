@@ -303,7 +303,7 @@
                             <i class="fa fa-map-marker text-muted"></i>
                             <em> {{recipient.Street1}} </em>
                         </span>
-                        <span ng-show="recipient.Street1 && (recipient.Email || recipient.City)">
+                        <span ng-show="recipient.Street1 && (recipient.Email || recipient.City) || recipient.Email">
                             <i style="margin-left:4px;" class="fa fa-circle text-muted"></i>
                             <em> {{recipient.Email || recipient.City + ', ' + recipient.State}}</em>
                         </span>
