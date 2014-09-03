@@ -96,7 +96,7 @@
                 <div class="container" style="padding:0 10px;">
                     <h4>
                         <span class="pull-right text-success"><b>{{group.Total | currency}}</b></span>
-                                <span style="cursor:pointer;" class="text-info" ng-click="toggleLineItems = !toggleLineItems"><span ng-show="!group.IsDigital">(Package {{$index + 1}}) with </span>{{group.LineItems.length}}
+                                <span style="cursor:pointer;" class="text-info" ng-click="toggleLineItems = !toggleLineItems"><span ng-show="!group.IsDigital">(Package {{($index + 1) + (pagination.IdentifiedPage > 1 ? ((pagination.IdentifiedPage-1) * 10) : 0)}}) with </span>{{group.LineItems.length}}
                                     <span ng-show="group.IsDigital">digital</span> award{{group.LineItems.length > 1 ? 's' : ''}}</span>
                                 <span ng-show="!group.IsDigital"> shipping to <b>{{group.Address.FirstName + ' ' + group.Address.LastName}}</b><br/>
                                     <p><small><i class="fa fa-map-marker"></i> {{group.Address.Street1}} {{group.Address.Street2}} {{group.Address.City}}, {{group.Address.State}}</small></p>
