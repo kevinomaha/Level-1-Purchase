@@ -127,7 +127,7 @@
                 </div>
             </div>
             <div class="recipient-group-line-items" collapse="(group.LineItems.length > 1) && !toggleLineItems">
-                <div style="border-right:1px solid #ddd; border-left:1px solid #ddd;" class="container line-item-recipient-repeater" ng-repeat="lineitem in group.LineItems">
+                <div style="border-right:1px solid #ddd; border-left:1px solid #ddd;" class="container line-item-recipient-repeater" ng-repeat="lineitem in group.LineItems | paginate:(group.Page-1) * group.Limit | limitTo:group.Limit">
                     <div class="row" style="padding:5px;" ng-class="{'white-wrapper':$even}">
                         <div ng-class="{'col-xs-5':group.LineItems.length > 1, 'col-xs-6':group.LineItems.length == 1}">
                             <b>{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}<span ng-show="group.IsDigital"> {{lineitem.Variant.Specs['Email1'].Value}}</span></b>
@@ -192,6 +192,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div ng-if="group.LineItems.length > group.Limit">
+                    <pagination page="group.Page" total-items="group.LineItems.length" max-size="10" rotate="false" boundary-links="true"
+                                items-per-page="group.Limit" direction-links="false"></pagination>
                 </div>
             </div>
             <div style="margin-bottom:20px; border-right:1px solid #ddd; border-left:1px solid #ddd;">

@@ -314,7 +314,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                     $scope.user.CurrentOrderID = null;
                     $scope.tempOrder = {LineItems:[]};
                     $scope.cacheOrder($scope.tempOrder);
-                    recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
+                    var recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
                     for (var r = 0; r < recipientList.length; r++) {
                         recipientList[r].AwardCount = 0;
                     }
