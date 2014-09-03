@@ -267,7 +267,7 @@
                 <div style="border-right:1px solid #ddd; border-left:1px solid #ddd;" class="container line-item-recipient-repeater" ng-repeat="lineitem in group.LineItems">
                     <div class="row" style="padding:5px;" ng-class="{'white-wrapper':$even}">
                         <div ng-class="{'col-xs-5':group.LineItems.length > 1, 'col-xs-6':group.LineItems.length == 1}">
-                            <b>{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</b><p class="pull-right"><span class="text-success" style="font-weight:bold;"> {{lineitem.LineTotal - lineitem.UnitPrice | currency}}</span> + <span class="text-info">{{lineitem.UnitPrice | currency}}</p><br/>
+                            <b>{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</b><p class="pull-right"><span class="text-success" style="font-weight:bold;"> {{lineitem.LineTotal - (lineitem.UnitPrice * lineitem.Quantity) | currency}}</span> + <span class="text-info">{{(lineitem.UnitPrice * lineitem.Quantity) | currency}}</p><br/>
                             <span class="text-info">{{lineitem.Product.Name}}</span>
                         </div>
                         <div class="col-xs-1" ng-hide="group.LineItems.length == 1">

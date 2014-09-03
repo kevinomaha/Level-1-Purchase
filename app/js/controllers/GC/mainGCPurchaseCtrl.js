@@ -1452,17 +1452,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Category, Pro
                     }
                 }
 
-                var lineTotal = markUp + $scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price;
-
                 var selectedProduct = $scope.selectedProductDetails;
                 selectedProduct.Specs = {};
                 selectedProduct.Description = "";
-
                 var qty = (variantData.Specs['FirstName1'].Value == "" && variantData.Specs['LastName1'].Value == "" && selectedProduct.ExternalID.indexOf('SCD') == -1 && $scope.selectedProduct.anonymousQty) ? $scope.selectedProduct.anonymousQty : 1;
-
-                if (qty > 1) {
+                var lineTotal = (markUp * qty) + ($scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price * qty);
+                /*if (qty > 1) {
                     lineTotal = (markUp * qty) + $scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price;
-                }
+                }*/
 
                 var reducedVariant = LineItems.reduceVariant(variantData);
                 var reducedProduct = LineItems.reduceProduct(selectedProduct);
