@@ -17,6 +17,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
         $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
         if (!$scope.tempOrder.OrderFields) $scope.tempOrder.OrderFields = $scope.orderfields;
+        LineItems.groupPreSubmit($scope.tempOrder);
         assignDigitalShipInfo();
     });
 
@@ -47,7 +48,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
     getAllAddresses();
 
     if ($scope.tempOrder.LineItems.length > 0) {
-        LineItems.groupPreSubmit($scope.tempOrder);
+        if (!$scope.tempOrder.LineItemGroups) LineItems.groupPreSubmit($scope.tempOrder);
 
         //Order Submit
         $scope.tempOrder.ExternalID = 'auto';
@@ -298,6 +299,8 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	function submitOrder() {
         $scope.orderSubmitLoadingIndicator = true;
         var orderSave = angular.copy($scope.tempOrder);
+        $scope.tempOrder = {LineItems:[]};
+        $rootScope.$broadcast('event:tempOrderUpdated');
         orderSave.lineItemGroups = [];
         var CC = orderSave.CreditCard ? orderSave.CreditCard : {};
         Order.save(orderSave,
@@ -333,11 +336,13 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                     $scope.shippingUpdatingIndicator = false;
                     $scope.shippingFetchIndicator = false;
                     $scope.showSave = false;
+                    $scope.tempOrder = orderSave;
                 });
             },
             function(ex) {
                 $scope.errorMessage = ex.Message;
                 $scope.orderSubmitLoadingIndicator = false;
+                $scope.tempOrder = orderSave;
             }
         );
 	};

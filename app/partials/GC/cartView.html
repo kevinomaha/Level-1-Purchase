@@ -453,10 +453,10 @@
             </div>
             <ul class="view-footer-buttons">
                 <li style="width: 25%;">
-                    <button class="btn btn-danger" ng-click="cancelOrder()">Cancel</button>
+                    <button class="btn btn-danger" ng-click="cancelOrder()" ng-disabled="orderSubmitLoadingIndicator">Cancel</button>
                 </li>
                 <li style="width: 25%;">
-                    <button class="btn btn-primary" ng-click="saveChanges()">
+                    <button class="btn btn-primary" ng-click="saveChanges()" ng-disabled="orderSubmitLoadingIndicator">
                         <loadingindicator ng-show="displayLoadingIndicator" />
                         Save
                     </button>
