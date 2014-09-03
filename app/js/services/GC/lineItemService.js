@@ -269,6 +269,36 @@ function($resource, $451, Address, Variant) {
         }
     }
 
+    var _cleanPreSubmit = function(o) {
+        angular.forEach(o.LineItems, function(li) {
+            var product = {
+                "ExternalID":li.Product.ExternalID,
+                "InteropID":li.Product.InteropID,
+                "Name":li.Product.Name
+            }
+            li.Product = product;
+
+            delete li.PriceSchedule;
+            delete li.ShipperName;
+            delete li.ProductIDText;
+            delete li.HistoryCaptured;
+            delete li.TotalShipped;
+            delete li.ArchivedOnly;
+
+            delete li.Variant.LargeImageUrl;
+            delete li.Variant.PreviewUrl;
+            delete li.Variant.ProductionURL;
+            delete li.Variant.ProofUrl;
+        });
+
+        delete o.AccountLabel;
+        delete o.FromUserFirstName;
+        delete o.FromUserLastName;
+        delete o.HasShipments;
+        delete o.Approvals;
+        delete o.PaymentMethodText;
+    }
+
 	return {
         groupPreSubmit: _groupPreSubmit,
         clean: _clean,
@@ -277,6 +307,7 @@ function($resource, $451, Address, Variant) {
         reducePriceSchedule: _reducePS,
         groupOrderHistory: _groupOrderHistory,
         getProductType: _getProductType,
-        setProductSpecs: _setProductSpecs
+        setProductSpecs: _setProductSpecs,
+        cleanPreSubmit: _cleanPreSubmit
 	}
 }]);

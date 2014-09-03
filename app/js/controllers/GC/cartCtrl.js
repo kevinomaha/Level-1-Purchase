@@ -247,7 +247,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		else {
 			$scope.cancelOrder();
 		}
-	}
+	};
 
 	$scope.removeGroup = function(group) {
 		if ($scope.tempOrder.lineItemGroups.length == 1 && $scope.tempOrder.merchantCardLineItems.length == 0) {
@@ -293,7 +293,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		$rootScope.$broadcast('event:tempOrderUpdated', $scope.tempOrder);
         setIsAllDigital();
 		$scope.actionMessage = 'Your Changes Have Been Saved!';
-	}
+	};
 
 	function submitOrder() {
         $scope.orderSubmitLoadingIndicator = true;
@@ -303,12 +303,9 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         Order.save(orderSave,
             function(o) {
                 LineItems.clean(o);
-                /*angular.forEach(o.LineItems, function(li) {
-                    li.Product = LineItems.reduceProduct(li.Product);
-                    li.Variant = LineItems.reduceVariant(li.Variant);
-                });*/
                 var orderSubmit = angular.copy(o);
                 orderSubmit.CreditCard = CC;
+                LineItems.cleanPreSubmit(orderSubmit);
                 Order.submit(orderSubmit, function(data) {
                     $scope.user.CurrentOrderID = null;
                     $scope.tempOrder = {LineItems:[]};
