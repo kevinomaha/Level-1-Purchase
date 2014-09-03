@@ -15,7 +15,6 @@
         </button>
         <button class="btn btn-default" type="button"
                 ng-if="user.Permissions.contains('PayByBudgetAccount') && SpendingAccounts[0]"
-                ng-show="SpendingAccounts[0].Balance > 0"
                 ng-click="setBudgetAccount((SpendingAccounts|filter:{AccountType.PurchaseCredit:true}).length)">
             <i ng-class="{'fa fa-check': tempOrder.PaymentMethod == 'BudgetAccount' }"></i>
             Spending Account
