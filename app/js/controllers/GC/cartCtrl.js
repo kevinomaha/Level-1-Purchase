@@ -255,6 +255,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 					$scope.tempOrder.Total += li.LineTotal;
 				});
 
+                analyzeErrors();
                 $scope.cacheOrder($scope.tempOrder);
 				$rootScope.$broadcast('event:tempOrderUpdated', $scope.tempOrder);
 				$scope.actionMessage = 'Your Changes Have Been Saved!';
@@ -377,11 +378,11 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
 	$scope.backToCustomization = function() {
         $location.path('main');
-	}
+	};
 
 	$scope.browseMerchantCards = function() {
 		$location.path('catalog/MGCPROJE00000');
-	}
+	};
 
     function analyzeShipping() {
         $scope.tempOrder.ShippingTotal = 0;
@@ -403,38 +404,60 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                 }
             }
         });
+        analyzeErrors();
     }
 
 	$scope.updateAllShippers = function() {
+        var shipper = {};
+        angular.forEach($scope.shippers, function(s) {
+            if (s.Name == $scope.tempOrder.ShipMethod) {
+                shipper = s;
+            }
+        });
 		for (var g = 0; g < $scope.tempOrder.lineItemGroups.length; g++) {
-			$scope.tempOrder.lineItemGroups[g].ShipMethod = $scope.tempOrder.ShipMethod;
-			$scope.updateGroupShipper($scope.tempOrder.lineItemGroups[g]);
+			if (!$scope.tempOrder.lineItemGroups[g].IsDigital) {
+                $scope.tempOrder.lineItemGroups[g].ShipMethod = $scope.tempOrder.ShipMethod;
+                $scope.tempOrder.lineItemGroups[g].Shipper = shipper;
+            }
 		}
-	}
+        for (var l = 0; l < $scope.tempOrder.LineItems.length; l++) {
+            var product = $scope.tempOrder.LineItems[l].Product;
+            if (product.Name.indexOf('SuperCert') > -1 && product.ExternalID.indexOf('SCD') == -1) {
+                $scope.tempOrder.LineItems[l].Shipper = shipper;
+                $scope.tempOrder.LineItems[l].ShipperID = shipper.ID;
+                $scope.tempOrder.LineItems[l].ShipperName = shipper.Name;
+            }
+        }
+        analyzeShipping();
+        $scope.cacheOrder($scope.tempOrder);
+	};
 
 	$scope.updateGroupShipper = function(group) {
         group.ShipperID = null;
-		angular.forEach($scope.shippers, function(s) {
-			if (s.Name == group.ShipMethod) {
-				group.Shipper = s;
-				group.ShipMethod = s.Name;
-				group.ShipperName = s.Name;
-				group.ShipperID = s.ID;
-			}
-		});
+        group.Shipper = {};
+        angular.forEach($scope.shippers, function(s) {
+            if (s.Name == group.ShipMethod && group.ShipMethod.indexOf('Email') == -1) {
+                group.Shipper = s;
+                group.ShipMethod = s.Name;
+                group.ShipperName = s.Name;
+                group.ShipperID = s.ID;
+            }
+        });
 		angular.forEach(group.LineItems, function(li) {
-			li.ShipMethod = group.Shipper.Name;
-			li.Shipper = group.Shipper;
-			li.ShipperName = group.Shipper.Name;
-			li.ShipperID = group.Shipper.ID;
-			var lineItemID = li.UniqueID;
-			angular.forEach($scope.tempOrder.LineItems, function(i) {
-			     if (i.UniqueID == lineItemID) {
-				     i.Shipper = group.Shipper;
-				     i.ShipperName = group.Shipper.Name;
-				     i.ShipperID = group.ShipperID;
-			     }
-			});
+            if (!group.IsDigital) {
+                li.ShipMethod = group.Shipper.Name;
+                li.Shipper = group.Shipper;
+                li.ShipperName = group.Shipper.Name;
+                li.ShipperID = group.Shipper.ID;
+                    var lineItemID = li.UniqueID;
+                    angular.forEach($scope.tempOrder.LineItems, function(i) {
+                        if (i.UniqueID == lineItemID) {
+                            i.Shipper = group.Shipper ? group.Shipper : null;
+                            i.ShipperName = group.Shipper ? group.Shipper.Name : null;
+                            i.ShipperID = group.Shipper ? group.Shipper.ID : null;
+                        }
+                    });
+            }
 		});
         analyzeShipping();
         $scope.cacheOrder($scope.tempOrder);
@@ -596,7 +619,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         item.Specs['Email1'].InputType = "email";
         item.Editing = true;
         $scope.LineItem = item;
-    }
+    };
 
     $scope.updateMerchantCard = function(item) {
         item.Editing = false;
@@ -615,7 +638,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
     };
 
     $scope.errorMessages = [];
-    $scope.$watch('tempOrder', function(event) {
+    function analyzeErrors() {
         var order = angular.copy($scope.tempOrder);
         $scope.errorMessages = [];
         var shipAddressMissing = false; var shipperMissing = false; var qtyError = false;
@@ -636,8 +659,12 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
             if (!CC.CVN) {$scope.errorMessages.push("Please enter a valid credit card CVN");}
             if (!order.BillAddressID) {$scope.errorMessages.push("Please select a billing address");}
         }
-    }, true);
+    }
+    analyzeErrors();
 
+    $scope.$watch('tempOrder.PaymentMethod', function() {
+        analyzeErrors();
+    });
 
     $scope.$on('event:imageLoaded', function(event, result, id) {
         angular.forEach($scope.tempOrder.lineItemGroups, function(group) {
