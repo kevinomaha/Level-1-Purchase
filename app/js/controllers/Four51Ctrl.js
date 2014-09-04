@@ -121,7 +121,7 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                             categoryInteropID = c.SubCategories[index].InteropID;
                         }
                     }
-                    var index = 0;
+                    var index = 5;
                     getCategory(index);
                 }
             });
@@ -136,7 +136,21 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                     }
                 });
                 Product.search(categoryInteropID, null, null, function(products) {
-                    var productInteropID = products[0].InteropID;
+
+                    var productInteropID = "";
+                    angular.forEach(products, function(p) {
+                        function selectProduct(index) {
+                            if (products[index].QuantityAvailable > 0 || (products.length-1 == index)) {
+                                productInteropID = products[index].InteropID;
+                            }
+                            else {
+                                ind++;
+                                selectProduct(ind);
+                            }
+                        }
+                        var ind = 0;
+                        if (productInteropID == "") selectProduct(ind);
+                    });
 
                     Product.get(productInteropID, function(p) {
                         var fauxOrder = {};

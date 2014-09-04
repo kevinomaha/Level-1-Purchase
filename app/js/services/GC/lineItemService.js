@@ -286,6 +286,11 @@ function($resource, $451, Address, Variant) {
             }
             li.Product = product;
 
+            var variant = {
+                "InteropID":li.Variant.InteropID
+            };
+            li.Variant = variant;
+
             delete li.PriceSchedule;
             delete li.ShipperName;
             delete li.ProductIDText;
