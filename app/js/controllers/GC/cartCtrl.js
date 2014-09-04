@@ -16,7 +16,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
     $scope.$on('event:shippersObtained', function() {
         $scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
         $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
-        if (!$scope.tempOrder.OrderFields) $scope.tempOrder.OrderFields = $scope.orderfields;
+        if (!$scope.tempOrder.OrderFields || ($scope.tempOrder.OrderFields && $scope.tempOrder.OrderFields.length == 0)) $scope.tempOrder.OrderFields = $scope.orderfields;
         LineItems.groupPreSubmit($scope.tempOrder);
         assignDigitalShipInfo();
     });
@@ -117,6 +117,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
             }
         }
         $scope.displayErrorMessages = true;
+        analyzeErrors();
     }
 
     $scope.tempOrder.isAllDigital;
