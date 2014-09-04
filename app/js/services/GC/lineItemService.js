@@ -283,13 +283,19 @@ function($resource, $451, Address, Variant) {
                 "ExternalID":li.Product.ExternalID,
                 "InteropID":li.Product.InteropID,
                 "Name":li.Product.Name
-            }
+            };
             li.Product = product;
 
-            var variant = {
-                "InteropID":li.Variant.InteropID
-            };
-            li.Variant = variant;
+            if (li.Variant) {
+                var variant = {
+                    "InteropID":li.Variant.InteropID
+                };
+                li.Variant = variant;
+                delete li.Variant.LargeImageUrl;
+                delete li.Variant.PreviewUrl;
+                delete li.Variant.ProductionURL;
+                delete li.Variant.ProofUrl;
+            }
 
             delete li.PriceSchedule;
             delete li.ShipperName;
@@ -297,11 +303,6 @@ function($resource, $451, Address, Variant) {
             delete li.HistoryCaptured;
             delete li.TotalShipped;
             delete li.ArchivedOnly;
-
-            delete li.Variant.LargeImageUrl;
-            delete li.Variant.PreviewUrl;
-            delete li.Variant.ProductionURL;
-            delete li.Variant.ProofUrl;
         });
 
         delete o.AccountLabel;
