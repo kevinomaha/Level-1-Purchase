@@ -439,8 +439,11 @@
     </div>
     </div>
     <div class="view-footer navbar-fixed-bottom">
-            <div class="view-response-message alert-success" alert-show="currentOrder">
+            <div class="view-response-message alert-success" alert-show="actionMessage">
                 <p>{{actionMessage}}</p>
+            </div>
+            <div class="view-response-message alert-danger" alert-show="actionErrorMessage">
+                <p>{{actionErrorMessage}}</p>
             </div>
             <div class="view-error-message alert-warning" style="padding:10px 0;" ng-show="errorMessages.length > 0 && displayErrorMessages">
                 <ul class="row" ng-init="errorLimit = 1">

@@ -4,7 +4,11 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 		$scope.SpendingAccounts = data;
 		budgetAccountCalculation($scope.tempOrder.BudgetAccountID);
 
-		if ($scope.SpendingAccounts && $scope.SpendingAccounts.length == 0 || ($scope.SpendingAccounts[0] && $scope.SpendingAccounts[0] <= 0)) {
+        if ($scope.tempOrder.PaymentMethod == 'CreditCard') {
+            $scope.tempOrder.PaymentMethod = 'CreditCard';
+            $scope.cacheOrder($scope.tempOrder);
+        }
+		else if ($scope.SpendingAccounts && $scope.SpendingAccounts.length == 0) {
 			$scope.tempOrder.PaymentMethod = 'CreditCard';
             $scope.cacheOrder($scope.tempOrder);
 		}

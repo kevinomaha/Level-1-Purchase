@@ -317,9 +317,14 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
 	function submitOrder() {
         $scope.orderSubmitLoadingIndicator = true;
+        $scope.actionErrorMessage = null;
+        $scope.actionMessage = null;
         $scope.displayErrorMessages = false;
         var orderSave = angular.copy($scope.tempOrder);
         var tempSave = angular.copy($scope.tempOrder);
+        if (tempSave.PaymentMethod == 'CreditCard') {
+            tempSave.BudgetAccountID = null;
+        }
         $scope.tempOrder = {LineItems:[]};
         $rootScope.$broadcast('event:tempOrderUpdated');
         orderSave.lineItemGroups = [];
@@ -352,7 +357,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                     if (ex.Message.indexOf('Processing of the HTTP request resulted in an exception') > -1) {
                         ex.Message = "There was an error submitting your order. If paying by credit card, please verify your card information and attempt to submit the order again.";
                     }
-                    $scope.actionMessage = ex.Message;
+                    $scope.actionErrorMessage = ex.Message;
                     $scope.orderSubmitLoadingIndicator = false;
                     $scope.shippingUpdatingIndicator = false;
                     $scope.shippingFetchIndicator = false;
@@ -361,7 +366,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                 });
             },
             function(ex) {
-                $scope.errorMessage = ex.Message;
+                $scope.actionErrorMessage = ex.Message;
                 $scope.orderSubmitLoadingIndicator = false;
                 $scope.tempOrder = tempSave;
             }
