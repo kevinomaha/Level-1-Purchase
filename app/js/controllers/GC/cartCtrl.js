@@ -318,6 +318,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.orderSubmitLoadingIndicator = true;
         $scope.displayErrorMessages = false;
         var orderSave = angular.copy($scope.tempOrder);
+        var tempSave = angular.copy($scope.tempOrder);
         $scope.tempOrder = {LineItems:[]};
         $rootScope.$broadcast('event:tempOrderUpdated');
         orderSave.lineItemGroups = [];
@@ -355,13 +356,13 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                     $scope.shippingUpdatingIndicator = false;
                     $scope.shippingFetchIndicator = false;
                     $scope.showSave = false;
-                    $scope.tempOrder = orderSave;
+                    $scope.tempOrder = tempSave;
                 });
             },
             function(ex) {
                 $scope.errorMessage = ex.Message;
                 $scope.orderSubmitLoadingIndicator = false;
-                $scope.tempOrder = orderSave;
+                $scope.tempOrder = tempSave;
             }
         );
 	};

@@ -179,6 +179,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="alert alert-warning" style="margin-top:10px;" ng-show="!hideErrorMessages && ((!selectedProduct.designSelection) || (!selectedProduct.occasionMessage) || (denominationRequired && !selectedProduct.denomination) || (digitalProduct && emailSubjectRequired && !selectedProduct.EmailSubject) || (selectedProduct.EmailSubject && emailSubjectInvalid) || (personalMessageInvalid) || (anonymousAwards != 'true' && recipientGroup.length == 0))">
+                            <b>Please resolve the following issues:</b>
+                            <ul>
+                                <li ng-show="!selectedProduct.designSelection">Select an award design</li>
+                                <li ng-show="!selectedProduct.occasionMessage">Select an occasion message</li>
+                                <li ng-show="denominationRequired && !selectedProduct.denomination">Select a denomination</li>
+                                <li ng-show="digitalProduct && emailSubjectRequired && !selectedProduct.EmailSubject">Enter an Email Subject</li>
+                                <li ng-show="selectedProduct.EmailSubject && emailSubjectInvalid">Email Subject must be 75 characters or less</li>
+                                <li ng-show="personalMessageInvalid">Enter a Personal Message that is {{digitalProduct ? '500' : '300'}} characters or less</li>
+                            </ul>
+                        </div>
                         <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="award_customization.$invalid" ng-click="updateAward(selectedProduct, editingLineItem)">Update Award</div>
                     </div>
                 </div>
