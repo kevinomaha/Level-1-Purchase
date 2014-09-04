@@ -666,6 +666,14 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         analyzeErrors();
     });
 
+    $scope.$watch('tempOrder.CreditCard', function() {
+        analyzeErrors();
+    }, true);
+
+    $scope.$watch('tempOrder.BillAddressID', function() {
+        analyzeErrors();
+    });
+
     $scope.$on('event:imageLoaded', function(event, result, id) {
         angular.forEach($scope.tempOrder.lineItemGroups, function(group) {
             angular.forEach(group.LineItems, function(li) {
