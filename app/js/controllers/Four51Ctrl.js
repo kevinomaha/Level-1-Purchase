@@ -118,6 +118,7 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
         }
         if (!store.get("451Cache.GCShippers")) {
             if (tempOrder.LineItems && tempOrder.LineItems.length == 0) return;
+            tempOrder.LineItems = [tempOrder.LineItems[0]];
             AddressList.query(function(list) {
                 var shipAddress = {};
                 var found = false;

@@ -7465,6 +7465,9 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   .container-view {
     margin-top: 0 !important;
   }
+  .order-print-view-details p {
+    margin-bottom: 2px;
+  }
 }
 .main-gc-purchase-view .steps {
   background-color: #fff;
