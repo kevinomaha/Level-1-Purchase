@@ -62,6 +62,7 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                 $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
                 if ($scope.tempOrder) {
                     $scope.$broadcast("event:tempOrderUpdated", $scope.tempOrder);
+                    getShippers();
                 }
 
             });
@@ -106,116 +107,73 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
     //GC INCENTIVES PURCHASE
     var attempt = 0;
     function getShippers() {
-        Category.tree(function(data) {
-            $scope.tree = data;
-
-            var categoryInteropID = null;
-            angular.forEach($scope.tree, function(c) {
-                if (c.Name == "Merchant Gift Cards") {
-                    function getCategory(index) {
-                        if (c.SubCategories[index].Name.toLowerCase().indexOf('e-gift') > -1) {
-                            index++;
-                            getCategory(index);
-                        }
-                        else {
-                            categoryInteropID = c.SubCategories[index].InteropID;
-                        }
-                    }
-                    var index = 5;
-                    getCategory(index);
-                }
-            });
+        if (!$scope.tempOrder) return;
+        var tempOrder = {};
+        if (typeof($scope.tempOrder) != 'object') {
+            tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
+            tempOrder = JSON.parse(tempOrder);
+        }
+        else {
+            tempOrder = $scope.tempOrder
+        }
+        if (!store.get("451Cache.GCShippers")) {
+            if (tempOrder.LineItems && tempOrder.LineItems.length == 0) return;
             AddressList.query(function(list) {
-                $scope.addresses = list;
                 var shipAddress = {};
                 var found = false;
-                angular.forEach($scope.addresses, function(a) {
+                angular.forEach(list, function(a) {
                     if (a.IsShipping && !found) {
                         shipAddress = a;
                         found = true;
                     }
                 });
-                Product.search(categoryInteropID, null, null, function(products) {
+                tempOrder.ShipAddressID = shipAddress.ID;
+                tempOrder.LineItems[0].ShipAddressID = shipAddress.ID;
+                Order.save(tempOrder,
+                    function(o){
+                        //save the order fields for use later
+                        o.OrderFields.length > 0 ? store.set("451Cache.GCOrderFields", o.OrderFields) : console.log("No Order Fields");
 
-                    var productInteropID = "";
-                    angular.forEach(products, function(p) {
-                        function selectProduct(index) {
-                            if (products[index].QuantityAvailable > 0 || (products.length-1 == index)) {
-                                productInteropID = products[index].InteropID;
+                        Shipper.query(o, function(list) {
+                            $scope.shippers = angular.copy(list);
+                            if ($scope.shippers.length > 0) {
+                                store.set("451Cache.GCShippers", $scope.shippers);
+                                $scope.$broadcast('event:shippersObtained');
                             }
                             else {
-                                ind++;
-                                selectProduct(ind);
+                                console.log("Shippers empty");
                             }
-                        }
-                        var ind = 0;
-                        if (productInteropID == "") selectProduct(ind);
-                    });
-
-                    Product.get(productInteropID, function(p) {
-                        var fauxOrder = {};
-                        fauxOrder.LineItems = [];
-                        var product = angular.copy(p);
-                        var li = {
-                            PriceSchedule: p.StandardPriceSchedule,
-                            Product: {"InteropID": p.InteropID},
-                            Quantity: 1,
-                            Specs: {}
-                        }
-                        li.ShipAddressID = shipAddress.ID;
-                        fauxOrder.ShipAddressID = shipAddress.ID;
-                        fauxOrder.ExternalID = 'auto';
-                        fauxOrder.LineItems.push(li);
-                        if (!store.get("451Cache.GCShippers")) {
-                            Order.save(fauxOrder,
-                                function(o){
-                                    //save the order fields for use later
-                                    o.OrderFields.length > 0 ? store.set("451Cache.GCOrderFields", o.OrderFields) : console.log("No Order Fields");
-
-                                    Shipper.query(o, function(list) {
-                                        $scope.shippers = angular.copy(list);
-                                        if ($scope.shippers.length > 0) {
-                                            store.set("451Cache.GCShippers", $scope.shippers);
-                                            $scope.$broadcast('event:shippersObtained');
-                                        }
-                                        else {
-                                            console.log("Shippers empty");
-                                        }
-                                        if ($scope.shippers.length > 0) {
-                                            console.log("Shipper Count:" + $scope.shippers.length);
-                                            fauxOrder = null;
-                                            Order.delete(o,
-                                                function() {
-                                                    //console.log("Ship Order Deleted");
-                                                },
-                                                function(ex) {
-                                                    //console.log("Failed to delete ship order");
-                                                }
-                                            );
-                                        }
-                                        else {
-                                            console.log("Shippers Count: 0");
-                                            console.log(o);
-                                            attempt++;
-                                            if (attempt < 5) {
-                                                getShippers();
-                                            }
-                                        }
-                                    });
-                                },
-                                function(ex) {
-                                    console.log("Order save failed for shippers");
-                                    attempt++;
-                                    if (attempt < 5) {
-                                        getShippers();
+                            if ($scope.shippers.length > 0) {
+                                console.log("Shipper Count:" + $scope.shippers.length);
+                                tempOrder = null;
+                                Order.delete(o,
+                                    function() {
+                                        //console.log("Ship Order Deleted");
+                                    },
+                                    function(ex) {
+                                        //console.log("Failed to delete ship order");
                                     }
+                                );
+                            }
+                            else {
+                                console.log("Shippers Count: 0");
+                                console.log(o);
+                                attempt++;
+                                if (attempt < 5) {
+                                    getShippers();
                                 }
-                            );
+                            }
+                        });
+                    },
+                    function(ex) {
+                        console.log("Order save failed for shippers");
+                        attempt++;
+                        if (attempt < 5) {
+                            getShippers();
                         }
-                    });
-                });
-            }, 1, 100);
-        });
+                    }
+                );
+            });
+        }
     }
-    getShippers();
 }]);
