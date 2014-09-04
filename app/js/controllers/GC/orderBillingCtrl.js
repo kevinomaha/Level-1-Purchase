@@ -17,22 +17,15 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 			$scope.tempOrder.BudgetAccountID = $scope.SpendingAccounts[0].ID;
 			$scope.currentBudgetAccount = $scope.SpendingAccounts[0];
 
-			if ($scope.SpendingAccounts[0].Balance < $scope.tempOrder.Total) {
-				$scope.tempOrder.PaymentMethod = 'CreditCard';
-			}
-			else {
-                $scope.loadingAddresses = true;
-                CustomAddressList.getall(function(list) {
-                    $scope.loadingAddresses = false;
-                    angular.forEach(list, function(a) {
-                        if (a.AddressName == "Main Billing Address") {
-                            $scope.tempOrder.BillAddressID = a.ID;
-                        }
-                    });
+            CustomAddressList.getall(function(list) {
+                $scope.loadingAddresses = false;
+                angular.forEach(list, function(a) {
+                    if (a.AddressName == "Main Billing Address") {
+                        $scope.tempOrder.BillAddressID = a.ID;
+                    }
                 });
-			}
-
-            $scope.cacheOrder($scope.tempOrder);
+                $scope.cacheOrder($scope.tempOrder);
+            });
 		}
 	});
 
