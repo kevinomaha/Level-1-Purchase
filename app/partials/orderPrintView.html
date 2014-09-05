@@ -5,11 +5,6 @@
                 <img class="branding-print-view-logo" ng-src="{{user.Company.LogoUrl}}" />
             </figure>
         </div>
-        <div>
-            <h5>
-                {{'Created On' | r}} {{order.DateCreated | date:'short'}}
-            </h5>
-        </div>
     </div>
     <div>
         <div class="row">
@@ -21,32 +16,34 @@
                 </div>
                 <div>
                     <p ng-show="order.DateSubmitted">{{'Date' | r}} {{'Submitted' | r}}: <span style="float:right;">{{order.DateSubmitted | date:'short'}}</span></p>
-                    <p>{{'Status' | r}}: <span style="float:right;">{{order.StatusText}}</span></p>
                     <p ng-show="order.DateCompleted">{{'Date' | r}} {{'Completed' | r}}: <span style="float:right;">{{order.DateCompleted | date:'short'}}</span></p>
                     <p ng-show="order.FromUserFirstName || order.FromUserLastName">{{'Created By' | r}}: <span style="float:right;">{{order.FromUserFirstName + ' ' + order.FromUserLastName}}</span></p>
                     <p ng-show="order.Comments">{{'Comments' | r}}: <span style="float:right;">{{order.Comments}}</span></p>
                     <p ng-show="orderCostCenter">{{'Cost Center' | r}}: <span style="float:right;">{{(order.LineItems.length == 1) && order.LineItems[0].CostCenter || null}}</span></p>
-                    <p>{{'Payment' | r}} {{'Method' | r}}: <span style="float:right;">{{order.PaymentMethodText}} <strong ng-show="order.CreditCard.Type">{{':' + order.CreditCard.DisplayName}}</strong></span></p>
+                    <p ng-show="order.PaymentMethod != 'CreditCard'">{{'Payment' | r}} {{'Method' | r}}: <span style="float:right;">{{order.PaymentMethodText}}</span></p>
+                    <p ng-show="order.PaymentMethod == 'CreditCard'">{{'Payment' | r}} {{'Method' | r}}: <span ng-show="order.CreditCard.ShortDisplay" style="float:right;">{{order.CreditCard.ShortDisplay}}</span></p>
                     <p ng-repeat="field in order.OrderFields" ng-if="field.Name == 'PONumber' && field.Value">{{'PO Number' | r}}: <span style="float:right;">{{field.Value}}</span></p>
                     <p ng-repeat="field in order.OrderFields" ng-if="field.Name == 'ExpenseCode' && field.Value">{{'Expense Code' | r}}: <span style="float:right;">{{field.Value}}</span></p>
-                    <address ng-show="order.ShipAddress">
-                        <span class="text-primary"><strong>{{'Ship to' | r}}</strong></span><br />
-                        <span ng-show="order.LineItems[0].ShipFirstName || order.LineItems[0].ShipLastName">{{order.LineItems[0].ShipFirstName}} {{order.LineItems[0].ShipLastName}}</span>
-                        <span ng-show="!order.LineItems[0].ShipFirstName || !order.LineItems[0].ShipLastName">{{order.ShipAddress.FirstName}} {{order.ShipAddress.LastName}}</span>
-                        <br />{{order.ShipAddress.Street1}}<br>
-                        {{order.ShipAddress.Street2}}<br ng-show="order.ShipAddress.Street2">
-                        {{order.ShipAddress.City}}, {{order.ShipAddress.State}} {{order.ShipAddress.Zip}}
-                        <div ng-if="order.ShipAddress.Country != 'US'">{{order.ShipAddress.Country}}</div>
-                    </address><br />
-                    <address ng-show="order.BillAddress && order.BillAddress.AddressName != 'Main Billing Address'">
-                        <span class="text-primary"><strong>{{'Bill to' | r}}</strong></span><br />
-                        <span ng-show="order.BillFirstName || order.BillLastName">{{order.BillFirstName}} {{order.BillLastName}}</span>
-                        <span ng-show="!order.BillFirstName || !order.BillLastName">{{order.BillAddress.FirstName}} {{order.BillAddress.LastName}}</span>
-                        <br />{{order.BillAddress.Street1}}<br>
-                        {{order.BillAddress.Street2}}<br ng-show="order.BillAddress.Street2">
-                        {{order.BillAddress.City}}, {{order.BillAddress.State}} {{order.BillAddress.Zip}}
-                        <div ng-if="order.BillAddress.Country != 'US'">{{order.BillAddress.Country}}</div>
-                    </address>
+                    <div style="margin-top:10px;">
+                        <address ng-show="order.ShipAddress && order.ShipAddress.AddressName.indexOf('Email') == -1">
+                            <span class="text-primary"><strong>{{'Ship to' | r}}</strong></span><br />
+                            <span ng-show="order.LineItems[0].ShipFirstName || order.LineItems[0].ShipLastName">{{order.LineItems[0].ShipFirstName}} {{order.LineItems[0].ShipLastName}}</span>
+                            <span ng-show="!order.LineItems[0].ShipFirstName || !order.LineItems[0].ShipLastName">{{order.ShipAddress.FirstName}} {{order.ShipAddress.LastName}}</span>
+                            <br />{{order.ShipAddress.Street1}}<br>
+                            {{order.ShipAddress.Street2}}<br ng-show="order.ShipAddress.Street2">
+                            {{order.ShipAddress.City}}, {{order.ShipAddress.State}} {{order.ShipAddress.Zip}}
+                            <div ng-if="order.ShipAddress.Country != 'US'">{{order.ShipAddress.Country}}</div>
+                        </address>
+                        <address ng-show="order.BillAddress && order.BillAddress.AddressName != 'Main Billing Address'">
+                            <span class="text-primary"><strong>{{'Bill to' | r}}</strong></span><br />
+                            <span ng-show="order.BillFirstName || order.BillLastName">{{order.BillFirstName}} {{order.BillLastName}}</span>
+                            <span ng-show="!order.BillFirstName || !order.BillLastName">{{order.BillAddress.FirstName}} {{order.BillAddress.LastName}}</span>
+                            <br />{{order.BillAddress.Street1}}<br>
+                            {{order.BillAddress.Street2}}<br ng-show="order.BillAddress.Street2">
+                            {{order.BillAddress.City}}, {{order.BillAddress.State}} {{order.BillAddress.Zip}}
+                            <div ng-if="order.BillAddress.Country != 'US'">{{order.BillAddress.Country}}</div>
+                        </address>
+                    </div>
                 </div>
             </div>
             <div ng-if="!(user.Permissions.contains('HidePricing'))" class="order-print-view-details col-xs-5 col-xs-offset-1">
