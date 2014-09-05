@@ -60,7 +60,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 						var rows = text.split(/[\n\f\r]/);
                         for (var i = 0; i < rows.length; i++) {
                             if (rows[i].split("\t").length < 20) {
-                                if (rows[i+1]) {
+                                if (rows[i+1] || rows[i+1] == "") {
                                     rows[i] = rows[i].concat(rows[i+1]);
                                     rows.splice(i+1,1);
                                     i--;
