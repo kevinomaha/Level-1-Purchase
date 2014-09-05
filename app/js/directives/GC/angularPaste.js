@@ -61,6 +61,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                         for (var i = 0; i < rows.length; i++) {
                             if (rows[i].split("\t").length < 20) {
                                 if (rows[i+1] || rows[i+1] == "") {
+                                    rows[i] = rows[i] + "\n";
                                     rows[i] = rows[i].concat(rows[i+1]);
                                     rows.splice(i+1,1);
                                     i--;
