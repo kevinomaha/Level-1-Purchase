@@ -262,10 +262,10 @@ function($resource, $451, Address, Variant) {
 
         var openingText = (lineitem.Variant.Specs.Opening1) ? lineitem.Variant.Specs.Opening1.Value : null;
         if (openingText) {
-            if ((lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1) && openingText == (lineitem.Variant.Specs.FirstName1.Value + ' ' + lineitem.Variant.Specs.LastName1.Value)) {
+            if (lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1 && openingText == (lineitem.Variant.Specs.FirstName1.Value + ' ' + lineitem.Variant.Specs.LastName1.Value)) {
                 product.OpeningMessageOption = "First and Last Name";
             }
-            else if (openingText == lineitem.Variant.Specs.FirstName1.Value) {
+            else if (lineitem.Variant.Specs.FirstName1 && openingText == lineitem.Variant.Specs.FirstName1.Value) {
                 product.OpeningMessageOption = "First Name Only";
             }
             else {
