@@ -251,8 +251,10 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 					}
 				}
 
+				$scope.tempOrder.SubTotal = 0;
 				$scope.tempOrder.Total = 0;
 				angular.forEach($scope.tempOrder.LineItems, function(li) {
+					$scope.tempOrder.SubTotal += li.LineTotal;
 					$scope.tempOrder.Total += li.LineTotal;
 				});
 
