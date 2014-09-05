@@ -219,13 +219,13 @@ function($resource, $451, Address, Variant) {
     var _getProductType = function(lineitem) {
         var type = "";
 
-        if (["SCD-GC12","SCP-FD12","SCP-GC2"].indexOf(lineitem.Product.ExternalID) > -1) {
+        if (["SCD-GC1","SCP-FD1","SCP-GC"].indexOf(lineitem.Product.ExternalID) > -1) {
             type = "Standard";
         }
-        else if (["SCD-ES12","SCP-PS12","SCP-GCS2"].indexOf(lineitem.Product.ExternalID) > -1) {
+        else if (["SCD-ES1","SCP-PS1","SCP-GCS"].indexOf(lineitem.Product.ExternalID) > -1) {
             type = "Premium";
         }
-        else if (["CSCD-SC12","CSCP-SC12"].indexOf(lineitem.Product.ExternalID) > -1) {
+        else if (["CSCD-SC1","CSCP-SC1"].indexOf(lineitem.Product.ExternalID) > -1) {
             type = "Canadian";
         }
         else {

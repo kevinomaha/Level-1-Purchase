@@ -311,6 +311,7 @@
                 </li>
             </ul>
         </div>
+        <div ng-show="recipientList.length > 0" class="btn btn-sm btn-danger" style="margin-top:10px;" ng-click="deleteAllRecipients()">Delete All Recipients</div>
     </div>
     <div class="alert alert-danger" ng-hide="recipientList.length != 0">
         No Recipients

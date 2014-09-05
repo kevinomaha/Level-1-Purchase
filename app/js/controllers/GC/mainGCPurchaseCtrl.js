@@ -760,6 +760,15 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         store.set("451Cache.RecipientList", $scope.recipientList);
     };
 
+    $scope.deleteAllRecipients = function() {
+        if (confirm('Are you sure you wish to remove all recipients?') == true) {
+            $scope.recipientList = [];
+            $scope.recipientGroup = [];
+            store.set("451Cache.RecipientGroup", $scope.recipientGroup);
+            store.set("451Cache.RecipientList", $scope.recipientList);
+        }
+    };
+
     $scope.selectedLogoSRC = "";
     $scope.logoCheckingIndicator = true;
 
@@ -845,6 +854,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $scope.selectedProduct.designSelection = null;
         $scope.selectedProduct.selectedDesignID = null;
         $scope.occasionMessages = [];
+
+        angular.forEach($scope.productList, function(p) {
+            if (p.StandardID == $scope.selectedProduct.StandardID) {
+                $scope.selectedProduct.PremiumID = p.PremiumID;
+                $scope.selectedProduct.CanadianID = p.CanadianID;
+                $scope.selectedProduct.HolidayID = p.HolidayID;
+            }
+        });
 
         switch ($scope.selectedProductType) {
             case "Standard":
