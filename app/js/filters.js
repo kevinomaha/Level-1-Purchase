@@ -164,7 +164,7 @@ four51.app.filter('gcshippers', function() {
                     }
                 }
                 else if (orderTotal > 399) {
-                    if (s.Name.match("5-") || s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-") || s.Name.match("75-") || s.Name.match("77-")) {
+                    if (s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-") || s.Name.match("75-") || s.Name.match("77-")) {
                         if (s.Name.match("75-")) {
                             results.splice(0, 0, s);
                         }

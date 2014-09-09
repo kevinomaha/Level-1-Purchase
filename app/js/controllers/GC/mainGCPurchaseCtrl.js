@@ -1559,6 +1559,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
         var denominationValue = $scope.selectedProduct.denomination;
         var personalMessage = $scope.selectedProduct.PersonalMessage;
+        //Line Breaks
+        personalMessage = personalMessage ? personalMessage.replace(/\n/g, "\r\n") : "";
         var closingMessage = $scope.selectedProduct.ClosingMessage;
         var emailSubject = $scope.selectedProduct.EmailSubject;
         var deliveryDate = $scope.selectedProduct.DeliveryDate;
