@@ -357,9 +357,6 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                         ex.Message = ex.Message.replace('{0}', 'Order ID (' + $scope.currentOrder.ExternalID + ')');
                     }
                     //$scope.cart_billing.$setValidity('paymentMethod', false);
-                    if (ex.Message.indexOf('Processing of the HTTP request resulted in an exception') > -1) {
-                        ex.Message = "There was an error submitting your order. If paying by credit card, please verify your card information and attempt to submit the order again.";
-                    }
                     $scope.actionErrorMessage = ex.Message;
                     $scope.orderSubmitLoadingIndicator = false;
                     $scope.shippingUpdatingIndicator = false;

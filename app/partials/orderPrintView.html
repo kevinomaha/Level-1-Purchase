@@ -15,6 +15,7 @@
                     </h4>
                 </div>
                 <div>
+                    <p ng-show="order.ExternalID">{{'Order' | r}} {{'ID' | r}}: <span style="float:right;">{{order.ExternalID}}</span></p>
                     <p ng-show="order.DateSubmitted">{{'Date' | r}} {{'Submitted' | r}}: <span style="float:right;">{{order.DateSubmitted | date:'short'}}</span></p>
                     <p ng-show="order.DateCompleted">{{'Date' | r}} {{'Completed' | r}}: <span style="float:right;">{{order.DateCompleted | date:'short'}}</span></p>
                     <p ng-show="order.FromUserFirstName || order.FromUserLastName">{{'Created By' | r}}: <span style="float:right;">{{order.FromUserFirstName + ' ' + order.FromUserLastName}}</span></p>

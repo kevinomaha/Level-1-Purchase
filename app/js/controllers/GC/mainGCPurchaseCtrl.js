@@ -17,11 +17,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     function getPersonalMessages(variants) {
         var variantArray = [];
-        var stopIndex = (variants.length >= 10) ? (variants.length - 10) : 0;
-        var startIndex = (variants.length > 0) ? (variants.length - 1) : 0;
-        if (startIndex > 0) {
-            for (var i = startIndex; i >= stopIndex; i--) {
-                if (variants[i].InteropID) {
+        var startIndex = variants.length > 10 ? (variants.length - 10) : 0;
+        var stopIndex = variants.length;
+
+        if (variants.length > 0) {
+            for (var i = startIndex; i <= stopIndex; i++) {
+                if (variants[i] && variants[i].InteropID) {
                     variantArray.push(variants[i].InteropID);
                 }
             }

@@ -21,7 +21,7 @@
         <label>{{customfield.Label || customfield.Name | r | specnames}}</label>
         <div ng-class="{'input-group':(customfield.Prefix || customfield.Suffix)}">
             <span class="input-group-addon" ng-if="customfield.Prefix">{{customfield.Prefix | r}}</span>
-            <textarea class="form-control"  placeholder="{{customfield.Label || customfield.Name | r | specnames}}" cols="{{customfield.Width * .13}} rows={{customfield.Lines}}" ng-maxlength="{{customfield.MaxLength}}" ng-required="{{customfield.Required}}" ng-model="customfield.Value"></textarea>
+            <textarea class="form-control" placeholder="{{customfield.Label || customfield.Name | r | specnames}}" cols="{{customfield.Width * .13}} rows={{customfield.Lines}}" ng-maxlength="{{customfield.MaxLength}}" ng-required="{{customfield.Required}}" ng-model="customfield.Value"></textarea>
             <span class="input-group-addon" ng-if="customfield.Suffix">{{customfield.Suffix | r}}</span>
         </div>
         <i class="fa fa-edit"></i>
