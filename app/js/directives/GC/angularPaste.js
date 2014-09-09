@@ -144,6 +144,18 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                             recipient.DeliveryDate = "";
                                         }
 
+                                        if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
+                                            var lines = recipient.PersonalMessage.split(/\r\n|\r|\n/);
+                                            var tempMessage = "";
+                                            for (var line = 0; line < 6; line++) {
+                                                tempMessage += lines[line];
+                                                if (line < 5) {
+                                                    tempMessage += "\n";
+                                                }
+                                            }
+                                            recipient.PersonalMessage = tempMessage;
+                                        }
+
 										var stateValid = false;
 										angular.forEach(stateList, function(state) {
 											if (state.value == recipient.State) {
@@ -271,6 +283,12 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                             recipient.Invalid = true;
                                             $scope.tempPasteError = true;
                                             recipient.ErrorMessage = "Recipient " + (i + 1) + " has an invalid delivery date. This value will not be uploaded.";
+                                        }
+
+                                        if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
+                                            recipient.Invalid = true;
+                                            $scope.tempPasteError = true;
+                                            recipient.ErrorMessage = "Recipient " + (i + 1) + " has a personal message greater than 6 lines. The text after line 6 for this value will not be uploaded.";
                                         }
 
 										if ($scope.selectedProduct && $scope.digitalProduct) {

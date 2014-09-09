@@ -1024,6 +1024,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             else {
                 $scope.personalMessageInvalid = $scope.selectedProduct.PersonalMessage.length > 300;
             }
+
+            if ($scope.selectedProduct.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
+                $scope.personalMessageInvalid = true;
+            }
         }
     });
     $scope.emailSubjectInvalid = false;
