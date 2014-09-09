@@ -903,7 +903,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     $scope.selectedProduct.loadingMerchantProducts = false;
 
-    $scope.designPreviewSRC = "";
+    $scope.designPreviewSRC = 'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/Previews/SCP/physicallplaceholder.png';
 
     $scope.showPreview = function (type, design) {
         var digPath = 'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/Previews/';
