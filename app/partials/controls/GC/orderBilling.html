@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div ng-show="tempOrder.BillAddressID" class="check-out-view-selected-billing" style="border: 1px solid #d6d6d6; padding: 15px; margin-top: 15px;">
-                <div style="font-size: 11px; font-weight: bold;">Billing Address</div>
+                <p style="font-size: 11px; font-weight: bold;">Billing Address <span class="text-muted" style="cursor:pointer;" ng-click="editBillAddress(BillAddress)">Edit <i class="fa fa-edit"></i></span></p>
                 <div ng-show="BillAddress.CompanyName"><small>{{BillAddress.CompanyName}}</small></div>
                 <div ng-show="(BillAddress.FirstName || BillAddress.LastName) && (!user.Permissions.contains('EditBillToName') && BillAddress.IsCustEditable)">
                     <small>{{BillAddress.FirstName + ' ' + BillAddress.LastName}}</small>

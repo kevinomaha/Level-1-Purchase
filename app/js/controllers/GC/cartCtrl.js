@@ -589,7 +589,16 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 	$scope.billaddress = { Country: 'US', IsShipping: false, IsBilling: true };
 
 	$scope.$on('event:AddressSaved', function(event, address) {
-        $scope.addresses.push(address);
+        var found = false;
+        angular.forEach($scope.addresses, function(add) {
+            if (add.ID == address.ID) {
+                found = true;
+                add.AddressName = address.AddressName;
+            }
+        });
+        if (!found) {
+            $scope.address.push(address);
+        }
 		if (address.IsShipping) {
 			$scope.tempOrder.MerchantCardShipAddressID = address.ID;
             $scope.tempOrder.AnonymousAwardShippAddressID = address.ID;

@@ -201,5 +201,10 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 	$scope.$watch('tempOrder.CreditCard.ExpirationDate', function(event) {
 		$scope.cart_billing.$setValidity('expDate', validateExpDate(event));
 	});
+
+    $scope.editBillAddress = function(address) {
+        $scope.billaddressform = true;
+        $scope.billaddress = address;
+    };
 }]);
 
