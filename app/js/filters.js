@@ -191,7 +191,7 @@ four51.app.filter('gcshippers', function() {
             });
 
             //Remove Email Delivery
-            if (results[0].Name.indexOf('Email') > -1) results.splice(0,1);
+            if (results[0] && results[0].Name.indexOf('Email') > -1) results.splice(0,1);
         }
         else {
             angular.forEach(shipper, function(s) {

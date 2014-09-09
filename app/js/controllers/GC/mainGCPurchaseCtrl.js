@@ -1580,12 +1580,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 if ($scope.selectedProduct.OpeningMessageOption) {
                     var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
                     if (customMessageOption.indexOf('First and Last Name') > -1) {
-                        openingText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value;
-                        customMessageText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value
+                        openingText = (lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1) ? lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value : "";
+                        customMessageText = (lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1) ? lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value : "";
                     }
                     else if (customMessageOption.indexOf('First Name Only') > -1) {
-                        openingText = lineitem.Variant.Specs.FirstName1.Value;
-                        customMessageText = lineitem.Variant.Specs.FirstName1.Value;
+                        openingText = (lineitem.Variant.Specs.FirstName1) ? lineitem.Variant.Specs.FirstName1.Value : "";
+                        customMessageText = (lineitem.Variant.Specs.FirstName1) ? lineitem.Variant.Specs.FirstName1.Value : "";
                     }
                     else if (customMessageOption.indexOf('Custom Message') > -1) {
                         openingText = "";
