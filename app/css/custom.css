@@ -13,3 +13,12 @@ Template: Howdy
         width: 24.5%;
     }
 }
+
+/* IE9 */
+input.ng-invalid-required {
+    border-color: #be0f34;
+}
+
+select.ng-invalid-required {
+    border-color: #be0f34;
+}
