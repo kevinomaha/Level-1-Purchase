@@ -1038,6 +1038,29 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         }
     });
 
+    $scope.deliveryDateInvalid = false;
+    $scope.$watch('selectedProduct.DeliveryDate', function(newval, oldval) {
+        $scope.deliveryDateInvalid = false;
+        if (newval && typeof(newval) == 'object') {
+            var date = new Date(newval);
+            if (isNaN(date.getMonth())) {
+                $scope.deliveryDateInvalid = true;
+            }
+            else {
+                var today = new Date();
+                var future = new Date().setDate(today.getDate() + 120);
+                if (date > future || date < today.setDate(today.getDate() - 1)) {
+                    $scope.deliveryDateInvalid = true;
+                }
+            }
+        }
+        else {
+            if (!newval && oldval) {
+                $scope.deliveryDateInvalid = true;
+            }
+        }
+    });
+
     $scope.selectedProduct.buildingProductsIndicator = false;
 
     $scope.messagepopover = {title: 'Custom Personal Message', content: 'Ex. Thanks for your hard work!<br/>(Up to 300 characters)'};
