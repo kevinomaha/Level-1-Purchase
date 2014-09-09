@@ -763,6 +763,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     $scope.deleteAllRecipients = function() {
         if (confirm('Are you sure you wish to remove all recipients?') == true) {
+            $scope.cancelEditRecipient();
             $scope.recipientList = [];
             $scope.recipientGroup = [];
             store.set("451Cache.RecipientGroup", $scope.recipientGroup);
