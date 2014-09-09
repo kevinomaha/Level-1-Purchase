@@ -152,25 +152,46 @@ four51.app.filter('gcshippers', function() {
         if (!isDigital) {
             angular.forEach(shipper, function(s) {
 
+                var today = new Date();
                 if (orderTotal > 9999 || itemCount > 399) {
                     if (s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-")) {
-                        results.push(s);
+                        if (!s.Name.match("13-")) {
+                            results.push(s);
+                        }
+                        else if (s.Name.match("13-") && today.getDay() != 6) {
+                            results.push(s);
+                        }
                     }
                 }
                 else if (orderTotal > 399) {
                     if (s.Name.match("5-") || s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-") || s.Name.match("75-") || s.Name.match("77-")) {
-                        results.push(s);
+                        if (s.Name.match("75-")) {
+                            results.splice(0, 0, s);
+                        }
+                        else {
+                            if (!s.Name.match("13-")) {
+                                results.push(s);
+                            }
+                            else if (s.Name.match("13-") && today.getDay() != 6) {
+                                results.push(s);
+                            }
+                        }
                     }
                 }
                 else {
                     if (!(s.Name.match("75-") && s.Name.indexOf('0.00') > -1)) {
-                        results.push(s);
+                        if (!s.Name.match("13-")) {
+                            results.push(s);
+                        }
+                        else if (s.Name.match("13-") && today.getDay() != 6) {
+                            results.push(s);
+                        }
                     }
                 }
             });
 
             //Remove Email Delivery
-            results.splice(0,1);
+            if (results[0].Name.indexOf('Email') > -1) results.splice(0,1);
         }
         else {
             angular.forEach(shipper, function(s) {
