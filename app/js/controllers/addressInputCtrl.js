@@ -68,5 +68,22 @@ function ($scope, $rootScope, $location, User, Address, Resources, AddressValida
         else {
             $scope.save();
         }
-    }
+    };
+
+    $scope.saveSuggestedAddress = function() {
+        $scope.objectExists = false;
+        $scope.newAddress.AddressName = $scope.newAddress.Street1;
+        $scope.addressMessage = null;
+        Address.save($scope.newAddress,
+            function(newAddress) {
+                $rootScope.$broadcast('event:AddressSaved', newAddress);
+                $location.path($scope.return);
+            },
+            function(ex) {
+                if (ex.Code.is('ObjectExistsException'))
+                    $scope.objectExists = true;
+            }
+        );
+        $scope.newAddress = null;
+    };
 }]);

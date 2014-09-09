@@ -597,7 +597,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
             }
         });
         if (!found) {
-            $scope.address.push(address);
+            $scope.addresses.push(address);
         }
 		if (address.IsShipping) {
 			$scope.tempOrder.MerchantCardShipAddressID = address.ID;
