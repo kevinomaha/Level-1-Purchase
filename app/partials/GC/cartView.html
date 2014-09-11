@@ -110,7 +110,7 @@
                                         name="shipMethod"
                                         ng-model="group.ShipMethod"
                                         ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
-                                        ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : tempOrder.Total:tempOrder.LineItems.length:group.IsDigital"
+                                        ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : group.Total:group.LineItems.length:group.IsDigital"
                                         ng-required="tempOrder.lineItemGroups.length > 0">
                                     <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
                                 </select>

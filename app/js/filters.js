@@ -147,13 +147,13 @@ four51.app.filter('gcshipping', function() {
 });
 
 four51.app.filter('gcshippers', function() {
-    return function(shipper,orderTotal,itemCount,isDigital) {
+    return function(shipper,groupTotal,itemCount,isDigital) {
         var results = [];
         if (!isDigital) {
             angular.forEach(shipper, function(s) {
 
                 var today = new Date();
-                if (orderTotal > 9999 || itemCount > 399) {
+                if (groupTotal > 9999 || itemCount > 399) {
                     if (s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-")) {
                         if (!s.Name.match("13-")) {
                             results.push(s);
@@ -163,7 +163,7 @@ four51.app.filter('gcshippers', function() {
                         }
                     }
                 }
-                else if (orderTotal > 399) {
+                else if (groupTotal > 399) {
                     if (s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-") || s.Name.match("75-") || s.Name.match("77-")) {
                         if (s.Name.match("75-")) {
                             results.splice(0, 0, s);
