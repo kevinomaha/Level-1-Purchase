@@ -1559,6 +1559,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $scope.EditingAward = false;
     }
 
+    $scope.cancelEditAward = function() {
+        $location.path('cart');
+    }
+
     $scope.updateAward = function (product, lineitem) {
         $scope.selectedProduct.buildingProductsIndicator = true;
 
