@@ -200,23 +200,15 @@
     </div>
 </div>
 </div>
-<!--<div class="view-footer navbar-fixed-bottom hidden-lg hidden-md">
-    <ul class="view-footer-buttons" ng-show="!showAwardMaker">
+<div class="view-footer navbar-fixed-bottom hidden-lg hidden-md">
+    <ul class="view-footer-buttons">
         <li style="width:50%;">
-            <button class="btn btn-warning" ng-click="$parent.step = 2">Edit List</button>
+            <div class="btn btn-danger" ng-click="cancelEditAward()">Cancel</div>
         </li>
         <li style="width:50%;">
-            <button class="btn btn-primary" ng-click="showAwardMaker = true;">Done Selecting</button>
-        </li>
-    </ul>
-    <ul class="view-footer-buttons" ng-show="showAwardMaker">
-        <li style="width:50%;">
-            <button class="btn btn-primary" ng-click="showAwardMaker = false;">Select Recipients</button>
-        </li>
-        <li style="width:50%;">
-            <button class="btn btn-success" ng-click="createAwards()" ng-disabled="award_customization.$invalid">Create Awards</button>
+            <div class="btn btn-primary" ng-disabled="award_customization.$invalid" ng-click="updateAward(selectedProduct, editingLineItem)">Update Award</div>
         </li>
     </ul>
-</div>-->
+</div>
 </form>
 </div>
