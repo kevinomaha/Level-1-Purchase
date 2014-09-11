@@ -143,6 +143,9 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                         if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
                                             recipient.DeliveryDate = "";
                                         }
+                                        if (recipient.Phone && recipient.Phone != "") {
+                                            recipient.Phone = recipient.Phone.replace(/[^\w\s]/gi, '');
+                                        }
 
                                         if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
                                             var lines = recipient.PersonalMessage.split(/\r\n|\r|\n/);
@@ -180,7 +183,8 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 											recipient.City == "" ||
 											recipient.State == "" ||
 											!stateValid ||
-											recipient.Zip == "")
+											recipient.Zip == "" ||
+                                            recipient.Phone == "")
 										{
 											recipient.AddressInvalid = true;
 											recipient.Invalid = true;
@@ -345,6 +349,10 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 												errorCnt++;
 												errors.push("Zip Code");
 											}
+                                            if (recipient.Phone == "" || !recipient.Phone) {
+                                                errorCnt++;
+                                                errors.push("Phone Number");
+                                            }
 
                                             if (errorCnt > 0) {
                                                 $scope.tempPasteError = true;

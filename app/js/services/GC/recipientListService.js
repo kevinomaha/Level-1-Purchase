@@ -20,7 +20,7 @@ function($resource, $451) {
 						!recipient.ShipToFirstName || !recipient.ShipToLastName ||
 						!recipient.Street1 || !recipient.City ||
 						!recipient.State || !recipient.Zip ||
-						!recipient.Country)
+						!recipient.Country || !recipient.Phone)
 					{
 						list[i].Invalid = true;
 					}
