@@ -496,9 +496,11 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     };
 
     $scope.cancelEditRecipient = function (recipient) {
-        for (var i = 0; i < $scope.recipientList.length; i++) {
-            if ($scope.recipientList[i].ID == $scope.tempRecipient.ID) {
-                $scope.recipientList[i] = $scope.tempRecipient;
+        if ($scope.tempRecipient && $scope.tempRecipient.ID) {
+            for (var i = 0; i < $scope.recipientList.length; i++) {
+                if ($scope.recipientList[i].ID == $scope.tempRecipient.ID) {
+                    $scope.recipientList[i] = $scope.tempRecipient;
+                }
             }
         }
         $scope.clearRecipient('tempRecipient');
