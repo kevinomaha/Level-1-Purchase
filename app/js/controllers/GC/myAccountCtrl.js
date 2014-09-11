@@ -7,4 +7,10 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location) {
 
 	$scope.myAccountURL = "https://admin.gcincentives.com/Default.aspx?Four51UserName=" + $scope.user.Username;
 
+    $scope.loadingFrame = true;
+    $scope.$on('event:imageLoaded', function(event, result, id) {
+        $scope.loadingFrame = false;
+        $scope.$apply();
+    });
+
 }]);
