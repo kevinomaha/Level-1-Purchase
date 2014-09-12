@@ -330,7 +330,13 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         }
         $scope.tempOrder = {LineItems:[]};
         $rootScope.$broadcast('event:tempOrderUpdated');
-        orderSave.lineItemGroups = [];
+        delete orderSave.lineItemGroups;
+        delete orderSave.merchantCardsAllDigital;
+        delete orderSave.merchantCardLineItems;
+        delete orderSave.SavedCards;
+        angular.forEach(orderSave.LineItems, function(li) {
+            delete li.Shipper;
+        });
         var CC = orderSave.CreditCard ? orderSave.CreditCard : {};
         Order.save(orderSave,
             function(o) {
