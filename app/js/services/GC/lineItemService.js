@@ -13,7 +13,7 @@ function($resource, $451, Address, Variant) {
 
 		if (!order.merchantCardLineItems) {
 			order.merchantCardLineItems = [];
-			order.merchangeCardsAllDigital = true;
+			order.merchantCardsAllDigital = true;
 		}
 
 		var addressList = [];
@@ -81,7 +81,7 @@ function($resource, $451, Address, Variant) {
 					i.MerchantCardAdded = true;
                     i.Editing = false;
 					if (!i.Product.Specs['Email1']) {
-						order.merchangeCardsAllDigital = false;
+						order.merchantCardsAllDigital = false;
 					}
                     i.Denomination = +(i.Product.Name.split('$')[1].replace(/\D+/g, ''));
                     i.Markup = (i.Denomination != i.UnitPrice) ? (i.UnitPrice - i.Denomination) : null;
