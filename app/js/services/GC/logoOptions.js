@@ -1,7 +1,7 @@
 four51.app.factory('LogoOptions', function() {
     var logooptions = [];
     function _getlogos(username,prodtype,success) {
-        if(window.location.href.indexOf("-stage") > -1 || window.location.href.indexOf("test.four51.com") > -1) {
+        if(window.location.href.indexOf("staging") > -1 || window.location.href.indexOf("teststore") > -1) {
             var webServiceURL = 'https://cte1.giftcertificates.com/webservice/wsorder.asmx';
             var webServicePassword = 'V1c3Pr3z1';
         }
