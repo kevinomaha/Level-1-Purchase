@@ -175,6 +175,19 @@ function($resource, $451, Address, Variant) {
         var itemCount = order.LineItems.length;
         var variantCount = 0;
 
+        angular.forEach(order.LineItems, function(li) {
+            if (li.Variant && li.Variant.InteropID) {
+                Variant.get({VariantInteropID: li.Variant.InteropID, ProductInteropID: li.Product.InteropID}, function(data) {
+                    li.Variant = data;
+                    variantCount++;
+
+                    if (variantCount == itemCount) {
+                        groupOrder(order);
+                    }
+                });
+            }
+        });
+
         function groupOrder(order) {
             order.lineItemGroups = [];
             var addressList = [];
