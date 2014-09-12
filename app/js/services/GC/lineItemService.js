@@ -27,7 +27,7 @@ function($resource, $451, Address, Variant) {
 				randomstring += chars.substring(rnum,rnum+1);
 			}
 			return randomstring;
-		}
+		};
 
 		angular.forEach(order.LineItems, function(i) {
             i.loadingImage = true;
@@ -113,7 +113,7 @@ function($resource, $451, Address, Variant) {
         var o = angular.copy(order);
         store.set("451Cache.TempOrder",LZString.compressToUTF16(JSON.stringify(o)));
 
-	}
+	};
 
     var _clean = function(order) {
         angular.forEach(order.LineItems, function(li) {
@@ -125,7 +125,7 @@ function($resource, $451, Address, Variant) {
                 }
             }
         });
-    }
+    };
 
     var _reduceV = function(variant) {
         var v = {};
@@ -142,7 +142,7 @@ function($resource, $451, Address, Variant) {
         }
 
         return v;
-    }
+    };
 
     var _reduceP = function(product) {
         var p = {};
@@ -162,31 +162,18 @@ function($resource, $451, Address, Variant) {
         }
 
         return p;
-    }
+    };
 
     var _reducePS = function(priceschedule) {
         var ps = {};
         ps.ProductID = priceschedule.ProductID;
 
         return ps;
-    }
+    };
 
     var _groupOrderHistory = function(order) {
         var itemCount = order.LineItems.length;
         var variantCount = 0;
-
-        angular.forEach(order.LineItems, function(li) {
-            if (li.Variant && li.Variant.InteropID) {
-                Variant.get({VariantInteropID: li.Variant.InteropID, ProductInteropID: li.Product.InteropID}, function(data) {
-                    li.Variant = data;
-                    variantCount++;
-
-                    if (variantCount == itemCount) {
-                        groupOrder(order);
-                    }
-                });
-            }
-        });
 
         function groupOrder(order) {
             order.lineItemGroups = [];
@@ -214,7 +201,7 @@ function($resource, $451, Address, Variant) {
                 }
             });
         }
-    }
+    };
 
     var _getProductType = function(lineitem) {
         var type = "";
@@ -233,7 +220,7 @@ function($resource, $451, Address, Variant) {
         }
 
         return type;
-    }
+    };
 
     var _setProductSpecs = function(lineitem, product) {
         switch (lineitem.Product.StandardID) {
@@ -277,7 +264,7 @@ function($resource, $451, Address, Variant) {
         else {
             product.OpeningMessageOption = "None";
         }
-    }
+    };
 
     var _cleanPreSubmit = function(o) {
         angular.forEach(o.LineItems, function(li) {
@@ -313,7 +300,7 @@ function($resource, $451, Address, Variant) {
         delete o.HasShipments;
         delete o.Approvals;
         delete o.PaymentMethodText;
-    }
+    };
 
 	return {
         groupPreSubmit: _groupPreSubmit,
