@@ -136,7 +136,7 @@
                         </div>
 
                         <div class="form-group" style="margin-top:15px;">
-                            <textarea class="form-control" ng-maxlength="300" ng-model="selectedProduct.PersonalMessage" placeholder="Custom personal message..."/>
+                            <textarea class="form-control" ng-class="{'input-invalid': personalMessageInvalid}" ng-maxlength="300" ng-model="selectedProduct.PersonalMessage" placeholder="Custom personal message..."/>
                         </div>
 
                         <div class="form-group">
@@ -187,7 +187,7 @@
                                 <li ng-show="denominationRequired && !selectedProduct.denomination">Select a denomination</li>
                                 <li ng-show="digitalProduct && emailSubjectRequired && !selectedProduct.EmailSubject">Enter an Email Subject</li>
                                 <li ng-show="selectedProduct.EmailSubject && emailSubjectInvalid">Email Subject must be 75 characters or less</li>
-                                <li ng-show="personalMessageInvalid">Enter a Personal Message that is {{digitalProduct ? '500' : '300'}} characters or less</li>
+                                <li ng-show="personalMessageInvalid">Enter a Personal Message that is {{digitalProduct ? '500' : '300'}} characters or less and 6 lines or less</li>
                             </ul>
                         </div>
                         <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="award_customization.$invalid" ng-click="updateAward(selectedProduct, editingLineItem)">Update Award</div>

@@ -6,7 +6,7 @@ four51.app.factory('LogoOptions', function() {
             var webServicePassword = 'V1c3Pr3z1';
         }
         else {
-            var webServiceURL = 'https://business1.giftcertificates.com/webservice/wsorder.asmx'
+            var webServiceURL = 'https://business1.giftcertificates.com/webservice/wsorder.asmx';
             var webServicePassword = 'Cmdr1nCh1ef1';
         }
         logooptions = [];
