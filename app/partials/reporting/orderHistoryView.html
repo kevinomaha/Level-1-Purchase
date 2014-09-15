@@ -28,19 +28,7 @@
                         {{order.LineItems.length}} {{'Item' + (order.LineItems.length > 1 ? 's' : '') | rl}} in this {{'Order' | rl}}
                     </h3>
                 </div>
-                <lineitemhistorygrid />
-                <!--<div class="panel-footer" ng-if="order.FromUserID == user.ID">
-                    <loadingindicator ng-show="displayLoadingIndicator" />
-                   <div class="form-group view-form-icon">
-                        <div class="input-group">
-                            <input type="text" ng-model="order.FavoriteName" placeholder="{{'Favorite' | r}} {{'Name' | r}}" class="form-control" autocomplete="off" />
-                            <i class="fa fa-star"></i>
-                            <span class="input-group-btn">
-                                <button type="button" ng-click="saveFavorite()" class="btn btn-info">{{'Save' | r}} {{'Favorite' | r}}</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>-->
+                <lineitemhistorygrid></lineitemhistorygrid>
             </div>
 
             <div ng-show="order.Approvals" class="panel panel-default approval-rule-status-summary">
@@ -48,8 +36,8 @@
                     <h3 class="panel-title panel-primary">{{'Approvals' | r}}</h3>
                 </div>
                 <div class="panel-body">
-                    <approval ng-show="order.Status == 'AwaitingApproval' && (order.UserCanApprove || user.Permissions.contains('ApproveAllOrders'))" order="order"/>
-                    <approvalrulelist order="order" />
+                    <approval ng-show="order.Status == 'AwaitingApproval' && (order.UserCanApprove || user.Permissions.contains('ApproveAllOrders'))" order="order"></approval>
+                    <approvalrulelist order="order"></approvalrulelist>
                 </div>
             </div>
         </div>
@@ -62,5 +50,5 @@
             </div>
         </div>
     </div>
-    <orderprint class="visible-print" />
+    <orderprint class="visible-print"></orderprint>
 </section>

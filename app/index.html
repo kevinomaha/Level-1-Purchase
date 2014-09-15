@@ -16,19 +16,19 @@
 <body ng-cloak ng-class="ng-cloak" style="overflow-x:hidden;">
 <section>
     <section ng-hide="Four51User.isAuthenticated() || isAnon" class="container">
-        <login />
+        <login></login>
     </section>
     <section ng-show="Four51User.isAuthenticated()" id="content">
         <section class="hidden-print">
-            <navigation />
+            <navigation></navigation>
         </section>
         <section class="hidden-print">
-            <branding />
+            <branding></branding>
         </section>
         <section class="container-view">
-            <ng-view autoscroll />
+            <ng-view autoscroll></ng-view>
         </section>
-        <copyright ng-if="!user.Permissions.contains('UnBrandedSite')" />
+        <copyright ng-if="!user.Permissions.contains('UnBrandedSite')"></copyright>
     </section>
 </section>
 
@@ -46,7 +46,7 @@
     <script type="text/javascript" src="https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/GC_Main/general_theme/scripts/OccasionMessageJSONObjects.js"></script>
 
     <script src="lib/store.js" data-group="resources"></script>
-    <script src="lib/placeholders.js" data-group="resources"></script>
+    <!--<script src="lib/placeholders.js" data-group="resources"></script>-->
     <script src="lib/lz-string-1.3.3-min.js" data-group="resources"></script>
     <script src="lib/angular_ui/ui-utils.min.js" data-group="resources"></script>
     <script src="lib/angular_ui/ui-bootstrap-tpls-0.10.0.min.js" data-group="resources"></script>

@@ -7669,6 +7669,9 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
   padding-top: 10px;
   z-index: 50;
 }
+.list-creation-view .view-form-icon > div {
+  margin: 25px 0 0;
+}
 .merchant-list {
   list-style: none;
   padding-left: 0;

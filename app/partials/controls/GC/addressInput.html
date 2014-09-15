@@ -27,22 +27,22 @@
             <div class="col-sm-6 view-form-icon">
                 <div ng-hide="true">
                     <label class="required">Address Name</label>
-                    <input name="addressname" class="form-control" type="text" ng-model="address.AddressName" placeholder="Address Name" />
+                    <input name="addressname" class="form-control" type="text" ng-model="address.AddressName" />
                     <i class="fa fa-edit"></i>
                 </div>
                 <div>
                     <label class="required">First Name</label>
-                    <input name="firstname" class="form-control" type="text" ng-model="address.FirstName" placeholder="First Name" ng-required="true" />
+                    <input name="firstname" class="form-control" type="text" ng-model="address.FirstName" ng-required="true" />
                     <i class="fa fa-user"></i>
                 </div>
                 <div>
                     <label class="required">Last Name</label>
-                    <input name="lastname" class="form-control" type="text" ng-model="address.LastName" placeholder="Last Name" ng-required="true" />
+                    <input name="lastname" class="form-control" type="text" ng-model="address.LastName" ng-required="true" />
                     <i class="fa fa-user"></i>
                 </div>
                 <div>
-                    <label ng-show="address.CompanyName">Company Name</label>
-                    <input name="companyname" class="form-control" type="text" ng-model="address.CompanyName" placeholder="Company Name" />
+                    <label>Company Name</label>
+                    <input name="companyname" class="form-control" type="text" ng-model="address.CompanyName" />
                     <i class="fa fa-user"></i>
                 </div>
                 <div>
@@ -54,29 +54,29 @@
             <div class="col-sm-6 view-form-icon">
                 <div>
                     <label class="required">Address Line 1</label>
-                    <input name="street1" class="form-control" type="text" ng-model="address.Street1" placeholder="Address Line 1" required />
+                    <input name="street1" class="form-control" type="text" ng-model="address.Street1" required />
                     <i class="fa fa-map-marker"></i>
                 </div>
                 <div>
-                    <label ng-show="address.Street2">Address Line 2</label>
-                    <input name="street2" class="form-control" type="text" ng-model="address.Street2" placeholder="Address Line 2" />
+                    <label>Address Line 2</label>
+                    <input name="street2" class="form-control" type="text" ng-model="address.Street2" />
                     <i class="fa fa-map-marker"></i>
                 </div>
                 <div>
                     <label class="required">City</label>
-                    <input name="city" class="form-control" type="text" ng-model="address.City" placeholder="City" required />
+                    <input name="city" class="form-control" type="text" ng-model="address.City" required />
                     <i class="fa fa-map-marker"></i>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
                         <div ng-show="!hasStates()">
                             <label ng-class="{required: !hasStates}">State</label>
-                            <input ng-show="!hasStates()" class="form-control" type="text" ng-model="address.State" placeholder="State" ng-required="!hasStates()" />
+                            <input ng-show="!hasStates()" class="form-control" type="text" ng-model="address.State" ng-required="!hasStates()" />
                             <i class="fa fa-map-marker"></i>
                         </div>
                         <div ng-show="hasStates()">
                             <label ng-class="{required: hasStates}">State</label>
-                            <select ng-show="hasStates()" class="form-control" ng-options="state.value as state.value for state in states | filter:country" ng-model="address.State" placeholder="State" ng-required="hasStates()">
+                            <select ng-show="hasStates()" class="form-control" ng-options="state.value as state.value for state in states | filter:country" ng-model="address.State" ng-required="hasStates()">
                             </select>
                             <i class="fa fa-map-marker"></i>
                         </div>
@@ -84,14 +84,14 @@
                     <div class="col-xs-6">
                         <div>
                             <label ng-class="{required: hasStates}">Zip</label>
-                            <input name="zip" class="form-control" type="text" ng-model="address.Zip" placeholder="Zip" ng-required="hasStates()" />
+                            <input name="zip" class="form-control" type="text" ng-model="address.Zip" ng-required="hasStates()" />
                             <i class="fa fa-map-marker"></i>
                         </div>
                     </div>
                 </div>
                 <div>
                     <label class="required">Country</label>
-                    <select name="country" class="form-control" ng-options="country.value as country.label for country in countries" ng-model="address.Country" placeholder="Country" required />
+                    <select name="country" class="form-control" ng-options="country.value as country.label for country in countries" ng-model="address.Country" required />
                     <i class="fa fa-globe"></i>
                 </div>
             </div>
