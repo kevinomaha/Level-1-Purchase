@@ -2,6 +2,7 @@ four51.app.controller('OrderViewCtrl', ['$scope', '$location', '$routeParams', '
 function ($scope, $location, $routeParams, Order, FavoriteOrder, Address, User, LineItems) {
 	$scope.loadingIndicator = true;
 
+    $scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
 
 	Order.get($routeParams.id, function(data){
 		$scope.loadingIndicator = false;
@@ -29,6 +30,16 @@ function ($scope, $location, $routeParams, Order, FavoriteOrder, Address, User, 
 				data.ShipAddress = add;
 			});
 		}
+
+        angular.forEach(data.LineItems, function(item) {
+            if (item.ShipperID && !item.ShipperName) {
+                angular.forEach($scope.shippers, function(s) {
+                    if (s.ID == item.ShipperID) {
+                        item.ShipperName = s.Name;
+                    }
+                });
+            }
+        });
 
         Address.get(data.BillAddressID, function(add){
             data.BillAddress = add;

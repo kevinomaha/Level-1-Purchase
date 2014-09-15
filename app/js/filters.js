@@ -132,17 +132,22 @@ four51.app.filter('awardlessRecipients', function() {
 });
 four51.app.filter('gcshipping', function() {
     return function(value) {
-        var name = "";
-        var split = value.split('-');
-        for (var i = 1; i < split.length; i++) {
-            if (i > 1) {
-                name += "-" + split[i];
+        if (value) {
+            var name = "";
+            var split = value.split('-');
+            for (var i = 1; i < split.length; i++) {
+                if (i > 1) {
+                    name += "-" + split[i];
+                }
+                else {
+                    name += split[i];
+                }
             }
-            else {
-                name += split[i];
-            }
+            return name;
         }
-        return name;
+        else {
+            return value;
+        }
     }
 });
 
