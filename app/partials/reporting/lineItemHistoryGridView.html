@@ -3,7 +3,7 @@
         <h4 class="text-primary">
             {{item.Product.Name}}
         </h4>
-        <p ng-show="item.Specs.FirstName1 || item.Specs.LastName1"><b>Recipient Name:</b> {{(item.Specs.FirstName1.Value + ' ' + item.Specs.LastName1.Value) || 'Anonymous'}}</p>
+        <p ng-show="item.Specs.FirstName1 || item.Specs.LastName1"><b>Recipient Name:</b> {{(item.Specs.FirstName1.Value && item.Specs.LastName1.Value) ? (item.Specs.FirstName1.Value + ' ' + item.Specs.LastName1.Value) : 'Anonymous'}}</p>
      </div>
     <div class="col-sm-6 col-lg-7">
         <div class="row">
