@@ -36,7 +36,7 @@
                     <h3 class="panel-title panel-primary">{{'Approvals' | r}}</h3>
                 </div>
                 <div class="panel-body">
-                    <approval ng-show="order.Status == 'AwaitingApproval' && (order.UserCanApprove || user.Permissions.contains('ApproveAllOrders'))" order="order"></approval>
+                    <!--<approval ng-show="order.Status == 'AwaitingApproval' && (order.UserCanApprove || user.Permissions.contains('ApproveAllOrders'))" order="order"></approval>-->
                     <approvalrulelist order="order"></approvalrulelist>
                 </div>
             </div>
