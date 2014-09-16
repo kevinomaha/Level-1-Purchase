@@ -1,5 +1,5 @@
-four51.app.controller('CartViewCtrl', ['$scope', '$rootScope', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'LineItems', 'AddressList', 'LogoOptions', 'CustomAddressList',
-function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper,LineItems, AddressList, LogoOptions, CustomAddressList) {
+four51.app.controller('CartViewCtrl', ['$scope', '$rootScope', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'LineItems', 'AddressList', 'LogoOptions', 'CustomAddressList', 'Address',
+function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper,LineItems, AddressList, LogoOptions, CustomAddressList, Address) {
 
 	$scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
     if (typeof($scope.tempOrder) != 'object') {
@@ -328,55 +328,68 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         if (tempSave.PaymentMethod == 'CreditCard') {
             tempSave.BudgetAccountID = null;
         }
-        $scope.tempOrder = {LineItems:[]};
+        $scope.tempOrder = {LineItems: []};
         $rootScope.$broadcast('event:tempOrderUpdated');
         delete orderSave.lineItemGroups;
         delete orderSave.merchantCardsAllDigital;
         delete orderSave.merchantCardLineItems;
         delete orderSave.SavedCards;
-        angular.forEach(orderSave.LineItems, function(li) {
+        angular.forEach(orderSave.LineItems, function (li) {
             delete li.Shipper;
         });
         var CC = orderSave.CreditCard ? orderSave.CreditCard : {};
-        Order.save(orderSave,
-            function(o) {
-                LineItems.clean(o);
-                var orderSubmit = angular.copy(o);
-                orderSubmit.CreditCard = CC;
-                LineItems.cleanPreSubmit(orderSubmit);
-                Order.submit(orderSubmit, function(data) {
-                    $scope.user.CurrentOrderID = null;
-                    $scope.tempOrder = {LineItems:[]};
-                    $scope.cacheOrder($scope.tempOrder);
-                    var recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
-                    for (var r = 0; r < recipientList.length; r++) {
-                        recipientList[r].AwardCount = 0;
-                    }
-                    store.set("451Cache.RecipientList",[]);
-                    store.set("451Cache.RecipientList",recipientList);
-                    $scope.currentOrder = null;
-                    $scope.orderSubmitLoadingIndicator = false;
-                    $location.path('/order/' + data.ID);
+
+        var shipAddressID = orderSave.LineItems[0].ShipAddressID;
+        Address.get(shipAddressID, function(add) {
+            var address = add;
+            address.Phone = orderSave.PhoneNumber;
+            Address.save(address, function(a) {
+                orderSave.LineItems[0].ShipAddressID = a.ID;
+                saveOrder(orderSave);
+            });
+        });
+
+        function saveOrder(orderSave) {
+            Order.save(orderSave,
+                function (o) {
+                    LineItems.clean(o);
+                    var orderSubmit = angular.copy(o);
+                    orderSubmit.CreditCard = CC;
+                    LineItems.cleanPreSubmit(orderSubmit);
+                    Order.submit(orderSubmit, function (data) {
+                            $scope.user.CurrentOrderID = null;
+                            $scope.tempOrder = {LineItems: []};
+                            $scope.cacheOrder($scope.tempOrder);
+                            var recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
+                            for (var r = 0; r < recipientList.length; r++) {
+                                recipientList[r].AwardCount = 0;
+                            }
+                            store.set("451Cache.RecipientList", []);
+                            store.set("451Cache.RecipientList", recipientList);
+                            $scope.currentOrder = null;
+                            $scope.orderSubmitLoadingIndicator = false;
+                            $location.path('/order/' + data.ID);
+                        },
+                        function (ex) {
+                            if (ex.Code.is('ObjectExistsException')) { // unique id
+                                ex.Message = ex.Message.replace('{0}', 'Order ID (' + $scope.currentOrder.ExternalID + ')');
+                            }
+                            //$scope.cart_billing.$setValidity('paymentMethod', false);
+                            $scope.actionErrorMessage = ex.Message;
+                            $scope.orderSubmitLoadingIndicator = false;
+                            $scope.shippingUpdatingIndicator = false;
+                            $scope.shippingFetchIndicator = false;
+                            $scope.showSave = false;
+                            $scope.tempOrder = tempSave;
+                        });
                 },
-                function(ex) {
-                    if (ex.Code.is('ObjectExistsException')) { // unique id
-                        ex.Message = ex.Message.replace('{0}', 'Order ID (' + $scope.currentOrder.ExternalID + ')');
-                    }
-                    //$scope.cart_billing.$setValidity('paymentMethod', false);
+                function (ex) {
                     $scope.actionErrorMessage = ex.Message;
                     $scope.orderSubmitLoadingIndicator = false;
-                    $scope.shippingUpdatingIndicator = false;
-                    $scope.shippingFetchIndicator = false;
-                    $scope.showSave = false;
                     $scope.tempOrder = tempSave;
-                });
-            },
-            function(ex) {
-                $scope.actionErrorMessage = ex.Message;
-                $scope.orderSubmitLoadingIndicator = false;
-                $scope.tempOrder = tempSave;
-            }
-        );
+                }
+            );
+        };
 	};
 
 	$scope.submitOrder = function() {
