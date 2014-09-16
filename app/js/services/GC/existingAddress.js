@@ -15,7 +15,6 @@ four51.app.factory('ExistingAddress', function() {
 			listAddress.State != userAddress.State ?  errorCnt++ : null;
 			listAddress.Zip != userAddress.Zip ?  errorCnt++ : null;
 			listAddress.Country != userAddress.Country ?  errorCnt++ : null;
-			listAddress.Phone != userAddress.Phone ?  errorCnt++ : null;
 
 			if (errorCnt == 0) {
 				userAddress.IsExisting = true;

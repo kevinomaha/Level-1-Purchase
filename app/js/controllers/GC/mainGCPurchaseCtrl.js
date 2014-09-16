@@ -230,7 +230,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             address.State = recipient.State;
             address.Zip = recipient.Zip;
             address.Country = recipient.Country;
-            address.Phone = recipient.Phone;
             address.IsShipping = true;
             address.IsBilling = false;
 
@@ -347,7 +346,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         address.State = $scope.recipient.State;
         address.Zip = $scope.recipient.Zip;
         address.Country = $scope.recipient.Country;
-        address.Phone = $scope.recipient.Phone;
         address.IsShipping = true;
         address.IsBilling = false;
 
@@ -426,7 +424,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 recipient = $scope.recipientList[r];
             }
         }
-        if (recipient.Street1 != "" && recipient.City != "" && recipient.State != "" && recipient.Zip != "" && recipient.Country != "" && recipient.Phone != "") {
+        if (recipient.Street1 != "" && recipient.City != "" && recipient.State != "" && recipient.Zip != "" && recipient.Country != "") {
             var address = {};
             address.AddressName = recipient.Street1;
             address.FirstName = recipient.ShipToFirstName;
@@ -437,7 +435,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             address.State = recipient.State;
             address.Zip = recipient.Zip;
             address.Country = recipient.Country;
-            address.Phone = recipient.Phone;
             address.IsShipping = true;
             address.IsBilling = false;
 
@@ -535,7 +532,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             $scope.recipient.State = address.State;
             $scope.recipient.Zip = address.Zip;
             $scope.recipient.Country = address.Country;
-            $scope.recipient.Phone = address.Phone;
             $scope.recipient.ShipToFirstName = address.FirstName;
             $scope.recipient.ShipToLastName = address.LastName;
             $scope.recipient.ShipToCompanyName = address.CompanyName;
@@ -548,7 +544,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             $scope.recipient.State = "";
             $scope.recipient.Zip = "";
             $scope.recipient.Country = "";
-            $scope.recipient.Phone = "";
             $scope.recipient.ShipToFirstName = "";
             $scope.recipient.ShipToLastName = "";
             $scope.recipient.ShipToCompanyName = "";
@@ -575,7 +570,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             address.State = recipient.State;
             address.Zip = recipient.Zip;
             address.Country = recipient.Country;
-            address.Phone = recipient.Phone;
             address.IsShipping = true;
             address.IsBilling = false;
 
@@ -593,7 +587,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             var add = addresses[a];
                             if (address.AddressName == add.AddressName && address.FirstName == add.FirstName && address.LastName == add.LastName &&
                                 address.Street1 == add.Street1 && address.Street2 == add.Street2 && address.City == add.City && address.State == add.State &&
-                                address.Zip == add.Zip && address.Country == add.Country && address.Phone == add.Phone) {
+                                address.Zip == add.Zip && address.Country == add.Country) {
                                 address.matchCount++;
                             }
                         }
@@ -617,10 +611,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     if (!recip.ShipAddressID) {
                         for (var a = 0; a < $scope.addresses.length; a++) {
                             var add = $scope.addresses[a];
-                            recip.Phone = recip.Phone ? recip.Phone : " ";
                             if (recip.Street1 == add.AddressName && recip.ShipToFirstName == add.FirstName && recip.ShipToLastName == add.LastName &&
                                 recip.Street1 == add.Street1 && recip.Street2 == add.Street2 && recip.City == add.City && recip.State == add.State &&
-                                recip.Zip == add.Zip && recip.Country == add.Country && recip.Phone == add.Phone) {
+                                recip.Zip == add.Zip && recip.Country == add.Country) {
                                 $scope.recipientList[r].ShipAddressID = add.ID;
                             }
                         }
@@ -635,7 +628,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
         var addressSaveCount = 0;
         for (var i = 0; i < addresses.length; i++) {
-            addresses[i].Phone = addresses[i].Phone == "" ? " " : addresses[i].Phone;
             Address.save(addresses[i], function (add) {
                 $scope.addresses.push(add);
                 addressSaveCount++;

@@ -61,7 +61,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                         text = text.replace(/"/g,'');
 						var rows = text.split(/[\n\f\r]/);
                         for (var i = 0; i < rows.length; i++) {
-                            if (rows[i].split("\t").length < 20) {
+                            if (rows[i].split("\t").length < 19) {
                                 if (rows[i+1] || rows[i+1] == "") {
                                     rows[i] = rows[i] + "\n";
                                     rows[i] = rows[i].concat(rows[i+1]);
@@ -70,7 +70,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                 }
                             }
                         }
-                        if (rows[0] && (rows[0].split("\t").length < 20 || rows[0].split("\t").length > 20)) {
+                        if (rows[0] && (rows[0].split("\t").length < 19 || rows[0].split("\t").length > 20)) {
                             $scope.tempPasteError = true;
                             $scope.columnLengthError = true;
                         }
@@ -112,7 +112,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 									for (var i = 0; i < $scope.parsedPaste.length; i++) {
 										var recipient = {};
 
-                                        var denom = ($scope.parsedPaste[i][14].indexOf('$') > -1) ? $scope.parsedPaste[i][14] : '$' + $scope.parsedPaste[i][14];
+                                        var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
                                         denom = (denom == '$') ? '' : denom;
 
 										recipient.FirstName = $scope.parsedPaste[i][0];
@@ -128,13 +128,12 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 										recipient.City = $scope.parsedPaste[i][10];
 										recipient.State = $scope.parsedPaste[i][11];
 										recipient.Zip = $scope.parsedPaste[i][12];
-										recipient.Phone = $scope.parsedPaste[i][13];
 										recipient.Denomination = denom;
-										recipient.OpeningMessage = $scope.parsedPaste[i][15];
-										recipient.PersonalMessage = $scope.parsedPaste[i][16];
-										recipient.ClosingMessage = $scope.parsedPaste[i][17];
-										recipient.EmailSubject = $scope.parsedPaste[i][18];
-										recipient.DeliveryDate = $scope.parsedPaste[i][19];
+										recipient.OpeningMessage = $scope.parsedPaste[i][14];
+										recipient.PersonalMessage = $scope.parsedPaste[i][15];
+										recipient.ClosingMessage = $scope.parsedPaste[i][16];
+										recipient.EmailSubject = $scope.parsedPaste[i][17];
+										recipient.DeliveryDate = $scope.parsedPaste[i][18];
 
                                         if (!validateEmail(recipient.Email)) {
                                             recipient.Email = "";
@@ -144,9 +143,6 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                         }
                                         if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
                                             recipient.DeliveryDate = "";
-                                        }
-                                        if (recipient.Phone && recipient.Phone != "") {
-                                            recipient.Phone = recipient.Phone.replace(/[^\w\s]/gi, '');
                                         }
 
                                         if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
@@ -185,8 +181,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 											recipient.City == "" ||
 											recipient.State == "" ||
 											!stateValid ||
-											recipient.Zip == "" ||
-                                            recipient.Phone == "")
+											recipient.Zip == "")
 										{
 											recipient.AddressInvalid = true;
 											recipient.Invalid = true;
@@ -244,7 +239,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 									for (var i = 0; i < $scope.parsedPaste.length; i++) {
 										var recipient = {};
 
-                                        var denom = ($scope.parsedPaste[i][14].indexOf('$') > -1) ? $scope.parsedPaste[i][14] : '$' + $scope.parsedPaste[i][14];
+                                        var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
                                         denom = (denom == '$') ? '' : denom;
 
                                         recipient.FirstName = $scope.parsedPaste[i][0];
@@ -260,13 +255,12 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                         recipient.City = $scope.parsedPaste[i][10];
                                         recipient.State = $scope.parsedPaste[i][11];
                                         recipient.Zip = $scope.parsedPaste[i][12];
-                                        recipient.Phone = $scope.parsedPaste[i][13];
                                         recipient.Denomination = denom;
-                                        recipient.OpeningMessage = $scope.parsedPaste[i][15];
-                                        recipient.PersonalMessage = $scope.parsedPaste[i][16];
-                                        recipient.ClosingMessage = $scope.parsedPaste[i][17];
-                                        recipient.EmailSubject = $scope.parsedPaste[i][18];
-                                        recipient.DeliveryDate = $scope.parsedPaste[i][19];
+                                        recipient.OpeningMessage = $scope.parsedPaste[i][14];
+                                        recipient.PersonalMessage = $scope.parsedPaste[i][15];
+                                        recipient.ClosingMessage = $scope.parsedPaste[i][16];
+                                        recipient.EmailSubject = $scope.parsedPaste[i][17];
+                                        recipient.DeliveryDate = $scope.parsedPaste[i][18];
 										recipient.Invalid = false;
 										recipient.ErrorMessage = null;
 										recipient.Selected = false;
@@ -355,10 +349,6 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 												errorCnt++;
 												errors.push("Zip Code");
 											}
-                                            if (recipient.Phone == "" || !recipient.Phone) {
-                                                errorCnt++;
-                                                errors.push("Phone Number");
-                                            }
 
                                             if (errorCnt > 0) {
                                                 $scope.tempPasteError = true;
