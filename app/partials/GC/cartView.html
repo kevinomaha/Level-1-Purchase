@@ -353,14 +353,14 @@
                 <form name="editSpecsForm">
                     <div class="col-md-4">
                         <div id="451_list_vspec">
-                            <div class="form-group" ng-repeat="s in LineItem.Specs" ng-if="!(s.DefaultValue) && (s.Name == 'Email1' || s.Name == 'Subject1')">
+                            <div class="form-group" ng-repeat="s in item.Specs" ng-if="!(s.DefaultValue) && (s.Name == 'Email1' || s.Name == 'Subject1')">
                                 <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div id="451_list_vspec">
-                            <div class="form-group" ng-repeat="s in LineItem.Specs" ng-if="!(s.DefaultValue) && (s.Name == 'Message1')">
+                            <div class="form-group" ng-repeat="s in item.Specs" ng-if="!(s.DefaultValue) && (s.Name == 'Message1')">
                                 <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
                             </div>
                         </div>

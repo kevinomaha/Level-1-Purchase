@@ -647,11 +647,11 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $location.path('main/edit/' + index);
     };
 
+    $scope.originalItemSpecs = {};
     $scope.editMerchantCard = function(item) {
-        $scope.originalItemSpecs = angular.copy(item.Specs);
+        $scope.originalItemSpecs[item.MerchantCardUniqueID] = angular.copy(item.Specs);
         item.Specs['Email1'].InputType = "email";
         item.Editing = true;
-        $scope.LineItem = item;
     };
 
     $scope.updateMerchantCard = function(item) {
@@ -666,7 +666,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
     $scope.cancelEditMerchantCard = function(item) {
         item.Editing = false;
-        item.Specs = $scope.originalItemSpecs;
+        item.Specs = $scope.originalItemSpecs[item.MerchantCardUniqueID];
         $scope.cacheOrder($scope.tempOrder);
     };
 
