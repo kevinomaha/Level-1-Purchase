@@ -50,7 +50,6 @@ four51.app.factory('AddressValidate', function() {
                     newAddress.LastName = address.LastName;
                     newAddress.IsShipping = (address.IsShipping || false);
                     newAddress.IsBilling = (address.IsBilling || false);
-                    newAddress.Phone = address.Phone;
                     newAddress.Street1 = $response.find("Street1").text();
                     newAddress.Street2 = $response.find("Street2").text();
                     newAddress.State = $response.find("State").text();
