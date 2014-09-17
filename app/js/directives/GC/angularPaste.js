@@ -70,7 +70,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                 }
                             }
                         }
-                        if (rows[0] && (rows[0].split("\t").length < 19 || rows[0].split("\t").length > 20)) {
+                        if (rows[0] && (rows[0].split("\t").length < 19 || rows[0].split("\t").length > 19)) {
                             $scope.tempPasteError = true;
                             $scope.columnLengthError = true;
                         }
