@@ -680,6 +680,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
             if (!li.ShipperID) {shipperMissing = true;}
             if (!li.Quantity || li.Quantity == 0) {qtyError = true}
         });
+        if (!order.PhoneNumber) {$scope.errorMessages.push("Please enter a valid phone number for the order")}
         if (shipAddressMissing) {$scope.errorMessages.push("Please select a ship address for all items");}
         if (shipperMissing) {$scope.errorMessages.push("Please select a ship method for all items");}
         if (qtyError) {$scope.errorMessages.push("Please select a valid quantity for all items");}
@@ -694,6 +695,12 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         }
     }
     analyzeErrors();
+
+    $scope.$watch('tempOrder.PhoneNumber', function() {
+        if ($scope.tempOrder.PhoneNumber) {
+            analyzeErrors();
+        }
+    });
 
     $scope.$watch('tempOrder.PaymentMethod', function() {
         analyzeErrors();
