@@ -43,7 +43,10 @@
         </div>
         <hr/>
     </div>
-    <div ng-show="tempOrder.PaymentMethod == 'CreditCard' || isSplitBilling">
+    <div ng-show="tempOrder.PaymentMethod == 'CreditCard'">
+        <creditcard></creditcard>
+    </div>
+    <!--<div ng-show="tempOrder.PaymentMethod == 'CreditCard' || isSplitBilling">
         <div ng-show="tempOrder.PaymentMethod == 'CreditCard'">
             <div class="row view-form-icon" ng-show="tempOrder.SavedCards">
                 <div class="col-sm-4" ng-class="{'view-form-select-saved': !tempOrder.CreditCardID, '': tempOrder.CreditCardID }">
@@ -117,6 +120,6 @@
                        ng-false-value="false">
                 <small>Save my credit card information</small>
             </label>
-        </div>
+        </div>-->
     </div>
 </div>

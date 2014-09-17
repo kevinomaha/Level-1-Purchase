@@ -687,11 +687,14 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 
         if (order.PaymentMethod == 'CreditCard' && !order.CreditCardID) {
             var CC = angular.copy(order.CreditCard);
-            if (!CC.Type) {$scope.errorMessages.push("Please select a credit card type");}
+            if (!CC.Type && CC.AccountNumber) {$scope.errorMessages.push("Please select a credit card type");}
             if (!CC.AccountNumber) {$scope.errorMessages.push("Please enter a valid credit card account number");}
             if (!CC.ExpirationDate) {$scope.errorMessages.push("Please enter a valid credit card expiration date");}
             if (!CC.CVN) {$scope.errorMessages.push("Please enter a valid credit card CVN");}
             if (!order.BillAddressID) {$scope.errorMessages.push("Please select a billing address");}
+        }
+        if (order.CreditCardID && !order.BillAddressID) {
+            $scope.errorMessages.push("Please select a billing address");
         }
     }
     analyzeErrors();
@@ -700,6 +703,10 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         if ($scope.tempOrder.PhoneNumber) {
             analyzeErrors();
         }
+    });
+
+    $scope.$watch('tempOrder.CreditCardID', function() {
+        analyzeErrors();
     });
 
     $scope.$watch('tempOrder.PaymentMethod', function() {
