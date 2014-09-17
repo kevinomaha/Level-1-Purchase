@@ -381,6 +381,11 @@ four51.app.filter('gcProductDesigns', function() {
                         break;
                 }
             }
+            results.sort(function(a, b){
+                if(a.Value < b.Value) return -1;
+                if(a.Value > b.Value) return 1;
+                return 0;
+            })
         }
 
         return results;
