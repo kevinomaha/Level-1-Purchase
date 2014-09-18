@@ -7,7 +7,7 @@ function ($scope, $location, $routeParams, Order, FavoriteOrder, Address, User, 
 	Order.get($routeParams.id, function(data){
 		$scope.loadingIndicator = false;
         $scope.order = data;
-        //LineItems.groupOrderHistory($scope.order);
+        LineItems.groupOrderHistory($scope.order);
         $scope.hasSpecsOnAnyLineItem = false;
 		for(var i = 0; i < data.LineItems.length ; i++) {
 			if (data.LineItems[i].Specs) {
@@ -16,7 +16,7 @@ function ($scope, $location, $routeParams, Order, FavoriteOrder, Address, User, 
 			}
 		}
 
-		if ($scope.order.IsMultipleShip()) {
+		/*if ($scope.order.IsMultipleShip()) {
 	        angular.forEach(data.LineItems, function(item) {
 	            if (item.ShipAddressID) {
 	                Address.get(item.ShipAddressID, function(add) {
@@ -29,7 +29,7 @@ function ($scope, $location, $routeParams, Order, FavoriteOrder, Address, User, 
 			Address.get(data.ShipAddressID || data.LineItems[0].ShipAddressID, function(add) {
 				data.ShipAddress = add;
 			});
-		}
+		}*/
 
         angular.forEach(data.LineItems, function(item) {
             if (item.ShipperID && !item.ShipperName) {

@@ -585,7 +585,13 @@ four51.app.factory('Resources', function() {
         "Standard": "1006_Standard_Preview.jpg",
         "Gift Wrap" : "GiftWrap_ESC.jpg",
         "White Bow" : "WhiteBow_ESC.jpg",
-        "Basic Green Ribbon": "1006_BasicGreenRibbon_Preview.jpg"
+        "Basic Green Ribbon": "1006_BasicGreenRibbon_Preview.jpg",
+        "Candy Cane": "digitalplaceholder.png",
+        "Country Snow": "digitalplaceholder.png",
+        "Holiday Wreath": "digitalplaceholder.png",
+        "Hollyday Greetings": "h_HollydayGreetings.jpg",
+        "Outside Ornaments": "digitalplaceholder.png",
+        "Traditional Greetings": "h_TraditionalGreetings.jpg",
     };
 
     var physicalDesignPreview = {
@@ -599,7 +605,13 @@ four51.app.factory('Resources', function() {
         "Simply Chic" : "SimplyChicSC_Four51Preview.jpg",
         "Gift Wrap" : "GiftWrapSC_Four51Preview.jpg",
         "White Bow" : "WhiteBowSC_Four51Preview.jpg",
-        "Basic Green Ribbon": "BasicGreenRibbon.jpg"
+        "Basic Green Ribbon": "BasicGreenRibbon.jpg",
+        "Candy Cane": "physicallplaceholder.png",
+        "Country Snow": "physicallplaceholder.png",
+        "Holiday Wreath": "physicallplaceholder.png",
+        "Hollyday Greetings": "h_HollydayGreetings.jpg",
+        "Outside Ornaments": "physicallplaceholder.png",
+        "Traditional Greetings": "h_TraditionalGreetings.jpg",
     };
 
     var giftcardDesignPreview = {

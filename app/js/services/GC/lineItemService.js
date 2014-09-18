@@ -177,28 +177,58 @@ function($resource, $451, Address, Variant) {
 
         function groupOrder(order) {
             order.lineItemGroups = [];
+            order.merchantCards = [];
             var addressList = [];
 
             angular.forEach(order.LineItems, function (i) {
                 var addressID = i.ShipAddressID;
                 var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
-                if (i.LineTotal > 399) {
-                    order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal});
-                }
-                else {
-                    if (addressList.indexOf(addressID) == -1) {
-                        addressList.push(addressID);
-                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal});
+                if (!i.IsMerchantCard) {
+                    if (i.LineTotal > 399) {
+                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID});
                     }
                     else {
-                        for (var g = 0; g < order.lineItemGroups.length; g++) {
-                            if (order.lineItemGroups[g].ID == addressID) {
-                                order.lineItemGroups[g].LineItems.push(i);
-                                order.lineItemGroups[g].Total += i.LineTotal;
+                        if (addressList.indexOf(addressID) == -1) {
+                            addressList.push(addressID);
+                            order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID});
+                        }
+                        else {
+                            for (var g = 0; g < order.lineItemGroups.length; g++) {
+                                if (order.lineItemGroups[g].ID == addressID) {
+                                    order.lineItemGroups[g].LineItems.push(i);
+                                    order.lineItemGroups[g].Total += i.LineTotal;
+                                }
                             }
                         }
                     }
                 }
+                else {
+                    order.merchantCards.push(i);
+                }
+            });
+        }
+
+        groupOrder(order);
+
+        if (order.IsMultipleShip()) {
+            angular.forEach(order.lineItemGroups, function(group) {
+                if (group.ShipAddressID) {
+                    Address.get(group.ShipAddressID, function(add) {
+                        group.ShipAddress = add;
+                    });
+                }
+            });
+            angular.forEach(order.merchantCards, function(item) {
+                if (item.ShipAddressID) {
+                    Address.get(item.ShipAddressID, function(add) {
+                        item.ShipAddress = add;
+                    });
+                }
+            });
+        }
+        else {
+            Address.get(order.ShipAddressID || order.LineItems[0].ShipAddressID, function(add) {
+                order.ShipAddress = add;
             });
         }
     };

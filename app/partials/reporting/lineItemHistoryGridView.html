@@ -1,4 +1,76 @@
-<div class="panel-order-history" ng-repeat="item in order.LineItems" style="border-bottom:1px solid #ddd;">
+<div class="row">
+    <div class="col-sm-2 text-center">
+        <b>Quantity</b>
+    </div>
+    <div class="col-sm-4 text-center">
+        <b>Item</b>
+    </div>
+    <div class="col-sm-2 text-center">
+        <b>Total</b>
+    </div>
+    <div class="col-sm-4">
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <b>Ship Method</b>
+            </div>
+            <div class="col-sm-6 text-center">
+                <b>Ship To</b>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-order-history" ng-repeat="item in order.lineItemGroups" style="border-bottom:1px solid #ddd;">
+    <div class="row">
+        <div class="col-sm-2 text-center">
+            {{item.LineItems.length}}
+        </div>
+        <div class="col-sm-4 text-center">
+            {{item.Product.Name}}
+        </div>
+        <div class="col-sm-2 text-center">
+            {{item.Total | currency}}
+        </div>
+        <div class="col-sm-4">
+            <div class="row">
+                <div class="col-sm-6 text-center">
+                    {{item.ShipMethod | gcshipping}}
+                </div>
+                <div class="col-sm-6 text-center" ng-show="item.ShipMethod.indexOf('Email') == -1">
+                    {{item.ShipAddress.Street1}}<br>
+                    {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
+                    {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-order-history" ng-repeat="item in order.merchantCards" style="border-bottom:1px solid #ddd;">
+    <div class="row">
+        <div class="col-sm-2 text-center">
+            {{item.Quantity}}
+        </div>
+        <div class="col-sm-4 text-center">
+            {{item.Product.Name}}
+        </div>
+        <div class="col-sm-2 text-center">
+            {{item.LineTotal | currency}}
+        </div>
+        <div class="col-sm-4">
+            <div class="row">
+                <div class="col-sm-6 text-center">
+                    {{item.ShipperName | gcshipping}}
+                </div>
+                <div class="col-sm-6 text-center" ng-show="item.ShipperName.indexOf('Email') == -1">
+                    {{item.ShipAddress.Street1}}<br>
+                    {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
+                    {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="panel-order-history" ng-repeat="item in order.LineItems" style="border-bottom:1px solid #ddd;">
     <div class="col-sm-6 col-lg-5">
         <h4 class="text-primary">
             {{item.Product.Name}}
@@ -27,7 +99,7 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <p ng-show="item.ShipperName">
-                            <strong>{{'Shipper' | r}} {{'Name' | r}}</strong><br />
+                            <strong>{{'Ship' | r}} {{'Method' | r}}</strong><br />
                             {{item.ShipperName | gcshipping}}
                         </p>
                     </div>
@@ -43,4 +115,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
