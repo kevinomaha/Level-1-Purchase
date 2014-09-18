@@ -140,17 +140,17 @@ four51.app.directive('creditcard', function() {
             });
 
             $scope.$watch('tempOrder.CreditCard.CVN', function(cvn) {
-                if (!cvn || $scope.currentOrder.CreditCard.Type == null) return false;
+                if (!cvn || $scope.tempOrder.CreditCard.Type == null) return false;
 
                 function validate(cvn) {
-                    if ($scope.currentOrder.CreditCard.Type == 'AmericanExpress')
+                    if ($scope.tempOrder.CreditCard.Type == 'AmericanExpress')
                         return cvn.length == 4;
                     return cvn.length == 3;
                 }
                 $scope.cart_billing.$setValidity('cvnNumber', validate(cvn));
             });
 
-            $scope.$watch('currentOrder.CreditCard.ExpirationDate', function(date) {
+            $scope.$watch('tempOrder.CreditCard.ExpirationDate', function(date) {
                 if (!date) return false;
                 var month = parseInt(date.substring(0,2));
                 var year = parseInt(date.substring(2,4)) + 2000;
