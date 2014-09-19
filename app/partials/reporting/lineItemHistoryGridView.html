@@ -22,10 +22,10 @@
 <div class="panel-order-history" ng-repeat="item in order.lineItemGroups" style="border-bottom:1px solid #ddd;">
     <div class="row">
         <div class="col-sm-2 text-center">
-            {{item.LineItems.length}}
+            {{item.Anonymous ? item.Quantity : item.LineItems.length}}
         </div>
         <div class="col-sm-4 text-center">
-            {{item.Product.Name}}
+            {{item.Product.Name}} <span ng-show="item.Anonymous">(anonymous)</span>
         </div>
         <div class="col-sm-2 text-center">
             {{item.Total | currency}}
@@ -35,10 +35,23 @@
                 <div class="col-sm-6 text-center">
                     {{item.ShipMethod | gcshipping}}
                 </div>
-                <div class="col-sm-6 text-center" ng-show="item.ShipMethod.indexOf('Email') == -1">
-                    {{item.ShipAddress.Street1}}<br>
-                    {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
-                    {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
+                <div class="col-sm-6 text-center">
+                    <div>
+                        <div ng-show="order.IsMultipleShip() && item.ShipMethod.indexOf('Email') == -1">
+                            {{item.ShipAddress.Street1}}<br>
+                            {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
+                            {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
+                        </div>
+                        <address ng-show="!order.IsMultipleShip() && order.ShipAddress.AddressName != 'Email Delivery'">
+                            <div>{{order.ShipAddress.Street1}}</div>
+                            <div ng-if="order.ShipAddress.Street2">{{order.ShipAddress.Street2}}</div>
+                            <div>{{order.ShipAddress.City}}, {{order.ShipAddress.State}} {{order.ShipAddress.Zip}}</div>
+                            <div ng-if="order.ShipAddress.Country != 'US'">{{order.ShipAddress.Country}}</div>
+                        </address>
+                    </div>
+                    <div ng-show="item.ShipMethod.indexOf('Email') != -1">
+                        Email Delivery
+                    </div>
                 </div>
             </div>
         </div>

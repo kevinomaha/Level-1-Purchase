@@ -44,7 +44,7 @@
         <span class="pull-right">{{field.Value}}</span>
     </p>
     <hr />
-    <address ng-show="!order.IsMultipleShip() && order.ShipAddress.AddressName != 'Email Delivery'">
+    <!--<address ng-show="!order.IsMultipleShip() && order.ShipAddress.AddressName != 'Email Delivery'">
         <span class="text-primary"><strong>{{'Ship to' | r}}</strong></span><br />
         <div>
             <span ng-show="order.LineItems[0].ShipFirstName || order.LineItems[0].ShipLastName">{{order.LineItems[0].ShipFirstName}} {{order.LineItems[0].ShipLastName}}</span>
@@ -54,7 +54,7 @@
         <div ng-if="order.ShipAddress.Street2">{{order.ShipAddress.Street2}}</div>
         <div>{{order.ShipAddress.City}}, {{order.ShipAddress.State}} {{order.ShipAddress.Zip}}</div>
         <div ng-if="order.ShipAddress.Country != 'US'">{{order.ShipAddress.Country}}</div>
-    </address>
+    </address>-->
     <address ng-show="order.BillAddress && order.BillAddress.AddressName != 'Main Billing Address'">
         <span class="text-primary"><strong>{{'Bill to' | r}}</strong></span><br />
         <div>

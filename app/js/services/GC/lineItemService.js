@@ -181,16 +181,23 @@ function($resource, $451, Address, Variant) {
             var addressList = [];
 
             angular.forEach(order.LineItems, function (i) {
+                i.Anonymous = false;
+                if ((!i.Specs['FirstName1'] && !i.Specs['LastName1'] && !i.Specs['Email1'] && !addressID) || (i.Specs['FirstName1'] && !i.Specs['FirstName1'].Value && i.Specs['LastName1'] && !i.Specs['LastName1'].Value && i.Specs['Email1'] && !i.Specs['Email1'].Value)) {
+                    i.Anonymous = true;
+                }
                 var addressID = i.ShipAddressID;
                 var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
                 if (!i.IsMerchantCard) {
-                    if (i.LineTotal > 399) {
-                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID});
+                    if (i.LineTotal > 399 && !i.Anonymous) {
+                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false});
                     }
                     else {
-                        if (addressList.indexOf(addressID) == -1) {
+                        if (i.Anonymous) {
+                            order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": true, "Quantity": i.Quantity});
+                        }
+                        else if (addressList.indexOf(addressID) == -1) {
                             addressList.push(addressID);
-                            order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID});
+                            order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false});
                         }
                         else {
                             for (var g = 0; g < order.lineItemGroups.length; g++) {
