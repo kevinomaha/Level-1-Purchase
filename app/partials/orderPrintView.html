@@ -140,12 +140,12 @@
                                     <div class="col-xs-6 text-center">
                                         {{item.ShipperName | gcshipping}}
                                     </div>
-                                    <div class="col-xs-6 text-center" ng-show="!order.ShipAddress && item.ShipMethod.indexOf('Email') == -1">
+                                    <div class="col-xs-6 text-center" ng-show="!order.ShipAddress && item.ShipperName.indexOf('Email') == -1">
                                         {{item.ShipAddress.Street1}}<br>
                                         {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
                                         {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
                                     </div>
-                                    <div class="col-xs-6 text-center" ng-show="order.ShipAddress && item.ShipMethod.indexOf('Email') == -1">
+                                    <div class="col-xs-6 text-center" ng-show="order.ShipAddress && item.ShipperName.indexOf('Email') == -1">
                                         {{order.ShipAddress.Street1}}<br>
                                         {{order.ShipAddress.Street2}}<br ng-show="order.ShipAddress.Street2">
                                         {{order.ShipAddress.City}}, {{order.ShipAddress.State}} {{order.ShipAddress.Zip}}
