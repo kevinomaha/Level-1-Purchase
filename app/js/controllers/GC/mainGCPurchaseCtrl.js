@@ -919,8 +919,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     };
 
     $scope.showLogo = function () {
-        var digPath = 'http://images.giftcertificates.com/content/business/MyFiles/email/';
-        var physPath = 'http://images.giftcertificates.com/content/business/MyFiles/physical/';
+        var digPath = (window.location.href.indexOf("qastore") > -1 || window.location.href.indexOf("teststore") > -1) ? "http://stage.giftcertificates.com/content/business/MyFiles/email/" : "http://images.giftcertificates.com/content/business/MyFiles/email/";
+        var physPath = (window.location.href.indexOf("qastore") > -1 || window.location.href.indexOf("teststore") > -1) ? "http://stage.giftcertificates.com/content/business/MyFiles/physical/" : "http://images.giftcertificates.com/content/business/MyFiles/physical/";
 
         switch ($scope.digitalProduct) {
             case true:
