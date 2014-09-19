@@ -73,10 +73,20 @@
                 <div class="col-sm-6 text-center">
                     {{item.ShipperName | gcshipping}}
                 </div>
-                <div class="col-sm-6 text-center" ng-show="item.ShipperName.indexOf('Email') == -1">
-                    {{item.ShipAddress.Street1}}<br>
-                    {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
-                    {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
+                <div class="col-sm-6 text-center">
+                    <div ng-show="order.IsMultipleShip() && item.ShipperName.indexOf('Email') == -1">
+                        {{item.ShipAddress.Street1}}<br>
+                        {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
+                        {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
+                    </div>
+                    <div ng-show="!order.IsMultipleShip() && item.ShipperName.indexOf('Email') == -1">
+                        <address ng-show="!order.IsMultipleShip() && order.ShipAddress.AddressName != 'Email Delivery'">
+                            <div>{{order.ShipAddress.Street1}}</div>
+                            <div ng-if="order.ShipAddress.Street2">{{order.ShipAddress.Street2}}</div>
+                            <div>{{order.ShipAddress.City}}, {{order.ShipAddress.State}} {{order.ShipAddress.Zip}}</div>
+                            <div ng-if="order.ShipAddress.Country != 'US'">{{order.ShipAddress.Country}}</div>
+                        </address>
+                    </div>
                 </div>
             </div>
         </div>

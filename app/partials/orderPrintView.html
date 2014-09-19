@@ -26,7 +26,7 @@
                     <p ng-repeat="field in order.OrderFields" ng-if="field.Name == 'PONumber' && field.Value">{{'PO Number' | r}}: <span style="float:right;">{{field.Value}}</span></p>
                     <p ng-repeat="field in order.OrderFields" ng-if="field.Name == 'ExpenseCode' && field.Value">{{'Expense Code' | r}}: <span style="float:right;">{{field.Value}}</span></p>
                     <div style="margin-top:10px;">
-                        <address ng-show="order.ShipAddress && order.ShipAddress.AddressName.indexOf('Email') == -1">
+                        <!--<address ng-show="order.ShipAddress && order.ShipAddress.AddressName.indexOf('Email') == -1">
                             <span class="text-primary"><strong>{{'Ship to' | r}}</strong></span><br />
                             <span ng-show="order.LineItems[0].ShipFirstName || order.LineItems[0].ShipLastName">{{order.LineItems[0].ShipFirstName}} {{order.LineItems[0].ShipLastName}}</span>
                             <span ng-show="!order.LineItems[0].ShipFirstName || !order.LineItems[0].ShipLastName">{{order.ShipAddress.FirstName}} {{order.ShipAddress.LastName}}</span>
@@ -34,7 +34,7 @@
                             {{order.ShipAddress.Street2}}<br ng-show="order.ShipAddress.Street2">
                             {{order.ShipAddress.City}}, {{order.ShipAddress.State}} {{order.ShipAddress.Zip}}
                             <div ng-if="order.ShipAddress.Country != 'US'">{{order.ShipAddress.Country}}</div>
-                        </address>
+                        </address>-->
                         <address ng-show="order.BillAddress && order.BillAddress.AddressName != 'Main Billing Address'">
                             <span class="text-primary"><strong>{{'Bill to' | r}}</strong></span><br />
                             <span ng-show="order.BillFirstName || order.BillLastName">{{order.BillFirstName}} {{order.BillLastName}}</span>
@@ -110,10 +110,15 @@
                                     <div class="col-xs-6 text-center">
                                         {{item.ShipMethod | gcshipping}}
                                     </div>
-                                    <div class="col-xs-6 text-center" ng-show="item.ShipMethod.indexOf('Email') == -1">
+                                    <div class="col-xs-6 text-center" ng-show="!order.ShipAddress && item.ShipMethod.indexOf('Email') == -1">
                                         {{item.ShipAddress.Street1}}<br>
                                         {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
                                         {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
+                                    </div>
+                                    <div class="col-xs-6 text-center" ng-show="order.ShipAddress && item.ShipMethod.indexOf('Email') == -1">
+                                        {{order.ShipAddress.Street1}}<br>
+                                        {{order.ShipAddress.Street2}}<br ng-show="order.ShipAddress.Street2">
+                                        {{order.ShipAddress.City}}, {{order.ShipAddress.State}} {{order.ShipAddress.Zip}}
                                     </div>
                                 </div>
                             </div>
@@ -135,10 +140,15 @@
                                     <div class="col-xs-6 text-center">
                                         {{item.ShipperName | gcshipping}}
                                     </div>
-                                    <div class="col-xs-6 text-center" ng-show="item.ShipperName.indexOf('Email') == -1">
+                                    <div class="col-xs-6 text-center" ng-show="!order.ShipAddress && item.ShipMethod.indexOf('Email') == -1">
                                         {{item.ShipAddress.Street1}}<br>
                                         {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
                                         {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
+                                    </div>
+                                    <div class="col-xs-6 text-center" ng-show="order.ShipAddress && item.ShipMethod.indexOf('Email') == -1">
+                                        {{order.ShipAddress.Street1}}<br>
+                                        {{order.ShipAddress.Street2}}<br ng-show="order.ShipAddress.Street2">
+                                        {{order.ShipAddress.City}}, {{order.ShipAddress.State}} {{order.ShipAddress.Zip}}
                                     </div>
                                 </div>
                             </div>
