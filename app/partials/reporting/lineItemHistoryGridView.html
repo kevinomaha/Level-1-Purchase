@@ -87,6 +87,9 @@
                             <div ng-if="order.ShipAddress.Country != 'US'">{{order.ShipAddress.Country}}</div>
                         </address>
                     </div>
+                    <div ng-show="item.ShipperName.indexOf('Email') != -1">
+                        Email Delivery
+                    </div>
                 </div>
             </div>
         </div>
