@@ -123,7 +123,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 }
             });
         }
-        else if ($scope.selectedProduct.StandardID == "MerchantCards") {
+        else if ($scope.selectedProduct.StandardID == "MerchantCards" && $scope.tree) {
             for (var c = 0; c < $scope.tree.length; c++) {
                 if ($scope.tree[c].Name == "Merchant Gift Cards") {
                     $scope.merchantCardCategories = $scope.tree[c].SubCategories;

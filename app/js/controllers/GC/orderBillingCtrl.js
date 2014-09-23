@@ -22,6 +22,7 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
                 angular.forEach(list, function(a) {
                     if (a.AddressName == "Main Billing Address") {
                         $scope.tempOrder.BillAddressID = a.ID;
+                        $scope.tempOrder.BillAddress = a;
                     }
                 });
                 $scope.cacheOrder($scope.tempOrder);
@@ -37,6 +38,7 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 					$scope.tempOrder.BillLastName = add.LastName;
 				}
 				$scope.BillAddress = add;
+                $scope.tempOrder.BillAddress = add;
 			});
 		}
 	});

@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!--<div class="row">
             <div class="col-sm-6">
                 <div class="view-form-icon">
                     <div>
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
     <form name="cart_line_item_groups">
     <div class="recipient-groups">
@@ -493,7 +493,7 @@
                     </button>
                 </li>
                 <li>
-                    <button class="btn" ng-class="{'btn-warning': (!tempOrder.PhoneNumber) || (errorMessages.length > 0 || cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)), 'btn-success': (!cart_billing.$invalid && !cart_merchant_shipping.$invalid && (!cart_line_item_groups.$invalid || tempOrder.AnonymousShipAddressID)) }" ng-click="submitOrder()" ng-disabled="!tempOrder.PhoneNumber || errorMessages.length > 0 || cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)">
+                    <button class="btn" ng-class="{'btn-warning': (errorMessages.length > 0 || cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)), 'btn-success': (!cart_billing.$invalid && !cart_merchant_shipping.$invalid && (!cart_line_item_groups.$invalid || tempOrder.AnonymousShipAddressID)) }" ng-click="submitOrder()" ng-disabled="errorMessages.length > 0 || cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)">
                         <i ng-show="cart_billing.$invalid || cart_merchant_shipping.$invalid || (cart_line_item_groups.$invalid && !tempOrder.AnonymousShipAddressID)" class="fa fa-warning"></i>
                         <span>PAY {{tempOrder.Total | currency}}</span>
                     </button>
