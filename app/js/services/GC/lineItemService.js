@@ -86,7 +86,7 @@ function($resource, $451, Address, Variant) {
                                 order.lineItemGroups[g].LineItems.push(i);
                                 order.lineItemGroups[g].Total += i.LineTotal;
                             }
-                            else if (addressList.indexOf(addressID + "-2") == -1) {
+                            else if (order.lineItemGroups[g].ID == addressID && addressList.indexOf(addressID + "-2") == -1) {
                                 addressID += "-2";
                                 addressList.push(addressID);
                                 //LineItems will be empty and Total will be 0 - item will be pushed when it loops to next group
@@ -273,7 +273,7 @@ function($resource, $451, Address, Variant) {
                                 order.lineItemGroups[g].LineItems.push(i);
                                 order.lineItemGroups[g].Total += i.LineTotal;
                             }
-                            else if (addressList.indexOf(addressID + "-2") == -1) {
+                            else if (order.lineItemGroups[g].ID == addressID && addressList.indexOf(addressID + "-2") == -1) {
                                 addressID += "-2";
                                 addressList.push(addressID);
                                 //LineItems will be null - item will be pushed when it loops to next group

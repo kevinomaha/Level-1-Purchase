@@ -168,15 +168,16 @@
                             <div class="col-xs-12" ng-show="lineitem.Product.ExternalID.indexOf('SCP-FD') > -1 || lineitem.Product.ExternalID.indexOf('SCP-PS') > -1 || lineitem.Product.ExternalID.indexOf('SCP-SC') > -1" collapse="!showEnvelope">
                                 <div class="container" style="margin-bottom:20px;background-image:url('css/images/CenveoEnvelope.jpg');width:867px;height:377px;">
                                     <div style="color: #31708f;font-size: 75%;line-height: 1;margin-left: 90px;margin-top: 260px;">
-                                        <div ng-show="group.LineItems.length == 1">
-                                            <div>{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</div>
-                                            <div>{{group.Address.Street1}}</div>
-                                            <div ng-show="!lineitem.Variant.Specs['EnvelopeLineTwo1']">{{group.Address.Street2}}</div>
-                                            <div>{{group.Address.City}}, {{group.Address.State}} {{group.Address.Zip}}</div>
+                                        <div ng-show="lineitem.Variant.Specs['EnvelopeLineTwo1'].Value">
+                                            <div>{{lineitem.Variant.Specs['EnvelopeLineTwo1'].Value}}</div>
                                         </div>
-                                        <div ng-show="group.LineItems.length > 1">
-                                            <div ng-show="!lineitem.Variant.Specs['EnvelopeLineTwo1'].Value">{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</div>
-                                            <div ng-show="lineitem.Variant.Specs['EnvelopeLineTwo1'].Value">{{lineitem.Variant.Specs['EnvelopeLineTwo1'].Value}}</div>
+                                        <div ng-show="!lineitem.Variant.Specs['EnvelopeLineTwo1'].Value && (lineitem.Variant.Specs['FirstName1'].Value || lineitem.Variant.Specs['LastName1'].Value)">
+                                            <div>{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</div>
+                                        </div>
+                                        <div ng-show="!lineitem.Variant.Specs['EnvelopeLineTwo1'].Value && group.LineItems.length == 1">
+                                            <div>{{group.Address.Street1}}</div>
+                                            <div>{{group.Address.Street2}}</div>
+                                            <div>{{group.Address.City}}, {{group.Address.State}} {{group.Address.Zip}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -184,15 +185,16 @@
                             <div class="col-xs-12" ng-show="lineitem.Product.ExternalID.indexOf('SCP-GC') > -1" collapse="!showEnvelope">
                                 <div class="container" style="margin-bottom:20px;background-image:url('css/images/A9Envelope.jpg');width:867px;height:628px;">
                                     <div style="color: #31708f;font-size: 75%;line-height: 1;margin-left: 130px;margin-top: 470px;">
-                                        <div ng-show="group.LineItems.length == 1">
-                                            <div>{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</div>
-                                            <div>{{group.Address.Street1}}</div>
-                                            <div ng-show="!lineitem.Variant.Specs['EnvelopeLineTwo1']">{{group.Address.Street2}}</div>
-                                            <div>{{group.Address.City}}, {{group.Address.State}} {{group.Address.Zip}}</div>
+                                        <div ng-show="lineitem.Variant.Specs['EnvelopeLineTwo1'].Value">
+                                            <div>{{lineitem.Variant.Specs['EnvelopeLineTwo1'].Value}}</div>
                                         </div>
-                                        <div ng-show="group.LineItems.length > 1">
-                                            <div ng-show="!lineitem.Variant.Specs['EnvelopeLineTwo1'].Value">{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</div>
-                                            <div ng-show="lineitem.Variant.Specs['EnvelopeLineTwo1'].Value">{{lineitem.Variant.Specs['EnvelopeLineTwo1'].Value}}</div>
+                                        <div ng-show="!lineitem.Variant.Specs['EnvelopeLineTwo1'].Value && (lineitem.Variant.Specs['FirstName1'].Value || lineitem.Variant.Specs['LastName1'].Value)">
+                                            <div>{{lineitem.Variant.Specs['FirstName1'].Value}} {{lineitem.Variant.Specs['LastName1'].Value}}</div>
+                                        </div>
+                                        <div ng-show="!lineitem.Variant.Specs['EnvelopeLineTwo1'].Value && group.LineItems.length == 1">
+                                            <div>{{group.Address.Street1}}</div>
+                                            <div>{{group.Address.Street2}}</div>
+                                            <div>{{group.Address.City}}, {{group.Address.State}} {{group.Address.Zip}}</div>
                                         </div>
                                     </div>
                                 </div>
