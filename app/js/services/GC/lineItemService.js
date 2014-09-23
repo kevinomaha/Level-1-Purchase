@@ -45,7 +45,8 @@ function($resource, $451, Address, Variant) {
                     }
 					var randomGroupID = randomString();
 					var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
-					if (i.LineTotal > 399) {
+                    //As of 9/23/14 AM - Blowing this apart due to new shipping updates
+					/*if (i.LineTotal > 399) {
                         addressList.push(addressID);
 						order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[i],"IsDigital":isDigital,"Total": i.LineTotal,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
 					}
@@ -68,7 +69,36 @@ function($resource, $451, Address, Variant) {
 								}
 							}
 						}
-					}
+					}*/
+                    if (addressList.indexOf(addressID) == -1) {
+                        addressList.push(addressID);
+                        order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[i],"IsDigital":isDigital,"Total": i.LineTotal,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
+                    }
+                    else {
+                        for (var g = 0; g < order.lineItemGroups.length; g++) {
+                            if (order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400) {
+                                if (order.lineItemGroups[g].Shipper) {
+                                    i.Shipper = order.lineItemGroups[g].Shipper;
+                                    i.ShipMethod = order.lineItemGroups[g].Shipper.Name;
+                                    i.ShipperName = order.lineItemGroups[g].Shipper.Name;
+                                    i.ShipperID = order.lineItemGroups[g].Shipper.ID;
+                                }
+                                order.lineItemGroups[g].LineItems.push(i);
+                                order.lineItemGroups[g].Total += i.LineTotal;
+                            }
+                            else if (addressList.indexOf(addressID + "-2") == -1) {
+                                addressID += "-2";
+                                addressList.push(addressID);
+                                //LineItems will be null - item will be pushed when it loops to next group
+                                order.lineItemGroups.push({"ID": addressID, "LineItems": [], "IsDigital": isDigital, "Total": 0, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false});
+                            }
+                            else if (order.lineItemGroups[g].ID == (addressID + "-2")) {
+                                order.lineItemGroups[g].LineItems.push(i);
+                                order.lineItemGroups[g].Total += i.LineTotal;
+                            }
+                        }
+                    }
+
 				}
 				else {
 					if (addressList.indexOf(addressID) == -1) {
@@ -97,15 +127,24 @@ function($resource, $451, Address, Variant) {
             }
         }
 
+        function endsWith(str, suffix) {
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+
 		for (var i = 0; i < addressList.length; i++) {
             if (addressList[i] && addressList[i].indexOf('anonymous') == -1) {
-                Address.get(addressList[i], function(add) {
-                    for (var g = 0; g < order.lineItemGroups.length; g++) {
-                        if (order.lineItemGroups[g].ID == add.ID) {
-                            order.lineItemGroups[g].Address = add;
+                if (!endsWith(addressList[i], "-2")) {
+                    Address.get(addressList[i], function(add) {
+                        for (var g = 0; g < order.lineItemGroups.length; g++) {
+                            if (order.lineItemGroups[g].ID == add.ID) {
+                                order.lineItemGroups[g].Address = add;
+                            }
+                            if (order.lineItemGroups[g].ID.replace('-2', '') == add.ID) {
+                                order.lineItemGroups[g].Address = add;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
 		}
 
@@ -188,7 +227,8 @@ function($resource, $451, Address, Variant) {
                 var addressID = i.ShipAddressID;
                 var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
                 if (!i.IsMerchantCard) {
-                    if (i.LineTotal > 399 && !i.Anonymous) {
+                    //As of 9/23/14 AM - Blowing this apart due to new shipping updates
+                    /*if (i.LineTotal > 399 && !i.Anonymous) {
                         order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false});
                     }
                     else {
@@ -205,6 +245,31 @@ function($resource, $451, Address, Variant) {
                                     order.lineItemGroups[g].LineItems.push(i);
                                     order.lineItemGroups[g].Total += i.LineTotal;
                                 }
+                            }
+                        }
+                    }*/
+
+                    if (i.Anonymous) {
+                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": true, "Quantity": i.Quantity});
+                    }
+                    else if (addressList.indexOf(addressID) == -1) {
+                        addressList.push(addressID);
+                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false});
+                    }
+                    else {
+                        for (var g = 0; g < order.lineItemGroups.length; g++) {
+                            if (order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400) {
+                                order.lineItemGroups[g].LineItems.push(i);
+                                order.lineItemGroups[g].Total += i.LineTotal;
+                            }
+                            else if (addressList.indexOf(addressID + "-2") == -1) {
+                                addressID += "-2";
+                                addressList.push(addressID);
+                                order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false});
+                            }
+                            else if (order.lineItemGroups[g].ID == (addressID + "-2")) {
+                                order.lineItemGroups[g].LineItems.push(i);
+                                order.lineItemGroups[g].Total += i.LineTotal;
                             }
                         }
                     }

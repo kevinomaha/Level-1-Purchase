@@ -338,8 +338,8 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.displayErrorMessages = false;
         var orderSave = angular.copy($scope.tempOrder);
         $scope.tempSave = angular.copy($scope.tempOrder);
-        if (tempSave.PaymentMethod == 'CreditCard') {
-            tempSave.BudgetAccountID = null;
+        if ($scope.tempSave.PaymentMethod == 'CreditCard') {
+            $scope.tempSave.BudgetAccountID = null;
         }
         $scope.tempOrder = {LineItems: []};
         $rootScope.$broadcast('event:tempOrderUpdated');
