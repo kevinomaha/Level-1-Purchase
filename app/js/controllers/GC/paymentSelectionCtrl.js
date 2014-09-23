@@ -27,7 +27,7 @@ function ($scope, $rootScope, SavedCreditCard) {
     });
 
     $scope.$watch('tempOrder.BudgetAccountID', function() {
-        if ($scope.tempOrder.BudgetAccountID) {
+        if ($scope.tempOrder.BudgetAccountID && $scope.tempOrder.PaymentMethod != 'CreditCard') {
             $scope.setBudgetAccount();
         }
     });
