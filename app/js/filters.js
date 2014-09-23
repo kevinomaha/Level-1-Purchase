@@ -158,7 +158,7 @@ four51.app.filter('gcshippers', function() {
             angular.forEach(shipper, function(s) {
 
                 var today = new Date();
-                if (groupTotal > 9999 || itemCount > 399) {
+                /*if (groupTotal > 9999 || itemCount > 399) {
                     if (s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-")) {
                         if (!s.Name.match("13-")) {
                             results.push(s);
@@ -167,19 +167,17 @@ four51.app.filter('gcshippers', function() {
                             results.push(s);
                         }
                     }
-                }
-                else if (groupTotal > 399) {
-                    if (s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-") || s.Name.match("75-") || s.Name.match("77-")) {
-                        if (s.Name.match("75-")) {
-                            results.splice(0, 0, s);
+                }*/
+                if (groupTotal > 399) {
+                    if (s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-")) {
+                        if (s.Name.match("16-")) {
+                            results.push(s);
                         }
-                        else {
-                            if (!s.Name.match("13-")) {
-                                results.push(s);
-                            }
-                            else if (s.Name.match("13-") && today.getDay() != 6) {
-                                results.push(s);
-                            }
+                        if (s.Name.match("13-") && today.getDay() != 6) {
+                            results.push(s);
+                        }
+                        if (s.Name.match("20-") && ((today.getDay() == 4 && today.getHours() >= 14) || (today.getDay() == 5 && today.getHours() < 14))) {
+                            results.push(s);
                         }
                     }
                 }
