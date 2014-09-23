@@ -183,10 +183,13 @@ four51.app.filter('gcshippers', function() {
                 }
                 else {
                     if (!(s.Name.match("75-") && s.Name.indexOf('0.00') > -1)) {
-                        if (!s.Name.match("13-")) {
+                        if (!s.Name.match("13-") && !s.Name.match("20-")) {
                             results.push(s);
                         }
                         else if (s.Name.match("13-") && today.getDay() != 6) {
+                            results.push(s);
+                        }
+                        else if (s.Name.match("20-") && ((today.getDay() == 4 && today.getHours() >= 14) || (today.getDay() == 5 && today.getHours() < 14))) {
                             results.push(s);
                         }
                     }
@@ -198,7 +201,7 @@ four51.app.filter('gcshippers', function() {
         }
         else {
             angular.forEach(shipper, function(s) {
-                if (!s.isCustEditable && s.Name.indexOf('Email Delivery') > -1) {
+                if (s.Name.indexOf('Email Delivery') > -1) {
                     results.push(s);
                 }
             });
