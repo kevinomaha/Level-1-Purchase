@@ -337,7 +337,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         $scope.actionMessage = null;
         $scope.displayErrorMessages = false;
         var orderSave = angular.copy($scope.tempOrder);
-        var tempSave = angular.copy($scope.tempOrder);
+        $scope.tempSave = angular.copy($scope.tempOrder);
         if (tempSave.PaymentMethod == 'CreditCard') {
             tempSave.BudgetAccountID = null;
         }
@@ -384,6 +384,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                         store.set("451Cache.RecipientList", recipientList);
                         $scope.currentOrder = null;
                         $scope.orderSubmitLoadingIndicator = false;
+                        $scope.tempSave = null;
                         $location.path('/order/' + data.ID);
                     },
                     function (ex) {
@@ -396,13 +397,13 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                         $scope.shippingUpdatingIndicator = false;
                         $scope.shippingFetchIndicator = false;
                         $scope.showSave = false;
-                        $scope.tempOrder = tempSave;
+                        $scope.tempOrder = $scope.tempSave;
                     });
             },
             function (ex) {
                 $scope.actionErrorMessage = ex.Message;
                 $scope.orderSubmitLoadingIndicator = false;
-                $scope.tempOrder = tempSave;
+                $scope.tempOrder = $scope.tempSave;
             }
         );
     };
