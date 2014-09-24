@@ -560,6 +560,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 				$scope.tempOrder.merchantCardLineItems[li].ShipAddressID = $scope.tempOrder.MerchantCardShipAddressID;
 			}
 		}
+        analyzeErrors();
         $scope.cacheOrder($scope.tempOrder);
 	}
 
