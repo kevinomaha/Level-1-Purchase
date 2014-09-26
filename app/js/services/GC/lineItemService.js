@@ -70,13 +70,14 @@ function($resource, $451, Address, Variant) {
 							}
 						}
 					}*/
+
                     if (addressList.indexOf(addressID) == -1) {
                         addressList.push(addressID);
                         order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[i],"IsDigital":isDigital,"Total": i.LineTotal,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
                     }
                     else {
                         for (var g = 0; g < order.lineItemGroups.length; g++) {
-                            if (order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].Total + i.LineTotal) < 10000)) {
+                            if ((order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].Total + i.LineTotal) < 10000)) || isDigital) {
                                 if (order.lineItemGroups[g].Shipper) {
                                     i.Shipper = order.lineItemGroups[g].Shipper;
                                     i.ShipMethod = order.lineItemGroups[g].Shipper.Name;
