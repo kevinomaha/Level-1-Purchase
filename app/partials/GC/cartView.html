@@ -1,6 +1,7 @@
 <section class="cart-view">
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
+    <loadingindicator ng-show="orderSaveLoadingIndicator" title="Please wait while we save your order" />
     <loadingindicator ng-show="orderSubmitLoadingIndicator" title="Please wait while we submit your order" />
     <div ng-show="tempOrder" class="hidden-print container">
     <div class="row">
@@ -10,6 +11,7 @@
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.lineItemGroups.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.merchantCardLineItems.length > 0"  ng-click="browseMerchantCards()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Browse Merchant Cards</div>
     <hr style="margin-top:5px;"/>
+    <form name="cart_order_fields">
     <div class="container white-wrapper" style="border:1px solid #ddd;padding-bottom: 10px;padding-top: 10px;margin-bottom: 20px;">
         <div style="margin-bottom: 10px;">
             <div class="row">
@@ -74,6 +76,7 @@
             </div>
         </div>
     </div>
+    </form>
     <form name="cart_line_item_groups">
     <div class="recipient-groups">
         <div ng-show="tempOrder.lineItemGroups.length > 1">

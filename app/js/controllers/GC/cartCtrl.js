@@ -1,5 +1,5 @@
-four51.app.controller('CartViewCtrl', ['$scope', '$rootScope', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'LineItems', 'AddressList', 'LogoOptions', 'CustomAddressList', 'Address',
-function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper,LineItems, AddressList, LogoOptions, CustomAddressList, Address) {
+four51.app.controller('CartViewCtrl', ['$scope', '$rootScope', '$location', '$451', '$modal', 'Order', 'OrderConfig', 'User', 'Shipper', 'LineItems', 'AddressList', 'LogoOptions', 'CustomAddressList', 'Address', 'OrderSubmit',
+function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User, Shipper,LineItems, AddressList, LogoOptions, CustomAddressList, Address, OrderSubmit) {
 
 	$scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
     if (typeof($scope.tempOrder) != 'object') {
@@ -318,7 +318,7 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
 		$scope.actionMessage = 'Your Changes Have Been Saved!';
 	};
 
-    var updatedAddresses = 0;
+    /*var updatedAddresses = 0;
     function updateAddress(id, phone, len, order) {
         Address.get(id, function(add) {
             var address = add;
@@ -329,9 +329,9 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                 saveOrder(order);
             });
         });
-    }
+    }*/
 
-	function processOrder() {
+	/*function processOrder() {
         $scope.orderSubmitLoadingIndicator = true;
         $scope.actionErrorMessage = null;
         $scope.actionMessage = null;
@@ -362,9 +362,9 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
         angular.forEach(shipAddresses, function(id) {
             updateAddress(id, billAddressPhone, shipAddresses.length, orderSave);
         });
-    }
+    }*/
 
-    function saveOrder(orderSave) {
+    /*function saveOrder(orderSave) {
         var CC = orderSave.CreditCard ? orderSave.CreditCard : {};
         Order.save(orderSave,
             function (o) {
@@ -406,10 +406,87 @@ function ($scope, $rootScope, $location, $451, Order, OrderConfig, User, Shipper
                 $scope.tempOrder = $scope.tempSave;
             }
         );
-    };
+    };*/
 
+	/*$scope.submitOrder = function() {
+        processOrder();
+    };*/
+
+	/*function submitOrder(skip) {
+        //$scope.orderSubmitLoadingIndicator = true;
+        $scope.actionErrorMessage = null;
+        $scope.actionMessage = null;
+        $scope.displayErrorMessages = false;
+
+        if (!skip) {
+            $scope.orderSubmitLoadingIndicator = true;
+            OrderSubmit.save($scope.tempOrder, true);
+            $scope.tempOrder = {LineItems: []};
+            $scope.cacheOrder($scope.tempOrder);
+            $rootScope.$broadcast('event:tempOrderUpdated');
+        }
+        else {
+            OrderSubmit.submit($scope.tempOrder, false);
+            $scope.tempOrder = {LineItems: []};
+            $scope.cacheOrder($scope.tempOrder);
+            $rootScope.$broadcast('event:tempOrderUpdated');
+            $location.path('main');
+        }
+	}*/
+
+    $scope.orderSaveLoadingIndicator = false;
 	$scope.submitOrder = function() {
-		processOrder();
+        $scope.orderSaveLoadingIndicator = true;
+        $scope.actionErrorMessage = null;
+        $scope.actionMessage = null;
+        $scope.displayErrorMessages = false;
+        OrderSubmit.save($scope.tempOrder, function(order) {
+            if (order.LineItems.length > 49) {
+                $scope.orderSaveLoadingIndicator = false;
+                var modalInstance = $modal.open({
+                    templateUrl: 'partials/controls/GC/orderSubmit.html',
+                    controller: function ($scope, $modalInstance) {
+                        $scope.okSubmit = function() {
+                            $modalInstance.close(true);
+                        };
+                        $scope.goHomeSubmit = function() {
+                            $modalInstance.close(false);
+                        };
+                    }
+                });
+                modalInstance.result.then(function (wait) {
+                    if (wait) {
+                        $scope.orderSubmitLoadingIndicator = true;
+                        OrderSubmit.submit(order, true);
+                        $scope.tempOrder = {LineItems: []};
+                        $scope.cacheOrder($scope.tempOrder);
+                        $rootScope.$broadcast('event:tempOrderUpdated');
+                    }
+                    else {
+                        $scope.orderSubmitLoadingIndicator = false;
+                        OrderSubmit.submit(order, false);
+                        $scope.tempOrder = {LineItems: []};
+                        $scope.cacheOrder($scope.tempOrder);
+                        $rootScope.$broadcast('event:tempOrderUpdated');
+                        $location.path('main');
+                    }
+                }, function () {
+                    $scope.orderSubmitLoadingIndicator = true;
+                    OrderSubmit.submit(order, true);
+                    $scope.tempOrder = {LineItems: []};
+                    $scope.cacheOrder($scope.tempOrder);
+                    $rootScope.$broadcast('event:tempOrderUpdated');
+                });
+            }
+            else {
+                $scope.orderSaveLoadingIndicator = false;
+                $scope.orderSubmitLoadingIndicator = true;
+                OrderSubmit.submit(order, false);
+            }
+        },
+        function(ex) {
+            console.log(ex);
+        });
 	};
 
     $scope.onPrint = function()  {

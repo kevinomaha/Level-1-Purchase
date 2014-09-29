@@ -1,5 +1,5 @@
-four51.app.controller('NavCtrl', ['$location', '$route', '$scope', '$451', 'User','SpendingAccount', '$window',
-function ($location, $route, $scope, $451, User, SpendingAccount, $window) {
+four51.app.controller('NavCtrl', ['$location', '$route', '$scope', '$451', '$rootScope', 'User','SpendingAccount', '$window',
+function ($location, $route, $scope, $451, $rootScope, User, SpendingAccount, $window) {
     $scope.Logout = function(){
         User.logout();
         if ($window.location.href.indexOf('teststore') > -1 || $window.location.href.indexOf('qastore') > -1) {
@@ -52,7 +52,7 @@ function ($location, $route, $scope, $451, User, SpendingAccount, $window) {
 
 	$scope.Clear = function() {
 		localStorage.clear();
-	}
+	};
 
 	$scope.$on('event:orderUpdate', function(event, order) {
 		$scope.cartCount = order ? (order.Status == 'Unsubmitted' || order.Status == 'AwaitingApproval') ? order.LineItems.length : null : null;
@@ -80,4 +80,20 @@ function ($location, $route, $scope, $451, User, SpendingAccount, $window) {
         }
         $scope.tempOrderCount = (order && order.LineItems) ? order.LineItems.length : null;
     }, true);
+
+    $scope.showOrderStarted = false;
+    $rootScope.$on('orderSubmitStarted', function() {
+        $scope.showOrderStarted = true;
+    });
+
+    $rootScope.$on('orderSubmitFailed', function() {
+        $scope.showOrderStarted = false;
+    });
+
+    $scope.showOrderNotification = false;
+    $rootScope.$on('orderSubmitComplete', function(event, data) {
+        $scope.showOrderStarted = false;
+        $scope.showOrderNotification = true;
+        $scope.orderNotificationID = data.ID;
+    });
 }]);
