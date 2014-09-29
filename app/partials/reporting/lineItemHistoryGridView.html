@@ -77,7 +77,7 @@
                 </div>
                 <div class="col-sm-6 text-center">
                     <div ng-show="order.IsMultipleShip() && item.ShipperName.indexOf('Email') == -1">
-                        {{item.ShipAddress.FirstName}} {{item.ShipAddress.FirstName}}<br ng-show="item.ShipAddress.FirstName || item.ShipAddress.LastName">
+                        {{item.ShipAddress.FirstName}} {{item.ShipAddress.LastName}}<br ng-show="item.ShipAddress.FirstName || item.ShipAddress.LastName">
                         {{item.ShipAddress.Street1}}<br>
                         {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
                         {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
