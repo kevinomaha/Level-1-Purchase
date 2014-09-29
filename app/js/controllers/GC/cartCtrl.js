@@ -482,6 +482,9 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
                 $scope.orderSaveLoadingIndicator = false;
                 $scope.orderSubmitLoadingIndicator = true;
                 OrderSubmit.submit(order, true);
+                $scope.tempOrder = {LineItems: []};
+                $scope.cacheOrder($scope.tempOrder);
+                $rootScope.$broadcast('event:tempOrderUpdated');
             }
         },
         function(ex) {
