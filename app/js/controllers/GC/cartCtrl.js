@@ -481,7 +481,7 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
             else {
                 $scope.orderSaveLoadingIndicator = false;
                 $scope.orderSubmitLoadingIndicator = true;
-                OrderSubmit.submit(order, false);
+                OrderSubmit.submit(order, true);
             }
         },
         function(ex) {
