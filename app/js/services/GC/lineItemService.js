@@ -46,17 +46,17 @@ function($resource, $451, Address, Variant) {
                         i.Anonymous = false;
                     }
 					var randomGroupID = randomString();
-					var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
+                    i.IsDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
 
                     if (addressList.indexOf(addressID) == -1) {
                         addressList.push(addressID);
-                        order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[i],"IsDigital":isDigital,"Total": i.LineTotal,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
+                        order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[i],"IsDigital": i.IsDigital,"Total": i.LineTotal,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
                         itemCount++;
                         console.log(itemCount);
                     }
                     else {
                         for (var g = 0; g < order.lineItemGroups.length; g++) {
-                            if ((order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].Total + i.LineTotal) < 10000)) || isDigital) {
+                            if ((order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].Total + i.LineTotal) < 10000)) || i.IsDigital) {
                                 if (order.lineItemGroups[g].Shipper) {
                                     i.Shipper = order.lineItemGroups[g].Shipper;
                                     i.ShipMethod = order.lineItemGroups[g].Shipper.Name;
@@ -67,7 +67,7 @@ function($resource, $451, Address, Variant) {
                                 order.lineItemGroups[g].Total += i.LineTotal;
                             }
                             else if (!order.lineItemGroups[g+1]) {
-                                order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[],"IsDigital":isDigital,"Total": 0,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
+                                order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[],"IsDigital":i.IsDigital,"Total": 0,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
                             }
                         }
                     }

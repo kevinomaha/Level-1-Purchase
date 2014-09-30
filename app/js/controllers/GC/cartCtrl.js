@@ -123,23 +123,10 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
     $scope.tempOrder.isAllDigital;
 
     var setIsAllDigital = function() {
+        $scope.tempOrder.isAllDigital = true;
         for (var li = 0; li < $scope.tempOrder.LineItems.length; li++) {
-            if ($scope.tempOrder.LineItems[li].UniqueID) {
-                for (var s in $scope.tempOrder.LineItems[li].Specs) {
-                    if ($scope.tempOrder.LineItems[li].Specs[s].Name == "Physical/Digital") {
-                        if ($scope.tempOrder.LineItems[li].Specs[s].Value == "Physical") {
-                            $scope.tempOrder.isAllDigital = false;
-                        }
-                        else{
-                            $scope.tempOrder.isAllDigital = true;
-                        }
-                    }
-                }
-            }
-            else {
-                if ($scope.tempOrder.LineItems[li].Product.Name.toLowerCase().indexOf("e-gift") == -1) {
-                    $scope.tempOrder.isAllDigital = false;
-                }
+            if (!$scope.tempOrder.LineItems[li].IsDigital) {
+                $scope.tempOrder.isAllDigital = false;
             }
         }
     }
