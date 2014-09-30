@@ -68,9 +68,6 @@ function($resource, $451, Address, Variant) {
                             }
                             else if (!order.lineItemGroups[g+1]) {
                                 order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[],"IsDigital":isDigital,"Total": 0,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
-                                if (order.lineItemGroups.length > 30) {
-                                    break;
-                                }
                             }
                         }
                     }
@@ -192,6 +189,7 @@ function($resource, $451, Address, Variant) {
 
             angular.forEach(order.LineItems, function (i) {
                 i.Anonymous = false;
+                i.InGroup = false;
                 if ((!i.Specs['FirstName1'] && !i.Specs['LastName1'] && !i.Specs['Email1'] && !addressID) || (i.Specs['FirstName1'] && !i.Specs['FirstName1'].Value && i.Specs['LastName1'] && !i.Specs['LastName1'].Value && i.Specs['Email1'] && !i.Specs['Email1'].Value)) {
                     i.Anonymous = true;
                 }
@@ -207,12 +205,12 @@ function($resource, $451, Address, Variant) {
                     }
                     else {
                         for (var g = 0; g < order.lineItemGroups.length; g++) {
-                            if (order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].Total + i.LineTotal) < 10000)) {
+                            if ((order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].Total + i.LineTotal) < 10000)) || isDigital) {
                                 order.lineItemGroups[g].LineItems.push(i);
                                 order.lineItemGroups[g].Total += i.LineTotal;
+                                i.InGroup = true;
                             }
-                            else if (!order.lineItemGroups[g+1]) {
-                                addressList.push(addressID);
+                            else if (!order.lineItemGroups[g+1] && !i.InGroup) {
                                 order.lineItemGroups.push({"ID": addressID, "LineItems": [], "IsDigital": isDigital, "Total": 0, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false});
                             }
                         }
@@ -225,6 +223,7 @@ function($resource, $451, Address, Variant) {
         }
 
         groupOrder(order);
+        console.log(order);
 
         if (order.IsMultipleShip()) {
             angular.forEach(order.lineItemGroups, function(group) {

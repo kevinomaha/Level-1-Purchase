@@ -72,7 +72,7 @@
                             <i class="fa fa-save text-muted"></i>
                             <span class="hidden-xs text-muted">{{'Order Processing...' | rc}}</span>
                         </a>
-                        <a id="451qa_order_link" ng-show="Four51User.isAuthenticated() && showOrderNotification" href="{{'order/' + orderNotificationID}}">
+                        <a id="451qa_order_link" ng-show="Four51User.isAuthenticated() && showOrderNotification" ng-click="newOrder(orderNotificationID)">
                             <i class="fa fa-star"></i>
                             <span class="hidden-xs">{{'New Order!' | rc}}</span>
                         </a>

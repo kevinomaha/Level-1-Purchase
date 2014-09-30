@@ -81,6 +81,11 @@ function ($location, $route, $scope, $451, $rootScope, User, SpendingAccount, $w
         $scope.tempOrderCount = (order && order.LineItems) ? order.LineItems.length : null;
     }, true);
 
+    $scope.newOrder = function(orderID) {
+        $scope.showOrderNotification = false;
+        $location.path('order/' + orderID);
+    };
+
     $scope.showOrderStarted = false;
     $rootScope.$on('orderSubmitStarted', function() {
         $scope.showOrderStarted = true;
