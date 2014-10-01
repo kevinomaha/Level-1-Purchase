@@ -1,8 +1,8 @@
 <section class="cart-view">
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
-    <loadingindicator ng-show="orderSaveLoadingIndicator" title="Please wait while we save your order" />
-    <loadingindicator ng-show="orderSubmitLoadingIndicator" title="Please wait while we submit your order" />
+    <loadingindicator class="checkout-indicator" ng-show="orderSaveLoadingIndicator" title="Your order is now being processed. Please do not navigate away from this page or close your browser until the processing has completed." />
+    <loadingindicator class="checkout-indicator" ng-show="orderSubmitLoadingIndicator" title="Your order is now being processed. Please do not navigate away from this page or close your browser until the processing has completed." />
     <div ng-show="tempOrder" class="hidden-print container">
     <div class="row">
     <div class="col-md-7">

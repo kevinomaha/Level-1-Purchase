@@ -7960,3 +7960,10 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
 .cart-view-line-items-repeater .fa-times {
   padding-top: 5px;
 }
+.checkout-indicator div {
+  opacity: .90;
+}
+.checkout-indicator p {
+  bottom: 40%;
+  color: #000;
+}
