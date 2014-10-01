@@ -1,6 +1,6 @@
 <section class="list-creation-view">
 <div class="row">
-<form name="recipient_form" novalidate="">
+<form name="recipient_form">
 <div ng-show="showMaker || isDesktop()" class="col-md-9 col-md-push-3">
 
 <div class="panel panel-default">
@@ -21,7 +21,7 @@
                                 <div class="view-form-icon">
                                     <div>
                                         <label>First Name</label>
-                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.FirstName" />
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.FirstName" name="FirstName" />
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
@@ -30,7 +30,7 @@
                                 <div class="view-form-icon">
                                     <div>
                                         <label>Last Name</label>
-                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.LastName" />
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.LastName" name="LastName" />
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                                 <div class="view-form-icon">
                                     <div>
                                         <label>Email Address</label>
-                                        <input class="form-control" type="email" ng-model="recipient.Email" ng-required="digitalProduct" ng-pattern="/^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/"/>
+                                        <input class="form-control" type="email" ng-model="recipient.Email" name="Email" ng-required="digitalProduct" ng-pattern="/^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/"/>
                                         <i class="fa fa-envelope"></i>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                                 <div class="view-form-icon">
                                     <div>
                                         <label>Recipient ID</label>
-                                        <input class="form-control" type="text" ng-maxlength="30" ng-model="recipient.RecipientID" />
+                                        <input class="form-control" type="text" ng-maxlength="30" ng-model="recipient.RecipientID" name="RecipientID" />
                                         <i class="fa fa-tag"></i>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                 <div class="view-form-icon">
                                     <div>
                                         <label>Envelope Line Two</label>
-                                        <input class="form-control" type="text" ng-maxlength="100" ng-model="recipient.EnvelopeLineTwo" />
+                                        <input class="form-control" type="text" ng-maxlength="100" ng-model="recipient.EnvelopeLineTwo" name="EnvelopeLineTwo" />
                                         <i class="fa fa-tag"></i>
                                     </div>
                                 </div>
@@ -100,6 +100,17 @@
                                 <input type="text" class="form-control" ng-maxlength="50" ng-model="recipient.ClosingMessage" placeholder="Custom closing message..." />
                                 <i class="fa fa-pencil-square-o" />
                             </div>
+                        </div>
+                        <div class="alert alert-warning" ng-show="recipient_form.$dirty && ((recipient_form.FirstName.$dirty && recipient_form.FirstName.$invalid) || (recipient_form.LastName.$dirty && recipient_form.LastName.$invalid) || (recipient_form.RecipientID.$dirty && recipient_form.RecipientID.$invalid) || (recipient_form.Email.$dirty && recipient_form.Email.$invalid) || (recipient_form.EnvelopeLineTwo.$dirty && recipient_form.EnvelopeLineTwo.$invalid) || (recipient_form.ShipToFirstName.$dirty && recipient_form.ShipToFirstName.$invalid) || (recipient_form.ShipToLastName.$dirty && recipient_form.ShipToLastName.$invalid) || (recipient_form.Zip.$dirty && recipient_form.Zip.$invalid))">
+                            <p><b>Please correct the following issues:</b></p>
+                            <p ng-show="recipient_form.FirstName.$dirty && recipient_form.FirstName.$invalid">First Name must be 50 characters or less</p>
+                            <p ng-show="recipient_form.LastName.$dirty && recipient_form.LastName.$invalid">Last Name must be 50 characters or less</p>
+                            <p ng-show="recipient_form.Email.$dirty && recipient_form.Email.$invalid">Please enter a valid email address</p>
+                            <p ng-show="recipient_form.RecipientID.$dirty && recipient_form.RecipientID.$invalid">Recipient ID must be 30 characters or less</p>
+                            <p ng-show="recipient_form.EnvelopeLineTwo.$dirty && recipient_form.EnvelopeLineTwo.$invalid">Envelope Line Two must be 100 characters or less</p>
+                            <p ng-show="recipient_form.ShipToFirstName.$dirty && recipient_form.ShipToFirstName.$invalid">Ship To First Name must be 50 characters or less</p>
+                            <p ng-show="recipient_form.ShipToLastName.$dirty && recipient_form.ShipToLastName.$invalid">Ship To Last Name must be 50 characters or less</p>
+                            <p ng-show="recipient_form.Zip.$dirty && recipient_form.Zip.$invalid">Zip must be 10 characters or less</p>
                         </div>
                         <div class="hidden-sm hidden-xs">
                             <div style="margin-bottom:5px;" ng-show="!editingRecipient" class="btn btn-block btn-success" ng-disabled="recipient_form.$invalid" ng-click="saveRecipient()">
@@ -155,7 +166,7 @@
                             <div class="view-form-icon">
                                 <div>
                                     <label>Ship To First Name</label>
-                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.ShipToFirstName" ng-required="physicalProduct"/>
+                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.ShipToFirstName" name="ShipToFirstName" ng-required="physicalProduct"/>
                                     <i class="fa fa-user"></i>
                                 </div>
                             </div>
@@ -164,7 +175,7 @@
                             <div class="view-form-icon">
                                 <div>
                                     <label>Ship To Last Name</label>
-                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.ShipToLastName" ng-required="physicalProduct"/>
+                                    <input class="form-control" type="text" ng-maxlength="50" ng-model="recipient.ShipToLastName" name="ShipToLastName" ng-required="physicalProduct"/>
                                     <i class="fa fa-user"></i>
                                 </div>
                             </div>
@@ -175,7 +186,7 @@
                             <div class="view-form-icon">
                                 <div>
                                     <label>Address Line 1</label>
-                                    <input class="form-control" type="text" ng-model="recipient.Street1" ng-required="physicalProduct"/>
+                                    <input class="form-control" type="text" ng-model="recipient.Street1" name="Street1" ng-required="physicalProduct"/>
                                     <i class="fa fa-road"></i>
                                 </div>
                             </div>
@@ -184,7 +195,7 @@
                             <div class="view-form-icon">
                                 <div>
                                     <label>Address Line 2</label>
-                                    <input class="form-control" type="text" ng-model="recipient.Street2"/>
+                                    <input class="form-control" type="text" ng-model="recipient.Street2" name="Street2" />
                                     <i class="fa fa-road"></i>
                                 </div>
                             </div>
@@ -195,7 +206,7 @@
                             <div class="view-form-icon">
                                 <div>
                                     <label>City</label>
-                                    <input class="form-control" type="text" ng-model="recipient.City" ng-required="physicalProduct"/>
+                                    <input class="form-control" type="text" ng-model="recipient.City" name="City" ng-required="physicalProduct"/>
                                     <i class="fa fa-map-marker"></i>
                                 </div>
                             </div>
@@ -220,7 +231,7 @@
                             <div class="view-form-icon">
                                 <div>
                                     <label>Zip</label>
-                                    <input class="form-control" type="text" ng-maxlength="10" ng-model="recipient.Zip" ng-required="physicalProduct"/>
+                                    <input class="form-control" type="text" ng-maxlength="10" ng-model="recipient.Zip" name="Zip" ng-required="physicalProduct"/>
                                     <i class="fa fa-home"></i>
                                 </div>
                             </div>
