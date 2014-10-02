@@ -108,9 +108,9 @@
                             <p ng-show="recipient_form.Email.$dirty && recipient_form.Email.$invalid">Please enter a valid email address</p>
                             <p ng-show="recipient_form.RecipientID.$dirty && recipient_form.RecipientID.$invalid">Recipient ID must be 30 characters or less</p>
                             <p ng-show="recipient_form.EnvelopeLineTwo.$dirty && recipient_form.EnvelopeLineTwo.$invalid">Envelope Line Two must be 100 characters or less</p>
-                            <p ng-show="recipient_form.ShipToFirstName.$dirty && recipient_form.ShipToFirstName.$invalid">Ship To First Name must be 50 characters or less</p>
-                            <p ng-show="recipient_form.ShipToLastName.$dirty && recipient_form.ShipToLastName.$invalid">Ship To Last Name must be 50 characters or less</p>
-                            <p ng-show="recipient_form.Zip.$dirty && recipient_form.Zip.$invalid">Zip must be 10 characters or less</p>
+                            <p ng-show="recipient_form.ShipToFirstName.$dirty && recipient_form.ShipToFirstName.$invalid">Ship To First Name is required and must be 50 characters or less</p>
+                            <p ng-show="recipient_form.ShipToLastName.$dirty && recipient_form.ShipToLastName.$invalid">Ship To Last Name is required and must be 50 characters or less</p>
+                            <p ng-show="recipient_form.Zip.$dirty && recipient_form.Zip.$invalid">Zip is required must be 10 characters or less</p>
                         </div>
                         <div class="hidden-sm hidden-xs">
                             <div style="margin-bottom:5px;" ng-show="!editingRecipient" class="btn btn-block btn-success" ng-disabled="recipient_form.$invalid" ng-click="saveRecipient()">

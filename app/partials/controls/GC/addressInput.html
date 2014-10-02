@@ -110,10 +110,10 @@
         <span class="alert alert-warning" ng-show="objectExists">An address with that name already exists. Please specify another name</span><br />
         <div class="alert alert-warning" ng-show="addressEdit.$dirty && ((addressEdit.FirstName.$dirty && addressEdit.FirstName.$invalid) || (addressEdit.LastName.$dirty && addressEdit.LastName.$invalid) || (addressEdit.CompanyName.$dirty && addressEdit.CompanyName.$invalid) || (addressEdit.Zip.$dirty && addressEdit.Zip.$invalid))">
             <p><b>Please correct the following issues:</b></p>
-            <p ng-show="addressEdit.FirstName.$dirty && addressEdit.FirstName.$invalid">First Name must be 50 characters or less</p>
-            <p ng-show="addressEdit.LastName.$dirty && addressEdit.LastName.$invalid">Last Name must be 50 characters or less</p>
+            <p ng-show="addressEdit.FirstName.$dirty && addressEdit.FirstName.$invalid">First Name is required and must be 50 characters or less</p>
+            <p ng-show="addressEdit.LastName.$dirty && addressEdit.LastName.$invalid">Last Name is required and must be 50 characters or less</p>
             <p ng-show="addressEdit.CompanyName.$dirty && addressEdit.CompanyName.$invalid">Company Name must be 50 characters or less</p>
-            <p ng-show="addressEdit.Zip.$dirty && addressEdit.Zip.$invalid">Zip must be 10 characters or less</p>
+            <p ng-show="addressEdit.Zip.$dirty && addressEdit.Zip.$invalid">Zip is required and must be 10 characters or less</p>
         </div>
         <button class="btn btn-small btn-danger" type="button" ng-click="cancel()">Cancel</button>
         <button ng-if="user.Permissions.contains('CreateShipToAddress') || user.Permissions.contains('CreateBillToAddress')" class="btn btn-small btn-primary pull-right" type="button" ng-click="validate()" ng-disabled="addressEdit.$invalid" id="451_btn_user">Save</button>
