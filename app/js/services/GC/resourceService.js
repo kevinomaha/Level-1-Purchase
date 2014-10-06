@@ -616,11 +616,11 @@ four51.app.factory('Resources', function() {
 
     var giftcardDesignPreview = {
         "Select a design" : "giftcardplaceholder.png",
-        "Basic Blue": "GC_BasicBlue_Preview.jpg",
-        "Classical Leaves": "GC_ClassicLeaves_Preview.jpg",
-        "Sparkling Blues": "GC_SparklingBlues_Preview.jpg",
-        "Formal Midnight": "GC_MidnightDelight_Preview.jpg",
-        "Celebrate Success": "GC_Celebrate_Preview.jpg",
+        "Basic Blue": "BasicBlue_GCrd_thumbnail.jpg",
+        "Classical Leaves": "ClassicalLeaves_GCrd_thumbnail.jpg",
+        "Sparkling Blues": "SparklingBlues_GCrd_thumbnail.jpg",
+        "Formal Midnight": "FormalMidnight_GCrd_thumbnail.jpg",
+        "Celebrate Success": "Celebrate_GCrd_thumbnail.jpg",
         "Candy Cane" : "CandyCane_GCrd_thumbnail.jpg",
         "Country Snow" : "CountrySnow_GCrd_thumbnail.jpg",
         "Holiday Wreath" : "HolidayWreath_GCrd_thumbnail.jpg",
@@ -631,7 +631,7 @@ four51.app.factory('Resources', function() {
         "Traditional Greetings" : "TraditionalGreetings_GCrd_thumbnail.jpg",
         "White Bow" : "WhiteBow_GCrd_thumbnail.jpg",
         "Gift Wrap" : "GiftWrap_GCrd_thumbnail.jpg",
-        "Basic Green Ribbon": "GC_BasicGreenRibbon_Preview.jpg"
+        "Basic Green Ribbon": "BasicGreenRibbon_GCrd_thumbnail.jpg"
     };
 
     return {

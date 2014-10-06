@@ -826,11 +826,11 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $scope.step = 3;
     };
 
-    $scope.digitalOM = digitalOM;
+    /*$scope.digitalOM = digitalOM;
     $scope.physicalOM = physicalOM;
     $scope.digitalDesignPreview = Resources.digitalDesignPreview;
     $scope.physicalDesignPreview = Resources.physicalDesignPreview;
-    $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;
+    $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;*/
 
     $scope.occasionMessages = [];
 
