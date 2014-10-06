@@ -50,13 +50,13 @@ function($resource, $451, Address, Variant) {
 
                     if (addressList.indexOf(addressID) == -1) {
                         addressList.push(addressID);
-                        order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[i],"IsDigital": i.IsDigital,"Total": i.LineTotal,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
+                        order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[i],"IsDigital": i.IsDigital,"Total": i.LineTotal,"FaceTotal": i.FaceValue,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
                         itemCount++;
                         console.log(itemCount);
                     }
                     else {
                         for (var g = 0; g < order.lineItemGroups.length; g++) {
-                            if ((order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].Total + i.LineTotal) < 10000)) || i.IsDigital) {
+                            if ((order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].FaceTotal + i.FaceValue) <= 10000)) || i.IsDigital) {
                                 if (order.lineItemGroups[g].Shipper) {
                                     i.Shipper = order.lineItemGroups[g].Shipper;
                                     i.ShipMethod = order.lineItemGroups[g].Shipper.Name;
@@ -65,9 +65,10 @@ function($resource, $451, Address, Variant) {
                                 }
                                 order.lineItemGroups[g].LineItems.push(i);
                                 order.lineItemGroups[g].Total += i.LineTotal;
+                                order.lineItemGroups[g].FaceTotal += i.FaceValue;
                             }
                             else if (!order.lineItemGroups[g+1]) {
-                                order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[],"IsDigital":i.IsDigital,"Total": 0,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
+                                order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[],"IsDigital":i.IsDigital,"Total": 0,"FaceTotal": 0,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
                             }
                         }
                     }
@@ -190,6 +191,7 @@ function($resource, $451, Address, Variant) {
             angular.forEach(order.LineItems, function (i) {
                 i.Anonymous = false;
                 i.InGroup = false;
+                i.FaceValue = +(i.Specs.Denomination1.Value.replace('$',''));
                 if ((!i.Specs['FirstName1'] && !i.Specs['LastName1'] && !i.Specs['Email1'] && !addressID) || (i.Specs['FirstName1'] && !i.Specs['FirstName1'].Value && i.Specs['LastName1'] && !i.Specs['LastName1'].Value && i.Specs['Email1'] && !i.Specs['Email1'].Value)) {
                     i.Anonymous = true;
                 }
@@ -202,20 +204,21 @@ function($resource, $451, Address, Variant) {
                     /*else if (addressList.indexOf(addressID) == -1) {*/
                     if (addressList.indexOf(addressID) == -1) {
                         addressList.push(addressID);
-                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList":[i.Product.Name]});
+                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "FaceTotal": i.FaceValue, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList":[i.Product.Name]});
                     }
                     else {
                         for (var g = 0; g < order.lineItemGroups.length; g++) {
-                            if ((order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].Total + i.LineTotal) < 10000)) || isDigital) {
+                            if ((order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].FaceTotal + i.FaceValue) <= 10000)) || isDigital) {
                                 order.lineItemGroups[g].LineItems.push(i);
                                 order.lineItemGroups[g].Total += i.LineTotal;
+                                order.lineItemGroups[g].FaceTotal += i.FaceValue;
                                 if (order.lineItemGroups[g].ProductList.indexOf(i.Product.Name) == -1) {
                                     order.lineItemGroups[g].ProductList.push(i.Product.Name);
                                 }
                                 i.InGroup = true;
                             }
                             else if (!order.lineItemGroups[g+1] && !i.InGroup) {
-                                order.lineItemGroups.push({"ID": addressID, "LineItems": [], "IsDigital": isDigital, "Total": 0, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList":[i.Product.Name]});
+                                order.lineItemGroups.push({"ID": addressID, "LineItems": [], "IsDigital": isDigital, "Total": 0, "FaceTotal": 0, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList":[i.Product.Name]});
                             }
                         }
                     }
