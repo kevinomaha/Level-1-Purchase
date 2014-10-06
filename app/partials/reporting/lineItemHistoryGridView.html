@@ -25,7 +25,12 @@
             {{item.Anonymous ? item.Quantity : item.LineItems.length}}
         </div>
         <div class="col-sm-4 text-center">
-            {{item.Product.Name}} <span ng-show="item.Anonymous">(anonymous)</span>
+            <div ng-show="item.ProductList.length == 1">{{item.Product.Name}} <span ng-show="item.Anonymous">(anonymous)</span></div>
+            <div ng-show="item.ProductList.length > 1">
+                <div ng-repeat="p in item.ProductList">
+                    {{p}}
+                </div>
+            </div>
         </div>
         <div class="col-sm-2 text-center">
             {{item.Total | currency}}

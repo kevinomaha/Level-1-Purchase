@@ -196,22 +196,26 @@ function($resource, $451, Address, Variant) {
                 var addressID = i.ShipAddressID;
                 var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
                 if (!i.IsMerchantCard) {
-                    if (i.Anonymous) {
+                    /*if (i.Anonymous) {
                         order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": true, "Quantity": i.Quantity});
-                    }
-                    else if (addressList.indexOf(addressID) == -1) {
+                    }*/
+                    /*else if (addressList.indexOf(addressID) == -1) {*/
+                    if (addressList.indexOf(addressID) == -1) {
                         addressList.push(addressID);
-                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false});
+                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList":[i.Product.Name]});
                     }
                     else {
                         for (var g = 0; g < order.lineItemGroups.length; g++) {
                             if ((order.lineItemGroups[g].ID == addressID && order.lineItemGroups[g].LineItems.length < 400 && ((order.lineItemGroups[g].Total + i.LineTotal) < 10000)) || isDigital) {
                                 order.lineItemGroups[g].LineItems.push(i);
                                 order.lineItemGroups[g].Total += i.LineTotal;
+                                if (order.lineItemGroups[g].ProductList.indexOf(i.Product.Name) == -1) {
+                                    order.lineItemGroups[g].ProductList.push(i.Product.Name);
+                                }
                                 i.InGroup = true;
                             }
                             else if (!order.lineItemGroups[g+1] && !i.InGroup) {
-                                order.lineItemGroups.push({"ID": addressID, "LineItems": [], "IsDigital": isDigital, "Total": 0, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false});
+                                order.lineItemGroups.push({"ID": addressID, "LineItems": [], "IsDigital": isDigital, "Total": 0, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList":[i.Product.Name]});
                             }
                         }
                     }
@@ -246,6 +250,8 @@ function($resource, $451, Address, Variant) {
                 order.ShipAddress = add;
             });
         }
+
+
     };
 
     var _getProductType = function(lineitem) {
