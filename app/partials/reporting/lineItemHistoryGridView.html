@@ -22,13 +22,18 @@
 <div class="panel-order-history" ng-repeat="item in order.lineItemGroups" style="border-bottom:1px solid #ddd;">
     <div class="row">
         <div class="col-sm-2 text-center">
-            {{item.Anonymous ? item.Quantity : item.LineItems.length}}
+            <div ng-show="item.ProductList.length == 1">{{item.ProductList[0].Count}}</div>
+            <div ng-show="item.ProductList.length > 1">
+                <div ng-repeat="p in item.ProductList" style="margin-bottom: 10px;">
+                    {{p.Count}}
+                </div>
+            </div>
         </div>
         <div class="col-sm-4 text-center">
             <div ng-show="item.ProductList.length == 1">{{item.Product.Name}} <span ng-show="item.Anonymous">(anonymous)</span></div>
             <div ng-show="item.ProductList.length > 1">
-                <div ng-repeat="p in item.ProductList">
-                    {{p}}
+                <div ng-repeat="p in item.ProductList" style="margin-bottom: 10px;">
+                    {{p.Name}}
                 </div>
             </div>
         </div>

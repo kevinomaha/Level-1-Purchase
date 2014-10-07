@@ -198,13 +198,12 @@ function($resource, $451, Address, Variant) {
                 var addressID = i.ShipAddressID;
                 var isDigital = (i.Specs['Physical/Digital'] && i.Specs['Physical/Digital'].Value == 'Digital');
                 if (!i.IsMerchantCard) {
-                    /*if (i.Anonymous) {
-                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": true, "Quantity": i.Quantity});
-                    }*/
-                    /*else if (addressList.indexOf(addressID) == -1) {*/
+                    var productName = i.Product.Name;
+                    var productObj = {Name: productName, Count: 0};
                     if (addressList.indexOf(addressID) == -1) {
                         addressList.push(addressID);
-                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "FaceTotal": i.FaceValue, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList":[i.Product.Name]});
+                        productObj.Count = productObj.Count + 1;
+                        order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "FaceTotal": i.FaceValue, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList":[productObj]});
                     }
                     else {
                         for (var g = 0; g < order.lineItemGroups.length; g++) {
@@ -212,13 +211,21 @@ function($resource, $451, Address, Variant) {
                                 order.lineItemGroups[g].LineItems.push(i);
                                 order.lineItemGroups[g].Total += i.LineTotal;
                                 order.lineItemGroups[g].FaceTotal += i.FaceValue;
-                                if (order.lineItemGroups[g].ProductList.indexOf(i.Product.Name) == -1) {
-                                    order.lineItemGroups[g].ProductList.push(i.Product.Name);
+                                var found = false;
+                                angular.forEach(order.lineItemGroups[g].ProductList, function(p) {
+                                    if (p.Name == productName) {
+                                        found = true;
+                                        p.Count = p.Count + 1;
+                                    }
+                                });
+                                if (!found) {
+                                    productObj.Count = productObj.Count + 1;
+                                    order.lineItemGroups[g].ProductList.push(productObj);
                                 }
                                 i.InGroup = true;
                             }
                             else if (!order.lineItemGroups[g+1] && !i.InGroup) {
-                                order.lineItemGroups.push({"ID": addressID, "LineItems": [], "IsDigital": isDigital, "Total": 0, "FaceTotal": 0, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList":[i.Product.Name]});
+                                order.lineItemGroups.push({"ID": addressID, "LineItems": [], "IsDigital": isDigital, "Total": 0, "FaceTotal": 0, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList": [productObj]});
                             }
                         }
                     }
