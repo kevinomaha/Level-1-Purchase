@@ -25,7 +25,9 @@
     </div>
     <div id="two" class="gc-purchase-step" ng-show="step == 2">
         <div class="gc-purchase-step-body">
-            <ng-include src="'partials/GC/listCreation.html'"></ng-include>
+            <form name="recipient_form">
+                <ng-include src="'partials/GC/listCreation.html'"></ng-include>
+            </form>
         </div>
     </div>
     <div id="three" class="gc-purchase-step" ng-show="step == 3">

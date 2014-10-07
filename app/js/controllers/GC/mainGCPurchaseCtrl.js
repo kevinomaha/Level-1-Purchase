@@ -173,9 +173,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         var country = $scope[r] ? $scope[r].Country : "US";
 
         $scope[r] = {
-            FirstName: "", LastName: "", RecipientID: "", Email: "", ShipToFirstName: "", ShipToLastName: "", ShipToCompanyName: "",
-            Street1: "", Street2: "", City: "", State: "", Zip: "", Country: country, Phone: "", Invalid: false, ErrorMessage: null, Selected: false, AwardCount: 0, ShipAddressID: null
+            FirstName: null, LastName: null, RecipientID: null, Email: null, ShipToFirstName: null, ShipToLastName: null, ShipToCompanyName: null,
+            Street1: null, Street2: null, City: null, State: null, Zip: null, Country: country, Phone: "", Invalid: false, ErrorMessage: null, Selected: false, AwardCount: 0, ShipAddressID: null
         };
+
+        if (r == 'recipient' && $scope.recipient_form) {
+            $scope.recipient_form.$setPristine();
+        }
     };
 
     var randomString = function () {
@@ -357,6 +361,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             $scope.recipientList.push(recipient);
             store.set("451Cache.RecipientList", $scope.recipientList);
             $scope.clearRecipient('recipient');
+            console.log($scope);
             AddressList.query(function (list) {
                 $scope.addresses = list;
             });
@@ -368,6 +373,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     $scope.recipientList.push(recipient);
                     store.set("451Cache.RecipientList", $scope.recipientList);
                     $scope.clearRecipient('recipient');
+                    console.log($scope);
                     AddressList.query(function (list) {
                         $scope.addresses = list;
                     });
