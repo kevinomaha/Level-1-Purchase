@@ -361,7 +361,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             $scope.recipientList.push(recipient);
             store.set("451Cache.RecipientList", $scope.recipientList);
             $scope.clearRecipient('recipient');
-            console.log($scope);
             AddressList.query(function (list) {
                 $scope.addresses = list;
             });
@@ -373,7 +372,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     $scope.recipientList.push(recipient);
                     store.set("451Cache.RecipientList", $scope.recipientList);
                     $scope.clearRecipient('recipient');
-                    console.log($scope);
                     AddressList.query(function (list) {
                         $scope.addresses = list;
                     });
@@ -831,12 +829,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $scope.selectedProduct.anonymousQty = "";
         $scope.step = 3;
     };
-
-    /*$scope.digitalOM = digitalOM;
-    $scope.physicalOM = physicalOM;
-    $scope.digitalDesignPreview = Resources.digitalDesignPreview;
-    $scope.physicalDesignPreview = Resources.physicalDesignPreview;
-    $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;*/
 
     $scope.occasionMessages = [];
 
@@ -1514,9 +1506,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 selectedProduct.Description = "";
                 var qty = (variantData.Specs['FirstName1'].Value == "" && variantData.Specs['LastName1'].Value == "" && selectedProduct.ExternalID.indexOf('SCD') == -1 && $scope.selectedProduct.anonymousQty) ? $scope.selectedProduct.anonymousQty : 1;
                 var lineTotal = (markUp * qty) + ($scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price * qty);
-                /*if (qty > 1) {
-                    lineTotal = (markUp * qty) + $scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price;
-                }*/
 
                 var reducedVariant = LineItems.reduceVariant(variantData);
                 var reducedProduct = LineItems.reduceProduct(selectedProduct);

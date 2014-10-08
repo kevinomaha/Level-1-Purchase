@@ -72,16 +72,6 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
 
         //Order Summary
         analyzeTotals();
-        /*$scope.tempOrder.SubTotal = 0;
-        $scope.tempOrder.Total = 0;
-        $scope.tempOrder.ShippingTotal = 0;
-        angular.forEach($scope.tempOrder.LineItems, function(li) {
-            $scope.tempOrder.SubTotal += li.LineTotal;
-            $scope.tempOrder.Total += li.LineTotal;
-        });
-
-        $scope.tempOrder.SubTotal = $scope.tempOrder.SubTotal.toFixed(2);
-        $scope.tempOrder.Total = $scope.tempOrder.Total.toFixed(2);*/
 
         analyzeShipping();
 
@@ -164,41 +154,8 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
 	};
 
 	$scope.saveChanges = function(callback) {
-		/*$scope.actionMessage = null;
-		$scope.errorMessage = null;
-		if($scope.currentOrder.LineItems.length == $451.filter($scope.currentOrder.LineItems, {Property:'Selected', Value: true}).length) {
-			$scope.cancelOrder();
-		}
-		else {
-			$scope.displayLoadingIndicator = true;
-			Order.save($scope.currentOrder,
-				function(data) {
-					$scope.currentOrder = data;
-					OrderConfig.costcenter(data, $scope.user).address(data, $scope.user);
-					$scope.displayLoadingIndicator = false;
-					if (callback) callback();
-	                $scope.actionMessage = 'Your Changes Have Been Saved!';
-				},
-				function(ex) {
-					$scope.errorMessage = ex.Message;
-					$scope.displayLoadingIndicator = false;
-				}
-			);
-		}*/
-
         $scope.cacheOrder($scope.tempOrder);
         $scope.actionMessage = 'Your Changes Have Been Saved!';
-
-        /*var orderSave = angular.copy($scope.tempOrder);
-        orderSave.lineItemGroups = [];
-        Order.save(orderSave,
-            function(data) {
-                console.log(data);
-            },
-            function(ex) {
-                console.log(ex);
-            }
-        );*/
 	};
 
 	$scope.removeItem = function(item) {
@@ -308,122 +265,6 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
         setIsAllDigital();
 		$scope.actionMessage = 'Your Changes Have Been Saved!';
 	};
-
-    /*var updatedAddresses = 0;
-    function updateAddress(id, phone, len, order) {
-        Address.get(id, function(add) {
-            var address = add;
-            address.Phone = phone;
-            Address.save(address, function(a) {
-                updatedAddresses++;
-                if (updatedAddresses == len)
-                saveOrder(order);
-            });
-        });
-    }*/
-
-	/*function processOrder() {
-        $scope.orderSubmitLoadingIndicator = true;
-        $scope.actionErrorMessage = null;
-        $scope.actionMessage = null;
-        $scope.displayErrorMessages = false;
-        var orderSave = angular.copy($scope.tempOrder);
-        $scope.tempSave = angular.copy($scope.tempOrder);
-        if ($scope.tempSave.PaymentMethod == 'CreditCard') {
-            $scope.tempSave.BudgetAccountID = null;
-        }
-        $scope.tempOrder = {LineItems: []};
-        $rootScope.$broadcast('event:tempOrderUpdated');
-        delete orderSave.lineItemGroups;
-        delete orderSave.merchantCardsAllDigital;
-        delete orderSave.merchantCardLineItems;
-        delete orderSave.SavedCards;
-        angular.forEach(orderSave.LineItems, function (li) {
-            delete li.Shipper;
-        });
-
-        var shipAddresses = [];
-        angular.forEach(orderSave.LineItems, function (item) {
-            if (shipAddresses.indexOf(item.ShipAddressID) == -1) {
-                shipAddresses.push(item.ShipAddressID);
-            }
-        });
-
-        var billAddressPhone = orderSave.BillAddress.Phone;
-        angular.forEach(shipAddresses, function(id) {
-            updateAddress(id, billAddressPhone, shipAddresses.length, orderSave);
-        });
-    }*/
-
-    /*function saveOrder(orderSave) {
-        var CC = orderSave.CreditCard ? orderSave.CreditCard : {};
-        Order.save(orderSave,
-            function (o) {
-                LineItems.clean(o);
-                var orderSubmit = angular.copy(o);
-                orderSubmit.CreditCard = CC;
-                LineItems.cleanPreSubmit(orderSubmit);
-                Order.submit(orderSubmit, function (data) {
-                        $scope.user.CurrentOrderID = null;
-                        $scope.tempOrder = {LineItems: []};
-                        $scope.cacheOrder($scope.tempOrder);
-                        var recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
-                        for (var r = 0; r < recipientList.length; r++) {
-                            recipientList[r].AwardCount = 0;
-                        }
-                        store.set("451Cache.RecipientList", []);
-                        store.set("451Cache.RecipientList", recipientList);
-                        $scope.currentOrder = null;
-                        $scope.orderSubmitLoadingIndicator = false;
-                        $scope.tempSave = null;
-                        $location.path('/order/' + data.ID);
-                    },
-                    function (ex) {
-                        if (ex.Code.is('ObjectExistsException')) { // unique id
-                            ex.Message = ex.Message.replace('{0}', 'Order ID (' + $scope.currentOrder.ExternalID + ')');
-                        }
-                        //$scope.cart_billing.$setValidity('paymentMethod', false);
-                        $scope.actionErrorMessage = ex.Message;
-                        $scope.orderSubmitLoadingIndicator = false;
-                        $scope.shippingUpdatingIndicator = false;
-                        $scope.shippingFetchIndicator = false;
-                        $scope.showSave = false;
-                        $scope.tempOrder = $scope.tempSave;
-                    });
-            },
-            function (ex) {
-                $scope.actionErrorMessage = ex.Message;
-                $scope.orderSubmitLoadingIndicator = false;
-                $scope.tempOrder = $scope.tempSave;
-            }
-        );
-    };*/
-
-	/*$scope.submitOrder = function() {
-        processOrder();
-    };*/
-
-	/*function submitOrder(skip) {
-        //$scope.orderSubmitLoadingIndicator = true;
-        $scope.actionErrorMessage = null;
-        $scope.actionMessage = null;
-        $scope.displayErrorMessages = false;
-
-        if (!skip) {
-            $scope.orderSubmitLoadingIndicator = true;
-            OrderSubmit.save($scope.tempOrder, true);
-            $scope.tempOrder = {LineItems: []};
-            $scope.cacheOrder($scope.tempOrder);
-            $rootScope.$broadcast('event:tempOrderUpdated');
-        }
-        else {
-            OrderSubmit.submit($scope.tempOrder, false);
-            $scope.tempOrder = {LineItems: []};
-            $scope.cacheOrder($scope.tempOrder);
-            $rootScope.$broadcast('event:tempOrderUpdated');
-            $location.path('main');
-        }
-	}*/
 
     $scope.orderSaveLoadingIndicator = false;
 	$scope.submitOrder = function() {
@@ -717,9 +558,6 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
 			$scope.tempOrder.BillAddressID = address.ID;
 			$scope.billaddressform = false;
 		}
-		/*AddressList.query(function(list) {
-			$scope.addresses = list;
-		});*/
 		$scope.shipaddress = { Country: 'US', IsShipping: true, IsBilling: false };
 		$scope.billaddress = { Country: 'US', IsShipping: false, IsBilling: true };
 	});
@@ -786,12 +624,6 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
         }
     }
     analyzeErrors();
-
-    /*$scope.$watch('tempOrder.PhoneNumber', function() {
-        if ($scope.tempOrder.PhoneNumber) {
-            analyzeErrors();
-        }
-    });*/
 
     $scope.$watch('tempOrder.CreditCardID', function() {
         analyzeErrors();
