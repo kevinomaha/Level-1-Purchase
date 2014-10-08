@@ -290,7 +290,7 @@ function($resource, $451, Address, Variant) {
                 product.occasionMessage = lineitem.Variant.Specs.V00MessageSelectionList ? lineitem.Variant.Specs.V00MessageSelectionList.Value : "";
                 product.PersonalMessage = lineitem.Variant.Specs.V15Message ? lineitem.Variant.Specs.V15Message.Value : "";
                 product.ClosingMessage = lineitem.Variant.Specs.V16Closing ? lineitem.Variant.Specs.V16Closing.Value : "";
-                product.CustomOpeningMessage = lineitem.Variant.Specs.V14Opening ? lineitem.Variant.Specs.V14Opening.Value : "";
+                product.OpeningOption = lineitem.Variant.Specs.V14OpeningPesonalization ? lineitem.Variant.Specs.V14OpeningPesonalization.Value : "";
                 break;
             case "SCD-GC12":
                 product.designSelection = lineitem.Variant.Specs.V01Design ? lineitem.Variant.Specs.V01Design.Value : "";
@@ -299,32 +299,30 @@ function($resource, $451, Address, Variant) {
                 product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage ? lineitem.Variant.Specs.V05ClosingMessage.Value : "";
                 product.EmailSubject = lineitem.Specs.EmailSubject ? lineitem.Specs.EmailSubject.Value : "";
                 product.DeliveryDate = lineitem.Specs.FutureShipDate ? lineitem.Specs.FutureShipDate.Value : "";
-                product.CustomOpeningMessage = lineitem.Variant.Specs.V03OpeningMessage ? lineitem.Variant.Specs.V03OpeningMessage.Value : "";
+                product.OpeningOption = lineitem.Variant.Specs.V09PersonalMessageOp ? lineitem.Variant.Specs.V09PersonalMessageOp.Value : "";
                 break;
             case "SCP-GC2":
                 product.designSelection = lineitem.Variant.Specs.V10DesignSelection ? lineitem.Variant.Specs.V10DesignSelection.Value : "";
                 product.occasionMessage = lineitem.Variant.Specs.V11MessageSelection ? lineitem.Variant.Specs.V11MessageSelection.Value : "";
                 product.PersonalMessage = lineitem.Variant.Specs.V04PersonalMessage ? lineitem.Variant.Specs.V04PersonalMessage.Value : "";
                 product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage ? lineitem.Variant.Specs.V05ClosingMessage.Value : "";
-                product.CustomOpeningMessage = lineitem.Variant.Specs.V03OpeningMessage ? lineitem.Variant.Specs.V03OpeningMessage.Value : "";
+                product.OpeningOption = lineitem.Variant.Specs.V09PersonalMessageOp ? lineitem.Variant.Specs.V09PersonalMessageOp.Value : "";
                 break;
         }
         product.denomination = lineitem.Variant.Specs.Denomination1 ? lineitem.Variant.Specs.Denomination1.Value : "";
 
-        if (product.CustomOpeningMessage) {
-            if (lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1 && product.CustomOpeningMessage == (lineitem.Variant.Specs.FirstName1.Value + ' ' + lineitem.Variant.Specs.LastName1.Value)) {
+            if (product.OpeningOption.indexOf('first and last')) {
                 product.OpeningMessageOption = "First and Last Name";
             }
-            else if (lineitem.Variant.Specs.FirstName1 && product.CustomOpeningMessage == lineitem.Variant.Specs.FirstName1.Value) {
+            else if (product.OpeningOption.indexOf('first name only')) {
                 product.OpeningMessageOption = "First Name Only";
             }
-            else {
+            else if (product.OpeningOption.indexOf('custom text')) {
                 product.OpeningMessageOption = "Custom Message";
             }
-        }
-        else {
-            product.OpeningMessageOption = "None";
-        }
+            else{
+                product.OpeningMessageOption = "None";
+            }
     };
 
     var _cleanPreSubmit = function(o) {
