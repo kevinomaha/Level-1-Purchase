@@ -224,7 +224,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         recipient.savingIndicator = true;
         recipient['ID'] = randomString();
         var address = {};
-        if (recipient.Street1 != "") {
+        if (recipient.Street1 && recipient.Street1 != "") {
             address.AddressName = recipient.Street1;
             address.FirstName = recipient.ShipToFirstName;
             address.LastName = recipient.ShipToLastName;
