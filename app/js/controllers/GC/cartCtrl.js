@@ -6,6 +6,10 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
         $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
         $scope.tempOrder = JSON.parse($scope.tempOrder);
     }
+    $scope.tempOrder.AwardCount = 0;
+    angular.forEach($scope.tempOrder.LineItems, function(li) {
+        $scope.tempOrder.AwardCount += +(li.Quantity);
+    });
 
 	$scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
     $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];

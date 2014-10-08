@@ -6,7 +6,7 @@
     <div ng-show="tempOrder" class="hidden-print container">
     <div class="row">
     <div class="col-md-7">
-    <h3 class="text-primary cart-title" ng-show="!orderSubmitLoadingIndicator">{{tempOrder.LineItems.length}} AWARD{{tempOrder.LineItems.length > 1 ? 'S' : ''}} IN YOUR CART <i class="fa fa-shopping-cart pull-right"></i></h3>
+    <h3 class="text-primary cart-title" ng-show="!orderSubmitLoadingIndicator">{{tempOrder.AwardCount}} AWARD{{tempOrder.AwardCount > 1 ? 'S' : ''}} IN YOUR CART <i class="fa fa-shopping-cart pull-right"></i></h3>
     <hr style="margin-bottom:5px;"/>
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.lineItemGroups.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.merchantCardLineItems.length > 0"  ng-click="browseMerchantCards()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Browse Merchant Cards</div>
