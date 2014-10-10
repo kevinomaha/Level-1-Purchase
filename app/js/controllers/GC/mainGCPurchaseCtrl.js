@@ -1314,7 +1314,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             "PersonalMessageCheck": {"Value": "Pass"},
                             "V11_CustomerLogo": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
                             "V17P_LogoFileID": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
-                            "Recipients": {"Value": $scope.selectedProduct.anonymousQty}
+                            "Recipients": {"Value": "1"}
                         }
                     };
                     break;
@@ -1372,7 +1372,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             "PersonalMessageCheck": {"Value": "Pass"},
                             "V11_CustomerLogo": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
                             "V17D_LogoFileID": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
-                            "Recipients": {"Value": $scope.selectedProduct.anonymousQty}
+                            "Recipients": {"Value": "1"}
                         }
                     };
                     break;
@@ -1428,7 +1428,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             "PersonalMessageCheck": {"Value": "Pass"},
                             "V11_CustomerLogo": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
                             "V17P_LogoFileID": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
-                            "Recipients": {"Value": $scope.selectedProduct.anonymousQty}
+                            "Recipients": {"Value": "1"}
                         }
                     };
                     break;

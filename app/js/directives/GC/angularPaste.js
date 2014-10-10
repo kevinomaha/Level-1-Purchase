@@ -42,7 +42,8 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                         var dt = new Date(y,m-1,d);
                         var today = new Date();
                         var future = new Date(new Date().setDate(today.getDate() + 120));
-                        if ((dt.getFullYear() == y && dt.getMonth() + 1 == m && dt.getDate() == d) && (dt > today && dt < future)) {
+                        today.setHours(0,0,0,0)
+                        if ((dt.getFullYear() == y && dt.getMonth() + 1 == m && dt.getDate() == d) && (dt >= today && dt < future)) {
                             return true;
                         } else {
                             return false;

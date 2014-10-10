@@ -239,14 +239,14 @@
                                                        ng-required="deliveryDateRequired"
                                                        ng-show="!selectedProduct.DeliveryDate"
                                                        style="margin:0; height:40px; padding-top:8px;"/>
-                                                <div class="btn btn-default btn-block text-info hidden-lg hidden-md" ng-show="selectedProduct.DeliveryDate" ng-click="selectedProduct.DeliveryDate = null">{{selectedProduct.DeliveryDate | date:'MM/dd/yy'}}</div>
+                                                <div class="btn btn-default btn-block text-info hidden-lg hidden-md" ng-show="selectedProduct.DeliveryDate" ng-click="selectedProduct.DeliveryDate = null">{{selectedProduct.DeliveryDate | date:'MM/dd/yyyy'}}</div>
                                                 <input name="dateneeded" placeholder="Requested Delivery Date" ng-model="selectedProduct.DeliveryDate" ng-required="deliveryDateRequired"
                                                        type="text"
                                                        class="form-control hidden-sm hidden-xs"
                                                        ng-class="{'input-invalid': deliveryDateInvalid}"
                                                        readonly="readonly"
                                                        style="cursor: pointer; background-color:#FFF;"
-                                                       datepicker-popup="MM/dd/yy"
+                                                       datepicker-popup="MM/dd/yyyy"
                                                        data-placement="top"
                                                        is-open="opened"
                                                        min="currentDate"
