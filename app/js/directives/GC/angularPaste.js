@@ -287,7 +287,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                         if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
                                             recipient.Invalid = true;
                                             $scope.tempPasteError = true;
-                                            recipient.ErrorMessage = recipientIdentifier + " has an invalid delivery date. This value must be a valid date (MM/DD/YYY) within 120 days in the future. This value will not be uploaded.";
+                                            recipient.ErrorMessage = recipientIdentifier + " has an invalid delivery date. This value must be a valid date (MM/DD/YYYY) within 120 days in the future. This value will not be uploaded.";
                                         }
 
                                         if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
