@@ -71,3 +71,7 @@ select.ng-invalid-required {
     font-weight: bold;
     padding: 15px 25px;
 }
+.product-selection-view .col-md-2 > div.product-selector > div img {
+    width: 50%;
+    margin: 0 auto;
+}
