@@ -535,6 +535,7 @@ four51.app.factory('Resources', function() {
     var products = [
         {
             Name:"Digital e-SuperCertificate® REWARD (emailable)",
+            InteropID: "2d549bc6-db1d-46fa-bac6-1555558225fa",
             StandardID:"SCD-GC12",
             PremiumID:"SCD-ES12",
             CanadianID:"CSCD-SC12",
@@ -544,6 +545,7 @@ four51.app.factory('Resources', function() {
         },
         {
             Name:"Original SuperCertificate® REWARD",
+            InteropID: "53fef6f3-d384-432e-a2e1-2de1f20af5e2",
             StandardID:"SCP-FD12",
             PremiumID:"SCP-PS12",
             CanadianID:"CSCP-SC12",
@@ -553,6 +555,7 @@ four51.app.factory('Resources', function() {
         },
         {
             Name:"Greeting Card SuperCertificate® REWARD",
+            InteropID: "5daf87c9-399b-4a48-8b4e-31e3f9c71830",
             /*StandardID:"SCP-GC",*/
             StandardID:"SCP-GC2",
             PremiumID:"SCP-GCS2",
@@ -563,6 +566,7 @@ four51.app.factory('Resources', function() {
         },
         {
             Name:"Merchant Gift Cards",
+            InteropID: "8f4cf5ba-7f28-472e-8e55-4e77f9cf32a7",
             StandardID:"MerchantCards",
             PremiumID:"",
             CanadianID:"",
