@@ -6,9 +6,9 @@
                     <div class="product-selector" ng-class="{'active': selectedProduct.Name == prod.Name}" ng-click="selectProduct(prod)">
                         <div>
                             <h4 class="pname">{{prod.Name}}</h4>
-                            <img src="{{prod.Image}}" alt/>
+                            <img src="{{prod.Image.URL}}" alt/>
                         </div>
-                        <p><small>{{prod.Description}}</small></p>
+                        <p><small>{{{prod.Description}}}</small></p>
                     </div>
                 </div>
             </div>
