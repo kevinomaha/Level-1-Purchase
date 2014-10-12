@@ -57,6 +57,9 @@ body {
     background-image: none;
     background-color: #6b9162;
 }
+.jumbotron [href="catalog"] img {
+    max-height: 50px;
+}
 .product-selection-view .col-md-2 > div.product-selector > div {
     background: #6b9162;
     background: -moz-linear-gradient(top,  #6b9162 0%, #ffffff 100%);
