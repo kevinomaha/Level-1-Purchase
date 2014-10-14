@@ -1084,7 +1084,11 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     var optionText = "";
                     if ($scope.selectedProduct.OpeningMessageOption) {
                         var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
-                        if (customMessageOption.indexOf('First and Last Name') > -1) {
+                        if ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") {
+                            openingText = "";
+                            customMessageText = $scope.recipientGroup[recip].OpeningMessage;
+                        }
+                        else if (customMessageOption.indexOf('First and Last Name') > -1) {
                             openingText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
                             customMessageText = "";
                             optionText = "Use recipient's first and last name as the opening message";
@@ -1140,7 +1144,11 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     var optionText = "";
                     if ($scope.selectedProduct.OpeningMessageOption) {
                         var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
-                        if (customMessageOption.indexOf('First and Last Name') > -1) {
+                        if ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") {
+                            openingText = "";
+                            customMessageText = $scope.recipientGroup[recip].OpeningMessage;
+                        }
+                        else if (customMessageOption.indexOf('First and Last Name') > -1) {
                             openingText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
                             customMessageText = "";
                             optionText = "Use recipient's first and last name as the opening message";
@@ -1199,7 +1207,11 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     var optionText = "";
                     if ($scope.selectedProduct.OpeningMessageOption) {
                         var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
-                        if (customMessageOption.indexOf('First and Last Name') > -1) {
+                        if ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") {
+                            openingText = "";
+                            customMessageText = $scope.recipientGroup[recip].OpeningMessage;
+                        }
+                        else if (customMessageOption.indexOf('First and Last Name') > -1) {
                             openingText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
                             customMessageText = "";
                             optionText = "Use recipient's first and last name as the opening message";
