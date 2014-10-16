@@ -191,7 +191,7 @@ function($resource, $451, Address, Variant) {
             angular.forEach(order.LineItems, function (i) {
                 i.Anonymous = false;
                 i.InGroup = false;
-                i.FaceValue = +(i.Specs.Denomination1.Value.replace('$',''));
+                i.FaceValue = (i.Specs.Denomination1) ? +(i.Specs.Denomination1.Value.replace('$','')) : 0;
                 if ((!i.Specs['FirstName1'] && !i.Specs['LastName1'] && !i.Specs['Email1'] && !addressID) || (i.Specs['FirstName1'] && !i.Specs['FirstName1'].Value && i.Specs['LastName1'] && !i.Specs['LastName1'].Value && i.Specs['Email1'] && !i.Specs['Email1'].Value)) {
                     i.Anonymous = true;
                 }
