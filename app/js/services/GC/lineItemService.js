@@ -37,6 +37,7 @@ function($resource, $451, Address, Variant) {
 				var addressID = i.ShipAddressID;
 				if (!i.InGroup) {
 					i.InGroup = true;
+                    i.Added = false;
                     if ((!i.Variant.Specs['FirstName1'] && !i.Variant.Specs['LastName1'] && !i.Variant.Specs['Email1'] && !addressID) || (i.Variant.Specs['FirstName1'] && !i.Variant.Specs['FirstName1'].Value && i.Variant.Specs['LastName1'] && !i.Variant.Specs['LastName1'].Value && i.Variant.Specs['Email1'] && !i.Variant.Specs['Email1'].Value)) {
                         i.Anonymous = true;
                         i.UniqueID = 'anonymous' + i.UniqueID;
@@ -64,10 +65,11 @@ function($resource, $451, Address, Variant) {
                                     i.ShipperID = order.lineItemGroups[g].Shipper.ID;
                                 }
                                 order.lineItemGroups[g].LineItems.push(i);
+                                i.Added = true;
                                 order.lineItemGroups[g].Total += i.LineTotal;
                                 order.lineItemGroups[g].FaceTotal += i.FaceValue;
                             }
-                            else if (!order.lineItemGroups[g+1]) {
+                            else if (!order.lineItemGroups[g+1] && !i.Added) {
                                 order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[],"IsDigital":i.IsDigital,"Total": 0,"FaceTotal": 0,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
                             }
                         }
