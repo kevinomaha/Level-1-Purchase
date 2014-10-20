@@ -1073,6 +1073,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             //Line Breaks
             personalMessage = personalMessage ? personalMessage.replace(/\n/g, "\r\n") : "";
             var closingMessage = $scope.recipientGroup[recip].ClosingMessage ? $scope.recipientGroup[recip].ClosingMessage : $scope.selectedProduct.ClosingMessage;
+            if (closingMessage.length > 50) {
+                closingMessage = closingMessage.substring(0,50);
+            }
             var emailSubject = $scope.recipientGroup[recip].EmailSubject ? $scope.recipientGroup[recip].EmailSubject : $scope.selectedProduct.EmailSubject;
             var deliveryDate = $scope.recipientGroup[recip].DeliveryDate ? $scope.recipientGroup[recip].DeliveryDate : $scope.selectedProduct.DeliveryDate;
 
@@ -1108,6 +1111,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             customMessageText = "";
                             optionText = "None";
                         }
+                    }
+
+                    if (personalMessage.length > 300) {
+                        personalMessage = personalMessage.substring(0,300);
+                    }
+                    if (customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {
@@ -1168,6 +1178,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             customMessageText = "";
                             optionText = "None";
                         }
+                    }
+
+                    if (personalMessage.length > 500) {
+                        personalMessage = personalMessage.substring(0,500);
+                    }
+                    if (customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {
@@ -1233,6 +1250,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                         }
                     }
 
+                    if (personalMessage.length > 300) {
+                        personalMessage = personalMessage.substring(0,300);
+                    }
+                    if (customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
+                    }
+
                     var variant = {
                         "ProductInteropID": $scope.selectedProduct.InteropID,
                         "Specs": {
@@ -1272,6 +1296,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             //Line Breaks
             personalMessage = personalMessage ? personalMessage.replace(/\n/g, "\r\n") : "";
             var closingMessage = $scope.selectedProduct.ClosingMessage;
+            if (closingMessage.length > 50) {
+                closingMessage = closingMessage.substring(0,50);
+            }
             var emailSubject = $scope.selectedProduct.EmailSubject;
 
             switch ($scope.selectedProduct.StandardID) {
@@ -1302,6 +1329,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             customMessageText = "";
                             optionText = "None";
                         }
+                    }
+
+                    if (personalMessage.length > 300) {
+                        personalMessage = personalMessage.substring(0,300);
+                    }
+                    if (customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {
@@ -1357,6 +1391,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             customMessageText = "";
                             optionText = "None";
                         }
+                    }
+
+                    if (personalMessage.length > 500) {
+                        personalMessage = personalMessage.substring(0,500);
+                    }
+                    if (customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {
@@ -1415,6 +1456,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             customMessageText = "";
                             optionText = "None";
                         }
+                    }
+
+                    if (personalMessage.length > 300) {
+                        personalMessage = personalMessage.substring(0,300);
+                    }
+                    if (customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {

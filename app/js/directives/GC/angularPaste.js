@@ -263,7 +263,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                         recipient.EmailSubject = $scope.parsedPaste[i][17];
                                         recipient.DeliveryDate = $scope.parsedPaste[i][18];
 										recipient.Invalid = false;
-										recipient.ErrorMessage = null;
+										recipient.ErrorMessage = [];
 										recipient.Selected = false;
 										recipient.AwardCount = 0;
 
@@ -277,33 +277,56 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                         if (recipient.Email && !validateEmail(recipient.Email)) {
                                             recipient.Invalid = true;
                                             $scope.tempPasteError = true;
-                                            recipient.ErrorMessage = recipientIdentifier + " has an invalid email address. This email address will not be uploaded.";
+                                            recipient.ErrorMessage.push(recipientIdentifier + " has an invalid email address. This email address will not be uploaded.");
                                         }
                                         if (recipient.Denomination && !validDenomination(recipient.Denomination)) {
                                             recipient.Invalid = true;
                                             $scope.tempPasteError = true;
-                                            recipient.ErrorMessage = recipientIdentifier + " has an invalid denomination. This value will not be uploaded.";
+                                            recipient.ErrorMessage.push(recipientIdentifier + " has an invalid denomination. This value will not be uploaded.");
                                         }
                                         if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
                                             recipient.Invalid = true;
                                             $scope.tempPasteError = true;
-                                            recipient.ErrorMessage = recipientIdentifier + " has an invalid delivery date. This value must be a valid date (MM/DD/YYYY) within 120 days in the future. This value will not be uploaded.";
+                                            recipient.ErrorMessage.push(recipientIdentifier + " has an invalid delivery date. This value must be a valid date (MM/DD/YYYY) within 120 days in the future. This value will not be uploaded.");
                                         }
 
                                         if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
                                             recipient.Invalid = true;
                                             $scope.tempPasteError = true;
-                                            recipient.ErrorMessage = recipientIdentifier + " has a personal message greater than 6 lines. The text after line 6 for this value will not be uploaded.";
+                                            recipient.ErrorMessage.push(recipientIdentifier + " has a personal message greater than 6 lines. The text after line 6 for this value will not be uploaded.");
+                                        }
+
+                                        if (recipient.OpeningMessage.length > 50) {
+                                            recipient.Invalid = true;
+                                            $scope.tempPasteError = true;
+                                            recipient.ErrorMessage.push(recipientIdentifier + " has an opening message longer than 50 characters. This value will be truncated at that character limit.");
+                                        }
+
+                                        if (recipient.ClosingMessage.length > 50) {
+                                            recipient.Invalid = true;
+                                            $scope.tempPasteError = true;
+                                            recipient.ErrorMessage.push(recipientIdentifier + " has a closing message longer than 50 characters. This value will be truncated at that character limit.");
                                         }
 
 										if ($scope.selectedProduct && $scope.digitalProduct) {
 											if (recipient.Email.length == 0) {
                                                 $scope.tempPasteError = true;
                                                 recipient.Invalid = true;
-                                                recipient.ErrorMessage = recipientIdentifier + " is missing an email address";
+                                                recipient.ErrorMessage.push(recipientIdentifier + " is missing an email address");
 											}
+                                            if (recipient.PersonalMessage.length > 500) {
+                                                recipient.Invalid = true;
+                                                $scope.tempPasteError = true;
+                                                recipient.ErrorMessage.push(recipientIdentifier + " has a personal message longer than 500 characters. This value will be truncated at that character limit.");
+                                            }
 										}
 										else if ($scope.selectedProduct && !$scope.digitalProduct) {
+                                            if (recipient.PersonalMessage.length > 300) {
+                                                recipient.Invalid = true;
+                                                $scope.tempPasteError = true;
+                                                recipient.ErrorMessage.push(recipientIdentifier + " has a personal message longer than 300 characters. This value will be truncated at that character limit.");
+                                            }
+
 											var stateValid = false;
 											angular.forEach(stateList, function(state) {
 												if (state.value == recipient.State) {
@@ -354,15 +377,16 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                             if (errorCnt > 0) {
                                                 $scope.tempPasteError = true;
                                                 recipient.Invalid = true;
-                                                recipient.ErrorMessage = recipientIdentifier + " is missing the following fields: ";
+                                                var addressError = recipientIdentifier + " is missing the following fields: ";
                                                 for (var e = 0; e < errors.length; e++) {
                                                     if (e < errors.length - 1) {
-                                                        recipient.ErrorMessage += " " + errors[e] + ",";
+                                                        addressError += " " + errors[e] + ",";
                                                     }
                                                     else {
-                                                        recipient.ErrorMessage += " " + errors[e];
+                                                        addressError += " " + errors[e];
                                                     }
                                                 }
+                                                recipient.ErrorMessage.push(addressError);
                                             }
 										}
 										recipientPasteList.push(recipient);

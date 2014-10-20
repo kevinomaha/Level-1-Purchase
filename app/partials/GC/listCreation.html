@@ -279,7 +279,13 @@
             <div class="text-info" ng-show="(tempRecipientPasteList.length > 0 && tempPasteError) || columnLengthError">
                 <strong>The following errors were detected:</strong>
                 <ul>
-                    <li ng-repeat="recipient in tempRecipientPasteList | filter:{Invalid:true}">{{recipient.ErrorMessage}}</li>
+                    <li ng-repeat="recipient in tempRecipientPasteList | filter:{Invalid:true}">
+                        <ul>
+                            <li ng-repeat="error in recipient.ErrorMessage">
+                                {{error}}
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul ng-show="columnLengthError">
                     <li>Please copy all 19 columns from spreadsheet</li>
