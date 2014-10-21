@@ -40,6 +40,13 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
         $scope.addressesLoading = true;
         CustomAddressList.getall(function(list) {
             $scope.addresses = list;
+            var shippingFound = false;
+            angular.forEach($scope.addresses, function(add) {
+                if (add.IsShipping && add.IsCustEditable) {
+                    shippingFound = true;
+                }
+            });
+            if (!shippingFound) $scope.shipaddressform = true;
             $scope.addressesLoading = false;
             for (var a = 0; a < list.length; a++) {
                 if (list[a].AddressName == 'Email Delivery') {
@@ -607,8 +614,8 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
             if (!li.Quantity || li.Quantity == 0) {qtyError = true}
         });
         //if (!order.PhoneNumber) {$scope.errorMessages.push("Please enter a valid phone number for the order")}
-        if (shipAddressMissing) {$scope.errorMessages.push("Please select a ship address for all items");}
-        if (shipperMissing) {$scope.errorMessages.push("Please select a ship method for all items");}
+        if (shipAddressMissing) {$scope.errorMessages.push("Please select a shipping address for all items");}
+        if (shipperMissing) {$scope.errorMessages.push("Please select a shipping method for all items");}
         if (qtyError) {$scope.errorMessages.push("Please select a valid quantity for all items");}
 
         if (order.PaymentMethod == 'CreditCard' && !order.CreditCardID) {

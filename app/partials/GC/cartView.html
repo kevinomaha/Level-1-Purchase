@@ -108,6 +108,7 @@
                     <div class="row">
                         <div class="col-xs-7">
                             <div class="form-group">
+                                <label style="font-size:11px;">Select a shipping method</label>
                                 <select class="form-control"
                                         ng-change="updateGroupShipper(group)"
                                         name="shipMethod"
@@ -383,11 +384,11 @@
                 <div ng-show="shipaddressform" class="row">
                     <addressinput address='shipaddress' user='user'></addressinput>
                 </div>
-                <form name="cart_merchant_shipping">
+                <form name="cart_merchant_shipping" ng-show="!shipaddressform" >
                     <div class="row">
                         <div class="col-md-6">
                             <div>
-                                <label class="{required: !tempOrder.MerchantCardShipAddressID}">Physical cards shipping address</label>
+                                <label class="{required: !tempOrder.MerchantCardShipAddressID}" style="font-size:11px;">Select a shipping address</label>
                                 <div class="input-group">
                                     <select class="form-control"
                                             name="shippingAddress"
@@ -396,15 +397,15 @@
                                             ng-change="setShipAddress()"
                                             ng-required="tempOrder.merchantCardLineItems.length > 0 && !tempOrder.merchantCardsAllDigital">
                                     </select>
-                                                <span class="input-group-btn">
-                                                    <button class="btn btn-primary" type="button" ng-click="shipaddressform = true" tabindex="-1">New</button>
-                                                </span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button" ng-click="shipaddressform = true" tabindex="-1">New</button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group" ng-show="user.ShipMethod != null && shippers">
-                                <label ng-class="{required: !tempOrder.MerchantCardShipMethod}">Physical cards shipping method</label>
+                                <label ng-class="{required: !tempOrder.MerchantCardShipMethod}" style="font-size:11px;">Select a shipping method</label>
                                 <select class="form-control" name="shipMethod"
                                         ng-model="tempOrder.MerchantCardShipMethod"
                                         ng-change="setShipper()"

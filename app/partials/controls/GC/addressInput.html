@@ -1,5 +1,6 @@
 <div id="address_edit" class="col-sm-12">
     <loadingindicator ng-show="displayLoadingIndicator" title="Please wait while we validate your address"/>
+    <div class="text-center"><b>New {{address.IsBilling ? 'Billing' : 'Shipping'}} Address</b></div>
     <form name="addressEdit">
         <div class="row" ng-show="addressMessage">
             <div class="col-xs-7">
