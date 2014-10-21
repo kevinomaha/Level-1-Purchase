@@ -1073,7 +1073,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             //Line Breaks
             personalMessage = personalMessage ? personalMessage.replace(/\n/g, "\r\n") : "";
             var closingMessage = $scope.recipientGroup[recip].ClosingMessage ? $scope.recipientGroup[recip].ClosingMessage : $scope.selectedProduct.ClosingMessage;
-            if (closingMessage.length > 50) {
+            if (closingMessage && closingMessage.length > 50) {
                 closingMessage = closingMessage.substring(0,50);
             }
             var emailSubject = $scope.recipientGroup[recip].EmailSubject ? $scope.recipientGroup[recip].EmailSubject : $scope.selectedProduct.EmailSubject;
@@ -1113,10 +1113,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                         }
                     }
 
-                    if (personalMessage.length > 300) {
+                    if (personalMessage && personalMessage.length > 300) {
                         personalMessage = personalMessage.substring(0,300);
                     }
-                    if (customMessageText.length > 50) {
+                    if (customMessageText && customMessageText.length > 50) {
                         customMessageText = customMessageText.substring(0,50);
                     }
 
@@ -1180,10 +1180,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                         }
                     }
 
-                    if (personalMessage.length > 500) {
+                    if (personalMessage && personalMessage.length > 500) {
                         personalMessage = personalMessage.substring(0,500);
                     }
-                    if (customMessageText.length > 50) {
+                    if (customMessageText && customMessageText.length > 50) {
                         customMessageText = customMessageText.substring(0,50);
                     }
 
@@ -1250,10 +1250,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                         }
                     }
 
-                    if (personalMessage.length > 300) {
+                    if (personalMessage && personalMessage.length > 300) {
                         personalMessage = personalMessage.substring(0,300);
                     }
-                    if (customMessageText.length > 50) {
+                    if (customMessageText && customMessageText.length > 50) {
                         customMessageText = customMessageText.substring(0,50);
                     }
 
@@ -1296,7 +1296,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             //Line Breaks
             personalMessage = personalMessage ? personalMessage.replace(/\n/g, "\r\n") : "";
             var closingMessage = $scope.selectedProduct.ClosingMessage;
-            if (closingMessage.length > 50) {
+            if (closingMessage && closingMessage.length > 50) {
                 closingMessage = closingMessage.substring(0,50);
             }
             var emailSubject = $scope.selectedProduct.EmailSubject;
@@ -1331,10 +1331,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                         }
                     }
 
-                    if (personalMessage.length > 300) {
+                    if (personalMessage && personalMessage.length > 300) {
                         personalMessage = personalMessage.substring(0,300);
                     }
-                    if (customMessageText.length > 50) {
+                    if (customMessageText && customMessageText.length > 50) {
                         customMessageText = customMessageText.substring(0,50);
                     }
 
@@ -1393,10 +1393,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                         }
                     }
 
-                    if (personalMessage.length > 500) {
+                    if (personalMessage && personalMessage.length > 500) {
                         personalMessage = personalMessage.substring(0,500);
                     }
-                    if (customMessageText.length > 50) {
+                    if (customMessageText && customMessageText.length > 50) {
                         customMessageText = customMessageText.substring(0,50);
                     }
 
@@ -1458,10 +1458,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                         }
                     }
 
-                    if (personalMessage.length > 300) {
+                    if (personalMessage && personalMessage.length > 300) {
                         personalMessage = personalMessage.substring(0,300);
                     }
-                    if (customMessageText.length > 50) {
+                    if (customMessageText && customMessageText.length > 50) {
                         customMessageText = customMessageText.substring(0,50);
                     }
 
@@ -1647,7 +1647,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     $scope.cancelEditAward = function() {
         $location.path('cart');
-    }
+    };
 
     $scope.updateAward = function (product, lineitem) {
         $scope.selectedProduct.buildingProductsIndicator = true;
@@ -1693,6 +1693,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     }
                 }
 
+                if (!$scope.editingLineItem.Anonymous) {
+                    variant.Specs.FirstName1 = variant.Specs.FirstName1 ? {"Value": lineitem.Variant.Specs.FirstName1.Value} : {"Value": ""};
+                    variant.Specs.LastName1 = variant.Specs.LastName1 ? {"Value": lineitem.Variant.Specs.LastName1.Value} : {"Value": ""};
+                    variant.Specs.Email1 = variant.Specs.Email1 ? {"Value": lineitem.Variant.Specs.Email1.Value} : {"Value": ""};
+                }
+
                 variant.ProductInteropID = $scope.selectedProduct.InteropID;
                 variant.Specs.V10DesignSelection = {"Value": $scope.selectedProduct.designSelection};
                 variant.Specs.V00MessageSelectionList = {"Value": $scope.selectedProduct.occasionMessage};
@@ -1734,6 +1740,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                         customMessageText = "";
                         optionText = "None";
                     }
+                }
+
+                if (!$scope.editingLineItem.Anonymous) {
+                    variant.Specs.FirstName1 = variant.Specs.FirstName1 ? {"Value": lineitem.Variant.Specs.FirstName1.Value} : {"Value": ""};
+                    variant.Specs.LastName1 = variant.Specs.LastName1 ? {"Value": lineitem.Variant.Specs.LastName1.Value} : {"Value": ""};
+                    variant.Specs.Email1 = variant.Specs.Email1 ? {"Value": lineitem.Variant.Specs.Email1.Value} : {"Value": ""};
                 }
 
                 variant.ProductInteropID = $scope.selectedProduct.InteropID;
@@ -1779,6 +1791,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                         customMessageText = "";
                         optionText = "None";
                     }
+                }
+
+                if (!$scope.editingLineItem.Anonymous) {
+                    variant.Specs.FirstName1 = variant.Specs.FirstName1 ? {"Value": lineitem.Variant.Specs.FirstName1.Value} : {"Value": ""};
+                    variant.Specs.LastName1 = variant.Specs.LastName1 ? {"Value": lineitem.Variant.Specs.LastName1.Value} : {"Value": ""};
+                    variant.Specs.Email1 = variant.Specs.Email1 ? {"Value": lineitem.Variant.Specs.Email1.Value} : {"Value": ""};
                 }
 
                 variant.ProductInteropID = $scope.selectedProduct.InteropID;

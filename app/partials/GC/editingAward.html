@@ -106,6 +106,35 @@
             <div collapse="CSTEP != 2">
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="row" ng-show="!editingLineItem.Anonymous">
+                            <div class="col-lg-3">
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>First Name</label>
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="editingLineItem.Variant.Specs.FirstName1.Value" name="FirstName" />
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>Last Name</label>
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="editingLineItem.Variant.Specs.LastName1.Value" name="LastName" />
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>Email Address</label>
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="editingLineItem.Variant.Specs.Email1.Value" name="Email" ng-required="editingLineItem.IsDigital" />
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="view-form-icon">
                             <div>
                                 <label>{{selectedProduct.OpeningMessageOption == 'Custom Message' ? 'Custom ' : ''}} Opening Message</label>
