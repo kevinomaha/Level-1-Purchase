@@ -1023,6 +1023,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         }
     };
 
+    $scope.customOpeningMessageInvalid = false;
+    $scope.$watch('selectedProduct.CustomOpeningMessage', function (newval, oldval) {
+        $scope.customOpeningMessageInvalid = false;
+        if (newval) {
+            $scope.customOpeningMessageInvalid = $scope.selectedProduct.CustomOpeningMessage.length > 50;
+        }
+    });
     $scope.personalMessageInvalid = false;
     $scope.$watch('selectedProduct.PersonalMessage', function (newval, oldval) {
         $scope.personalMessageInvalid = false;
@@ -1037,6 +1044,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             if ($scope.selectedProduct.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
                 $scope.personalMessageInvalid = true;
             }
+        }
+    });
+    $scope.closingMessageInvalid = false;
+    $scope.$watch('selectedProduct.ClosingMessage', function (newval, oldval) {
+        $scope.closingMessageInvalid = false;
+        if (newval) {
+            $scope.closingMessageInvalid = $scope.selectedProduct.ClosingMessage.length > 50;
         }
     });
     $scope.emailSubjectInvalid = false;
