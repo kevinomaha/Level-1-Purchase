@@ -108,7 +108,7 @@
                     <div class="row">
                         <div class="col-xs-7">
                             <div class="form-group">
-                                <label style="font-size:11px;">Select a shipping method</label>
+                                <label style="font-size:11px;" ng-show="!group.IsDigital">Select a shipping method</label>
                                 <select class="form-control"
                                         ng-change="updateGroupShipper(group)"
                                         name="shipMethod"
@@ -249,6 +249,7 @@
                             <div class="view-form-icon">
                                 <div style="margin-bottom:10px;">
                                     <div class="input-group">
+                                        <label style="font-size:11px;" ng-show="!group.IsDigital">Select a shipping address</label>
                                         <select class="form-control" name="shippingAddress"
                                                 ng-change="setShipAddress(tempOrder.AnonymousShipAddress)"
                                                 ng-options="address.ID as address.AddressName for address in addresses | filter:{IsCustEditable:true,IsShipping:true}"
@@ -261,17 +262,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <select class="form-control"
-                                        ng-change="updateGroupShipper(group)"
-                                        name="shipMethod"
-                                        ng-model="group.ShipMethod"
-                                        ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
-                                        ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : tempOrder.Total:tempOrder.LineItems.length:group.IsDigital"
-                                        ng-required="true">
-                                    <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
-                                </select>
-                                <div style="margin:10px 0;" ng-show="group.IsDigital">
-                                    <b>Email Delivery</b>
+                            </div>
+                            <div class="view-form-icon">
+                                <div>
+                                    <label style="font-size:11px;" ng-show="!group.IsDigital">Select a shipping method</label>
+                                    <select class="form-control"
+                                            ng-change="updateGroupShipper(group)"
+                                            name="shipMethod"
+                                            ng-model="group.ShipMethod"
+                                            ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
+                                            ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : tempOrder.Total:tempOrder.LineItems.length:group.IsDigital"
+                                            ng-required="true">
+                                        <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
+                                    </select>
+                                    <div style="margin:10px 0;" ng-show="group.IsDigital">
+                                        <b>Email Delivery</b>
+                                    </div>
                                 </div>
                             </div>
                         </div>
