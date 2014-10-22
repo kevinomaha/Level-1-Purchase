@@ -293,6 +293,7 @@ function($resource, $451, Address, Variant) {
                 product.PersonalMessage = lineitem.Variant.Specs.V15Message ? lineitem.Variant.Specs.V15Message.Value : "";
                 product.ClosingMessage = lineitem.Variant.Specs.V16Closing ? lineitem.Variant.Specs.V16Closing.Value : "";
                 product.OpeningOption = lineitem.Variant.Specs.V14OpeningPesonalization ? lineitem.Variant.Specs.V14OpeningPesonalization.Value : "";
+                product.logoID = lineitem.Variant.Specs.V17P_LogoFileID ? lineitem.Variant.Specs.V17P_LogoFileID.Value : "";
                 break;
             case "SCD-GC12":
                 product.designSelection = lineitem.Variant.Specs.V01Design ? lineitem.Variant.Specs.V01Design.Value : "";
@@ -302,6 +303,7 @@ function($resource, $451, Address, Variant) {
                 product.EmailSubject = lineitem.Specs.EmailSubject ? lineitem.Specs.EmailSubject.Value : "";
                 product.DeliveryDate = lineitem.Specs.FutureShipDate ? lineitem.Specs.FutureShipDate.Value : "";
                 product.OpeningOption = lineitem.Variant.Specs.V09PersonalMessageOp ? lineitem.Variant.Specs.V09PersonalMessageOp.Value : "";
+                product.logoID = lineitem.Variant.Specs.V17D_LogoFileID ? lineitem.Variant.Specs.V17D_LogoFileID.Value : "";
                 break;
             case "SCP-GC2":
                 product.designSelection = lineitem.Variant.Specs.V10DesignSelection ? lineitem.Variant.Specs.V10DesignSelection.Value : "";
@@ -309,17 +311,18 @@ function($resource, $451, Address, Variant) {
                 product.PersonalMessage = lineitem.Variant.Specs.V04PersonalMessage ? lineitem.Variant.Specs.V04PersonalMessage.Value : "";
                 product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage ? lineitem.Variant.Specs.V05ClosingMessage.Value : "";
                 product.OpeningOption = lineitem.Variant.Specs.V09PersonalMessageOp ? lineitem.Variant.Specs.V09PersonalMessageOp.Value : "";
+                product.logoID = lineitem.Variant.Specs.V17P_LogoFileID ? lineitem.Variant.Specs.V17P_LogoFileID.Value : "";
                 break;
         }
         product.denomination = lineitem.Variant.Specs.Denomination1 ? lineitem.Variant.Specs.Denomination1.Value : "";
 
-            if (product.OpeningOption.indexOf('first and last')) {
+            if (product.OpeningOption.indexOf('first and last') > -1) {
                 product.OpeningMessageOption = "First and Last Name";
             }
-            else if (product.OpeningOption.indexOf('first name only')) {
+            else if (product.OpeningOption.indexOf('first name only') > -1) {
                 product.OpeningMessageOption = "First Name Only";
             }
-            else if (product.OpeningOption.indexOf('custom text')) {
+            else if (product.OpeningOption.indexOf('custom text') > -1) {
                 product.OpeningMessageOption = "Custom Message";
             }
             else{

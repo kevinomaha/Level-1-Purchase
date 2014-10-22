@@ -785,6 +785,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             if (store.get("451Cache.LogoList").length > 0) {
                                 $scope.logoOptions = store.get("451Cache.LogoList") ? store.get("451Cache.LogoList") : [];
                                 $scope.showLogoSelection = true;
+                                if ($scope.EditingAward && $scope.selectedProduct.logoID) {
+                                    angular.forEach($scope.logoOptions, function(logo) {
+                                        if (logo.fileID == $scope.selectedProduct.logoID) {
+                                            $scope.selectedProduct.selectedLogo = logo;
+                                            $scope.showLogo();
+                                        }
+                                    });
+                                }
                             }
                             $scope.logoCheckingIndicator = false;
                         }
@@ -798,6 +806,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             if (store.get("451Cache.LogoList").length > 0) {
                                 $scope.logoOptions = store.get("451Cache.LogoList") ? store.get("451Cache.LogoList") : [];
                                 $scope.showLogoSelection = true;
+                                if ($scope.EditingAward && $scope.selectedProduct.logoID) {
+                                    angular.forEach($scope.logoOptions, function(logo) {
+                                        if (logo.fileID == $scope.selectedProduct.logoID) {
+                                            $scope.selectedProduct.selectedLogo = logo;
+                                            $scope.showLogo();
+                                        }
+                                    });
+                                }
                             }
                             $scope.logoCheckingIndicator = false;
                         }
