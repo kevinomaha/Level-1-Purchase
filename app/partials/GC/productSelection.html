@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12 col-md-offset-1">
             <div class="row">
-                <div class="col-md-2 col-sm-4" ng-repeat="prod in tree">
+                <div class="col-md-2 col-sm-4" ng-repeat="prod in productList">
                     <div class="product-selector" ng-class="{'active': selectedProduct.Name == prod.Name}" ng-click="selectProduct(prod)">
                         <div>
                             <h4 class="pname">{{prod.Name}}</h4>
