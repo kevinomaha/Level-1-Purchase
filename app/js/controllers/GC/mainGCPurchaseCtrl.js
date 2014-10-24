@@ -224,7 +224,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         recipient.savingIndicator = true;
         recipient['ID'] = randomString();
         var address = {};
-        if (recipient.Street1 != "") {
+        if (recipient.Street1 && recipient.Street1 != "" && !recipient.ShipAddressID) {
             address.AddressName = recipient.Street1;
             address.FirstName = recipient.ShipToFirstName;
             address.LastName = recipient.ShipToLastName;
@@ -361,7 +361,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             $scope.recipientList.push(recipient);
             store.set("451Cache.RecipientList", $scope.recipientList);
             $scope.clearRecipient('recipient');
-            console.log($scope);
             AddressList.query(function (list) {
                 $scope.addresses = list;
             });
@@ -373,7 +372,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     $scope.recipientList.push(recipient);
                     store.set("451Cache.RecipientList", $scope.recipientList);
                     $scope.clearRecipient('recipient');
-                    console.log($scope);
                     AddressList.query(function (list) {
                         $scope.addresses = list;
                     });
@@ -787,6 +785,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             if (store.get("451Cache.LogoList").length > 0) {
                                 $scope.logoOptions = store.get("451Cache.LogoList") ? store.get("451Cache.LogoList") : [];
                                 $scope.showLogoSelection = true;
+                                if ($scope.EditingAward && $scope.selectedProduct.logoID) {
+                                    angular.forEach($scope.logoOptions, function(logo) {
+                                        if (logo.fileID == $scope.selectedProduct.logoID) {
+                                            $scope.selectedProduct.selectedLogo = logo;
+                                            $scope.showLogo();
+                                        }
+                                    });
+                                }
                             }
                             $scope.logoCheckingIndicator = false;
                         }
@@ -800,6 +806,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             if (store.get("451Cache.LogoList").length > 0) {
                                 $scope.logoOptions = store.get("451Cache.LogoList") ? store.get("451Cache.LogoList") : [];
                                 $scope.showLogoSelection = true;
+                                if ($scope.EditingAward && $scope.selectedProduct.logoID) {
+                                    angular.forEach($scope.logoOptions, function(logo) {
+                                        if (logo.fileID == $scope.selectedProduct.logoID) {
+                                            $scope.selectedProduct.selectedLogo = logo;
+                                            $scope.showLogo();
+                                        }
+                                    });
+                                }
                             }
                             $scope.logoCheckingIndicator = false;
                         }
@@ -831,12 +845,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $scope.selectedProduct.anonymousQty = "";
         $scope.step = 3;
     };
-
-    /*$scope.digitalOM = digitalOM;
-    $scope.physicalOM = physicalOM;
-    $scope.digitalDesignPreview = Resources.digitalDesignPreview;
-    $scope.physicalDesignPreview = Resources.physicalDesignPreview;
-    $scope.giftcardDesignPreview = Resources.giftcardDesignPreview;*/
 
     $scope.occasionMessages = [];
 
@@ -1015,6 +1023,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         }
     };
 
+    $scope.customOpeningMessageInvalid = false;
+    $scope.$watch('selectedProduct.CustomOpeningMessage', function (newval, oldval) {
+        $scope.customOpeningMessageInvalid = false;
+        if (newval) {
+            $scope.customOpeningMessageInvalid = $scope.selectedProduct.CustomOpeningMessage.length > 50;
+        }
+    });
     $scope.personalMessageInvalid = false;
     $scope.$watch('selectedProduct.PersonalMessage', function (newval, oldval) {
         $scope.personalMessageInvalid = false;
@@ -1029,6 +1044,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             if ($scope.selectedProduct.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
                 $scope.personalMessageInvalid = true;
             }
+        }
+    });
+    $scope.closingMessageInvalid = false;
+    $scope.$watch('selectedProduct.ClosingMessage', function (newval, oldval) {
+        $scope.closingMessageInvalid = false;
+        if (newval) {
+            $scope.closingMessageInvalid = $scope.selectedProduct.ClosingMessage.length > 50;
         }
     });
     $scope.emailSubjectInvalid = false;
@@ -1081,6 +1103,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             //Line Breaks
             personalMessage = personalMessage ? personalMessage.replace(/\n/g, "\r\n") : "";
             var closingMessage = $scope.recipientGroup[recip].ClosingMessage ? $scope.recipientGroup[recip].ClosingMessage : $scope.selectedProduct.ClosingMessage;
+            if (closingMessage && closingMessage.length > 50) {
+                closingMessage = closingMessage.substring(0,50);
+            }
             var emailSubject = $scope.recipientGroup[recip].EmailSubject ? $scope.recipientGroup[recip].EmailSubject : $scope.selectedProduct.EmailSubject;
             var deliveryDate = $scope.recipientGroup[recip].DeliveryDate ? $scope.recipientGroup[recip].DeliveryDate : $scope.selectedProduct.DeliveryDate;
 
@@ -1089,24 +1114,40 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_") + " | " + $scope.selectedProduct.occasionMessageID;
                     var customMessageText = "";
                     var openingText = "";
+                    var optionText = "";
                     if ($scope.selectedProduct.OpeningMessageOption) {
                         var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
-                        if (customMessageOption.indexOf('First and Last Name') > -1) {
+                        if ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") {
+                            openingText = "";
+                            customMessageText = $scope.recipientGroup[recip].OpeningMessage;
+                        }
+                        else if (customMessageOption.indexOf('First and Last Name') > -1) {
                             openingText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
-                            customMessageText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
+                            customMessageText = "";
+                            optionText = "Use recipient's first and last name as the opening message";
                         }
                         else if (customMessageOption.indexOf('First Name Only') > -1) {
                             openingText = $scope.recipientGroup[recip].FirstName;
-                            customMessageText = $scope.recipientGroup[recip].FirstName;
+                            customMessageText = "";
+                            optionText = "Use recipient's first name only as the opening message";
                         }
                         else if (customMessageOption.indexOf('Custom Message') > -1) {
                             openingText = "";
                             customMessageText = ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") ? $scope.recipientGroup[recip].OpeningMessage : $scope.selectedProduct.CustomOpeningMessage;
+                            optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
                         }
                         else {
                             openingText = "";
                             customMessageText = "";
+                            optionText = "None";
                         }
+                    }
+
+                    if (personalMessage && personalMessage.length > 300) {
+                        personalMessage = personalMessage.substring(0,300);
+                    }
+                    if (customMessageText && customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {
@@ -1128,7 +1169,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             "IsMultiRecipient": {"Value": "True"},
                             "V17OccasionMessageImage": {"Value": $scope.selectedProduct.imageName},
                             "SaveAs": {"Value": saveAs},
-                            "V14OpeningPesonalization": {"Value": customMessageOption},
+                            "V14OpeningPesonalization": {"Value": optionText},
                             "PersonalMessageCheck": {"Value": "Pass"},
                             "V11_CustomerLogo": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
                             "V17P_LogoFileID": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
@@ -1140,24 +1181,40 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
                     var customMessageText = "";
                     var openingText = "";
+                    var optionText = "";
                     if ($scope.selectedProduct.OpeningMessageOption) {
                         var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
-                        if (customMessageOption.indexOf('First and Last Name') > -1) {
+                        if ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") {
+                            openingText = "";
+                            customMessageText = $scope.recipientGroup[recip].OpeningMessage;
+                        }
+                        else if (customMessageOption.indexOf('First and Last Name') > -1) {
                             openingText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
-                            customMessageText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
+                            customMessageText = "";
+                            optionText = "Use recipient's first and last name as the opening message";
                         }
                         else if (customMessageOption.indexOf('First Name Only') > -1) {
                             openingText = $scope.recipientGroup[recip].FirstName;
-                            customMessageText = $scope.recipientGroup[recip].FirstName;
+                            customMessageText = "";
+                            optionText = "Use recipient's first name only as the opening message";
                         }
                         else if (customMessageOption.indexOf('Custom Message') > -1) {
                             openingText = "";
                             customMessageText = ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") ? $scope.recipientGroup[recip].OpeningMessage : $scope.selectedProduct.CustomOpeningMessage;
+                            optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
                         }
                         else {
                             openingText = "";
                             customMessageText = "";
+                            optionText = "None";
                         }
+                    }
+
+                    if (personalMessage && personalMessage.length > 500) {
+                        personalMessage = personalMessage.substring(0,500);
+                    }
+                    if (customMessageText && customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {
@@ -1181,7 +1238,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             "IsMultiRecipient": {"Value": "True"},
                             "V14OccasionImageName": {"Value": $scope.selectedProduct.imageName},
                             "SaveAs": {"Value": saveAs},
-                            "V14OpeningPesonalization": {"Value": customMessageOption},
+                            "V09PersonalMessageOp": {"Value": optionText},
                             "PersonalMessageCheck": {"Value": "Pass"},
                             "V11_CustomerLogo": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
                             "V17D_LogoFileID": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
@@ -1194,21 +1251,40 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     var customMessageOption = $scope.selectedProduct.OpeningMessageOption ? $scope.selectedProduct.OpeningMessageOption : "";
                     var customMessageText = "";
                     var openingText = "";
-                    if (customMessageOption.indexOf('First and Last Name') > -1) {
-                        openingText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
-                        customMessageText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
+                    var optionText = "";
+                    if ($scope.selectedProduct.OpeningMessageOption) {
+                        var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
+                        if ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") {
+                            openingText = "";
+                            customMessageText = $scope.recipientGroup[recip].OpeningMessage;
+                        }
+                        else if (customMessageOption.indexOf('First and Last Name') > -1) {
+                            openingText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
+                            customMessageText = "";
+                            optionText = "Use recipient's first and last name as the opening message";
+                        }
+                        else if (customMessageOption.indexOf('First Name Only') > -1) {
+                            openingText = $scope.recipientGroup[recip].FirstName;
+                            customMessageText = "";
+                            optionText = "Use recipient's first name only as the opening message";
+                        }
+                        else if (customMessageOption.indexOf('Custom Message') > -1) {
+                            openingText = "";
+                            customMessageText = ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") ? $scope.recipientGroup[recip].OpeningMessage : $scope.selectedProduct.CustomOpeningMessage;
+                            optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
+                        }
+                        else {
+                            openingText = "";
+                            customMessageText = "";
+                            optionText = "None";
+                        }
                     }
-                    else if (customMessageOption.indexOf('First Name Only') > -1) {
-                        openingText = $scope.recipientGroup[recip].FirstName;
-                        customMessageText = $scope.recipientGroup[recip].FirstName;
+
+                    if (personalMessage && personalMessage.length > 300) {
+                        personalMessage = personalMessage.substring(0,300);
                     }
-                    else if (customMessageOption.indexOf('Custom Message') > -1) {
-                        openingText = "";
-                        customMessageText = ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") ? $scope.recipientGroup[recip].OpeningMessage : $scope.selectedProduct.CustomOpeningMessage;
-                    }
-                    else {
-                        openingText = "";
-                        customMessageText = "";
+                    if (customMessageText && customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {
@@ -1228,6 +1304,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             "V05ClosingMessage": {"Value": closingMessage},
                             "Opening1": {"Value": openingText},
                             "V03OpeningMessage": {"Value": customMessageText},
+                            "V09PersonalMessageOp": {"Value": optionText},
                             "IsMultiRecipient": {"Value": "True"},
                             "V14OccasionImageName": {"Value": $scope.selectedProduct.imageName},
                             "SaveAs": {"Value": saveAs},
@@ -1249,6 +1326,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             //Line Breaks
             personalMessage = personalMessage ? personalMessage.replace(/\n/g, "\r\n") : "";
             var closingMessage = $scope.selectedProduct.ClosingMessage;
+            if (closingMessage && closingMessage.length > 50) {
+                closingMessage = closingMessage.substring(0,50);
+            }
             var emailSubject = $scope.selectedProduct.EmailSubject;
 
             switch ($scope.selectedProduct.StandardID) {
@@ -1256,24 +1336,36 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_") + " | " + $scope.selectedProduct.occasionMessageID;
                     var customMessageText = "";
                     var openingText = "";
+                    var optionText = "";
                     if ($scope.selectedProduct.OpeningMessageOption) {
                         var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
                         if (customMessageOption.indexOf('First and Last Name') > -1) {
                             openingText = "";
                             customMessageText = "";
+                            optionText = "Use recipient's first and last name as the opening message";
                         }
                         else if (customMessageOption.indexOf('First Name Only') > -1) {
                             openingText = "";
                             customMessageText = "";
+                            optionText = "Use recipient's first name only as the opening message";
                         }
                         else if (customMessageOption.indexOf('Custom Message') > -1) {
                             openingText = "";
                             customMessageText = $scope.selectedProduct.CustomOpeningMessage;
+                            optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
                         }
                         else {
                             openingText = "";
                             customMessageText = "";
+                            optionText = "None";
                         }
+                    }
+
+                    if (personalMessage && personalMessage.length > 300) {
+                        personalMessage = personalMessage.substring(0,300);
+                    }
+                    if (customMessageText && customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {
@@ -1291,14 +1383,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             "V16Closing": {"Value": closingMessage},
                             "V14Opening": {"Value": customMessageText},
                             "Opening1": {"Value": openingText},
-                            "IsMultiRecipient": {"Value": "True"},
+                            "IsMultiRecipient": {"Value": ""},
                             "V17OccasionMessageImage": {"Value": $scope.selectedProduct.imageName},
                             "SaveAs": {"Value": saveAs},
-                            "V14OpeningPesonalization": {"Value": customMessageOption},
+                            "V14OpeningPesonalization": {"Value": optionText},
                             "PersonalMessageCheck": {"Value": "Pass"},
                             "V11_CustomerLogo": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
                             "V17P_LogoFileID": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
-                            "Recipients": {"Value": "1"}
+                            "Recipients": {"Value": $scope.selectedProduct.anonymousQty}
                         }
                     };
                     break;
@@ -1306,24 +1398,36 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
                     var customMessageText = "";
                     var openingText = "";
+                    var optionText = "";
                     if ($scope.selectedProduct.OpeningMessageOption) {
                         var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
                         if (customMessageOption.indexOf('First and Last Name') > -1) {
                             openingText = "";
                             customMessageText = "";
+                            optionText = "Use recipient's first and last name as the opening message";
                         }
                         else if (customMessageOption.indexOf('First Name Only') > -1) {
                             openingText = "";
                             customMessageText = "";
+                            optionText = "Use recipient's first name only as the opening message";
                         }
                         else if (customMessageOption.indexOf('Custom Message') > -1) {
                             openingText = "";
                             customMessageText = $scope.selectedProduct.CustomOpeningMessage;
+                            optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
                         }
                         else {
                             openingText = "";
                             customMessageText = "";
+                            optionText = "None";
                         }
+                    }
+
+                    if (personalMessage && personalMessage.length > 500) {
+                        personalMessage = personalMessage.substring(0,500);
+                    }
+                    if (customMessageText && customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {
@@ -1344,37 +1448,51 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             "V05ClosingMessage": {"Value": closingMessage},
                             "Opening1": {"Value": openingText},
                             "V03OpeningMessage": {"Value": customMessageText},
-                            "IsMultiRecipient": {"Value": "True"},
+                            "IsMultiRecipient": {"Value": ""},
                             "V14OccasionImageName": {"Value": $scope.selectedProduct.imageName},
                             "SaveAs": {"Value": saveAs},
-                            "V14OpeningPesonalization": {"Value": customMessageOption},
+                            "V09PersonalMessageOp": {"Value": optionText},
                             "PersonalMessageCheck": {"Value": "Pass"},
                             "V11_CustomerLogo": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
                             "V17D_LogoFileID": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
-                            "Recipients": {"Value": "1"}
+                            "Recipients": {"Value": $scope.selectedProduct.anonymousQty}
                         }
                     };
                     break;
                 case "SCP-GC2":
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
-                    var customMessageOption = $scope.selectedProduct.OpeningMessageOption ? $scope.selectedProduct.OpeningMessageOption : "";
                     var customMessageText = "";
                     var openingText = "";
-                    if (customMessageOption.indexOf('First and Last Name') > -1) {
-                        openingText = "";
-                        customMessageText = "";
+                    var optionText = "";
+                    if ($scope.selectedProduct.OpeningMessageOption) {
+                        var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
+                        if (customMessageOption.indexOf('First and Last Name') > -1) {
+                            openingText = "";
+                            customMessageText = "";
+                            optionText = "Use recipient's first and last name as the opening message";
+                        }
+                        else if (customMessageOption.indexOf('First Name Only') > -1) {
+                            openingText = "";
+                            customMessageText = "";
+                            optionText = "Use recipient's first name only as the opening message";
+                        }
+                        else if (customMessageOption.indexOf('Custom Message') > -1) {
+                            openingText = "";
+                            customMessageText = $scope.selectedProduct.CustomOpeningMessage;
+                            optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
+                        }
+                        else {
+                            openingText = "";
+                            customMessageText = "";
+                            optionText = "None";
+                        }
                     }
-                    else if (customMessageOption.indexOf('First Name Only') > -1) {
-                        openingText = "";
-                        customMessageText = "";
+
+                    if (personalMessage && personalMessage.length > 300) {
+                        personalMessage = personalMessage.substring(0,300);
                     }
-                    else if (customMessageOption.indexOf('Custom Message') > -1) {
-                        openingText = "";
-                        customMessageText = $scope.selectedProduct.CustomOpeningMessage;
-                    }
-                    else {
-                        openingText = "";
-                        customMessageText = "";
+                    if (customMessageText && customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
                     }
 
                     var variant = {
@@ -1393,13 +1511,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                             "V05ClosingMessage": {"Value": closingMessage},
                             "Opening1": {"Value": openingText},
                             "V03OpeningMessage": {"Value": customMessageText},
-                            "IsMultiRecipient": {"Value": "True"},
+                            "V09PersonalMessageOp": {"Value": optionText},
+                            "IsMultiRecipient": {"Value": ""},
                             "V14OccasionImageName": {"Value": $scope.selectedProduct.imageName},
                             "SaveAs": {"Value": saveAs},
                             "PersonalMessageCheck": {"Value": "Pass"},
                             "V11_CustomerLogo": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
                             "V17P_LogoFileID": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
-                            "Recipients": {"Value": "1"}
+                            "Recipients": {"Value": $scope.selectedProduct.anonymousQty}
                         }
                     };
                     break;
@@ -1477,9 +1596,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 selectedProduct.Description = "";
                 var qty = (variantData.Specs['FirstName1'].Value == "" && variantData.Specs['LastName1'].Value == "" && selectedProduct.ExternalID.indexOf('SCD') == -1 && $scope.selectedProduct.anonymousQty) ? $scope.selectedProduct.anonymousQty : 1;
                 var lineTotal = (markUp * qty) + ($scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price * qty);
-                /*if (qty > 1) {
-                    lineTotal = (markUp * qty) + $scope.selectedProductDetails.StandardPriceSchedule.PriceBreaks[0].Price;
-                }*/
 
                 var reducedVariant = LineItems.reduceVariant(variantData);
                 var reducedProduct = LineItems.reduceProduct(selectedProduct);
@@ -1561,7 +1677,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     $scope.cancelEditAward = function() {
         $location.path('cart');
-    }
+    };
 
     $scope.updateAward = function (product, lineitem) {
         $scope.selectedProduct.buildingProductsIndicator = true;
@@ -1582,24 +1698,35 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_") + " | " + $scope.selectedProduct.occasionMessageID;
                 var customMessageText = "";
                 var openingText = "";
+                var optionText = "";
                 if ($scope.selectedProduct.OpeningMessageOption) {
                     var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
                     if (customMessageOption.indexOf('First and Last Name') > -1) {
                         openingText = (lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1) ? lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value : "";
-                        customMessageText = (lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1) ? lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value : "";
+                        customMessageText = "";
+                        optionText = "Use recipient's first and last name as the opening message";
                     }
                     else if (customMessageOption.indexOf('First Name Only') > -1) {
                         openingText = (lineitem.Variant.Specs.FirstName1) ? lineitem.Variant.Specs.FirstName1.Value : "";
-                        customMessageText = (lineitem.Variant.Specs.FirstName1) ? lineitem.Variant.Specs.FirstName1.Value : "";
+                        customMessageText = "";
+                        optionText = "Use recipient's first name only as the opening message";
                     }
                     else if (customMessageOption.indexOf('Custom Message') > -1) {
                         openingText = "";
                         customMessageText = product.CustomOpeningMessage;
+                        optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
                     }
                     else {
                         openingText = "";
                         customMessageText = "";
+                        optionText = "None";
                     }
+                }
+
+                if (!$scope.editingLineItem.Anonymous) {
+                    variant.Specs.FirstName1 = variant.Specs.FirstName1 ? {"Value": lineitem.Variant.Specs.FirstName1.Value} : {"Value": ""};
+                    variant.Specs.LastName1 = variant.Specs.LastName1 ? {"Value": lineitem.Variant.Specs.LastName1.Value} : {"Value": ""};
+                    variant.Specs.Email1 = variant.Specs.Email1 ? {"Value": lineitem.Variant.Specs.Email1.Value} : {"Value": ""};
                 }
 
                 variant.ProductInteropID = $scope.selectedProduct.InteropID;
@@ -1612,7 +1739,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 variant.Specs.V14Opening = {"Value": customMessageText};
                 variant.Specs.Opening1 = {"Value": openingText};
                 variant.Specs.V17OccasionMessageImage = {"Value": $scope.selectedProduct.imageName};
-                variant.Specs.V14OpeningPesonalization = {"Value": customMessageOption};
+                variant.Specs.V14OpeningPesonalization = {"Value": optionText};
                 variant.Specs.V11_CustomerLogo = {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""};
                 variant.Specs.V17P_LogoFileID = {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""};
                 break;
@@ -1620,24 +1747,35 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
                 var customMessageText = "";
                 var openingText = "";
+                var optionText = "";
                 if ($scope.selectedProduct.OpeningMessageOption) {
                     var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
                     if (customMessageOption.indexOf('First and Last Name') > -1) {
-                        openingText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value;
-                        customMessageText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value;
+                        openingText = (lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1) ? lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value : "";
+                        customMessageText = "";
+                        optionText = "Use recipient's first and last name as the opening message";
                     }
                     else if (customMessageOption.indexOf('First Name Only') > -1) {
-                        openingText = lineitem.Variant.Specs.FirstName1.Value;
-                        customMessageText = lineitem.Variant.Specs.FirstName1.Value;
+                        openingText = (lineitem.Variant.Specs.FirstName1) ? lineitem.Variant.Specs.FirstName1.Value : "";
+                        customMessageText = "";
+                        optionText = "Use recipient's first name only as the opening message";
                     }
                     else if (customMessageOption.indexOf('Custom Message') > -1) {
                         openingText = "";
                         customMessageText = product.CustomOpeningMessage;
+                        optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
                     }
                     else {
                         openingText = "";
                         customMessageText = "";
+                        optionText = "None";
                     }
+                }
+
+                if (!$scope.editingLineItem.Anonymous) {
+                    variant.Specs.FirstName1 = variant.Specs.FirstName1 ? {"Value": lineitem.Variant.Specs.FirstName1.Value} : {"Value": ""};
+                    variant.Specs.LastName1 = variant.Specs.LastName1 ? {"Value": lineitem.Variant.Specs.LastName1.Value} : {"Value": ""};
+                    variant.Specs.Email1 = variant.Specs.Email1 ? {"Value": lineitem.Variant.Specs.Email1.Value} : {"Value": ""};
                 }
 
                 variant.ProductInteropID = $scope.selectedProduct.InteropID;
@@ -1652,30 +1790,43 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 variant.Specs.Opening1 = {"Value": openingText};
                 variant.Specs.V03OpeningMessage = {"Value": customMessageText};
                 variant.Specs.V14OccasionImageName = {"Value": $scope.selectedProduct.imageName};
-                variant.Specs.V14OpeningPesonalization = {"Value": customMessageOption};
+                variant.Specs.V09PersonalMessageOp = {"Value": optionText};
                 variant.Specs.V11_CustomerLogo = {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""};
                 variant.Specs.V17D_LogoFileID = {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""};
                 break;
             case "SCP-GC2":
                 var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
-                var customMessageOption = $scope.selectedProduct.OpeningMessageOption ? $scope.selectedProduct.OpeningMessageOption : "";
                 var customMessageText = "";
                 var openingText = "";
-                if (customMessageOption.indexOf('First and Last Name') > -1) {
-                    openingText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value;
-                    customMessageText = lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value;
+                var optionText = "";
+                if ($scope.selectedProduct.OpeningMessageOption) {
+                    var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
+                    if (customMessageOption.indexOf('First and Last Name') > -1) {
+                        openingText = (lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1) ? lineitem.Variant.Specs.FirstName1.Value + " " + lineitem.Variant.Specs.LastName1.Value : "";
+                        customMessageText = "";
+                        optionText = "Use recipient's first and last name as the opening message";
+                    }
+                    else if (customMessageOption.indexOf('First Name Only') > -1) {
+                        openingText = (lineitem.Variant.Specs.FirstName1) ? lineitem.Variant.Specs.FirstName1.Value : "";
+                        customMessageText = "";
+                        optionText = "Use recipient's first name only as the opening message";
+                    }
+                    else if (customMessageOption.indexOf('Custom Message') > -1) {
+                        openingText = "";
+                        customMessageText = product.CustomOpeningMessage;
+                        optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
+                    }
+                    else {
+                        openingText = "";
+                        customMessageText = "";
+                        optionText = "None";
+                    }
                 }
-                else if (customMessageOption.indexOf('First Name Only') > -1) {
-                    openingText = lineitem.Variant.Specs.FirstName1.Value;
-                    customMessageText = lineitem.Variant.Specs.FirstName1.Value;
-                }
-                else if (customMessageOption.indexOf('Custom Message') > -1) {
-                    openingText = "";
-                    customMessageText = product.CustomOpeningMessage;
-                }
-                else {
-                    openingText = "";
-                    customMessageText = "";
+
+                if (!$scope.editingLineItem.Anonymous) {
+                    variant.Specs.FirstName1 = variant.Specs.FirstName1 ? {"Value": lineitem.Variant.Specs.FirstName1.Value} : {"Value": ""};
+                    variant.Specs.LastName1 = variant.Specs.LastName1 ? {"Value": lineitem.Variant.Specs.LastName1.Value} : {"Value": ""};
+                    variant.Specs.Email1 = variant.Specs.Email1 ? {"Value": lineitem.Variant.Specs.Email1.Value} : {"Value": ""};
                 }
 
                 variant.ProductInteropID = $scope.selectedProduct.InteropID;
@@ -1687,6 +1838,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 variant.Specs.V05ClosingMessage = {"Value": closingMessage};
                 variant.Specs.Opening1 = {"Value": openingText};
                 variant.Specs.V03OpeningMessage = {"Value": customMessageText};
+                variant.Specs.V09PersonalMessageOp = {"Value": optionText},
                 variant.Specs.V14OccasionImageName = {"Value": $scope.selectedProduct.imageName};
                 variant.Specs.V11_CustomerLogo = {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""};
                 variant.Specs.V17P_LogoFileID = {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""};

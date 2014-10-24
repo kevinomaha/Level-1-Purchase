@@ -42,7 +42,8 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                         var dt = new Date(y,m-1,d);
                         var today = new Date();
                         var future = new Date(new Date().setDate(today.getDate() + 120));
-                        if ((dt.getFullYear() == y && dt.getMonth() + 1 == m && dt.getDate() == d) && (dt > today && dt < future)) {
+                        today.setHours(0,0,0,0)
+                        if ((dt.getFullYear() == y && dt.getMonth() + 1 == m && dt.getDate() == d) && (dt >= today && dt < future)) {
                             return true;
                         } else {
                             return false;
@@ -110,91 +111,94 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 									$parse(attrs.ngArray).assign($scope, asArray);
 									var recipientPasteList = [];
 									for (var i = 0; i < $scope.parsedPaste.length; i++) {
-										var recipient = {};
+                                        if ($scope.parsedPaste[i][0] != "Recipient First Name") {
+                                            var recipient = {};
 
-                                        var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
-                                        denom = (denom == '$') ? '' : denom;
+                                            var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
+                                            denom = (denom == '$') ? '' : denom;
+                                            denom = "$" + Number((denom).replace(/[^0-9\.]+/g,"")).toString();
 
-										recipient.FirstName = $scope.parsedPaste[i][0];
-										recipient.LastName = $scope.parsedPaste[i][1];
-										recipient.RecipientID = $scope.parsedPaste[i][2];
-                                        recipient.EnvelopeLineTwo = $scope.parsedPaste[i][3];
-                                        recipient.Email = $scope.parsedPaste[i][4];
-										recipient.ShipToFirstName = $scope.parsedPaste[i][5];
-										recipient.ShipToLastName = $scope.parsedPaste[i][6];
-										recipient.CompanyName = $scope.parsedPaste[i][7];
-										recipient.Street1 = $scope.parsedPaste[i][8];
-										recipient.Street2 = $scope.parsedPaste[i][9];
-										recipient.City = $scope.parsedPaste[i][10];
-										recipient.State = $scope.parsedPaste[i][11];
-										recipient.Zip = $scope.parsedPaste[i][12];
-										recipient.Denomination = denom;
-										recipient.OpeningMessage = $scope.parsedPaste[i][14];
-										recipient.PersonalMessage = $scope.parsedPaste[i][15];
-										recipient.ClosingMessage = $scope.parsedPaste[i][16];
-										recipient.EmailSubject = $scope.parsedPaste[i][17];
-										recipient.DeliveryDate = $scope.parsedPaste[i][18];
+                                            recipient.FirstName = $scope.parsedPaste[i][0];
+                                            recipient.LastName = $scope.parsedPaste[i][1];
+                                            recipient.RecipientID = $scope.parsedPaste[i][2];
+                                            recipient.EnvelopeLineTwo = $scope.parsedPaste[i][3];
+                                            recipient.Email = $scope.parsedPaste[i][4];
+                                            recipient.ShipToFirstName = $scope.parsedPaste[i][5];
+                                            recipient.ShipToLastName = $scope.parsedPaste[i][6];
+                                            recipient.CompanyName = $scope.parsedPaste[i][7];
+                                            recipient.Street1 = $scope.parsedPaste[i][8];
+                                            recipient.Street2 = $scope.parsedPaste[i][9];
+                                            recipient.City = $scope.parsedPaste[i][10];
+                                            recipient.State = $scope.parsedPaste[i][11];
+                                            recipient.Zip = $scope.parsedPaste[i][12];
+                                            recipient.Denomination = denom;
+                                            recipient.OpeningMessage = $scope.parsedPaste[i][14];
+                                            recipient.PersonalMessage = $scope.parsedPaste[i][15];
+                                            recipient.ClosingMessage = $scope.parsedPaste[i][16];
+                                            recipient.EmailSubject = $scope.parsedPaste[i][17];
+                                            recipient.DeliveryDate = $scope.parsedPaste[i][18];
 
-                                        if (!validateEmail(recipient.Email)) {
-                                            recipient.Email = "";
-                                        }
-                                        if (recipient.Denomination && !validDenomination(recipient.Denomination)) {
-                                            recipient.Denomination = "";
-                                        }
-                                        if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
-                                            recipient.DeliveryDate = "";
-                                        }
+                                            if (!validateEmail(recipient.Email)) {
+                                                recipient.Email = "";
+                                            }
+                                            if (recipient.Denomination && !validDenomination(recipient.Denomination)) {
+                                                recipient.Denomination = "";
+                                            }
+                                            if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
+                                                recipient.DeliveryDate = "";
+                                            }
 
-                                        if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
-                                            var lines = recipient.PersonalMessage.split(/\r\n|\r|\n/);
-                                            var tempMessage = "";
-                                            for (var line = 0; line < 6; line++) {
-                                                tempMessage += lines[line];
-                                                if (line < 5) {
-                                                    tempMessage += "\n";
+                                            if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
+                                                var lines = recipient.PersonalMessage.split(/\r\n|\r|\n/);
+                                                var tempMessage = "";
+                                                for (var line = 0; line < 6; line++) {
+                                                    tempMessage += lines[line];
+                                                    if (line < 5) {
+                                                        tempMessage += "\n";
+                                                    }
+                                                }
+                                                recipient.PersonalMessage = tempMessage;
+                                            }
+
+                                            var stateValid = false;
+                                            angular.forEach(stateList, function(state) {
+                                                if (state.value == recipient.State) {
+                                                    stateValid = true;
+                                                }
+                                            });
+                                            if (!stateValid) {
+                                                recipient.State = "";
+                                                recipient.Country = "";
+                                            }
+                                            else {
+                                                for (var s = 0; s < stateList.length; s++) {
+                                                    if (recipient.State == stateList[s].value) {
+                                                        recipient.Country = stateList[s].country;
+                                                    }
                                                 }
                                             }
-                                            recipient.PersonalMessage = tempMessage;
+
+                                            if (recipient.ShipToFirstName == "" ||
+                                                recipient.ShipToLastName == "" ||
+                                                recipient.Street1 == "" ||
+                                                recipient.City == "" ||
+                                                recipient.State == "" ||
+                                                !stateValid ||
+                                                recipient.Zip == "")
+                                            {
+                                                recipient.AddressInvalid = true;
+                                                recipient.Invalid = true;
+                                            }
+                                            else {
+                                                recipient.AddressInvalid = false;
+                                                recipient.Invalid = false;
+                                            }
+                                            recipient.ErrorMessage = null;
+                                            recipient.Selected = false;
+                                            recipient.AwardCount = 0;
+
+                                            recipientPasteList.push(recipient);
                                         }
-
-										var stateValid = false;
-										angular.forEach(stateList, function(state) {
-											if (state.value == recipient.State) {
-												stateValid = true;
-											}
-										});
-										if (!stateValid) {
-											recipient.State = "";
-											recipient.Country = "";
-										}
-										else {
-											for (var s = 0; s < stateList.length; s++) {
-												if (recipient.State == stateList[s].value) {
-													recipient.Country = stateList[s].country;
-												}
-											}
-										}
-
-										if (recipient.ShipToFirstName == "" ||
-											recipient.ShipToLastName == "" ||
-											recipient.Street1 == "" ||
-											recipient.City == "" ||
-											recipient.State == "" ||
-											!stateValid ||
-											recipient.Zip == "")
-										{
-											recipient.AddressInvalid = true;
-											recipient.Invalid = true;
-										}
-										else {
-											recipient.AddressInvalid = false;
-											recipient.Invalid = false;
-										}
-										recipient.ErrorMessage = null;
-										recipient.Selected = false;
-										recipient.AwardCount = 0;
-
-										recipientPasteList.push(recipient);
 									}
 
 									$scope.tempPasteError = false;
@@ -237,134 +241,161 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
 									$parse(attrs.ngArray).assign($scope, asArray);
 									var recipientPasteList = [];
 									for (var i = 0; i < $scope.parsedPaste.length; i++) {
-										var recipient = {};
+                                        if ($scope.parsedPaste[i][0] != "Recipient First Name") {
+                                            var recipient = {};
 
-                                        var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
-                                        denom = (denom == '$') ? '' : denom;
+                                            var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
+                                            denom = (denom == '$') ? '' : denom;
+                                            denom = "$" + Number((denom).replace(/[^0-9\.]+/g,"")).toString();
 
-                                        recipient.FirstName = $scope.parsedPaste[i][0];
-                                        recipient.LastName = $scope.parsedPaste[i][1];
-                                        recipient.RecipientID = $scope.parsedPaste[i][2];
-                                        recipient.EnvelopeLineTwo = $scope.parsedPaste[i][3];
-                                        recipient.Email = $scope.parsedPaste[i][4];
-                                        recipient.ShipToFirstName = $scope.parsedPaste[i][5];
-                                        recipient.ShipToLastName = $scope.parsedPaste[i][6];
-                                        recipient.CompanyName = $scope.parsedPaste[i][7];
-                                        recipient.Street1 = $scope.parsedPaste[i][8];
-                                        recipient.Street2 = $scope.parsedPaste[i][9];
-                                        recipient.City = $scope.parsedPaste[i][10];
-                                        recipient.State = $scope.parsedPaste[i][11];
-                                        recipient.Zip = $scope.parsedPaste[i][12];
-                                        recipient.Denomination = denom;
-                                        recipient.OpeningMessage = $scope.parsedPaste[i][14];
-                                        recipient.PersonalMessage = $scope.parsedPaste[i][15];
-                                        recipient.ClosingMessage = $scope.parsedPaste[i][16];
-                                        recipient.EmailSubject = $scope.parsedPaste[i][17];
-                                        recipient.DeliveryDate = $scope.parsedPaste[i][18];
-										recipient.Invalid = false;
-										recipient.ErrorMessage = null;
-										recipient.Selected = false;
-										recipient.AwardCount = 0;
+                                            recipient.FirstName = $scope.parsedPaste[i][0];
+                                            recipient.LastName = $scope.parsedPaste[i][1];
+                                            recipient.RecipientID = $scope.parsedPaste[i][2];
+                                            recipient.EnvelopeLineTwo = $scope.parsedPaste[i][3];
+                                            recipient.Email = $scope.parsedPaste[i][4];
+                                            recipient.ShipToFirstName = $scope.parsedPaste[i][5];
+                                            recipient.ShipToLastName = $scope.parsedPaste[i][6];
+                                            recipient.CompanyName = $scope.parsedPaste[i][7];
+                                            recipient.Street1 = $scope.parsedPaste[i][8];
+                                            recipient.Street2 = $scope.parsedPaste[i][9];
+                                            recipient.City = $scope.parsedPaste[i][10];
+                                            recipient.State = $scope.parsedPaste[i][11];
+                                            recipient.Zip = $scope.parsedPaste[i][12];
+                                            recipient.Denomination = denom;
+                                            recipient.OpeningMessage = $scope.parsedPaste[i][14];
+                                            recipient.PersonalMessage = $scope.parsedPaste[i][15];
+                                            recipient.ClosingMessage = $scope.parsedPaste[i][16];
+                                            recipient.EmailSubject = $scope.parsedPaste[i][17];
+                                            recipient.DeliveryDate = $scope.parsedPaste[i][18];
+                                            recipient.Invalid = false;
+                                            recipient.ErrorMessage = [];
+                                            recipient.Selected = false;
+                                            recipient.AwardCount = 0;
 
-                                        var errorCnt = 0;
-                                        var errors = [];
+                                            var errorCnt = 0;
+                                            var errors = [];
 
-                                        var recipientIdentifier = (recipient.FirstName != "" && recipient.LastName != "")
-                                            ? recipient.FirstName + " " + recipient.LastName
-                                            : "Recipient " + (i + 1);
+                                            var recipientIdentifier = (recipient.FirstName != "" && recipient.LastName != "")
+                                                ? recipient.FirstName + " " + recipient.LastName
+                                                : "Recipient " + (i + 1);
 
-                                        if (recipient.Email && !validateEmail(recipient.Email)) {
-                                            recipient.Invalid = true;
-                                            $scope.tempPasteError = true;
-                                            recipient.ErrorMessage = recipientIdentifier + " has an invalid email address. This email address will not be uploaded.";
-                                        }
-                                        if (recipient.Denomination && !validDenomination(recipient.Denomination)) {
-                                            recipient.Invalid = true;
-                                            $scope.tempPasteError = true;
-                                            recipient.ErrorMessage = recipientIdentifier + " has an invalid denomination. This value will not be uploaded.";
-                                        }
-                                        if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
-                                            recipient.Invalid = true;
-                                            $scope.tempPasteError = true;
-                                            recipient.ErrorMessage = recipientIdentifier + " has an invalid delivery date. This value must be a valid date (MM/DD/YYY) within 120 days in the future. This value will not be uploaded.";
-                                        }
-
-                                        if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
-                                            recipient.Invalid = true;
-                                            $scope.tempPasteError = true;
-                                            recipient.ErrorMessage = recipientIdentifier + " has a personal message greater than 6 lines. The text after line 6 for this value will not be uploaded.";
-                                        }
-
-										if ($scope.selectedProduct && $scope.digitalProduct) {
-											if (recipient.Email.length == 0) {
-                                                $scope.tempPasteError = true;
+                                            if (recipient.Email && !validateEmail(recipient.Email)) {
                                                 recipient.Invalid = true;
-                                                recipient.ErrorMessage = recipientIdentifier + " is missing an email address";
-											}
-										}
-										else if ($scope.selectedProduct && !$scope.digitalProduct) {
-											var stateValid = false;
-											angular.forEach(stateList, function(state) {
-												if (state.value == recipient.State) {
-													stateValid = true;
-												}
-											});
-											if (!stateValid) {
-												recipient.State = "";
-												recipient.Country = "";
-											}
-											else {
-												for (var s = 0; s < stateList.length; s++) {
-													if (recipient.State == stateList[s].value) {
-														recipient.Country = stateList[s].country;
-													}
-												}
-											}
-
-											if (recipient.ShipToFirstName == "") {
-												errorCnt++;
-												errors.push("Ship To First Name");
-											}
-											if (recipient.ShipToLastName == "") {
-												errorCnt++;
-												errors.push("Ship To Last Name");
-											}
-											if (recipient.Street1 == "") {
-												errorCnt++;
-												errors.push("Address Line 1");
-											}
-											if (recipient.City == "") {
-												errorCnt++;
-												errors.push("City");
-											}
-											if (recipient.State == "") {
-												errorCnt++;
-												errors.push("State");
-											}
-											if (!stateValid) {
-												errorCnt++;
-												errors.push("State value is invalid");
-											}
-											if (recipient.Zip == "") {
-												errorCnt++;
-												errors.push("Zip Code");
-											}
-
-                                            if (errorCnt > 0) {
                                                 $scope.tempPasteError = true;
+                                                recipient.ErrorMessage.push(recipientIdentifier + " has an invalid email address. This email address will not be uploaded.");
+                                            }
+                                            if (recipient.Denomination && !validDenomination(recipient.Denomination)) {
                                                 recipient.Invalid = true;
-                                                recipient.ErrorMessage = recipientIdentifier + " is missing the following fields: ";
-                                                for (var e = 0; e < errors.length; e++) {
-                                                    if (e < errors.length - 1) {
-                                                        recipient.ErrorMessage += " " + errors[e] + ",";
-                                                    }
-                                                    else {
-                                                        recipient.ErrorMessage += " " + errors[e];
-                                                    }
+                                                $scope.tempPasteError = true;
+                                                recipient.ErrorMessage.push(recipientIdentifier + " has an invalid denomination. This value will not be uploaded.");
+                                            }
+                                            if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
+                                                recipient.Invalid = true;
+                                                $scope.tempPasteError = true;
+                                                recipient.ErrorMessage.push(recipientIdentifier + " has an invalid delivery date. This value must be a valid date (MM/DD/YYYY) within 120 days in the future. This value will not be uploaded.");
+                                            }
+
+                                            if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
+                                                recipient.Invalid = true;
+                                                $scope.tempPasteError = true;
+                                                recipient.ErrorMessage.push(recipientIdentifier + " has a personal message greater than 6 lines. The text after line 6 for this value will not be uploaded.");
+                                            }
+
+                                            if (recipient.OpeningMessage.length > 50) {
+                                                recipient.Invalid = true;
+                                                $scope.tempPasteError = true;
+                                                recipient.ErrorMessage.push(recipientIdentifier + " has an opening message longer than 50 characters. This value will be truncated at that character limit.");
+                                            }
+
+                                            if (recipient.ClosingMessage.length > 50) {
+                                                recipient.Invalid = true;
+                                                $scope.tempPasteError = true;
+                                                recipient.ErrorMessage.push(recipientIdentifier + " has a closing message longer than 50 characters. This value will be truncated at that character limit.");
+                                            }
+
+                                            if ($scope.selectedProduct && $scope.digitalProduct) {
+                                                if (recipient.Email.length == 0) {
+                                                    $scope.tempPasteError = true;
+                                                    recipient.Invalid = true;
+                                                    recipient.ErrorMessage.push(recipientIdentifier + " is missing an email address");
+                                                }
+                                                if (recipient.PersonalMessage.length > 500) {
+                                                    recipient.Invalid = true;
+                                                    $scope.tempPasteError = true;
+                                                    recipient.ErrorMessage.push(recipientIdentifier + " has a personal message longer than 500 characters. This value will be truncated at that character limit.");
                                                 }
                                             }
-										}
-										recipientPasteList.push(recipient);
+                                            else if ($scope.selectedProduct && !$scope.digitalProduct) {
+                                                if (recipient.PersonalMessage.length > 300) {
+                                                    recipient.Invalid = true;
+                                                    $scope.tempPasteError = true;
+                                                    recipient.ErrorMessage.push(recipientIdentifier + " has a personal message longer than 300 characters. This value will be truncated at that character limit.");
+                                                }
+
+                                                var stateValid = false;
+                                                angular.forEach(stateList, function(state) {
+                                                    if (state.value == recipient.State) {
+                                                        stateValid = true;
+                                                    }
+                                                });
+                                                if (!stateValid) {
+                                                    recipient.State = "";
+                                                    recipient.Country = "";
+                                                }
+                                                else {
+                                                    for (var s = 0; s < stateList.length; s++) {
+                                                        if (recipient.State == stateList[s].value) {
+                                                            recipient.Country = stateList[s].country;
+                                                        }
+                                                    }
+                                                }
+
+                                                if (recipient.ShipToFirstName == "") {
+                                                    errorCnt++;
+                                                    errors.push("Ship To First Name");
+                                                }
+                                                if (recipient.ShipToLastName == "") {
+                                                    errorCnt++;
+                                                    errors.push("Ship To Last Name");
+                                                }
+                                                if (recipient.Street1 == "") {
+                                                    errorCnt++;
+                                                    errors.push("Address Line 1");
+                                                }
+                                                if (recipient.City == "") {
+                                                    errorCnt++;
+                                                    errors.push("City");
+                                                }
+                                                if (recipient.State == "") {
+                                                    errorCnt++;
+                                                    errors.push("State");
+                                                }
+                                                if (!stateValid) {
+                                                    errorCnt++;
+                                                    errors.push("State value is invalid");
+                                                }
+                                                if (recipient.Zip == "") {
+                                                    errorCnt++;
+                                                    errors.push("Zip Code");
+                                                }
+
+                                                if (errorCnt > 0) {
+                                                    $scope.tempPasteError = true;
+                                                    recipient.Invalid = true;
+                                                    var addressError = recipientIdentifier + " is missing the following fields: ";
+                                                    for (var e = 0; e < errors.length; e++) {
+                                                        if (e < errors.length - 1) {
+                                                            addressError += " " + errors[e] + ",";
+                                                        }
+                                                        else {
+                                                            addressError += " " + errors[e];
+                                                        }
+                                                    }
+                                                    recipient.ErrorMessage.push(addressError);
+                                                }
+                                            }
+                                            recipientPasteList.push(recipient);
+                                        }
 									}
 
 									$scope.tempRecipientPasteList =  recipientPasteList;

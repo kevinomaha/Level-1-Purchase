@@ -69,7 +69,12 @@ function ($location, $route, $scope, $451, $rootScope, User, SpendingAccount, $w
             order = LZString.decompressFromUTF16(order);
             order = (order && typeof(order) == 'string') ? JSON.parse(order) : {};
         }
-        $scope.tempOrderCount = order.LineItems ? order.LineItems.length : null;
+        $scope.tempOrderCount = 0;
+        if (order && order.LineItems) {
+            angular.forEach(order.LineItems, function(li) {
+                $scope.tempOrderCount += +(li.Quantity);
+            });
+        }
     });
 
     $scope.$watch('tempOrder.LineItems', function(newval) {
@@ -78,7 +83,12 @@ function ($location, $route, $scope, $451, $rootScope, User, SpendingAccount, $w
             order = LZString.decompressFromUTF16(order);
             order = JSON.parse(order);
         }
-        $scope.tempOrderCount = (order && order.LineItems) ? order.LineItems.length : null;
+        $scope.tempOrderCount = 0;
+        if (order && order.LineItems) {
+            angular.forEach(order.LineItems, function(li) {
+                $scope.tempOrderCount += +(li.Quantity);
+            });
+        }
     }, true);
 
     $scope.newOrder = function(orderID) {
