@@ -37,6 +37,7 @@ function($resource, $451, Address, Variant) {
 				var addressID = i.ShipAddressID;
 				if (!i.InGroup) {
 					i.InGroup = true;
+                    i.Added = false;
                     if ((!i.Variant.Specs['FirstName1'] && !i.Variant.Specs['LastName1'] && !i.Variant.Specs['Email1'] && !addressID) || (i.Variant.Specs['FirstName1'] && !i.Variant.Specs['FirstName1'].Value && i.Variant.Specs['LastName1'] && !i.Variant.Specs['LastName1'].Value && i.Variant.Specs['Email1'] && !i.Variant.Specs['Email1'].Value)) {
                         i.Anonymous = true;
                         i.UniqueID = 'anonymous' + i.UniqueID;
@@ -64,10 +65,11 @@ function($resource, $451, Address, Variant) {
                                     i.ShipperID = order.lineItemGroups[g].Shipper.ID;
                                 }
                                 order.lineItemGroups[g].LineItems.push(i);
+                                i.Added = true;
                                 order.lineItemGroups[g].Total += i.LineTotal;
                                 order.lineItemGroups[g].FaceTotal += i.FaceValue;
                             }
-                            else if (!order.lineItemGroups[g+1]) {
+                            else if (!order.lineItemGroups[g+1] && !i.Added) {
                                 order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[],"IsDigital":i.IsDigital,"Total": 0,"FaceTotal": 0,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
                             }
                         }
@@ -191,7 +193,7 @@ function($resource, $451, Address, Variant) {
             angular.forEach(order.LineItems, function (i) {
                 i.Anonymous = false;
                 i.InGroup = false;
-                i.FaceValue = +(i.Specs.Denomination1.Value.replace('$',''));
+                i.FaceValue = (i.Specs.Denomination1) ? +(i.Specs.Denomination1.Value.replace('$','')) : 0;
                 if ((!i.Specs['FirstName1'] && !i.Specs['LastName1'] && !i.Specs['Email1'] && !addressID) || (i.Specs['FirstName1'] && !i.Specs['FirstName1'].Value && i.Specs['LastName1'] && !i.Specs['LastName1'].Value && i.Specs['Email1'] && !i.Specs['Email1'].Value)) {
                     i.Anonymous = true;
                 }
@@ -202,7 +204,7 @@ function($resource, $451, Address, Variant) {
                     var productObj = {Name: productName, Count: 0};
                     if (addressList.indexOf(addressID) == -1) {
                         addressList.push(addressID);
-                        productObj.Count = productObj.Count + 1;
+                        productObj.Count = (i.Quantity > 1) ? (productObj.Count + i.Quantity) : (productObj.Count + 1);
                         order.lineItemGroups.push({"ID": addressID, "LineItems": [i], "IsDigital": isDigital, "Total": i.LineTotal, "FaceTotal": i.FaceValue, "Product": i.Product, "ShipMethod": i.ShipperName, "ShipAddressID": i.ShipAddressID, "Anonymous": false, "ProductList":[productObj]});
                     }
                     else {
@@ -215,11 +217,11 @@ function($resource, $451, Address, Variant) {
                                 angular.forEach(order.lineItemGroups[g].ProductList, function(p) {
                                     if (p.Name == productName) {
                                         found = true;
-                                        p.Count = p.Count + 1;
+                                        p.Count = (i.Quantity > 1) ? (p.Count + i.Quantity) : (p.Count + 1);
                                     }
                                 });
                                 if (!found) {
-                                    productObj.Count = productObj.Count + 1;
+                                    productObj.Count = (i.Quantity > 1) ? (productObj.Count + i.Quantity) : (productObj.Count + 1);
                                     order.lineItemGroups[g].ProductList.push(productObj);
                                 }
                                 i.InGroup = true;
@@ -290,7 +292,8 @@ function($resource, $451, Address, Variant) {
                 product.occasionMessage = lineitem.Variant.Specs.V00MessageSelectionList ? lineitem.Variant.Specs.V00MessageSelectionList.Value : "";
                 product.PersonalMessage = lineitem.Variant.Specs.V15Message ? lineitem.Variant.Specs.V15Message.Value : "";
                 product.ClosingMessage = lineitem.Variant.Specs.V16Closing ? lineitem.Variant.Specs.V16Closing.Value : "";
-                product.CustomOpeningMessage = lineitem.Variant.Specs.V14Opening ? lineitem.Variant.Specs.V14Opening.Value : "";
+                product.OpeningOption = lineitem.Variant.Specs.V14OpeningPesonalization ? lineitem.Variant.Specs.V14OpeningPesonalization.Value : "";
+                product.logoID = lineitem.Variant.Specs.V17P_LogoFileID ? lineitem.Variant.Specs.V17P_LogoFileID.Value : "";
                 break;
             case "SCD-GC12":
                 product.designSelection = lineitem.Variant.Specs.V01Design ? lineitem.Variant.Specs.V01Design.Value : "";
@@ -299,32 +302,32 @@ function($resource, $451, Address, Variant) {
                 product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage ? lineitem.Variant.Specs.V05ClosingMessage.Value : "";
                 product.EmailSubject = lineitem.Specs.EmailSubject ? lineitem.Specs.EmailSubject.Value : "";
                 product.DeliveryDate = lineitem.Specs.FutureShipDate ? lineitem.Specs.FutureShipDate.Value : "";
-                product.CustomOpeningMessage = lineitem.Variant.Specs.V03OpeningMessage ? lineitem.Variant.Specs.V03OpeningMessage.Value : "";
+                product.OpeningOption = lineitem.Variant.Specs.V09PersonalMessageOp ? lineitem.Variant.Specs.V09PersonalMessageOp.Value : "";
+                product.logoID = lineitem.Variant.Specs.V17D_LogoFileID ? lineitem.Variant.Specs.V17D_LogoFileID.Value : "";
                 break;
             case "SCP-GC2":
                 product.designSelection = lineitem.Variant.Specs.V10DesignSelection ? lineitem.Variant.Specs.V10DesignSelection.Value : "";
                 product.occasionMessage = lineitem.Variant.Specs.V11MessageSelection ? lineitem.Variant.Specs.V11MessageSelection.Value : "";
                 product.PersonalMessage = lineitem.Variant.Specs.V04PersonalMessage ? lineitem.Variant.Specs.V04PersonalMessage.Value : "";
                 product.ClosingMessage = lineitem.Variant.Specs.V05ClosingMessage ? lineitem.Variant.Specs.V05ClosingMessage.Value : "";
-                product.CustomOpeningMessage = lineitem.Variant.Specs.V03OpeningMessage ? lineitem.Variant.Specs.V03OpeningMessage.Value : "";
+                product.OpeningOption = lineitem.Variant.Specs.V09PersonalMessageOp ? lineitem.Variant.Specs.V09PersonalMessageOp.Value : "";
+                product.logoID = lineitem.Variant.Specs.V17P_LogoFileID ? lineitem.Variant.Specs.V17P_LogoFileID.Value : "";
                 break;
         }
         product.denomination = lineitem.Variant.Specs.Denomination1 ? lineitem.Variant.Specs.Denomination1.Value : "";
 
-        if (product.CustomOpeningMessage) {
-            if (lineitem.Variant.Specs.FirstName1 && lineitem.Variant.Specs.LastName1 && product.CustomOpeningMessage == (lineitem.Variant.Specs.FirstName1.Value + ' ' + lineitem.Variant.Specs.LastName1.Value)) {
+            if (product.OpeningOption.indexOf('first and last') > -1) {
                 product.OpeningMessageOption = "First and Last Name";
             }
-            else if (lineitem.Variant.Specs.FirstName1 && product.CustomOpeningMessage == lineitem.Variant.Specs.FirstName1.Value) {
+            else if (product.OpeningOption.indexOf('first name only') > -1) {
                 product.OpeningMessageOption = "First Name Only";
             }
-            else {
+            else if (product.OpeningOption.indexOf('custom text') > -1) {
                 product.OpeningMessageOption = "Custom Message";
             }
-        }
-        else {
-            product.OpeningMessageOption = "None";
-        }
+            else{
+                product.OpeningMessageOption = "None";
+            }
     };
 
     var _cleanPreSubmit = function(o) {

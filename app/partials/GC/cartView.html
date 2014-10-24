@@ -6,7 +6,7 @@
     <div ng-show="tempOrder" class="hidden-print container">
     <div class="row">
     <div class="col-md-7">
-    <h3 class="text-primary cart-title" ng-show="!orderSubmitLoadingIndicator">{{tempOrder.LineItems.length}} AWARD{{tempOrder.LineItems.length > 1 ? 'S' : ''}} IN YOUR CART <i class="fa fa-shopping-cart pull-right"></i></h3>
+    <h3 class="text-primary cart-title" ng-show="!orderSubmitLoadingIndicator">{{tempOrder.AwardCount}} AWARD{{tempOrder.AwardCount > 1 ? 'S' : ''}} IN YOUR CART <i class="fa fa-shopping-cart pull-right"></i></h3>
     <hr style="margin-bottom:5px;"/>
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.lineItemGroups.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
     <div style="margin-top:2px;" class="btn btn-link" ng-show="tempOrder.merchantCardLineItems.length > 0"  ng-click="browseMerchantCards()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Browse Merchant Cards</div>
@@ -108,6 +108,7 @@
                     <div class="row">
                         <div class="col-xs-7">
                             <div class="form-group">
+                                <label style="font-size:11px;" ng-show="!group.IsDigital">Select a shipping method</label>
                                 <select class="form-control"
                                         ng-change="updateGroupShipper(group)"
                                         name="shipMethod"
@@ -248,6 +249,7 @@
                             <div class="view-form-icon">
                                 <div style="margin-bottom:10px;">
                                     <div class="input-group">
+                                        <label style="font-size:11px;" ng-show="!group.IsDigital">Select a shipping address</label>
                                         <select class="form-control" name="shippingAddress"
                                                 ng-change="setShipAddress(tempOrder.AnonymousShipAddress)"
                                                 ng-options="address.ID as address.AddressName for address in addresses | filter:{IsCustEditable:true,IsShipping:true}"
@@ -260,17 +262,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <select class="form-control"
-                                        ng-change="updateGroupShipper(group)"
-                                        name="shipMethod"
-                                        ng-model="group.ShipMethod"
-                                        ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
-                                        ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : tempOrder.Total:tempOrder.LineItems.length:group.IsDigital"
-                                        ng-required="true">
-                                    <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
-                                </select>
-                                <div style="margin:10px 0;" ng-show="group.IsDigital">
-                                    <b>Email Delivery</b>
+                            </div>
+                            <div class="view-form-icon">
+                                <div>
+                                    <label style="font-size:11px;" ng-show="!group.IsDigital">Select a shipping method</label>
+                                    <select class="form-control"
+                                            ng-change="updateGroupShipper(group)"
+                                            name="shipMethod"
+                                            ng-model="group.ShipMethod"
+                                            ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
+                                            ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : tempOrder.Total:tempOrder.LineItems.length:group.IsDigital"
+                                            ng-required="true">
+                                        <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
+                                    </select>
+                                    <div style="margin:10px 0;" ng-show="group.IsDigital">
+                                        <b>Email Delivery</b>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -383,11 +390,11 @@
                 <div ng-show="shipaddressform" class="row">
                     <addressinput address='shipaddress' user='user'></addressinput>
                 </div>
-                <form name="cart_merchant_shipping">
+                <form name="cart_merchant_shipping" ng-show="!shipaddressform" >
                     <div class="row">
                         <div class="col-md-6">
                             <div>
-                                <label class="{required: !tempOrder.MerchantCardShipAddressID}">Physical cards shipping address</label>
+                                <label class="{required: !tempOrder.MerchantCardShipAddressID}" style="font-size:11px;">Select a shipping address</label>
                                 <div class="input-group">
                                     <select class="form-control"
                                             name="shippingAddress"
@@ -396,15 +403,15 @@
                                             ng-change="setShipAddress()"
                                             ng-required="tempOrder.merchantCardLineItems.length > 0 && !tempOrder.merchantCardsAllDigital">
                                     </select>
-                                                <span class="input-group-btn">
-                                                    <button class="btn btn-primary" type="button" ng-click="shipaddressform = true" tabindex="-1">New</button>
-                                                </span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button" ng-click="shipaddressform = true" tabindex="-1">New</button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group" ng-show="user.ShipMethod != null && shippers">
-                                <label ng-class="{required: !tempOrder.MerchantCardShipMethod}">Physical cards shipping method</label>
+                                <label ng-class="{required: !tempOrder.MerchantCardShipMethod}" style="font-size:11px;">Select a shipping method</label>
                                 <select class="form-control" name="shipMethod"
                                         ng-model="tempOrder.MerchantCardShipMethod"
                                         ng-change="setShipper()"

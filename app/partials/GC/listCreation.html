@@ -279,7 +279,13 @@
             <div class="text-info" ng-show="(tempRecipientPasteList.length > 0 && tempPasteError) || columnLengthError">
                 <strong>The following errors were detected:</strong>
                 <ul>
-                    <li ng-repeat="recipient in tempRecipientPasteList | filter:{Invalid:true}">{{recipient.ErrorMessage}}</li>
+                    <li ng-repeat="recipient in tempRecipientPasteList | filter:{Invalid:true}">
+                        <ul>
+                            <li ng-repeat="error in recipient.ErrorMessage">
+                                {{error}}
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul ng-show="columnLengthError">
                     <li>Please copy all 19 columns from spreadsheet</li>
@@ -359,7 +365,7 @@
                         </div>
                     </div>
                     <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
-                    <p>{{recipient.FirstName || recipient.ShipToFirstName}} {{recipient.LastName || recipient.ShipToLastName}} <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span> <span style="margin-left:5px;" class="badge" ng-show="recipient.DeliveryDate">{{recipient.DeliveryDate}}</span></p>
+                    <p>{{recipient.FirstName}} {{recipient.LastName}} <span style="margin-left:5px;" class="badge" ng-show="recipient.Denomination">{{recipient.Denomination}}</span> <span style="margin-left:5px;" class="badge" ng-show="recipient.DeliveryDate">{{recipient.DeliveryDate}}</span></p>
                     <p><small>
                         <span ng-show="recipient.ShipAddressID">
                             <i class="fa fa-map-marker text-muted"></i>
