@@ -20,6 +20,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             }
         }, newTree);
     });
+    $scope.tree = newTree;
 
     $scope.selectAllRecipients = "true";
 
