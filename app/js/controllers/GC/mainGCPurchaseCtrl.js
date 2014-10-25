@@ -155,6 +155,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     };
 
     $scope.$on('event:ProductSelected', function (event, product, lineitem) {
+        console.log('product '+product);
         _extendProduct(product, lineitem);
 
         RecipientList.validate($scope.recipientList, $scope.digitalProduct);
