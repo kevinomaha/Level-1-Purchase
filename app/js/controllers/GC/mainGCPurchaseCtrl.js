@@ -14,7 +14,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     angular.forEach($scope.productList, function(pval, pindex) {
         angular.forEach($scope.tree, function(tval, tindex) {
             if (pval.InteropID == tval.InteropID) {
-                $scope.tree[tindex] = angular.extend(tval,pval);
+                //$scope.tree[tindex] = angular.extend(tval,pval);
+                $scope.tree[tindex].StandardID = pval.StandardID;
+                $scope.tree[tindex].PremiumID = pval.PremiumID;
+                $scope.tree[tindex].CanadianID = pval.CanadianID;
+                $scope.tree[tindex].HolidayID = pval.HolidayID;
+                $scope.tree[tindex].PremiumHolidayID = pval.PremiumHolidayID;
                 console.log('matched '+pval.Name);
             }
         });
