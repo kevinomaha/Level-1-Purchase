@@ -11,6 +11,16 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/MGCPROJE00000');
     };
 
+    var newTree = [];
+    for (p in productList) {
+        for (t in tree) {
+            if (p.InteropID == t.InteropID) {
+                newTree.push(angular.extend(t,p));
+                console.log('matched');
+            }
+        }
+    }
+
     $scope.selectAllRecipients = "true";
 
     $scope.selectedProductDetails = store.get("451Cache.SelectedProductDetails") ? store.get("451Cache.SelectedProductDetails") : {};
