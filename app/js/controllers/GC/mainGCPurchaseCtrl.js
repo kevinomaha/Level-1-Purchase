@@ -11,17 +11,15 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/MGCPROJE00000');
     };
 
-    var newTree = [];
     angular.forEach($scope.productList, function(pval, pindex) {
         angular.forEach($scope.tree, function(tval, tindex) {
             if (pval.InteropID == tval.InteropID) {
-                this.push(angular.extend(tval,pval));
-                console.log('matched');
+                $scope.tree[tindex] = angular.extend(tval,pval);
+                console.log('matched '+pval.Name);
             }
-        }, newTree);
+        });
     });
     console.log($scope.tree);
-    console.log(newTree);
 
     $scope.selectAllRecipients = "true";
 
