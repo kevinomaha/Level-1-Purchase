@@ -12,8 +12,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     };
 
     var newTree = [];
-    for (p in productList) {
-        for (t in tree) {
+    for (p in $scope.productList) {
+        for (t in $scope.tree) {
             if (p.InteropID == t.InteropID) {
                 newTree.push(angular.extend(t,p));
                 console.log('matched');
