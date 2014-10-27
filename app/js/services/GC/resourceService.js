@@ -536,7 +536,7 @@ four51.app.factory('Resources', function() {
         {
             Name:"Digital e-SuperCertificate® REWARD (emailable)",
             InteropID: "2d549bc6-db1d-46fa-bac6-1555558225fa",
-            StandardID:"SCD-GC12",
+            StandardID:"SCD002-GC1-02",
             PremiumID:"SCD-ES12",
             CanadianID:"CSCD-SC12",
             HolidayID:"HOLSCD-GC1",
@@ -546,7 +546,7 @@ four51.app.factory('Resources', function() {
         {
             Name:"Original SuperCertificate® REWARD",
             InteropID: "53fef6f3-d384-432e-a2e1-2de1f20af5e2",
-            StandardID:"SCP-FD12",
+            StandardID:"SCP002-FD1-02",
             PremiumID:"SCP-PS12",
             CanadianID:"CSCP-SC12",
             HolidayID:"HOLSCP-FD1",
@@ -557,7 +557,7 @@ four51.app.factory('Resources', function() {
             Name:"Greeting Card SuperCertificate® REWARD",
             InteropID: "5daf87c9-399b-4a48-8b4e-31e3f9c71830",
             /*StandardID:"SCP-GC",*/
-            StandardID:"SCP-GC2",
+            StandardID:"SVF-ECARD-01",
             PremiumID:"SCP-GCS2",
             CanadianID:null,
             HolidayID:"HOLSCP-GC",
@@ -565,13 +565,22 @@ four51.app.factory('Resources', function() {
             DisplayName: "Greeting Card SuperCertificate®"
         },
         {
-            Name:"Merchant Gift Cards",
+            Name: "Merchant Gift Cards",
             InteropID: "8f4cf5ba-7f28-472e-8e55-4e77f9cf32a7",
-            StandardID:"MerchantCards",
+            StandardID: "MerchantCards",
+            PremiumID: "",
+            CanadianID: "",
+            HolidayID: "",
+            DisplayName: "Merchant Gift Cards"
+        },
+        {
+            Name:"Visa Reward Card",
+            InteropID: "8f4cf5ba-7f28-472e-8e55-4e77f9cf32a7",
+            StandardID:"INT030",
             PremiumID:"",
             CanadianID:"",
             HolidayID:"",
-            DisplayName: "Merchant Gift Cards"
+            DisplayName: "Visa Reward Card."
         }
     ];
 
