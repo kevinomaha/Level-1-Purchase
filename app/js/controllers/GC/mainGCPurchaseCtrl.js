@@ -21,8 +21,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.tree[tindex].CanadianID = pval.CanadianID;
                 $scope.tree[tindex].HolidayID = pval.HolidayID;
                 $scope.tree[tindex].PremiumHolidayID = pval.PremiumHolidayID;
-                _extendProduct($scope.tree[tindex]);
-                console.log('matched ' + pval.Name + ' as productType ' + pval.productType );
+                console.log('matched ' + pval.Name );
             }
         });
     });
@@ -132,6 +131,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.selectedProduct.InteropID = product.InteropID;
         }
 
+
         if ($scope.selectedProduct.StandardID && $scope.selectedProduct.StandardID != "MerchantCards") {
             if ($scope.selectedProductDetails) {
                 $scope.selectedProductDetails.Variants = [];
@@ -166,6 +166,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     $scope.$on('event:ProductSelected', function (event, product, lineitem) {
         console.log(product);
         _extendProduct(product, lineitem);
+
+        console.log('Selected Product ' + $scope.selectedProduct.interopID + ' and type ' + $scope.selectedProductType );
 
         RecipientList.validate($scope.recipientList, $scope.digitalProduct);
         store.set("451Cache.RecipientList", $scope.recipientList);
