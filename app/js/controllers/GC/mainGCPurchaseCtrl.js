@@ -21,6 +21,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.tree[tindex].CanadianID = pval.CanadianID;
                 $scope.tree[tindex].HolidayID = pval.HolidayID;
                 $scope.tree[tindex].PremiumHolidayID = pval.PremiumHolidayID;
+                _extendProduct($scope.tree[tindex]);
                 console.log('matched ' + pval.Name + ' as productType ' + pval.productType );
             }
         });
