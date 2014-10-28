@@ -75,7 +75,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         console.log("before " + product);
 
         $scope.selectedProduct = angular.copy(product);
-        $scope.digitalProduct = product.StandardID.indexOf("SCD") > -1 ? true : false;
         $scope.selectedProductDetails = {};
         $scope.selectedProduct.occasionMessage = null;
         $scope.selectedProduct.occasionMessageID = null;
@@ -84,10 +83,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $scope.selectedProduct.selectedDesignID = null;
         $scope.selectedProduct.OpeningMessageOption = 'None';
         $scope.occasionMessages = [];
-
-        if (lineitem) {
-            $scope.checkForLogos();
-        }
 
         angular.forEach($scope.productList, function(pval, pindex) {
             if (pval.InteropID == $scope.selectedProduct.InteropID) {
@@ -101,6 +96,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         });
 
         console.log("after " + $scope.selectedProduct);
+
+        if (lineitem) {
+            $scope.checkForLogos();
+        }
+        
+        $scope.digitalProduct = product.StandardID.indexOf("SCD") > -1 ? true : false;
 
         switch (product.StandardID) {
             case "SCD-GC12":
