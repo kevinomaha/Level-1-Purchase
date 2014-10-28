@@ -100,6 +100,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             }
         });
 
+        console.log($scope.selectedProduct);
+
         switch (product.StandardID) {
             case "SCD-GC12":
                 $scope.digitalProduct = true;
