@@ -20,11 +20,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.tree[tindex].CanadianID = pval.CanadianID;
                 $scope.tree[tindex].HolidayID = pval.HolidayID;
                 $scope.tree[tindex].PremiumHolidayID = pval.PremiumHolidayID;
-                console.log('matched '+pval.Name);
             }
         });
     });
-    console.log($scope.tree);
 
     $scope.selectAllRecipients = "true";
 
@@ -75,6 +73,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     var _extendProduct = function (product, lineitem) {
         console.log(product);
+
         $scope.selectedProduct = angular.copy(product);
         $scope.digitalProduct = product.StandardID.indexOf("SCD") > -1 ? true : false;
         $scope.selectedProductDetails = {};
@@ -89,6 +88,17 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         if (lineitem) {
             $scope.checkForLogos();
         }
+
+        angular.forEach($scope.productList, function(pval, pindex) {
+            if (pval.InteropID == $scope.selectedProduct.InteropID) {
+                //$scope.tree[tindex] = angular.extend(tval,pval);
+                $scope.selectedProduct.StandardID = pval.StandardID;
+                $scope.selectedProduct.PremiumID = pval.PremiumID;
+                $scope.selectedProduct.CanadianID = pval.CanadianID;
+                $scope.selectedProduct.HolidayID = pval.HolidayID;
+                $scope.selectedProduct.PremiumHolidayID = pval.PremiumHolidayID;
+            }
+        });
 
         switch (product.StandardID) {
             case "SCD-GC12":
