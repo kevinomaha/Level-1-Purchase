@@ -72,7 +72,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     }
 
     var _extendProduct = function (product, lineitem) {
-        console.log(product);
+        console.log("before " + product);
 
         $scope.selectedProduct = angular.copy(product);
         $scope.digitalProduct = product.StandardID.indexOf("SCD") > -1 ? true : false;
@@ -100,7 +100,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             }
         });
 
-        console.log($scope.selectedProduct);
+        console.log("after " + $scope.selectedProduct);
 
         switch (product.StandardID) {
             case "SCD-GC12":
@@ -168,7 +168,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     };
 
     $scope.$on('event:ProductSelected', function (event, product, lineitem) {
-        console.log(product);
         _extendProduct(product, lineitem);
 
         RecipientList.validate($scope.recipientList, $scope.digitalProduct);
