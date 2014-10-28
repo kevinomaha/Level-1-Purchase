@@ -72,8 +72,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     }
 
     var _extendProduct = function (product, lineitem) {
-        console.log(product);
-
         $scope.selectedProduct = angular.copy(product);
         $scope.selectedProductDetails = {};
         $scope.selectedProduct.occasionMessage = null;
@@ -92,16 +90,19 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.selectedProduct.CanadianID = pval.CanadianID;
                 $scope.selectedProduct.HolidayID = pval.HolidayID;
                 $scope.selectedProduct.PremiumHolidayID = pval.PremiumHolidayID;
+                return;
             }
         });
-
-        console.log($scope.selectedProduct);
+        if (!$scope.selectedProduct.StandardID) {
+            console.warn("Could not find stored IDs for the selected product.");
+        }
+        else {
+            $scope.digitalProduct = $scope.selectedProduct.StandardID.indexOf("SCD") > -1 ? true : false;
+        }
 
         if (lineitem) {
             $scope.checkForLogos();
         }
-
-        $scope.digitalProduct = $scope.selectedProduct.StandardID.indexOf("SCD") > -1 ? true : false;
 
         switch (product.StandardID) {
             case "SCD-GC12":
