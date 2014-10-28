@@ -94,7 +94,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             }
         });
         if (!$scope.selectedProduct.StandardID) {
-            console.warn("Could not find stored IDs for the selected product.");
+            console.warn("Could not find stored IDs for the selected product: " + $scope.selectedProduct.Name);
         }
         else {
             $scope.digitalProduct = $scope.selectedProduct.StandardID.indexOf("SCD") > -1 ? true : false;
