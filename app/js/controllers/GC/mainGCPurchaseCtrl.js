@@ -72,7 +72,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     }
 
     var _extendProduct = function (product, lineitem) {
-        console.log("before " + product);
+        console.log(product);
 
         $scope.selectedProduct = angular.copy(product);
         $scope.selectedProductDetails = {};
@@ -95,13 +95,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             }
         });
 
-        console.log("after " + $scope.selectedProduct);
+        console.log($scope.selectedProduct);
 
         if (lineitem) {
             $scope.checkForLogos();
         }
-        
-        $scope.digitalProduct = product.StandardID.indexOf("SCD") > -1 ? true : false;
+
+        $scope.digitalProduct = $scope.selectedProduct.StandardID.indexOf("SCD") > -1 ? true : false;
 
         switch (product.StandardID) {
             case "SCD-GC12":
