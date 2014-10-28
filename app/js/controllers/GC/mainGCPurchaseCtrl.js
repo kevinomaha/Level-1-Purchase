@@ -74,6 +74,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     }
 
     var _extendProduct = function (product, lineitem) {
+        console.log(product);
         $scope.selectedProduct = angular.copy(product);
         $scope.digitalProduct = product.StandardID.indexOf("SCD") > -1 ? true : false;
         $scope.selectedProductDetails = {};
