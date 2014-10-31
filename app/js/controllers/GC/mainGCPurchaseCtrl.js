@@ -135,7 +135,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.merchantCards = true;
                 $scope.productType = "MerchantCards";
                 $scope.selectedProductType = "MerchantCards";
-                $scope.selectedProduct.InteropID = "MerchantCards";
+                $scope.selectedProduct.InteropID = "L1slctv2MGC3";
         }
 
         if ($scope.selectedProduct.StandardID && $scope.selectedProduct.StandardID != "MerchantCards") {
@@ -1208,6 +1208,75 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     };
                     break;
                 case "SCD-GC12":
+                    var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
+                    var customMessageText = "";
+                    var openingText = "";
+                    var optionText = "";
+                    if ($scope.selectedProduct.OpeningMessageOption) {
+                        var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
+                        if ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") {
+                            openingText = "";
+                            customMessageText = $scope.recipientGroup[recip].OpeningMessage;
+                        }
+                        else if (customMessageOption.indexOf('First and Last Name') > -1) {
+                            openingText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
+                            customMessageText = "";
+                            optionText = "Use recipient's first and last name as the opening message";
+                        }
+                        else if (customMessageOption.indexOf('First Name Only') > -1) {
+                            openingText = $scope.recipientGroup[recip].FirstName;
+                            customMessageText = "";
+                            optionText = "Use recipient's first name only as the opening message";
+                        }
+                        else if (customMessageOption.indexOf('Custom Message') > -1) {
+                            openingText = "";
+                            customMessageText = ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") ? $scope.recipientGroup[recip].OpeningMessage : $scope.selectedProduct.CustomOpeningMessage;
+                            optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
+                        }
+                        else {
+                            openingText = "";
+                            customMessageText = "";
+                            optionText = "None";
+                        }
+                    }
+
+                    if (personalMessage && personalMessage.length > 500) {
+                        personalMessage = personalMessage.substring(0,500);
+                    }
+                    if (customMessageText && customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
+                    }
+
+                    var variant = {
+                        "ProductInteropID": $scope.selectedProduct.InteropID,
+                        "Specs": {
+                            "V01Design": {"Value": $scope.selectedProduct.designSelection.Value},
+                            "V00OccasionList": {"Value": $scope.selectedProduct.occasionMessage},
+                            "V02Occasion": {"Value": messageSelection},
+                            "Denomination1": {"Value": denominationValue},
+                            "FirstName1": {"Value": $scope.recipientGroup[recip].FirstName},
+                            "LastName1": {"Value": $scope.recipientGroup[recip].LastName},
+                            "Email1": {"Value": $scope.recipientGroup[recip].Email},
+                            "R1CL1": {"Value": $scope.recipientGroup[recip].RecipientID},
+                            "R1CL2": {"Value": $scope.recipientGroup[recip].ID},
+                            "R1CL3": {"Value": emailSubject},
+                            "R1CL4": {"Value": deliveryDate},
+                            "V04PersonalMessage": {"Value": personalMessage},
+                            "V05ClosingMessage": {"Value": closingMessage},
+                            "Opening1": {"Value": openingText},
+                            "V03OpeningMessage": {"Value": customMessageText},
+                            "IsMultiRecipient": {"Value": "True"},
+                            "V14OccasionImageName": {"Value": $scope.selectedProduct.imageName},
+                            "SaveAs": {"Value": saveAs},
+                            "V09PersonalMessageOp": {"Value": optionText},
+                            "PersonalMessageCheck": {"Value": "Pass"},
+                            "V11_CustomerLogo": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
+                            "V17D_LogoFileID": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
+                            "Recipients": {"Value": "1"}
+                        }
+                    };
+                    break;
+                case "MerchantCards":
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
                     var customMessageText = "";
                     var openingText = "";

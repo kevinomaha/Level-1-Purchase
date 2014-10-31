@@ -571,7 +571,7 @@ four51.app.factory('Resources', function() {
         },
         {
             Name:"Merchant Gift Cards",
-            InteropID: "8f4cf5ba-7f28-472e-8e55-4e77f9cf32a7",
+            InteropID: "L1slctv2MGC3",
             StandardID:"MerchantCards",
             PremiumID:"",
             CanadianID:"",
