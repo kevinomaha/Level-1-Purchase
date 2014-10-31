@@ -133,13 +133,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             case "MerchantCards":
                 $scope.digitalProduct = false;
                 $scope.physicalProduct = false;
-                $scope.merchantCards = true;
+                $scope.merchantCards = false; // avoiding inexistant merchant functionality
                 $scope.productType = "MerchantCards";
                 $scope.selectedProductType = "MerchantCards";
                 $scope.selectedProduct.InteropID = "L1slctv2MGC3";
         }
 
-        if ($scope.selectedProduct.StandardID && $scope.selectedProduct.StandardID != "MerchantCards") {
+        if ($scope.selectedProduct.StandardID && $scope.selectedProduct.StandardID != "MerchantCardss") { // adding extra "s" to disable
             if ($scope.selectedProductDetails) {
                 $scope.selectedProductDetails.Variants = [];
                 $scope.selectedProductDetails = {};
@@ -154,7 +154,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 }
             });
         }
-        else if ($scope.selectedProduct.StandardID == "MerchantCards" && $scope.tree) {
+        else if ($scope.selectedProduct.StandardID == "MerchantCardss" && $scope.tree) { // adding extra "s" to disable
             for (var c = 0; c < $scope.tree.length; c++) {
                 if ($scope.tree[c].Name == "Merchant Gift Cards") {
                     $scope.merchantCardCategories = $scope.tree[c].SubCategories;
@@ -922,7 +922,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         store.set("451Cache.SelectedProductType", $scope.selectedProductType);
         store.set("451Cache.SelectedProductInteropID", $scope.selectedProduct.InteropID);
 
-        if ($scope.selectedProduct.InteropID && $scope.selectedProduct.InteropID != "MerchantCards") {
+        if ($scope.selectedProduct.InteropID && $scope.selectedProduct.InteropID != "MerchantCardss") { // adding extra "s" to disable
             $scope.selectedProduct.productLoadingIndicator = true;
             Product.get($scope.selectedProduct.InteropID, function (product) {
                 $scope.selectedProductDetails = angular.copy(product);
