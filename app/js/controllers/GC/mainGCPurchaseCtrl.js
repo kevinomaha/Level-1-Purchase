@@ -1141,6 +1141,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
             switch ($scope.selectedProduct.StandardID) {
                 case "SCP-FD12":
+                    debugger;
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_") + " | " + $scope.selectedProduct.occasionMessageID;
                     var customMessageText = "";
                     var openingText = "";
@@ -1208,6 +1209,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     };
                     break;
                 case "SCD-GC12":
+                    debugger;
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
                     var customMessageText = "";
                     var openingText = "";
@@ -1277,6 +1279,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     };
                     break;
                 case "MerchantCards":
+                    debugger;
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
                     var customMessageText = "";
                     var openingText = "";
@@ -1346,6 +1349,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     };
                     break;
                 case "SCP-GC2":
+                    debugger;
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
                     var customMessageOption = $scope.selectedProduct.OpeningMessageOption ? $scope.selectedProduct.OpeningMessageOption : "";
                     var customMessageText = "";
