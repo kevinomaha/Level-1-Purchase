@@ -8,7 +8,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     $scope.selectProduct = function (product) {
         $rootScope.$broadcast('event:ProductSelected', product);
-        $scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/MGCPROJE00000');
+        // Affects cartCtrl.js line 343, page is currently missing so I'm disabling the redirect
+        //$scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/MGCPROJE00000');
     };
 
     angular.forEach($scope.productList, function(pval, pindex) {
