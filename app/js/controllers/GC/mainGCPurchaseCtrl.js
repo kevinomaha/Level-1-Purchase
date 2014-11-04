@@ -12,7 +12,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         //$scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/MGCPROJE00000');
     };
 
-    angular.forEach($scope.productList, function(pval, pindex) {
+    //merge code for actual catalog values against hardcoded top level product list
+    angular.forEach($scope.productList, function(pval) {
         angular.forEach($scope.tree, function(tval, tindex) {
             if (pval.InteropID == tval.InteropID) {
                 //$scope.tree[tindex] = angular.extend(tval,pval);
@@ -48,12 +49,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             Variant.get({VariantInteropID: variantArray[v], ProductInteropID: $scope.selectedProduct.StandardID}, function (data) {
                 if ($scope.selectedProductDetails.PersonalMessages) {
                     switch ($scope.selectedProduct.StandardID) {
-                        case "SCD-GC12":
+                        case "SCD002-GC1-02":
                             if ($scope.selectedProductDetails.PersonalMessages.indexOf(data.Specs['V04PersonalMessage'].Value) == -1 && data.Specs['V04PersonalMessage'].Value != "") {
                                 $scope.selectedProductDetails.PersonalMessages.push(data.Specs['V04PersonalMessage'].Value);
                             }
                             break;
-                        case "SCP-FD12":
+                        case "SCP002-FD1-02":
                             if ($scope.selectedProductDetails.PersonalMessages.indexOf(data.Specs['V15Message'].Value) == -1 && data.Specs['V15Message'].Value != "") {
                                 $scope.selectedProductDetails.PersonalMessages.push(data.Specs['V15Message'].Value);
                             }
@@ -66,7 +67,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     }
                 }
                 store.set("451Cache.SelectedProductDetails", $scope.selectedProductDetails);
-            }, function (ex) {
+            }, function () {
                 $scope.selectedProductDetails.PersonalMessages = [];
             });
         }
@@ -106,29 +107,29 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         }
 
         switch (product.StandardID) {
-            case "SCD-GC12":
+            case "SCD002-GC1-02":
                 $scope.digitalProduct = true;
                 $scope.physicalProduct = false;
                 $scope.merchantCards = false;
                 $scope.productType = "DigitalSuperCert";
                 $scope.selectedProductType = 'Standard';
-                $scope.selectedProduct.InteropID = "SCD-GC12";
+                $scope.selectedProduct.InteropID = product.InteropID;
                 break;
-            case "SCP-FD12":
+            case "SCP002-FD1-02":
                 $scope.digitalProduct = false;
                 $scope.physicalProduct = true;
                 $scope.merchantCards = false;
                 $scope.productType = "PhysicalSuperCert";
                 $scope.selectedProductType = 'Standard';
-                $scope.selectedProduct.InteropID = "SCP-FD12";
+                $scope.selectedProduct.InteropID = product.InteropID;
                 break;
-            case "SCP-GC2":
-                $scope.digitalProduct = false;
-                $scope.physicalProduct = true;
+            case "SVF-ECARD-01":
+                $scope.digitalProduct = true;
+                $scope.physicalProduct = false;
                 $scope.merchantCards = false;
-                $scope.productType = "GreetingCardSuperCert";
+                $scope.productType = "eCard";
                 $scope.selectedProductType = 'Standard';
-                $scope.selectedProduct.InteropID = "SCP-GC2";
+                $scope.selectedProduct.InteropID = product.InteropID;
                 break;
             case "MerchantCards":
                 $scope.digitalProduct = false;
@@ -136,10 +137,18 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.merchantCards = false; // avoiding inexistant merchant functionality
                 $scope.productType = "MerchantCards";
                 $scope.selectedProductType = "MerchantCards";
-                $scope.selectedProduct.InteropID = "L1slctv2MGC3";
+                $scope.selectedProduct.InteropID = product.InteropID;
+            case "INT030":
+                $scope.digitalProduct = false;
+                $scope.physicalProduct = true;
+                $scope.merchantCards = false;
+                $scope.productType = "PrePaid";
+                $scope.selectedProductType = "Standard";
+                $scope.selectedProduct.InteropID = product.InteropID;
         }
 
-        if ($scope.selectedProduct.StandardID && $scope.selectedProduct.StandardID != "MerchantCardss") { // adding extra "s" to disable
+
+        if ($scope.selectedProduct.StandardID && $scope.selectedProduct.StandardID != "MerchantCards") {
             if ($scope.selectedProductDetails) {
                 $scope.selectedProductDetails.Variants = [];
                 $scope.selectedProductDetails = {};
@@ -172,6 +181,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     $scope.$on('event:ProductSelected', function (event, product, lineitem) {
         _extendProduct(product, lineitem);
+
+        console.log('Selected Product ' + $scope.selectedProduct.interopID + ' and type ' + $scope.selectedProductType );
 
         RecipientList.validate($scope.recipientList, $scope.digitalProduct);
         store.set("451Cache.RecipientList", $scope.recipientList);
