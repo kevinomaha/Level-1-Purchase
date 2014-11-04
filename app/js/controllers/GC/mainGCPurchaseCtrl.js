@@ -8,7 +8,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     $scope.selectProduct = function (product) {
         $rootScope.$broadcast('event:ProductSelected', product);
-        $scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/MGCPROJE00000');
+        // Affects cartCtrl.js line 343, page is currently missing so I'm disabling the redirect
+        //$scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/MGCPROJE00000');
     };
 
     //merge code for actual catalog values against hardcoded top level product list
@@ -21,11 +22,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.tree[tindex].CanadianID = pval.CanadianID;
                 $scope.tree[tindex].HolidayID = pval.HolidayID;
                 $scope.tree[tindex].PremiumHolidayID = pval.PremiumHolidayID;
-                console.log('matched ' + pval.Name );
             }
         });
     });
-    console.log($scope.tree);
 
     $scope.selectAllRecipients = "true";
 
@@ -76,7 +75,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     var _extendProduct = function (product, lineitem) {
         $scope.selectedProduct = angular.copy(product);
-        $scope.digitalProduct = product.StandardID.indexOf("SCD") > -1 ? true : false;
         $scope.selectedProductDetails = {};
         $scope.selectedProduct.occasionMessage = null;
         $scope.selectedProduct.occasionMessageID = null;
@@ -85,6 +83,24 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $scope.selectedProduct.selectedDesignID = null;
         $scope.selectedProduct.OpeningMessageOption = 'None';
         $scope.occasionMessages = [];
+
+        angular.forEach($scope.productList, function(pval, pindex) {
+            if (pval.InteropID == $scope.selectedProduct.InteropID) {
+                //$scope.tree[tindex] = angular.extend(tval,pval);
+                $scope.selectedProduct.StandardID = pval.StandardID;
+                $scope.selectedProduct.PremiumID = pval.PremiumID;
+                $scope.selectedProduct.CanadianID = pval.CanadianID;
+                $scope.selectedProduct.HolidayID = pval.HolidayID;
+                $scope.selectedProduct.PremiumHolidayID = pval.PremiumHolidayID;
+                return;
+            }
+        });
+        if (!$scope.selectedProduct.StandardID) {
+            console.warn("Could not find stored IDs for the selected product: " + $scope.selectedProduct.Name);
+        }
+        else {
+            $scope.digitalProduct = $scope.selectedProduct.StandardID.indexOf("SCD") > -1 ? true : false;
+        }
 
         if (lineitem) {
             $scope.checkForLogos();
@@ -118,7 +134,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             case "MerchantCards":
                 $scope.digitalProduct = false;
                 $scope.physicalProduct = false;
-                $scope.merchantCards = true;
+                $scope.merchantCards = false; // avoiding inexistant merchant functionality
                 $scope.productType = "MerchantCards";
                 $scope.selectedProductType = "MerchantCards";
                 $scope.selectedProduct.InteropID = product.InteropID;
@@ -147,7 +163,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 }
             });
         }
-        else if ($scope.selectedProduct.StandardID == "MerchantCards" && $scope.tree) {
+        else if ($scope.selectedProduct.StandardID == "MerchantCardss" && $scope.tree) { // adding extra "s" to disable
             for (var c = 0; c < $scope.tree.length; c++) {
                 if ($scope.tree[c].Name == "Merchant Gift Cards") {
                     $scope.merchantCardCategories = $scope.tree[c].SubCategories;
@@ -164,7 +180,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     };
 
     $scope.$on('event:ProductSelected', function (event, product, lineitem) {
-        console.log(product);
         _extendProduct(product, lineitem);
 
         console.log('Selected Product ' + $scope.selectedProduct.interopID + ' and type ' + $scope.selectedProductType );
@@ -918,7 +933,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         store.set("451Cache.SelectedProductType", $scope.selectedProductType);
         store.set("451Cache.SelectedProductInteropID", $scope.selectedProduct.InteropID);
 
-        if ($scope.selectedProduct.InteropID && $scope.selectedProduct.InteropID != "MerchantCards") {
+        if ($scope.selectedProduct.InteropID && $scope.selectedProduct.InteropID != "MerchantCardss") { // adding extra "s" to disable
             $scope.selectedProduct.productLoadingIndicator = true;
             Product.get($scope.selectedProduct.InteropID, function (product) {
                 $scope.selectedProductDetails = angular.copy(product);
@@ -1138,6 +1153,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
             switch ($scope.selectedProduct.StandardID) {
                 case "SCP-FD12":
+                    debugger;
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_") + " | " + $scope.selectedProduct.occasionMessageID;
                     var customMessageText = "";
                     var openingText = "";
@@ -1205,6 +1221,77 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     };
                     break;
                 case "SCD-GC12":
+                    debugger;
+                    var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
+                    var customMessageText = "";
+                    var openingText = "";
+                    var optionText = "";
+                    if ($scope.selectedProduct.OpeningMessageOption) {
+                        var customMessageOption = $scope.selectedProduct.OpeningMessageOption;
+                        if ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") {
+                            openingText = "";
+                            customMessageText = $scope.recipientGroup[recip].OpeningMessage;
+                        }
+                        else if (customMessageOption.indexOf('First and Last Name') > -1) {
+                            openingText = $scope.recipientGroup[recip].FirstName + " " + $scope.recipientGroup[recip].LastName;
+                            customMessageText = "";
+                            optionText = "Use recipient's first and last name as the opening message";
+                        }
+                        else if (customMessageOption.indexOf('First Name Only') > -1) {
+                            openingText = $scope.recipientGroup[recip].FirstName;
+                            customMessageText = "";
+                            optionText = "Use recipient's first name only as the opening message";
+                        }
+                        else if (customMessageOption.indexOf('Custom Message') > -1) {
+                            openingText = "";
+                            customMessageText = ($scope.recipientGroup[recip].OpeningMessage && $scope.recipientGroup[recip].OpeningMessage != "") ? $scope.recipientGroup[recip].OpeningMessage : $scope.selectedProduct.CustomOpeningMessage;
+                            optionText = "Use custom text as the opening message. Custom Opening Text: (Ex. Dear Employee):";
+                        }
+                        else {
+                            openingText = "";
+                            customMessageText = "";
+                            optionText = "None";
+                        }
+                    }
+
+                    if (personalMessage && personalMessage.length > 500) {
+                        personalMessage = personalMessage.substring(0,500);
+                    }
+                    if (customMessageText && customMessageText.length > 50) {
+                        customMessageText = customMessageText.substring(0,50);
+                    }
+
+                    var variant = {
+                        "ProductInteropID": $scope.selectedProduct.InteropID,
+                        "Specs": {
+                            "V01Design": {"Value": $scope.selectedProduct.designSelection.Value},
+                            "V00OccasionList": {"Value": $scope.selectedProduct.occasionMessage},
+                            "V02Occasion": {"Value": messageSelection},
+                            "Denomination1": {"Value": denominationValue},
+                            "FirstName1": {"Value": $scope.recipientGroup[recip].FirstName},
+                            "LastName1": {"Value": $scope.recipientGroup[recip].LastName},
+                            "Email1": {"Value": $scope.recipientGroup[recip].Email},
+                            "R1CL1": {"Value": $scope.recipientGroup[recip].RecipientID},
+                            "R1CL2": {"Value": $scope.recipientGroup[recip].ID},
+                            "R1CL3": {"Value": emailSubject},
+                            "R1CL4": {"Value": deliveryDate},
+                            "V04PersonalMessage": {"Value": personalMessage},
+                            "V05ClosingMessage": {"Value": closingMessage},
+                            "Opening1": {"Value": openingText},
+                            "V03OpeningMessage": {"Value": customMessageText},
+                            "IsMultiRecipient": {"Value": "True"},
+                            "V14OccasionImageName": {"Value": $scope.selectedProduct.imageName},
+                            "SaveAs": {"Value": saveAs},
+                            "V09PersonalMessageOp": {"Value": optionText},
+                            "PersonalMessageCheck": {"Value": "Pass"},
+                            "V11_CustomerLogo": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.path : ""},
+                            "V17D_LogoFileID": {"Value": ($scope.selectedProduct.selectedLogo) ? $scope.selectedProduct.selectedLogo.fileID : ""},
+                            "Recipients": {"Value": "1"}
+                        }
+                    };
+                    break;
+                case "MerchantCards":
+                    debugger;
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
                     var customMessageText = "";
                     var openingText = "";
@@ -1274,6 +1361,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     };
                     break;
                 case "SCP-GC2":
+                    debugger;
                     var messageSelection = $scope.selectedProduct.occasionMessage.replace(/ /g, "_");
                     var customMessageOption = $scope.selectedProduct.OpeningMessageOption ? $scope.selectedProduct.OpeningMessageOption : "";
                     var customMessageText = "";

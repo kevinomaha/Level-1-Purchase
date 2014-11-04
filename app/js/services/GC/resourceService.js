@@ -532,6 +532,11 @@ four51.app.factory('Resources', function() {
 		]
 	};
 
+	/*
+	These hard-coded product IDs get automatically copied over
+	to the $scope.tree products by matching the InteropIDs.
+	See mainGCPurchaseCtrl.js
+	*/
     var products = [
         {
             Name:"Digital e-SuperCertificate® REWARD (emailable)",
