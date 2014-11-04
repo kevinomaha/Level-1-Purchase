@@ -134,7 +134,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             case "MerchantCards":
                 $scope.digitalProduct = false;
                 $scope.physicalProduct = false;
-                $scope.merchantCards = false; // avoiding inexistant merchant functionality
+                $scope.merchantCards = true; // avoiding inexistant merchant functionality
                 $scope.productType = "MerchantCards";
                 $scope.selectedProductType = "MerchantCards";
                 $scope.selectedProduct.InteropID = product.InteropID;
