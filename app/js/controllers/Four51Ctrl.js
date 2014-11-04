@@ -133,6 +133,21 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                 Order.save(tempOrder,
                     function(o){
                         //save the order fields for use later
+                        angular.forEach(o.OrderFields, function(field) {
+                            switch(field.Name) {
+                                case "Opening":
+                                    field.HelpText = "(Up to 50 characters):";
+                                    break;
+                                case "Message":
+                                    field.HelpText = "(Up to 300 characters):";
+                                    break;
+                                case "Closing":
+                                    field.HelpText = "(Up to 50 characters):";
+                                    break;
+                                default:
+                                    field.HelpText = null;
+                            }
+                        });
                         o.OrderFields.length > 0 ? store.set("451Cache.GCOrderFields", o.OrderFields) : console.log("No Order Fields");
 
                         Shipper.query(o, function(list) {

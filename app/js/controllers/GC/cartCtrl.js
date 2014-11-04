@@ -6,10 +6,14 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
         $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
         $scope.tempOrder = JSON.parse($scope.tempOrder);
     }
-    $scope.tempOrder.AwardCount = 0;
-    angular.forEach($scope.tempOrder.LineItems, function(li) {
-        $scope.tempOrder.AwardCount += +(li.Quantity);
-    });
+
+    function analyzeAwardCount() {
+        $scope.tempOrder.AwardCount = 0;
+        angular.forEach($scope.tempOrder.LineItems, function(li) {
+            $scope.tempOrder.AwardCount += +(li.Quantity);
+        });
+    }
+    analyzeAwardCount();
 
 	$scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
     $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
@@ -61,14 +65,13 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
     function analyzeTotals() {
         $scope.tempOrder.SubTotal = 0;
         $scope.tempOrder.Total = 0;
-        $scope.tempOrder.ShippingTotal = 0;
+        $scope.tempOrder.ShippingTotal = $scope.tempOrder.ShippingTotal ? $scope.tempOrder.ShippingTotal : 0;
         angular.forEach($scope.tempOrder.LineItems, function(li) {
             $scope.tempOrder.SubTotal += li.LineTotal;
-            $scope.tempOrder.Total += li.LineTotal;
         });
 
         $scope.tempOrder.SubTotal = $scope.tempOrder.SubTotal.toFixed(2);
-        $scope.tempOrder.Total = $scope.tempOrder.Total.toFixed(2);
+        $scope.tempOrder.Total = (+($scope.tempOrder.SubTotal) + +($scope.tempOrder.ShippingTotal)).toFixed(2);
     }
 
     if ($scope.tempOrder.LineItems.length > 0) {
@@ -604,9 +607,53 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
     };
 
     $scope.errorMessages = [];
+    $scope.orderFieldErrors = [];
     function analyzeErrors() {
         var order = angular.copy($scope.tempOrder);
         $scope.errorMessages = [];
+
+        $scope.orderFieldErrors = [];
+        angular.forEach(order.OrderFields, function(field) {
+            switch(field.Name) {
+                case "PONumber":
+                    if (field.Value && field.Value.length > 0 && field.Value.length > 30) {
+                        $scope.orderFieldErrors.push(field.Name);
+                        $scope.errorMessages.push("PO Number must be less than 30 characters");
+                    }
+                    break;
+                case "ExpenseCode":
+                    if (field.Value && field.Value.length > 0 && field.Value.length > 30) {
+                        $scope.orderFieldErrors.push(field.Name);
+                        $scope.errorMessages.push("Expense Code must be less than 30 characters");
+                    }
+                    break;
+                case "Promo_Code":
+                    if (field.Value && field.Value.length > 0 && field.Value.length > 30) {
+                        $scope.orderFieldErrors.push(field.Name);
+                        $scope.errorMessages.push("Promotional Code must be less than 30 characters");
+                    }
+                    break;
+                case "Opening":
+                    if (field.Value && field.Value.length > 0 && field.Value.length > 50) {
+                        $scope.orderFieldErrors.push(field.Name);
+                        $scope.errorMessages.push("Opening must be less than 50 characters");
+                    }
+                    break;
+                case "Message":
+                    if (field.Value && field.Value.length > 0 && field.Value.length > 300) {
+                        $scope.orderFieldErrors.push(field.Name);
+                        $scope.errorMessages.push("Message must be less than 300 characters");
+                    }
+                    break;
+                case "Closing":
+                    if (field.Value && field.Value.length > 0 && field.Value.length > 50) {
+                        $scope.orderFieldErrors.push(field.Name);
+                        $scope.errorMessages.push("Closing must be less than 50 characters");
+                    }
+                    break;
+            }
+        });
+
         var shipAddressMissing = false; var shipperMissing = false; var qtyError = false;
         angular.forEach(order.LineItems, function(li) {
             if (!li.ShipAddressID) {shipAddressMissing = true;}
@@ -619,11 +666,11 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
         if (qtyError) {$scope.errorMessages.push("Please select a valid quantity for all items");}
 
         if (order.PaymentMethod == 'CreditCard' && !order.CreditCardID) {
-            var CC = angular.copy(order.CreditCard);
+            /*var CC = angular.copy(order.CreditCard);
             if (!CC.Type && CC.AccountNumber) {$scope.errorMessages.push("Please select a credit card type");}
             if (!CC.AccountNumber) {$scope.errorMessages.push("Please enter a valid credit card account number");}
             if (!CC.ExpirationDate) {$scope.errorMessages.push("Please enter a valid credit card expiration date");}
-            if (!CC.CVN) {$scope.errorMessages.push("Please enter a valid credit card CVN");}
+            if (!CC.CVN) {$scope.errorMessages.push("Please enter a valid credit card CVN");}*/
             if (!order.BillAddressID) {$scope.errorMessages.push("Please select a billing address");}
         }
         if (order.CreditCardID && !order.BillAddressID) {
@@ -658,5 +705,22 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
         });
         $scope.$apply();
     });
+
+    $scope.$watch('tempOrder.merchantCardLineItems', function(items) {
+        angular.forEach(items, function(item) {
+            angular.forEach($scope.tempOrder.LineItems, function(i) {
+                if (i.MerchantCardUniqueID && i.MerchantCardUniqueID == item.MerchantCardUniqueID) {
+                    i.Quantity = item.Quantity;
+                }
+            });
+        });
+        analyzeTotals();
+        analyzeAwardCount();
+        $scope.cacheOrder($scope.tempOrder);
+    }, true);
+
+    $scope.$watch('tempOrder.OrderFields', function(fields) {
+        analyzeErrors();
+    }, true);
 
 }]);

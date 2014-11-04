@@ -7441,6 +7441,16 @@ table[datepicker] {
 /** To edit this background, follow this link:
 http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=6.8&edge=004263&shadow=003309&
 */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .welcome-user {
+    float: right;
+  }
+}
+@media (min-width: 1200px) {
+  .welcome-user {
+    float: right;
+  }
+}
 .jumbotron {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -7460,6 +7470,9 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
 .spending-account-nav span.label {
   font-size: 1.1em;
   font-weight: normal;
+}
+.welcome-user {
+  color: #fff;
 }
 @media print {
   .container-view {

@@ -16,7 +16,7 @@
     </div>
 </div>
 <div class="credit-card-widget row" ng-show="!tempOrder.CreditCardID">
-    <div class="col-lg-4 col-sm-6">
+    <div class="col-lg-6 col-sm-6">
         <div class="view-form-icon" ng-if="user.Permissions.contains('CardholderName')">
             <div>
                 <input id="cardholder-name" class="form-control" ng-model="tempOrder.CreditCard.CardholderName"
@@ -72,9 +72,10 @@
     </div>
 </div>
 <div class="alert alert-warning" ng-show="cart_billing.$error.creditCardNumber || cart_billing.$error.creditCardType|| cart_billing.$error.cvnNumber || cart_billing.$error.expDate">
+    <p><b>Please resolve the following issues:</b></p>
     <p ng-show="cart_billing.$error.creditCardNumber">
         <i class="fa fa-exclamation-circle text-danger pull-left"></i>
-        {{'Please enter a valid Credit Card Number' | r}}
+        {{'Please enter a valid Account Number' | r}}
     </p>
     <p ng-show="cart_billing.$error.creditCardType && !cart_billing.$error.creditCardNumber">
         <i class="fa fa-exclamation-circle text-danger pull-left"></i>

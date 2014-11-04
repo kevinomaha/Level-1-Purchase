@@ -2,8 +2,9 @@
     <div class="container">
         <div ng-show="Four51User.isAuthenticated()">
             <a href="catalog">
-                <img ng-src="{{(user.Company.Name | gcbuyercompanyurl) || user.Company.LogoUrl}}" />
+                <img style="max-height:70px;" ng-src="{{(user.Company.Name | gcbuyercompanyurl) || user.Company.LogoUrl}}" />
             </a>
+            <div class="welcome-user">Welcome, {{user.FirstName}} {{user.LastName}}!</div>
         </div>
     </div>
 </section>

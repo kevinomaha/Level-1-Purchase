@@ -37,8 +37,8 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 					$scope.tempOrder.BillFirstName = add.FirstName;
 					$scope.tempOrder.BillLastName = add.LastName;
 				}
-				$scope.BillAddress = add;
-                $scope.tempOrder.BillAddress = add;
+				$scope.BillAddress = (add.AddressName != 'Main Billing Address') ? add : {};
+                $scope.tempOrder.BillAddress = (add.AddressName != 'Main Billing Address') ? add : {};
 			});
 		}
 	});

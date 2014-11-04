@@ -74,10 +74,10 @@
                 <h3 class="panel-title" ng-show="selectedProduct.Name"><b>Selected Product:</b> {{selectedProduct.Name}}</h3>
             </div>
             <div class="panel-body" ng-init="CSTEP = 1">
-                <div class="btn btn-lg btn-block btn-default" ng-click="CSTEP = 1" ng-class="{active: CSTEP == 1}">Configure Award</div>
+                <div class="" ng-click="CSTEP = 1" ng-class="{active: CSTEP == 1}"></div>
                 <loadingindicator ng-show="selectedProduct.productLoadingIndicator" title="Please wait while your product is updated" />
                 <loadingindicator ng-show="selectedProduct.buildingProductsIndicator" title="Please wait while your product(s) are generated" />
-                <div class="row" collapse="CSTEP != 1">
+                <div class="row">
                     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                         <div class="row">
                             <div class="col-sm-6">
@@ -165,15 +165,15 @@
                                     <img ng-src="{{designPreviewSRC}}" style="margin:0 auto;">
                                 </figure>
                                 <figure style="max-height:400px;">
-                                    <img ng-src="{{selectedLogoSRC}}" style="margin:0 auto;width: 144px;">
+                                    <img ng-src="{{selectedLogoSRC}}" style="margin:0 auto;width: 144px;" ng-show="selectedProduct.selectedLogo">
                                 </figure>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="btn btn-lg btn-block btn-default" ng-click="CSTEP = 2" ng-class="{active: CSTEP == 2}">Personalize</div>
+                <div class="" ng-click="CSTEP = 2" ng-class="{active: CSTEP == 2}"></div>
                 <div>
-                    <div collapse="CSTEP != 2">
+                    <div>
                         <div class="row">
                             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                                 <div class="view-form-icon">
@@ -274,7 +274,7 @@
                                         <li ng-show="anonymousAwards != 'true' && recipientGroup.length == 0">Select at least one valid recipient</li>
                                     </ul>
                                 </div>
-                                <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="(award_customization.$invalid) || (personalMessageInvalid) || (emailSubjectInvalid) || (anonymousAwards == 'true' && !(selectedProduct.anonymousQty > 0) || (anonymousAwards != 'true' && recipientGroup.length == 0))" ng-click="createAwards()">Create Awards</div>
+                                <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="(award_customization.$invalid) || (personalMessageInvalid) || (emailSubjectInvalid) || (customOpeningMessageInvalid) || (personalMessageInvalid) || (closingMessageInvalid) || (anonymousAwards == 'true' && !(selectedProduct.anonymousQty > 0) || (anonymousAwards != 'true' && recipientGroup.length == 0))" ng-click="createAwards()">Create Awards</div>
                             </div>
                         </div>
 

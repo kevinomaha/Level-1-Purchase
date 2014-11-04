@@ -30,8 +30,10 @@ function($resource, $451, $location, $rootScope, Order, Address, LineItems) {
             delete li.Shipper;
         });
         var CC = orderSave.CreditCard ? orderSave.CreditCard : {};
+        var totals = {Shipping: orderSave.ShippingTotal, Total: orderSave.Total};
         Order.save(orderSave,
             function (o) {
+                store.set('451Cache.OrderTotals.' + o.ID, totals);
                 LineItems.clean(o);
                 var orderSubmit = angular.copy(o);
                 orderSubmit.CreditCard = CC;
@@ -53,7 +55,6 @@ function($resource, $451, $location, $rootScope, Order, Address, LineItems) {
                 shipAddresses.push(item.ShipAddressID);
             }
         });
-
         var billAddressPhone = orderSave.BillAddress.Phone;
         var updatedAddresses = 0;
         angular.forEach(shipAddresses, function(id) {
@@ -65,12 +66,14 @@ function($resource, $451, $location, $rootScope, Order, Address, LineItems) {
     var _submit = function(order, wait) {
         if (!wait) $rootScope.$broadcast('orderSubmitStarted');
         Order.submit(order, function (data) {
-                var recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
+                /*var recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
                 for (var r = 0; r < recipientList.length; r++) {
                     recipientList[r].AwardCount = 0;
                 }
                 store.set("451Cache.RecipientList", []);
-                store.set("451Cache.RecipientList", recipientList);
+                store.set("451Cache.RecipientList", recipientList);*/
+                //GCL1-13340
+                store.set("451Cache.RecipientList", []);
                 if (wait) {
                     $location.path('/order/' + data.ID);
                 }

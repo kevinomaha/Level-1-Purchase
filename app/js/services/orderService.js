@@ -36,6 +36,12 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         if (order.PaymentMethod == 'CreditCard' && order.CreditCard) {
             order.CreditCard.ShortDisplay = order.CreditCard.Type + " x" + order.CreditCard.DisplayName.match(/\d+/)[0];
         }
+
+        if (store.get('451Cache.OrderTotals.' + order.ID)) {
+            var totals = store.get('451Cache.OrderTotals.' + order.ID);
+            order.ShippingCost = totals.Shipping;
+            order.Total = totals.Total;
+        }
     }
 
     var _get = function(id, success) {

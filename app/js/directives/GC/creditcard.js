@@ -100,26 +100,26 @@ four51.app.directive('creditcard', function() {
                         cardType = "AmericanExpress";
                     }
                     /*if(/^30[0-5]/.test(ccnumber)) {
-                        cardType = "DinersClub"; //Carte Blanche
-                    }*/
+                     cardType = "DinersClub"; //Carte Blanche
+                     }*/
                     /*if(/^(2014)|^(2149)/.test(ccnumber)) {
-                        cardType = "DinersClub"; //enRoute
-                    }
-                    if(/^36/.test(ccnumber)) {
-                        cardType = "DinersClub"; //International
-                    }*/
+                     cardType = "DinersClub"; //enRoute
+                     }
+                     if(/^36/.test(ccnumber)) {
+                     cardType = "DinersClub"; //International
+                     }*/
                     if(/^(6011)|^(622(1(2[6-9]|[3-9][0-9])|[2-8][0-9]{2}|9([01][0-9]|2[0-5])))|^(64[4-9])|^65/.test(ccnumber)) {
                         cardType = "Discover";
                     }
                     /*if(/^35(2[89]|[3-8][0-9])/.test(ccnumber)) {
-                        cardType = "JCB";
-                    }
-                    if(/^(6304)|^(6706)|^(6771)|^(6709)/.test(ccnumber)) {
-                        cardType = "Laser"; //Laser
-                    }
-                    if(/^(5018)|^(5020)|^(5038)|^(5893)|^(6304)|^(6759)|^(6761)|^(6762)|^(6763)|^(0604)/.test(ccnumber)) {
-                        cardType = "Switch"; //Maestro
-                    }*/
+                     cardType = "JCB";
+                     }
+                     if(/^(6304)|^(6706)|^(6771)|^(6709)/.test(ccnumber)) {
+                     cardType = "Laser"; //Laser
+                     }
+                     if(/^(5018)|^(5020)|^(5038)|^(5893)|^(6304)|^(6759)|^(6761)|^(6762)|^(6763)|^(0604)/.test(ccnumber)) {
+                     cardType = "Switch"; //Maestro
+                     }*/
                     if(/^5[1-5]/.test(ccnumber)) {
                         cardType = "MasterCard";
                     }
@@ -127,27 +127,30 @@ four51.app.directive('creditcard', function() {
                         cardType = "Visa";
                     }
                     /*if (/^(4026)|^(417500)|^(4405)|^(4508)|^(4844)|^(4913)|^(4917)/.test(ccnumber)) {
-                        cardType = "Electron"; //Visa Electron
-                    }*/
+                     cardType = "Electron"; //Visa Electron
+                     }*/
                     $scope.tempOrder.CreditCard.Type = cardType;
                     $scope.creditCardIconUrl = cardType ? 'css/images/CreditCardIcons/' + cardType + '.png' : null;
 
                     ccnumber = ccnumber.toString().replace(/\s+/g, '');
-                    //$scope.cart_billing.$setValidity('creditCardNumber', true);
                     $scope.cart_billing.$setValidity('creditCardNumber', validateNumber(ccnumber));
                     $scope.cart_billing.$setValidity('creditCardType', validateType(cardType));
+                    if ($scope.tempOrder.CreditCard.CVN && $scope.tempOrder.CreditCard.CVN.length > 0) {
+                        $scope.cart_billing.$setValidity('cvnNumber', validateCVN(cvn));
+                    }
                 }
             });
+
+            function validateCVN(cvn) {
+                if ($scope.tempOrder.CreditCard.Type == 'AmericanExpress')
+                    return cvn.length == 4;
+                return cvn.length == 3;
+            }
 
             $scope.$watch('tempOrder.CreditCard.CVN', function(cvn) {
                 if (!cvn || $scope.tempOrder.CreditCard.Type == null) return false;
 
-                function validate(cvn) {
-                    if ($scope.tempOrder.CreditCard.Type == 'AmericanExpress')
-                        return cvn.length == 4;
-                    return cvn.length == 3;
-                }
-                $scope.cart_billing.$setValidity('cvnNumber', validate(cvn));
+                $scope.cart_billing.$setValidity('cvnNumber', validateCVN(cvn));
             });
 
             $scope.$watch('tempOrder.CreditCard.ExpirationDate', function(date) {
@@ -155,7 +158,14 @@ four51.app.directive('creditcard', function() {
                 var month = parseInt(date.substring(0,2));
                 var year = parseInt(date.substring(2,4)) + 2000;
                 var current = new Date();
-                var valid = (month > 0 && month < 13) && (year > current.getFullYear());
+
+                var valid = false;
+                if (month > 0 && month < 13 && (year > current.getFullYear())) {
+                    valid = true;
+                }
+                else if (month > 0 && month < 13 && (month >= current.getMonth()+1) && (year == current.getFullYear())) {
+                    valid = true;
+                }
                 $scope.cart_billing.$setValidity('expDate', valid);
             });
 

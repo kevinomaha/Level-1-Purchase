@@ -272,9 +272,20 @@
             <div class="btn btn-success pull-right" style="margin-right: 10px;" ng-show="recipientPasteList" ng-click="generateRecipients(recipientPasteList); tempRecipientPasteList = []">
                 <i class="fa fa-plus-circle"></i> Generate Recipients
             </div>
-            <h3>Import List <small><a class="btn btn-sm btn-link" href="https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a//Level 1/files/RecipientUploadTemplate.xlsx" target="_blank"><i class="fa fa-download"></i> Download Spreadsheet Template</a></small></h3>
+            <h3>Import List</h3>
+            <div style="margin-bottom:10px;">
+                <ul>
+                    <li>Step 1 – Click on Download Spreadsheet template <a class="btn btn-sm btn-link" href="https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a//Level 1/files/RecipientUploadTemplate.xlsx" target="_blank"><i class="fa fa-download"></i> Download Spreadsheet Template</a></li>
+                    <li>Step 2 – Fill in your Data on the downloaded spreadsheet</li>
+                    <li>Step 3 – Copy your Data and paste this information in the box below, and click "Import"</li>
+                    <li>Step 4 – Review your data to ensure the information is correct.  If the data is correct, click Generate Recipients.  If the data is incorrect, click Cancel and update your spreadsheet.  Repeat steps 3 and 4.</li>
+                    <li>Step 5 -  Click "Continue to Customization"</li>
+                </ul>
+            </div>
 
             <angular-paste ng-hide="recipientPasteList.length > 0" ng-model="rawPaste" ng-array="parsedPaste"></angular-paste>
+
+            <div class="btn btn-info pull-left" ng-hide="(recipientList.length == 0 && digitalProduct) || recipientList.length == 0" ng-click="stepToCustomization()">Continue to Customization</div>
 
             <div class="text-info" ng-show="(tempRecipientPasteList.length > 0 && tempPasteError) || columnLengthError">
                 <strong>The following errors were detected:</strong>
@@ -386,7 +397,7 @@
         <span ng-hide="digitalProduct"><br/><br/>
             <b>Note:</b> With {{selectedProduct.DisplayName}} selected, you may continue on to the customization step for anonymous awards.
         </span><br />
-        <button class="btn btn-default text-success" ng-hide="step != 2 || (recipientList.length == 0 &amp;&amp; digitalProduct)" ng-click="stepToAnonCustomization()">Continue</button>
+        <button class="btn btn-default text-success" ng-hide="step != 2 || (recipientList.length == 0 &amp;&amp; digitalProduct)" ng-click="stepToAnonCustomization()">Add Anonymous Awards</button>
     </div>
 </div>
 <div class="view-footer navbar-fixed-bottom hidden-lg hidden-md">

@@ -54,6 +54,12 @@ function ($location, $route, $scope, $451, $rootScope, User, SpendingAccount, $w
 		localStorage.clear();
 	};
 
+    $scope.goToCheckout = function(itemcount) {
+        if (itemcount && itemcount > 0) {
+            $location.path('cart');
+        }
+    };
+
 	$scope.$on('event:orderUpdate', function(event, order) {
 		$scope.cartCount = order ? (order.Status == 'Unsubmitted' || order.Status == 'AwaitingApproval') ? order.LineItems.length : null : null;
 

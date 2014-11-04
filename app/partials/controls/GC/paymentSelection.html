@@ -30,6 +30,10 @@
         <div class="alert alert-success">
             {{selectedBudgetAccount.Label + ' - Balance: ' + (selectedBudgetAccount.Balance | currency)}}
         </div>
+        <div class="alert alert-warning" ng-show="selectedBudgetAccount.Balance < tempOrder.Total">
+            <p><b>Please resolve the following issues:</b></p>
+            <p><i class="fa fa-exclamation-circle text-danger" style="position:static;color:#a94442;"></i> Insufficient funds – Order will ship once funds are received and applied to your account.  For immediate processing, please use the credit card payment option.</p>
+        </div>
         <div class="row view-form-icon" ng-show="(SpendingAccounts|filter:{AccountType.PurchaseCredit:true}).length > 1">
             <div class="col-sm-6">
                 <label ng-show="tempOrder.BudgetAccountID">Spending Account</label>

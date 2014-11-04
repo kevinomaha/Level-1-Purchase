@@ -1,13 +1,17 @@
 <section class="container merchant-view">
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0" ng-class="{'hidden-xs hidden-sm':!showMerchantList}">
-            <div class="form-group row" style="margin-top:15px;">
-                <input type="text"
-                       placeholder="Search by merchant..."
-                       ng-model="filterTerm"
-                       class="form-control"/>
+            <div class="view-form-icon row" style="margin-bottom: 10px;">
+                <div>
+                    <label>Search</label>
+                    <input type="text"
+                           placeholder="Search by merchant..."
+                           ng-model="filterTerm"
+                           class="form-control"/>
+                </div>
             </div>
             <div class="list-container">
+                <loadingindicator ng-show="categoryLoadingIndicator"></loadingindicator>
                 <div>
                     <ul class="merchant-list">
                         <li class="merchant-list-item" ng-repeat="c in currentCategory.SubCategories | merchantFilter:filterTerm" ng-class="{'selected':c.selected}" ng-click="selectCategory(c)">

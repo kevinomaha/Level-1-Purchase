@@ -10,7 +10,7 @@ four51.app.factory('ExistingAddress', function() {
 			listAddress.FirstName != userAddress.FirstName ?  errorCnt++ : null;
 			listAddress.LastName != userAddress.LastName ?  errorCnt++ : null;
 			listAddress.Street1 != userAddress.Street1 ?  errorCnt++ : null;
-			listAddress.Street2 != userAddress.Street2 ?  errorCnt++ : null;
+            (listAddress.Street2 && userAddress.Street2 && (listAddress.Street2 != userAddress.Street2)) ?  errorCnt++ : null;
 			listAddress.City != userAddress.City ?  errorCnt++ : null;
 			listAddress.State != userAddress.State ?  errorCnt++ : null;
 			listAddress.Zip != userAddress.Zip ?  errorCnt++ : null;
