@@ -183,11 +183,12 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         _extendProduct(product, lineitem);
         RecipientList.validate($scope.recipientList, $scope.digitalProduct);
         store.set("451Cache.RecipientList", $scope.recipientList);
+        console.log('Passed Product ' + product.interopID + ' and type ' + product.ProductType );
+        console.log('Selected Product ' + $scope.selectedProduct.interopID + ' and type ' + $scope.selectedProductType );
     });
 
     $scope.selectedProduct = store.get("451Cache.SelectedProduct") ? store.get("451Cache.SelectedProduct") : {};
 
-    console.log('Selected Product ' + $scope.selectedProduct.interopID + ' and type ' + $scope.selectedProductType );
 
     if ($scope.selectedProduct.StandardID) {
         _extendProduct($scope.selectedProduct);
