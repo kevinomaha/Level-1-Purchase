@@ -576,7 +576,8 @@ four51.app.factory('Resources', function() {
             PremiumID: "",
             CanadianID: "",
             HolidayID: "",
-            DisplayName: "Merchant Gift Cards"
+            DisplayName: "Merchant Gift Cards",
+            ProductType: "MerchantCards"
         },
         {
             Name:"Visa Reward Card",

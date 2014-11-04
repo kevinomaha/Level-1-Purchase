@@ -181,15 +181,13 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
     $scope.$on('event:ProductSelected', function (event, product, lineitem) {
         _extendProduct(product, lineitem);
-
-        console.log('Selected Product ' + $scope.selectedProduct.interopID + ' and type ' + $scope.selectedProductType );
-
         RecipientList.validate($scope.recipientList, $scope.digitalProduct);
         store.set("451Cache.RecipientList", $scope.recipientList);
-
     });
 
     $scope.selectedProduct = store.get("451Cache.SelectedProduct") ? store.get("451Cache.SelectedProduct") : {};
+
+    console.log('Selected Product ' + $scope.selectedProduct.interopID + ' and type ' + $scope.selectedProductType );
 
     if ($scope.selectedProduct.StandardID) {
         _extendProduct($scope.selectedProduct);
