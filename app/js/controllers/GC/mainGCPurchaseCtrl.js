@@ -933,7 +933,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         store.set("451Cache.SelectedProductType", $scope.selectedProductType);
         store.set("451Cache.SelectedProductInteropID", $scope.selectedProduct.InteropID);
 
-        if ($scope.selectedProduct.InteropID && $scope.selectedProduct.InteropID != "MerchantCardss") { // adding extra "s" to disable
+        if ($scope.selectedProduct.InteropID && $scope.selectedProduct.InteropID != "MerchantCards") {
             $scope.selectedProduct.productLoadingIndicator = true;
             Product.get($scope.selectedProduct.InteropID, function (product) {
                 $scope.selectedProductDetails = angular.copy(product);
