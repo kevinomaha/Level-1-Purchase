@@ -2,6 +2,9 @@ four51.app.config(['$routeProvider', '$locationProvider', function($routeProvide
 	$locationProvider.html5Mode(true);
 
 	$routeProvider.
+                when('/customizationStep1', { templateUrl: 'partials/customizationStep1.html', controller: 'CustomizationCtrl' }).
+                when('/customizationStep2', { templateUrl: 'partials/customizationStep2.html', controller: 'CustomizationCtrl' }).
+                when('/customizationStep3', { templateUrl: 'partials/customizationStep3.html', controller: 'CustomizationCtrl' }).
 		when('/order', { templateUrl: 'partials/orderSearchView.html', controller: 'OrderSearchCtrl' }).
 		when('/order/:id', { templateUrl: 'partials/Reporting/orderHistoryView.html', controller: 'OrderViewCtrl' }).
         when('/cart', { templateUrl: 'partials/GC/cartView.html', controller: 'CartViewCtrl'}).
