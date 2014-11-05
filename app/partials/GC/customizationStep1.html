@@ -1,37 +1,41 @@
 <div class="container">
 	<h3 class="row">Selected Product: Digital E-SuperCertificate&reg; Reward (emailable)</h3>
-	<div class="row"><img src="http://placehold.it/400x200" alt class="col-md-12"/></div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-4">
+			<img src="http://placehold.it/400x200" alt class="col-md-12"/>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-sm-6">
 			<form class="form-horizontal" role="form">
 				<div class="form-group">
-					<label for="firstName" class="col-sm-2 control-label">First Name</label>
-					<div class="col-sm-10">
+					<label for="firstName" class="col-sm-4 control-label">First Name</label>
+					<div class="col-sm-8">
 						<input type="text" class="form-control" id="firstName"\>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="employeeNumber" class="col-sm-2 control-label">Employee Number</label>
-					<div class="col-sm-10">
+					<label for="employeeNumber" class="col-sm-4 control-label">Employee Number</label>
+					<div class="col-sm-8">
 						<input type="text" class="form-control" id="employeeNumber"\>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="marketplace" class="col-sm-2 control-label">Marketplace</label>
-					<div class="col-sm-10">
+					<label for="marketplace" class="col-sm-4 control-label">Marketplace</label>
+					<div class="col-sm-8">
 						<input type="text" class="form-control" id="marketplace"\>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="supervisor" class="col-sm-2 control-label">Supervisor</label>
-					<div class="col-sm-10">
+					<label for="supervisor" class="col-sm-4 control-label">Supervisor</label>
+					<div class="col-sm-8">
 						<input type="text" class="form-control" id="supervisor"\>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="denomination" class="col-sm-2 control-label">Denomination</label>
-					<div class="col-sm-10">
-						<select class="form-control" id="denomination">
+					<label for="denomination" class="col-sm-4 control-label">Denomination</label>
+					<div class="col-sm-8">
+						<select id="denomination" class="form-control">
 							<option>$25</option>
 						</select>
 					</div>
@@ -41,33 +45,33 @@
 		<div class="col-sm-6">
 			<form class="form-horizontal" role="form">
 				<div class="form-group">
-					<label for="lastName" class="col-sm-2 control-label">Last Name</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="lastName"\>
+					<label for="lastName" class="col-sm-4 control-label">Last Name</label>
+					<div class="col-sm-8">
+						<input type="text" id="lastName"\>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="emailAddress" class="col-sm-2 control-label">Email Address</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="emailAddress"\>
+					<label for="emailAddress" class="col-sm-4 control-label">Email Address</label>
+					<div class="col-sm-8">
+						<input type="text" id="emailAddress"\>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="jobFamily" class="col-sm-2 control-label">Job Family</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="jobFamily"\>
+					<label for="jobFamily" class="col-sm-4 control-label">Job Family</label>
+					<div class="col-sm-8">
+						<input type="text" id="jobFamily"\>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="apdCode" class="col-sm-2 control-label">APD Code</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="apdCode"\>
+					<label for="apdCode" class="col-sm-4 control-label">APD Code</label>
+					<div class="col-sm-8">
+						<input type="text" id="apdCode"\>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="reason" class="col-sm-2 control-label">Reason</label>
-					<div class="col-sm-10">
-						<select class="form-control" id="reason">
+					<label for="reason" class="col-sm-4 control-label">Reason</label>
+					<div class="col-sm-8">
+						<select id="reason" class="form-control">
 							<option>Winning Spirit</option>
 						</select>
 					</div>
@@ -80,27 +84,35 @@
 		<form class="form-horizontal" role="form">
 			<h5>Opening Message Options</h5>
 			<div class="form-group">
-				<label for="fullName" class="col-sm-2 control-label">Use First &amp; Last Name</label>
-				<div class="col-sm-10">
-					<input type="radio" name="openingMessageOptions" class="form-control" id="fullName"\>
+				<div class="radio">
+					<label for="fullName" class="col-sm-2 control-label">
+						<input type="radio" name="openingMessageOptions" class="form-control" id="fullName"\>
+						Use First &amp; Last Name
+					</label>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="firstName" class="col-sm-2 control-label">Use First Name Only</label>
-				<div class="col-sm-10">
-					<input type="radio" name="openingMessageOptions" class="form-control" id="firstName"\>
+				<div class="radio">
+					<label for="firstName" class="col-sm-2 control-label">
+						<input type="radio" name="openingMessageOptions" class="form-control" id="firstName"\>
+						Use First Name Only
+					</label>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="customText" class="col-sm-2 control-label">Custom Text</label>
-				<div class="col-sm-10">
-					<input type="radio" name="openingMessageOptions" class="form-control" id="customText"\>
+				<div class="radio">
+					<label for="customText" class="col-sm-2 control-label">
+						<input type="radio" name="openingMessageOptions" class="form-control" id="customText"\>
+						Custom Text
+					</label>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="none" class="col-sm-2 control-label">None</label>
-				<div class="col-sm-10">
-					<input type="radio" name="openingMessageOptions" class="form-control" id="none"\>
+				<div class="radio">
+					<label for="none" class="col-sm-2 control-label">
+						<input type="radio" name="openingMessageOptions" class="form-control" id="none"\>
+						None
+					</label>
 				</div>
 			</div>
 		</form>
