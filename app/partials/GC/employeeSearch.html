@@ -1,0 +1,93 @@
+<section class="employee-search" style="margin-top:15px;">
+    <div class="row">
+        <div class="col-sm-6 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Employee Search</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="employee_search" ng-submit="seachEmployees(searchCriterion)">
+                        <div class="row">
+                            <div>Enter the details below to search for the employee to award.</div>
+                            <div class="col-sm-6">
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>First Name</label>
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.fn" name="FirstName" tabindex="0" />
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>Employee Number</label>
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.e" name="EmployeeNumber" tabindex="2" />
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>Last Name</label>
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.ln" name="LastName" tabindex="1" />
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>Marketplace</label>
+                                        <input class="form-control" type="text" ng-maxlength="100" ng-model="searchCriterion.d" name="Marketplace" tabindex="3" />
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="alert alert-warning" ng-show="searchError">{{searchError}}</div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input class="btn btn-success" style="width: 100%;" type="submit" value="Search" ng-disabled="employee_search.$invalid" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="btn btn-default" style="width: 100%;" type="button" value="Clear" ng-click="searchCriterion = {}" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-5 col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Search Results</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-info" ng-show="!employees">Search results will display here</div>
+                    <div ng-show="employees">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Employee #</th>
+                                    <th>Marketplace</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="employee in employees">
+                                    <td><div class="btn btn-sm btn-info" ng-click="selectEmployee(employee)">Select</div></td>
+                                    <td>{{employee.FirstName}}</td>
+                                    <td>{{employee.LastName}}</td>
+                                    <td>{{employee.UserID}}</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
