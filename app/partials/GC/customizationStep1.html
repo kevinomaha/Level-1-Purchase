@@ -127,6 +127,20 @@
 				</div>
 				</form>
 		</div>
+		<script>
+			$('#personal-message')
+					.focus(function(){
+						if($(this).val()=='Enter text here...')
+						{
+							$(this).val('');
+						}
+					})
+					.blur(function () {
+						if ($(this).val() == '') {
+							$(this).val('Enter text here...');
+						}
+					});
+		</script>
 		<div class="row">
 			<div class="form-group">
 				<label for="employeeNumber">Employee Number</label>
