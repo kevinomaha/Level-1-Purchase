@@ -8,9 +8,9 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         success(function(data){
             console.log(data);
             $scope.getTemplate = data;
-            console.log($scope.getTemplate.DesignId);
-            console.log($scope.getTemplate.Name);
-            console.log($scope.getTemplate.ThumbNailUrl);
+            console.log($scope.getTemplate);
+
+            //console.log($scope.getTemplate.ThumbNailUrl);
 
         });
 }]);
