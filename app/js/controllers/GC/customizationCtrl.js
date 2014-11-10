@@ -4,7 +4,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     $scope.selectedEmployee = Customization.getEmployee();
     console.log($scope.selectedEmployee); //fill in inputs with employee details
 
-    $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/getThumbnailImage?d=26').
+    $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
         success(function(data){
             console.log(data);
             $scope.getTemplate = data;
