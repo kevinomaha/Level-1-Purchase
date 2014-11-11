@@ -9,7 +9,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             console.log(data);
             $scope.getTemplate = data;
             console.log($scope.getTemplate);
-            $scope.thumbnail = $scope.getTemplate[ThumbnailUrl];
+            $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
             console.log($scope.thumbnail);
 
             //console.log($scope.getTemplate.ThumbNailUrl);
