@@ -2,8 +2,9 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization) {
 
         $scope.selectedProduct = Customization.getProduct();
+        $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
 
-        $scope.searchCriterion = {};
+            $scope.searchCriterion = {};
         $scope.searchError = "";
         $scope.searchIndicator = false;
         $scope.seachEmployees = function(searchCriterion) {
