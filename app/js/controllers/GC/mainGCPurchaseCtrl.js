@@ -1,5 +1,5 @@
-four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Security', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'LogoOptions', 'CategoryDescription', 'ExistingAddress', 'LineItems', 'CustomAddressList',
-function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems, CustomAddressList) {
+four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Security', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'LogoOptions', 'CategoryDescription', 'ExistingAddress', 'LineItems', 'CustomAddressList', 'Customization',
+function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems, CustomAddressList, Customization) {
 
     $scope.productList = Resources.products;
     var today = new Date();
@@ -10,7 +10,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $rootScope.$broadcast('event:ProductSelected', product);
         // Affects cartCtrl.js line 343
         console.log('Clicked Product ' + product.interopID + ' and type ' + product.ProductType );
-        $scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/L1slctv2MGC3');
+        //$scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/L1slctv2MGC3');
+        Customization.setProduct(product);
+        $location.path('employeesearch');
     };
 
     //merge code for actual catalog values against hardcoded top level product list
@@ -156,6 +158,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             }
             Product.get($scope.selectedProduct.StandardID, function (product) {
                 $scope.selectedProductDetails = angular.copy(product);
+                Customization.setProduct(product);
                 //Call function to obtain variant information and save personal messages
                 getPersonalMessages($scope.selectedProductDetails.Variants);
                 if (lineitem) {
@@ -946,6 +949,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     $scope.designChanged(lineitem);
                     $scope.occasionMessageChanged();
                 }
+                Customization.setProduct($scope.selectedProduct);
                 $scope.selectedProduct.productLoadingIndicator = false;
             });
         }

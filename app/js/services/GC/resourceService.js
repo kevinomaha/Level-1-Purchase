@@ -582,7 +582,7 @@ four51.app.factory('Resources', function() {
         {
             Name:"Visa Reward Card",
             InteropID: "5a932e83-eda9-4a01-8b32-139d9b538a95",
-            StandardID:"INT030",
+            StandardID:"5a932e83-eda9-4a01-8b32-139d9b538a95",
             PremiumID:"",
             CanadianID:"",
             HolidayID:"",

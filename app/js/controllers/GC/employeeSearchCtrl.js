@@ -1,6 +1,8 @@
 four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'EmployeeSearch', 'Customization',
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization) {
 
+        $scope.selectedProduct = Customization.getProduct();
+
         $scope.searchCriterion = {};
         $scope.searchError = "";
         $scope.seachEmployees = function(searchCriterion) {
@@ -27,7 +29,13 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.selectEmployee = function(employee) {
             Customization.setEmployee(employee);
-            $location.path('customizationStep1')
+            $scope.selectedProduct = Customization.getProduct();
+            if ($scope.selectedProduct.Name.indexOf('Visa') > -1) {
+                $location.path('visa');
+            }
+            else {
+                $location.path('customizationStep1');
+            }
         };
 
         $scope.searchTest = function() {
