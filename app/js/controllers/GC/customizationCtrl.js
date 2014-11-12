@@ -1,6 +1,12 @@
 four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'Customization', '$http', 'Order',
 function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, Order) {
 
+    $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems: []};
+    if (typeof($scope.tempOrder) != 'object') {
+        $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
+        $scope.tempOrder = JSON.parse($scope.tempOrder);
+    }
+
     $scope.selectedEmployee = Customization.getEmployee();
     $scope.selectedProduct = Customization.getProduct();
     console.log($scope.selectedEmployee); //fill in inputs with employee details
@@ -30,6 +36,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         lineItem.Quantity = 1;
         lineItem.Product = product;
         $scope.tempOrder.LineItems.push(lineItem);
+        $scope.cacheOrder($scope.tempOrder);
         $location.path('cart');
     };
 }]);

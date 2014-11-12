@@ -5,7 +5,7 @@
             <img style="margin: auto;" ng-src="{{selectedProduct.LargeImageUrl}}" alt="image cannot be previewed"/>
         </div>
     </div>
-    <form name="visa">
+    <form name="visa_form">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="view-form-icon">
@@ -28,7 +28,7 @@
                         <i class="fa fa-user"></i>
                     </div>
                 </div>
-                <div class="btn btn-success" ng-click="addToCart(selectedProduct)">Add to Cart</div>
+                <div class="btn btn-success" style="margin-top: 15px; width: 100%" ng-click="addToCart(selectedProduct)" ng-disabled="visa_form.$invalid">Add to Cart</div>
             </div>
         </div>
     </form>
