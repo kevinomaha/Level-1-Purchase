@@ -22,10 +22,25 @@ four51.app.factory('Customization', ['$451',
             return selectedProduct;
         };
 
+        var _addToCart = function(product, order) {
+            if (!order) {
+                order = {};
+                order.LineItems = [];
+            }
+            if (!order.LineItems) {
+                order.LineItems = [];
+            }
+            var lineItem = {};
+            lineItem.Quantity = 1;
+            lineItem.Product = product;
+            order.LineItems.push(lineItem);
+        };
+
         return {
             getEmployee: _getEmployee,
             setEmployee: _setEmployee,
             setProduct: _setProduct,
-            getProduct: _getProduct
+            getProduct: _getProduct,
+            addToCart: _addToCart
         }
     }]);

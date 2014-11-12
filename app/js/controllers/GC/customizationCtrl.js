@@ -24,18 +24,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         });
 
     $scope.addToCart = function(product) {
-        if (!$scope.tempOrder) {
-            $scope.tempOrder = {};
-            $scope.tempOrder.LineItems = [];
-        }
-        if (!$scope.tempOrder.LineItems) {
-            $scope.tempOrder.LineItems = [];
-        }
-
-        var lineItem = {};
-        lineItem.Quantity = 1;
-        lineItem.Product = product;
-        $scope.tempOrder.LineItems.push(lineItem);
+        Customization.addToCart(product, $scope.tempOrder);
         $scope.cacheOrder($scope.tempOrder);
         $location.path('cart');
     };

@@ -5,11 +5,18 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.searchCriterion = {};
         $scope.searchError = "";
+        $scope.searchIndicator = false;
         $scope.seachEmployees = function(searchCriterion) {
+            $scope.searchIndicator = true;
             $scope.searchError = "";
             if (objKeyCount(searchCriterion) > 0) {
                 EmployeeSearch.search(searchCriterion, function(data) {
                     $scope.employees = data;
+                        $scope.searchIndicator = false;
+                },
+                function() {
+                    $scope.searchErrorMessage = "No results were returned. Please try again.";
+                    $scope.searchIndicator = false;
                 });
             }
             else {

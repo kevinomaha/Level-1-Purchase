@@ -6,6 +6,7 @@
                     <h3 class="panel-title">Employee Search</h3>
                 </div>
                 <div class="panel-body">
+                    <loadingindicator ng-show="searchIndicator"></loadingindicator>
                     <form name="employee_search" ng-submit="seachEmployees(searchCriterion)">
                         <div class="row">
                             <div>Enter the details below to search for the employee to award.</div>
