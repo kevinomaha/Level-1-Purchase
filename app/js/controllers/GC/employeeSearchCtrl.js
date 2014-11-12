@@ -29,4 +29,19 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             Customization.setEmployee(employee);
             $location.path('customizationStep1')
         };
+
+        $scope.searchTest = function() {
+            $.ajax({
+                method: "GET",
+                url: 'https://gca-svcs01-dev.cloudapp.net/ClientService/GetUsers?p=1&ln=thompson&callback=?',
+                dataType: 'jsonp',
+                success: function(response, extra){
+                    console.log(response);
+                    console.log(extra);
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        };
     }]);
