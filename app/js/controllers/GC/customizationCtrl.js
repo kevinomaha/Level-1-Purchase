@@ -13,13 +13,15 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
 
     $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
         success(function(data){
-            console.log(data);
+            //console.log(data);
             $scope.getTemplate = data;
-            console.log($scope.getTemplate);
+            //console.log($scope.getTemplate);
             $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
             console.log($scope.thumbnail);
-
-            //console.log($scope.getTemplate.ThumbNailUrl);
+            console.log($scope.selectedEmployee.FirstName);
+            console.log($scope.selectedEmployee.LastName);
+            console.log($scope.selectedEmployee.UserID);
+            console.log($scope.selectedEmployee.Username);
 
         });
 
