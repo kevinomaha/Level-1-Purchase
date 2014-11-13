@@ -11,13 +11,13 @@
 			<div class="form-group col-lg-6">
 				<label for="firstName" class="col-sm-4 control-label col-lg-3" style="text-align:left">First Name</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="firstName" value="Recipient First Name" readonly/>
+					<input type="text" class="form-control" id="firstName" value="{{selectedEmployee.FirstName}}" readonly/>
 				</div>
 			</div>
 			<div class="form-group col-lg-6">
 				<label for="lastName" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">Last Name</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="lastName" value="Recipient Last Name" readonly/>
+					<input type="text" class="form-control" id="lastName" value="{{selectedEmployee.LastName}}" readonly/>
 				</div>
 			</div>
 		</div>
@@ -26,13 +26,13 @@
 			<div class="form-group col-lg-6">
 				<label for="employeeNumber" class="col-sm-4 control-label col-lg-3" style="text-align:left">Employee Number</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="employeeNumber" value="Employee Number" readonly/>
+					<input type="text" class="form-control" id="employeeNumber" value="{{selectedEmployee.UserID}}" readonly/>
 				</div>
 			</div>
 			<div class="form-group col-lg-6">
 				<label for="emailAddress" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">Email Address</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="emailAddress" value="Email Address" readonly/>
+					<input type="text" class="form-control" id="emailAddress" value="{{selectedEmployee.Username}}" readonly/>
 				</div>
 			</div>
 		</div>
@@ -41,13 +41,13 @@
 			<div class="form-group col-lg-6">
 				<label for="marketPlace" class="col-sm-4 control-label col-lg-3" style="text-align:left">Marketplace</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="marketPlace" value="MarketPlace" readonly/>
+					<input type="text" class="form-control" id="marketPlace" value="" readonly/>
 				</div>
 			</div>
 			<div class="form-group col-lg-6">
 				<label for="jobFamily" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">Job Family</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="jobFamily" value="Job family" readonly/>
+					<input type="text" class="form-control" id="jobFamily" value="{{selectedEmployee[20].Value}}" readonly/>
 				</div>
 			</div>
 		</div>
@@ -56,13 +56,13 @@
 			<div class="form-group col-lg-6">
 				<label for="supervisor" class="col-sm-4 control-label col-lg-3" style="text-align:left">Supervisior</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="supervisor" value="Supervisor" readonly/>
+					<input type="text" class="form-control" id="supervisor" value="{{selectedEmployee[17].Value}}" readonly/>
 				</div>
 			</div>
 			<div class="form-group col-lg-6">
 				<label for="apdCode" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">APD Code</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="apdCode" value="APD Code" readonly/>
+					<input type="text" class="form-control" id="apdCode" value="" readonly/>
 				</div>
 			</div>
 		</div>

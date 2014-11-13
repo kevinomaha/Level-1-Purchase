@@ -17,12 +17,12 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             $scope.getTemplate = data;
             //console.log($scope.getTemplate);
             $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
-            console.log($scope.thumbnail);
-            console.log($scope.selectedEmployee.FirstName);
-            console.log($scope.selectedEmployee.LastName);
-            console.log($scope.selectedEmployee.UserID);
-            console.log($scope.selectedEmployee.Username);
-
+            //console.log($scope.thumbnail);
+            //console.log($scope.selectedEmployee.FirstName);
+            //console.log($scope.selectedEmployee.LastName);
+            //console.log($scope.selectedEmployee.UserID);
+            //console.log($scope.selectedEmployee.Username);
+            console.log($scope.selectedProduct);
         });
 
     $scope.addToCart = function(product) {
