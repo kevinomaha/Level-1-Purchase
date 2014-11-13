@@ -10,6 +10,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     $scope.selectedEmployee = Customization.getEmployee();
     $scope.selectedProduct = Customization.getProduct();
     //console.log($scope.selectedEmployee); //fill in inputs with employee details
+    console.log($scope.selectedProduct);
 
     $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
         success(function(data){
@@ -17,7 +18,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             $scope.getTemplate = data;
             //console.log($scope.getTemplate);
             $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
-            //console.log($scope.thumbnail);
+            console.log($scope.thumbnail);
             //console.log($scope.selectedEmployee.FirstName);
             //console.log($scope.selectedEmployee.LastName);
             //console.log($scope.selectedEmployee.UserID);
