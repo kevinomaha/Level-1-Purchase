@@ -22,7 +22,8 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             //console.log($scope.selectedEmployee.LastName);
             //console.log($scope.selectedEmployee.UserID);
             //console.log($scope.selectedEmployee.Username);
-            console.log($scope.selectedProduct);
+            //console.log($scope.selectedEmployee);
+            //console.log($scope.selectedProduct);
         });
 
     Product.get('2d549bc6-db1d-46fa-bac6-1555558225fa', function(p) {
