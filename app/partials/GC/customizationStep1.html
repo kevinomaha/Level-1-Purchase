@@ -1,160 +1,159 @@
-<div class="container">
+<div class="container col-lg-10 col-lg-offset-1">
 	<h3 class="row">Selected Product: Digital E-SuperCertificate&reg; Reward (emailable)</h3>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-4">
 			<img ng-src="{{thumbnail}}" alt="image cannot be previewed"/>
 		</div>
 	</div>
-	<form role="form">
+	<form class="form-horizontal" role='form'>
+
 		<div class="row">
-			<div class="col-sm-6">
-				<form class="form-horizontal" role="form">
-					<div class="form-group">
-						<label for="firstName" class="col-sm-4 control-label">First Name</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" id="firstName"\>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="employeeNumber" class="col-sm-4 control-label">Employee Number</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" id="employeeNumber"\>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="marketplace" class="col-sm-4 control-label">Marketplace</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" id="marketplace"\>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="supervisor" class="col-sm-4 control-label">Supervisor</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" id="supervisor"\>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="denomination" class="col-sm-4 control-label">Denomination</label>
-						<div class="col-sm-8">
-							<select id="denomination" class="form-control">
-								<option>$25</option>
-							</select>
-						</div>
-					</div>
-				</form>
+			<div class="form-group col-lg-6">
+				<label for="firstName" class="col-sm-4 control-label col-lg-3" style="text-align:left">First Name</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="firstName" value="Recipient First Name" readonly/>
+				</div>
 			</div>
-			<div class="col-sm-6">
-				<form class="form-horizontal" role="form">
-					<div class="form-group">
-						<label for="lastName" class="col-sm-4 control-label">Last Name</label>
-						<div class="col-sm-8">
-							<input type="text" id="lastName" class="form-control"\>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="emailAddress" class="col-sm-4 control-label">Email Address</label>
-						<div class="col-sm-8">
-							<input type="text" id="emailAddress" class="form-control"\>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="jobFamily" class="col-sm-4 control-label">Job Family</label>
-						<div class="col-sm-8">
-							<input type="text" id="jobFamily" class="form-control"\>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="apdCode" class="col-sm-4 control-label">APD Code</label>
-						<div class="col-sm-8">
-							<input type="text" id="apdCode" class="form-control"\>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="reason" class="col-sm-4 control-label">Reason</label>
-						<div class="col-sm-8">
-							<select id="reason" class="form-control">
-								<option>Winning Spirit</option>
-							</select>
-						</div>
-					</div>
-				</form>
+			<div class="form-group col-lg-6">
+				<label for="lastName" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">Last Name</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="lastName" value="Recipient Last Name" readonly/>
+				</div>
 			</div>
-		</div>
-		<div class="row">
-			<h4>Personalize Your SuperCertificate</h4>
-			<form class="form-horizontal" role="form">
-				<h5>Opening Message Options</h5>
-				<div class="form-group">
-					<div class="radio">
-						<label for="fullName" class="col-sm-2">
-							<input type="radio" name="openingMessageOptions" id="fullName"\>
-							Use First &amp; Last Name
-						</label>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="radio">
-						<label for="firstName-radio" class="col-sm-2">
-							<input type="radio" name="openingMessageOptions" id="firstName-radio"\>
-							Use First Name Only
-						</label>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="radio">
-						<label for="customText" class="col-sm-2">
-							<input type="radio" name="openingMessageOptions" id="customText"\>
-							Custom Text
-						</label>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="radio">
-						<label for="none" class="col-sm-2">
-							<input type="radio" name="openingMessageOptions" id="none"\>
-							None
-						</label>
-					</div>
-				</div>
-			</form>
 		</div>
 
 		<div class="row">
-			<div class="form-group">
-				<label for="personal-message" class="col-sm-4">Custom Personal Message</label>
-				<textarea id="personal-message" style="overflow:auto;resize:none" rows="4" cols="5" maxlength="500" contenteditable="false">Enter text here...</textarea>
+			<div class="form-group col-lg-6">
+				<label for="employeeNumber" class="col-sm-4 control-label col-lg-3" style="text-align:left">Employee Number</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="employeeNumber" value="Employee Number" readonly/>
+				</div>
 			</div>
-		</div>
-		<script>
-			$('#personal-message')
-					.focus(function(){
-						if($(this).val()=='Enter text here...')
-						{
-							$(this).val('');
-						}
-					})
-					.blur(function () {
-						if ($(this).val() == '') {
-							$(this).val('Enter text here...');
-						}
-					});
-		</script>
-		<div class="row">
-			<div class="form-group">
-				<label for="closing" class>Closing</label>
-				<input type="text" class="form-control" maxlength="50" id="closing"\>
+			<div class="form-group col-lg-6">
+				<label for="emailAddress" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">Email Address</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="emailAddress" value="Email Address" readonly/>
+				</div>
 			</div>
 		</div>
 
+		<div class="row">
+			<div class="form-group col-lg-6">
+				<label for="marketPlace" class="col-sm-4 control-label col-lg-3" style="text-align:left">Marketplace</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="marketPlace" value="MarketPlace" readonly/>
+				</div>
+			</div>
+			<div class="form-group col-lg-6">
+				<label for="jobFamily" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">Job Family</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="jobFamily" value="Job family" readonly/>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-lg-6">
+				<label for="supervisor" class="col-sm-4 control-label col-lg-3" style="text-align:left">Supervisior</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="supervisor" value="Supervisor" readonly/>
+				</div>
+			</div>
+			<div class="form-group col-lg-6">
+				<label for="apdCode" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">APD Code</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="apdCode" value="APD Code" readonly/>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-lg-6">
+				<label for="denomination" class="col-sm-4 control-label col-lg-3" style="text-align:left">Denomination</label>
+				<div class="col-sm-8">
+					<select id = denomination class="form-control">
+						<option>$25</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group col-lg-6">
+				<label for="reason" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">Reason</label>
+				<div class="col-sm-8">
+					<select id = reason class="form-control">
+						<option>Winning Spirit</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</form>
+	<br>
+	<div class="container">
+		<h4 style="font-weight:bold">Personalize Your SuperCertificate</h4>
+		<h5 style="font-weight:bold">Opening Message Options</h5>
+		<form class="form-horizontal" role="form">
+
+			<div class="form-group radio">
+				<label for="fullName"><input type="radio" name="openingMessage">
+					<span id="fullName" style="font-weight:normal;position:absolute;padding-top:13px">Use First &amp; Last Name</span>
+				</label>
+			</div>
+
+			<div class="form-group radio">
+				<label for="firstNameonly"><input type="radio" name="openingMessage">
+					<span id="firstNameonly" style="font-weight:normal;position:absolute;padding-top:13px">Use First Name only</span>
+				</label>
+			</div>
+
+			<div class="form-group radio">
+				<label for="customText"><input type="radio" name="openingMessage" class="radio">
+                <span style="position:absolute">
+                  Custom Text
+                  <input type="text" id="customText" maxlength="50" style="width:28em">
+                </span>
+				</label>
+			</div>
+
+			<div class="form-group radio">
+				<label for="noOpeningMessage"><input type="radio" name="openingMessage">
+					<span id="noOpeningMessage" style="font-weight:normal;position:absolute;padding-top:13px">None</span>
+				</label>
+			</div>
+
+		</form>
+	</div>
+	<br>
+	<div class="container">
 		<form>
+
 			<div class="form-group">
-				<label for="email-subject" class="col-sm-2">Email Subject</label>
-				<span>
-					<div class="col-sm-8">
-						<input type="text" class="form-control col-sm-10" maxlength="75" id="email-subject"\>
-					</div>
-				</span>
+				<label for="personal-message" class="control-label">Custom Personal Message</label>
+				<textarea id="personal-message" class="form-control" style="overflow:auto;resize:none" rows="4" cols="5" maxlength="500" contenteditable="false">Enter text here...</textarea>
+			</div>
+
+			<div class="form-group">
+				<label for="closing" class="control-label">Closing</label>
+				<input type="text" class="form-control col-lg-12 col-md-12" maxlength="50" id="closing">
 			</div>
 		</form>
-	</form>
+	</div>
+
+	<div class="container">
+		<form role="form" class="form-horizontal">
+			<div class="form-group row" style="margin-top:30px">
+				<label for="email-subject" class="control-label col-lg-1" style="text-align:left">Email Subject</label>
+				<div class=" col-lg-11">
+					<input type="text" class="form-control col-lg-9" maxlength="75" id="email-subject" style="width:40em">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="deliveryDate" class="control-label col-lg-1" style="text-align:left">Delivery Date</label>
+				<div class=" col-lg-4">
+					<input type="date" class="form-control" id="deliveryDate" style="width:12em">
+				</div>
+			</div>
+		</form>
+
+		<input type="button" value="Create Award" class="btn btn-lg btn-block btn-success">
+	</div>
 </div>
