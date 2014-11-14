@@ -3,14 +3,14 @@
         <div class="col-sm-6 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Employee Search</h3>
+                    <h3 class="panel-title"><b>Employee Search</b></h3>
                 </div>
                 <div class="panel-body">
                     <loadingindicator ng-show="searchIndicator"></loadingindicator>
                     <form name="employee_search" ng-submit="seachEmployees(searchCriterion)">
                         <div class="row">
-                            <div>Enter the details below to search for the employee to award.</div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2  ">
+                                <p class="text-info">Please enter your search criteria.</p>
                                 <div class="view-form-icon">
                                     <div>
                                         <label>First Name</label>
@@ -18,20 +18,17 @@
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-
-                                <div class="view-form-icon">
-                                    <div>
-                                        <label>Employee Number</label>
-                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.e" name="EmployeeNumber" tabindex="2" />
-                                        <i class="fa fa-user"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
                                 <div class="view-form-icon">
                                     <div>
                                         <label>Last Name</label>
                                         <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.ln" name="LastName" tabindex="1" />
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>Employee Number</label>
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.e" name="EmployeeNumber" tabindex="2" />
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
@@ -42,18 +39,18 @@
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 15px;">
-                            <div class="alert alert-warning" ng-show="searchError">{{searchError}}</div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input class="btn btn-success" style="width: 100%;" type="submit" value="Search" ng-disabled="employee_search.$invalid" />
+                                <hr/>
+                                <div class="alert alert-warning" ng-show="searchError">{{searchError}}</div>
+                                <div class="row text-center">
+                                    <div class="col-sm-6">
+                                        <input class="btn btn-default btn-block" type="button" value="Clear" ng-click="clearSearch()" />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input class="btn btn-success btn-block" type="submit" value="Search" ng-disabled="employee_search.$invalid" />
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <input class="btn btn-default" style="width: 100%;" type="button" value="Clear" ng-click="clearSearch()" />
-                                </div>
                             </div>
+
                         </div>
                     </form>
                 </div>
@@ -62,7 +59,7 @@
         <div class="col-sm-6 col-md-5 col-lg-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Search Results</h3>
+                    <h3 class="panel-title"><b>Search Results</b></h3>
                 </div>
                 <div class="panel-body">
                     <div class="alert alert-info" ng-show="employees.length == 0">Search results will display here</div>
