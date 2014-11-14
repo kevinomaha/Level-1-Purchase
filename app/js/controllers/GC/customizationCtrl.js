@@ -1,5 +1,5 @@
-four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'Customization', '$http', 'Order',
-function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, Order) {
+four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'Customization', '$http', 'Order', 'Product',
+function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, Order, Product) {
 
     $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems: []};
     if (typeof($scope.tempOrder) != 'object') {
@@ -25,6 +25,12 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             //console.log($scope.selectedEmployee.Username);
             //console.log($scope.selectedEmployee);
             //console.log($scope.selectedProduct);
+        }).
+        error(function(data, status, headers, config ) {
+            console.log(data);
+            console.log(status);
+            console.log(headers);
+            console.log(config);
         });
 
     Product.get('2d549bc6-db1d-46fa-bac6-1555558225fa', function(p) {
