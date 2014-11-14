@@ -12,6 +12,11 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     console.log($scope.selectedEmployee); //fill in inputs with employee details
     console.log($scope.selectedProduct);
 
+    Product.get( '$scope.selectedProduct.InteropID', function(p) {
+        $scope.product = p;
+        console.log($scope.product);
+    });
+
     $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
         success(function(data){
             //console.log(data);
@@ -33,13 +38,10 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             console.log(config);
         });
 
-    Product.get('2d549bc6-db1d-46fa-bac6-1555558225fa', function(p) {
-        $scope.product = p;
-        console.log($scope.product);
-    });
 
 
-    $scope.
+
+
     $scope.addToCart = function(product) {
         Customization.addToCart(product, $scope.tempOrder);
         $scope.cacheOrder($scope.tempOrder);
