@@ -4,24 +4,27 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.selectedProduct = Customization.getProduct();
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
 
-            $scope.searchCriterion = {};
+        $scope.searchCriterion = {};
+        $scope.employees = [];
         $scope.searchError = "";
         $scope.searchIndicator = false;
         $scope.seachEmployees = function(searchCriterion) {
             $scope.searchIndicator = true;
             $scope.searchError = "";
+            $scope.employees = [];
             if (objKeyCount(searchCriterion) > 0) {
                 EmployeeSearch.search(searchCriterion, function(data) {
                     $scope.employees = data;
                         $scope.searchIndicator = false;
                 },
                 function() {
-                    $scope.searchErrorMessage = "No results were returned. Please try again.";
+                    $scope.searchError = "No results were returned. Please try again.";
                     $scope.searchIndicator = false;
                 });
             }
             else {
                 $scope.searchError = "You must enter at least one search criterion";
+                $scope.searchIndicator = false;
             }
         };
 
@@ -46,7 +49,12 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
         };
 
-        $scope.searchTest = function() {
+        $scope.clearSearch = function() {
+            $scope.searchCriterion = {};
+            $scope.employees = [];
+        };
+
+        /*$scope.searchTest = function() {
             $.ajax({
                 method: "GET",
                 url: 'https://gca-svcs01-dev.cloudapp.net/ClientService/GetUsers?p=1&ln=thompson&callback=?',
@@ -59,5 +67,5 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     console.log(response);
                 }
             });
-        };
+        };*/
     }]);
