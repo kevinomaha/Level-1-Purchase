@@ -13,7 +13,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.searchError = "";
             $scope.employees = [];
             if (objKeyCount(searchCriterion) > 0) {
-                EmployeeSearch.search(searchCriterion, function(data) {
+                EmployeeSearch.search(searchCriterion, $scope.user, function(data) {
                     $scope.employees = data;
                         $scope.searchIndicator = false;
                 },

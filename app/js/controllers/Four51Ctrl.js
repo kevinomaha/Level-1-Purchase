@@ -1,5 +1,5 @@
-four51.app.controller('Four51Ctrl', ['$scope', '$route','$routeParams', '$location', '$451', 'User', 'Order', 'Security', 'OrderConfig', 'Category', 'SpendingAccount', 'Product', 'Shipper', 'AddressList', 'AppConst', 'LogoOptions',
-function ($scope, $route, $routParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, Product, Shipper, AddressList, AppConst, LogoOptions) {
+four51.app.controller('Four51Ctrl', ['$scope', '$route','$routeParams', '$location', '$451', 'User', 'Order', 'Security', 'OrderConfig', 'Category', 'SpendingAccount', 'Product', 'Shipper', 'AddressList', 'AppConst', 'EmployeeSearch',
+function ($scope, $route, $routParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, Product, Shipper, AddressList, AppConst, EmployeeSearch) {
     $scope.AppConst = AppConst;
 	$scope.scroll = 0;
 	$scope.isAnon = $451.isAnon; //need to know this before we have access to the user object
@@ -31,6 +31,9 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
         if (Security.isAuthenticated()) {
             User.get(function(user) {
                 $scope.user = user;
+                EmployeeSearch.getPortalID($scope.user.Username, function(data) {
+                    $scope.user.PortalID = data;
+                });
 
                 user.Company.GoogleAnalyticsCode = "UA-4208136-57";
                 analytics(user.Company.GoogleAnalyticsCode);

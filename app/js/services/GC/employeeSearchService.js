@@ -7,8 +7,8 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451',
 
         var baseUrl = "https://gca-svcs01-dev.cloudapp.net/ClientService/GetUsers";
 
-        var _search = function(criteria, success, error) {
-            criteria['p'] = 1;
+        var _search = function(criteria, user, success, error) {
+            criteria['p'] = user.PortalID;
             $resource(baseUrl, {}).query(criteria).$promise.then(function(data) {
                 _then(success, data);
             },
@@ -20,7 +20,15 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451',
             _then(success, testResults);*/
         };
 
+        var _getPortalID = function(username, success) {
+            //Make service call here
+
+            var portalID = 1;
+            _then(success, portalID);
+        };
+
         return {
-            search: _search
+            search: _search,
+            getPortalID: _getPortalID
         }
     }]);
