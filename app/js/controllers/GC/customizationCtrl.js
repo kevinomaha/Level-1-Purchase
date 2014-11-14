@@ -13,8 +13,8 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     console.log($scope.selectedProduct);
 
     Product.get( '$scope.selectedProduct.InteropID', function(p) {
-        $scope.product = p;
-        console.log($scope.product);
+        $scope.currentProduct = p;
+        console.log($scope.currentProduct);
     });
 
     $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
@@ -37,10 +37,6 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             console.log(headers);
             console.log(config);
         });
-
-
-
-
 
     $scope.addToCart = function(product) {
         Customization.addToCart(product, $scope.tempOrder);
