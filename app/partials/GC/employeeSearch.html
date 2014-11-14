@@ -14,28 +14,28 @@
                                 <div class="view-form-icon">
                                     <div>
                                         <label>First Name</label>
-                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.fn" name="FirstName" tabindex="0" />
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.fn" name="FirstName" tabindex="1" />
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
                                 <div class="view-form-icon">
                                     <div>
                                         <label>Last Name</label>
-                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.ln" name="LastName" tabindex="1" />
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.ln" name="LastName" tabindex="2" />
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
                                 <div class="view-form-icon">
                                     <div>
                                         <label>Employee Number</label>
-                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.e" name="EmployeeNumber" tabindex="2" />
+                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.e" name="EmployeeNumber" tabindex="3" />
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
                                 <div class="view-form-icon">
                                     <div>
                                         <label>Marketplace</label>
-                                        <input class="form-control" type="text" ng-maxlength="100" ng-model="searchCriterion.d" name="Marketplace" tabindex="3" />
+                                        <input class="form-control" type="text" ng-maxlength="100" ng-model="searchCriterion.d" name="Marketplace" tabindex="4" />
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
@@ -43,10 +43,10 @@
                                 <div class="alert alert-warning" ng-show="searchError">{{searchError}}</div>
                                 <div class="row text-center">
                                     <div class="col-sm-6">
-                                        <input class="btn btn-default btn-block" type="button" value="Clear" ng-click="clearSearch()" />
+                                        <input class="btn btn-success btn-block" type="submit" value="Search" ng-disabled="employee_search.$invalid" tabindex="5" />
                                     </div>
                                     <div class="col-sm-6">
-                                        <input class="btn btn-success btn-block" type="submit" value="Search" ng-disabled="employee_search.$invalid" />
+                                        <input class="btn btn-default btn-block" type="button" value="Clear" ng-click="clearSearch()" tabindex="6" />
                                     </div>
                                 </div>
                             </div>
