@@ -42,54 +42,57 @@
                             </div>
                         </div>
                         <div class="panel-body" ng-controller="ProductCtrl" collapse="collapser != 'Order'">
-                            <div class="denomination-selection">
-                                <div ng-repeat="product in products" ng-click="setDenomination(product)" class="denomination-value" ng-class="{selected:selectedProduct.Denomination == product.Denomination}">
-                                    {{'$'+product.Denomination}}
+                            <div ng-show="products.length == 0" class="alert alert-info text-center col-lg-6 col-sm-6 col-lg-offset-3 col-sm-offset-3 col-md-offset-2 col-md-8">There are currently no products available for this merchant</div>
+                            <div ng-show="products.length > 0">
+                                <div class="denomination-selection">
+                                    <div ng-repeat="product in products" ng-click="setDenomination(product)" class="denomination-value" ng-class="{selected:selectedProduct.Denomination == product.Denomination}">
+                                        {{'$'+product.Denomination}}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <form name="addToOrderForm" >
-                                    <div class="col-lg-5 col-md-6 col-sm-6" ng-if="LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'">
-                                        <div id="451_list_vspec" ng-show="allowAddToOrder">
-                                            <div class="form-group" ng-repeat="s in LineItem.Product.Specs | onproperty:[{Property: 'CanSetForLineItem', Value: true}, {Property: 'DefinesVariant', Value: true}]" ng-if="!(s.DefaultValue)">
-                                                <customfilefield customfield="s" ng-if="s.ControlType == 'File'"></customfilefield>
-                                                <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
-                                                <customselectionfield change="specChanged" customfield="s" ng-if="s.ControlType == 'Selection'"></customselectionfield>
+                                <div class="row">
+                                    <form name="addToOrderForm" >
+                                        <div class="col-lg-5 col-md-6 col-sm-6" ng-if="LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'">
+                                            <div id="451_list_vspec" ng-show="allowAddToOrder">
+                                                <div class="form-group" ng-repeat="s in LineItem.Product.Specs | onproperty:[{Property: 'CanSetForLineItem', Value: true}, {Property: 'DefinesVariant', Value: true}]" ng-if="!(s.DefaultValue)">
+                                                    <customfilefield customfield="s" ng-if="s.ControlType == 'File'"></customfilefield>
+                                                    <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
+                                                    <customselectionfield change="specChanged" customfield="s" ng-if="s.ControlType == 'Selection'"></customselectionfield>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6" ng-class="{'col-lg-offset-3 col-sm-offset-3 col-md-offset-2 col-md-8':LineItem.Product.Specs['Physical/Digital'].Value != 'Digital', 'col-lg-offset-1 col-md-6':LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'}">
-                                        <div class="view-form-icon" style="margin-bottom:10px;">
-                                            <div>
-                                                <label>Quantity:</label>
-                                                <quantityfield required="true" lineitem="LineItem" class="quantity" />
+                                        <div class="col-lg-6 col-sm-6" ng-class="{'col-lg-offset-3 col-sm-offset-3 col-md-offset-2 col-md-8':LineItem.Product.Specs['Physical/Digital'].Value != 'Digital', 'col-lg-offset-1 col-md-6':LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'}">
+                                            <div class="view-form-icon" style="margin-bottom:10px;">
+                                                <div>
+                                                    <label>Quantity:</label>
+                                                    <quantityfield required="true" lineitem="LineItem" class="quantity" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mini-white-panel" ng-show="LineItem.LineTotal || variantLineItemsOrderTotal" ng-if="!(user.Permissions.contains('HidePricing'))">
-                                            <p class="text-info text-center">
-                                                <small class="text-info">Total</small>
+                                            <div class="mini-white-panel" ng-show="LineItem.LineTotal || variantLineItemsOrderTotal" ng-if="!(user.Permissions.contains('HidePricing'))">
+                                                <p class="text-info text-center">
+                                                    <small class="text-info">Total</small>
+                                                </p>
+                                                <div class="text-center" ng-if="!(user.Permissions.contains('HidePricing'))" ng-show="LineItem.LineTotal || variantLineItemsOrderTotal">
+                                                    <h3 class="text-success">{{LineItem.PriceSchedule.PriceBreaks[0].Price * LineItem.Quantity | currency}}{{variantLineItemsOrderTotal}}</h3>
+                                                </div>
+                                            </div>
+                                            <button type="button" id="451_btn_orderadd" ng-disabled="addToOrderForm.$invalid" ng-click="addToOrder(LineItem)" class="btn btn-lg btn-block" ng-class="{'btn-danger': (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError), 'btn-primary': (!LineItem.qtyError && !addToOrderForm.$invalid && !addToOrderError)}">
+                                                <span ng-class="{'hidden':(LineItem.qtyError || addToOrderForm.$invalid || addToOrderError)}">{{addToOrderText}}</span>
+                                                <div class="add-to-error-overlay" ng-show="allowAddToOrder && (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError)">
+                                                    <small>
+                                                        {{LineItem.qtyError}}<br ng-show="LineItem.qtyError"/>
+                                                <span ng-show="addToOrderForm.$invalid" >
+                                                    Product is missing required fields for Add to Cart.<br/>
+                                                </span>
+                                                        {{addToOrderError}}
+                                                    </small>
+                                                </div>
+                                            </button>
+                                            <p class="alert alert-info text-center" ng-show="LineItem.Product.DisplayInventory && (LineItem.Variant || LineItem.Product.Variants.length == 0)">
+                                                <i class="fa fa-clock-o" style="float:none;"></i> {{inventoryDisplay(LineItem.Product, LineItem.Variant) > 5 ? 'Will ship within 24 hours' : 'Should ship within 3-5 days'}}
                                             </p>
-                                            <div class="text-center" ng-if="!(user.Permissions.contains('HidePricing'))" ng-show="LineItem.LineTotal || variantLineItemsOrderTotal">
-                                                <h3 class="text-success">{{LineItem.PriceSchedule.PriceBreaks[0].Price * LineItem.Quantity | currency}}{{variantLineItemsOrderTotal}}</h3>
-                                            </div>
                                         </div>
-                                        <button type="button" id="451_btn_orderadd" ng-disabled="addToOrderForm.$invalid" ng-click="addToOrder(LineItem)" class="btn btn-lg btn-block" ng-class="{'btn-danger': (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError), 'btn-primary': (!LineItem.qtyError && !addToOrderForm.$invalid && !addToOrderError)}">
-                                            <span ng-class="{'hidden':(LineItem.qtyError || addToOrderForm.$invalid || addToOrderError)}">{{addToOrderText}}</span>
-                                            <div class="add-to-error-overlay" ng-show="allowAddToOrder && (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError)">
-                                                <small>
-                                                    {{LineItem.qtyError}}<br ng-show="LineItem.qtyError"/>
-                                            <span ng-show="addToOrderForm.$invalid" >
-                                                Product is missing required fields for Add to Cart.<br/>
-                                            </span>
-                                                    {{addToOrderError}}
-                                                </small>
-                                            </div>
-                                        </button>
-                                        <p class="alert alert-info text-center" ng-show="LineItem.Product.DisplayInventory && (LineItem.Variant || LineItem.Product.Variants.length == 0)">
-                                            <i class="fa fa-clock-o" style="float:none;"></i> {{inventoryDisplay(LineItem.Product, LineItem.Variant) > 5 ? 'Will ship within 24 hours' : 'Should ship within 3-5 days'}}
-                                        </p>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

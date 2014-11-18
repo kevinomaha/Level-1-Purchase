@@ -40,12 +40,21 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.selectEmployee = function(employee) {
             Customization.setEmployee(employee);
-            $scope.selectedProduct = Customization.getProduct();
-            if ($scope.selectedProduct.Name.indexOf('Visa') > -1) {
-                $location.path('visa');
-            }
-            else {
-                $location.path('customizationStep1');
+            switch($scope.selectedProduct.ProductType) {
+                case "Digital":
+                    $location.path('customizationStep1');
+                    break;
+                case "Original":
+                    $location.path('customizationStep1'); //should be updated to new path or this step should be dynamic
+                    break;
+                case "e-Cards":
+                    $location.path('customizationStep1'); //should be updated to new path or this step should be dynamic
+                    break;
+                case "Visa":
+                    $location.path('visa');
+                    break;
+                default:
+                    $location.path('catalog/' + $scope.selectedProduct.InteropID);
             }
         };
 

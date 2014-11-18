@@ -13,8 +13,32 @@ four51.app.factory('Customization', ['$451',
             store.set('451Cache.SelectedEmployee', employee);
         };
 
+        function productType(p) {
+            var type = "";
+
+            if (p.Name.indexOf('Digital') > -1) {
+                type = "Digital";
+            }
+            else if (p.Name.indexOf('Original') > -1) {
+                type = "Original";
+            }
+            else if (p.Name.indexOf('e-Cards') > -1) {
+                type = "e-Cards";
+            }
+            else if (p.Name.indexOf('Visa') > -1) {
+                type = "Visa";
+            }
+            else {
+                type = "Merchant";
+            }
+
+            return type;
+        }
+
         var _setProduct = function(product) {
             selectedProduct = product;
+            selectedProduct.ProductType = productType(product);
+
             store.set('451Cache.SelectedProduct', product);
         };
 

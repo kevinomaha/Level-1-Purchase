@@ -1,5 +1,7 @@
-four51.app.controller('MerchantViewCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', '$window', 'Category', 'Product', 'AdvancedSearch', 'User', 'Order', 'OrderConfig', 'Resources',
-function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Category, Product, AdvancedSearch, User, Order, OrderConfig, Resources) {
+four51.app.controller('MerchantViewCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', '$window', 'Category', 'Product', 'AdvancedSearch', 'User', 'Order', 'OrderConfig', 'Customization',
+function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Category, Product, AdvancedSearch, User, Order, OrderConfig, Customization) {
+
+    $scope.selectedEmployee = Customization.getEmployee();
 
     $scope.productLoadingIndicator = true;
 	$scope.trusted = function(d){

@@ -31,8 +31,8 @@ function ($routeParams, $rootScope, $scope, Category, Product) {
             }
 
             $scope.products = sortedProducts;
-            $scope.selectedProduct = $scope.products[0];
-            $rootScope.$broadcast('event:MerchantProductSelected', $scope.products[0]);
+            $scope.selectedProduct = $scope.products.length > 0 ? $scope.products[0] : {};
+            $rootScope.$broadcast('event:MerchantProductSelected', $scope.selectedProduct);
         });
     });
     $scope.setSearchProduct = function(product) {

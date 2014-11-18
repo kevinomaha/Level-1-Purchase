@@ -1,10 +1,12 @@
-four51.app.controller('ProductCtrl', ['$scope', '$routeParams', '$route', '$location', '$451', 'Product', 'ProductDisplayService', 'AddressList', 'Order', 'Variant', 'User',
-function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplayService, AddressList, Order, Variant, User) {
+four51.app.controller('ProductCtrl', ['$scope', '$routeParams', '$route', '$location', '$451', 'Product', 'ProductDisplayService', 'AddressList', 'Order', 'Variant', 'User', 'Customization',
+function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplayService, AddressList, Order, Variant, User, Customization) {
     $scope.selected = 1;
     $scope.LineItem = {};
 	$scope.addToOrderText = "Add To Cart";
 	$scope.loadingIndicator = true;
     $scope.digitalShipAddressID = "";
+
+    $scope.selectedEmployee = Customization.getEmployee();
 
     AddressList.query(function(list) {
         for (var a = 0; a < list.length; a++) {
@@ -108,11 +110,14 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
                 ProductDisplayService.setProductViewScope($scope);
                 angular.forEach($scope.LineItem.Product.Specs, function(s) {
                     s.InputType =  s.Name.toLowerCase().indexOf('email') > -1 ? "email" : "text";
+                    s.ProductSpec =  true;
                 });
                 $scope.$broadcast('ProductGetComplete');
-                if ($scope.LineItem.Product.Specs['Email1']){
+                if ($scope.LineItem.Product.Specs.Email || $scope.LineItem.Product.Specs.Email1){
                     $scope.digitalProduct = true;
                     $scope.LineItem.Product.Specs = (tempSpecs && tempSpecs.Email1 && data.product.Specs.Email1) ? tempSpecs : $scope.LineItem.Product.Specs;
+                    if ($scope.LineItem.Product.Specs.Email) $scope.LineItem.Product.Specs.Email.Value = $scope.selectedEmployee.Username;
+                    if ($scope.LineItem.Product.Specs.Email1) $scope.LineItem.Product.Specs.Email1.Value = $scope.selectedEmployee.Username;
                 }
             });
             $scope.selectedProduct =  product;
