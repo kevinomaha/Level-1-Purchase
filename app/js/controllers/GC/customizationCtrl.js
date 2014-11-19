@@ -12,7 +12,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     console.log($scope.selectedEmployee); //fill in inputs with employee details
     console.log($scope.selectedProduct);
 
-    Product.get( '$scope.selectedProduct.InteropID', function(p) {
+    Product.get($scope.selectedProduct.InteropID, function(p) {
         $scope.currentProduct = p;
         console.log($scope.currentProduct);
     });
