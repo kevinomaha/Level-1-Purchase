@@ -507,3 +507,20 @@ four51.app.filter('telephone', function() {
         return (country + " (" + city + ") " + number).trim();
     }
 });
+
+four51.app.filter('employeeproperty', function() {
+    return function(employee, propertyKey) {
+        if (employee && propertyKey) {
+            var result = "";
+            angular.forEach(employee.Extrinsics, function (prop) {
+                if (prop.Key == propertyKey) {
+                    result = prop.Value;
+                }
+            });
+            return result;
+        }
+        else {
+            return "";
+        }
+    }
+});

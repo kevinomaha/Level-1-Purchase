@@ -79,8 +79,8 @@
                                     <td><div class="btn btn-sm btn-info" ng-click="selectEmployee(employee)">Select</div></td>
                                     <td>{{employee.FirstName}}</td>
                                     <td>{{employee.LastName}}</td>
-                                    <td>{{employee.UserID}}</td>
-                                    <td></td>
+                                    <td>{{employee | employeeproperty:'ThirdPartyID'}}</td>
+                                    <td>{{employee | employeeproperty:'CustomProperty1'}}</td>
                                 </tr>
                             </tbody>
                         </table>
