@@ -25,7 +25,7 @@
 			<div class="form-group col-lg-6">
 				<label for="employeeNumber" class="col-sm-4 control-label col-lg-3" style="text-align:left">Employee Number</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="employeeNumber" value="{{selectedEmployee.Extrinsics[18].value}}" readonly/>
+					<input type="text" class="form-control" id="employeeNumber" value="{{selectedEmployee.Extrinsics[18].Value}}" readonly/>
 				</div>
 			</div>
 			<div class="form-group col-lg-6">
@@ -59,9 +59,9 @@
 				</div>
 			</div>
 			<div class="form-group col-lg-6">
-				<label for="apdCode" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">APD Code</label>
+				<label for="apdCode" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">ADP Code</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="apdCode" value="" readonly/>
+					<input type="text" class="form-control" id="apdCode" value="{{selectedEmployee.Extrinsics[3].Value}}" readonly/>
 				</div>
 			</div>
 		</div>
@@ -78,8 +78,8 @@
 			<div class="form-group col-lg-6">
 				<label for="reason" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">Reason</label>
 				<div class="col-sm-8">
-					<select id = reason class="form-control">
-						<option>Winning Spirit</option>
+					<select id = reason class="form-control" ng-model="selectedProduct.Specs.ReasonCode.Value">
+						<option class="view-select-placeholder" selected="" value=""></option>
 					</select>
 				</div>
 			</div>

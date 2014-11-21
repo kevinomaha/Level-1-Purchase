@@ -10,13 +10,12 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     $scope.selectedEmployee = Customization.getEmployee();
     $scope.selectedProduct = Customization.getProduct();
     console.log($scope.selectedEmployee);
+    console.log($scope.selectedProduct);
     Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
 
     Product.get($scope.selectedProduct.InteropID, function(p) {
         $scope.currentProduct = p;
-        console.log("printing current product specs-begin");
         console.log($scope.currentProduct);
-        console.log("printing current product specs-end");
     });
 
     $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
