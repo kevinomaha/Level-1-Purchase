@@ -1,5 +1,5 @@
-four51.app.factory('Customization', ['$451',
-    function($451) {
+four51.app.factory('Customization', ['$451', 'ProductDescription',
+    function($451, ProductDescription) {
 
         var selectedEmployee = store.get('451Cache.SelectedEmployee') ? store.get('451Cache.SelectedEmployee') : {};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
@@ -35,9 +35,15 @@ four51.app.factory('Customization', ['$451',
             return type;
         }
 
+        function _extendProduct(product) {
+            product.ProductType = productType(product);
+
+            if (product.ExternalID) ProductDescription.parse(product); //Only parse description of product, not product's category
+        }
+
         var _setProduct = function(product) {
             selectedProduct = product;
-            selectedProduct.ProductType = productType(product);
+            _extendProduct(selectedProduct);
 
             store.set('451Cache.SelectedProduct', product);
         };
