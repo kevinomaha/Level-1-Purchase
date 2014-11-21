@@ -66,11 +66,27 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             order.LineItems.push(lineItem);
         };
 
+        var _employeeToSpecs = function(employee, product) {
+            if (product.Specs) {
+                angular.forEach(product.Specs, function(spec) {
+                    switch(spec.Name) {
+                        case "FirstName":
+                            spec.Value = employee.FirstName;
+                            break;
+                        case "LastName":
+                            spec.Value = employee.LastName;
+                            break;
+                    }
+                });
+            }
+        };
+
         return {
             getEmployee: _getEmployee,
             setEmployee: _setEmployee,
             setProduct: _setProduct,
             getProduct: _getProduct,
-            addToCart: _addToCart
+            addToCart: _addToCart,
+            employeeToSpecs: _employeeToSpecs
         }
     }]);

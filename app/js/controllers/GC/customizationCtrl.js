@@ -9,8 +9,8 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
 
     $scope.selectedEmployee = Customization.getEmployee();
     $scope.selectedProduct = Customization.getProduct();
-    console.log($scope.selectedEmployee); //fill in inputs with employee details
-    console.log($scope.selectedProduct);
+
+    Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
 
     Product.get($scope.selectedProduct.InteropID, function(p) {
         $scope.currentProduct = p;

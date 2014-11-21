@@ -19,15 +19,15 @@
                     <div class="col-md-6">
                         <div class="view-form-icon">
                             <div>
-                                <label>{{'First Name'}}</label>
-                                <input class="form-control" type="text" ng-model="selectedEmployee.FirstName" name="FirstName" readonly="readonly" />
+                                <label>{{selectedProduct.Specs.FirstName.Label}}</label>
+                                <input class="form-control" type="text" placeholder="selectedProduct.Specs.FirstName.Label" ng-model="selectedProduct.Specs.FirstName.Value" name="FirstName" readonly="readonly" />
                                 <i class="fa fa-user"></i>
                             </div>
                         </div>
                         <div class="view-form-icon">
                             <div>
-                                <label>{{'Last Name'}}</label>
-                                <input class="form-control" type="text" ng-model="selectedEmployee.LastName" name="LastName" readonly="readonly" />
+                                <label>{{selectedProduct.Specs.LastName.Label}}</label>
+                                <input class="form-control" type="text" placeholder="{{selectedProduct.Specs.LastName.Label}}" ng-model="selectedProduct.Specs.LastName.Value" name="LastName" readonly="readonly" />
                                 <i class="fa fa-user"></i>
                             </div>
                         </div>
