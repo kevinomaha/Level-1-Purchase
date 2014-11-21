@@ -11,24 +11,44 @@
                 </div>
             </div>
             <form name="visa_form">
-                <div class="view-form-icon">
-                    <div>
-                        <label>{{selectedProduct.Specs.Denomination.Label}}</label>
-                        <select class="form-control"
-                                ng-required="true"
-                                ng-change="denomChanged()"
-                                ng-model="selectedProduct.Specs.Denomination.Value"
-                                ng-options="option.Value as option.Value for option in selectedProduct.Specs.Denomination.Options">
-                            <option class="view-select-placeholder" selected="" value="">Select a Denomination</option>
-                        </select>
-                        <i class="fa fa-comment"></i>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="view-form-icon">
+                            <div>
+                                <label>{{'First Name'}}</label>
+                                <input class="form-control" type="text" ng-model="selectedEmployee.FirstName" name="FirstName" readonly="readonly" />
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="view-form-icon">
+                            <div>
+                                <label>{{'Last Name'}}</label>
+                                <input class="form-control" type="text" ng-model="selectedEmployee.LastName" name="LastName" readonly="readonly" />
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="view-form-icon">
-                    <div>
-                        <label>{{selectedProduct.Specs.OccasionMessage.Label}}</label>
-                        <input class="form-control" type="text" ng-maxlength="40" ng-model="selectedProduct.Specs.OccasionMessage.Value" name="OccasionMessage" readonly="readonly" />
-                        <i class="fa fa-user"></i>
+                    <div class="col-md-6">
+                        <div class="view-form-icon">
+                            <div>
+                                <label>{{selectedProduct.Specs.Denomination.Label}}</label>
+                                <select class="form-control"
+                                        ng-required="true"
+                                        ng-change="denomChanged()"
+                                        ng-model="selectedProduct.Specs.Denomination.Value"
+                                        ng-options="option.Value as option.Value for option in selectedProduct.Specs.Denomination.Options">
+                                    <option class="view-select-placeholder" selected="" value="">Select a Denomination</option>
+                                </select>
+                                <i class="fa fa-comment"></i>
+                            </div>
+                        </div>
+                        <div class="view-form-icon">
+                            <div>
+                                <label>{{selectedProduct.Specs.OccasionMessage.Label}}</label>
+                                <input class="form-control" type="text" ng-maxlength="40" ng-model="selectedProduct.Specs.OccasionMessage.Value" name="OccasionMessage" readonly="readonly" />
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <input type="button" class="btn btn-success" style="margin-top: 15px; width: 100%" value="Create Award" ng-click="addToCart(selectedProduct)" ng-disabled="visa_form.$invalid" />
