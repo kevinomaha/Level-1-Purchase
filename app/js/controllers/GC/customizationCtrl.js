@@ -19,25 +19,12 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         console.log($scope.currentProduct);
     });
 
-    Product.get('0C83AB6E-E4A2-4B6C-87D5-9EBE6D5B4E34', function(p) {
-        $scope.currentProduct1 = p;
-        console.log("product-2");
-        console.log($scope.currentProduct1);
-    });
-
     $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
         success(function(data){
-            //console.log(data);
-            $scope.getTemplate = data;
-            //console.log($scope.getTemplate);
-            $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
-            //console.log($scope.thumbnail);
-            //console.log($scope.selectedEmployee.FirstName);
-            //console.log($scope.selectedEmployee.LastName);
-            //console.log($scope.selectedEmployee.UserID);
-            //console.log($scope.selectedEmployee.Username);
-            //console.log($scope.selectedEmployee);
-            //console.log($scope.selectedProduct);
+             $scope.getTemplate = data;
+
+             $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
+
         }).
         error(function(data, status, headers, config ) {
             console.log(data);
