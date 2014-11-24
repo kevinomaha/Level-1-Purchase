@@ -13,9 +13,16 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     console.log($scope.selectedProduct);
     Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
 
-    Product.get('0C83AB6E-E4A2-4B6C-87D5-9EBE6D5B4E34', function(p) {
+    Product.get($scope.selectedProduct.InteropID, function(p) {
         $scope.currentProduct = p;
+        console.log("product-1");
         console.log($scope.currentProduct);
+    });
+
+    Product.get('0C83AB6E-E4A2-4B6C-87D5-9EBE6D5B4E34', function(p) {
+        $scope.currentProduct1 = p;
+        console.log("product-2");
+        console.log($scope.currentProduct1);
     });
 
     $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
