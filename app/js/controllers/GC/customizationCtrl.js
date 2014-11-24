@@ -13,7 +13,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     console.log($scope.selectedProduct);
     Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
 
-    Product.get($scope.selectedProduct.InteropID, function(p) {
+    Product.get('0C83AB6E-E4A2-4B6C-87D5-9EBE6D5B4E34', function(p) {
         $scope.currentProduct = p;
         console.log($scope.currentProduct);
     });
