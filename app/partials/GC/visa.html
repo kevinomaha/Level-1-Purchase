@@ -1,20 +1,23 @@
 <div class="container col-lg-10 col-lg-offset-1 panel panel-default">
     <h3 class="row" style="padding-left:5px;text-align:center">Selected Product: {{selectedProduct.Name}}</h3>
     <div class="row">
-        <div class="col-md-3 col-md-offset-2" style="margin-bottom:15px;">
-            <img style="margin: auto;" ng-src="{{selectedProduct.LargeImageUrl}}" alt="image cannot be previewed"/>
-        </div>
-        <div class="col-md-5">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div ng-bind-html="selectedProduct.SpaDescription.TermsAndConditions"></div>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="row" style="margin-bottom:15px;">
+                <div class="col-md-4">
+                    <img style="margin:0 auto; max-width:100%;" ng-src="{{selectedProduct.LargeImageUrl}}" alt="image cannot be previewed"/>
                 </div>
+                <div class="col-md-8">
+                    <div ng-bind-html="selectedProduct.SpaDescription.ServiceFees"></div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body" ng-bind-html="selectedProduct.SpaDescription.TermsAndConditions"></div>
             </div>
         </div>
     </div>
     <div class="row" style="margin-bottom:20px;">
         <div class="col-md-6 col-md-offset-3">
-            <form name="visa_form">
+            <form name="visa_form" ng-submit="addToCart(selectedProduct)">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="view-form-icon">
@@ -55,7 +58,9 @@
                         </div>
                     </div>
                 </div>
-                <input type="button" class="btn btn-success" style="margin-top: 15px; width: 100%" value="Create Award" ng-click="addToCart(selectedProduct)" ng-disabled="visa_form.$invalid" />
+                <div class="text-center">
+                    <input type="submit" style="margin:15px 0 0;" class="btn btn-success" value="Create Award" ng-disabled="visa_form.$invalid" />
+                </div>
             </form>
         </div>
     </div>

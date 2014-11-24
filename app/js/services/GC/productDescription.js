@@ -4,13 +4,18 @@ four51.app.factory('ProductDescription', function() {
         product.SpaDescription = {};
 
         var productDescription = $(product.Description);
+        var serviceFees = "";
         var termsAndConditions = "";
         angular.forEach(productDescription, function(section) {
-            if (section.attributes && section.attributes['id'].value == "infoDiv0") {
+            if (section.attributes && section.attributes['id'].value == "serviceFees") {
+                serviceFees += $(section).html();
+            }
+            if (section.attributes && section.attributes['id'].value == "termsAndConditions") {
                 termsAndConditions += $(section).html();
             }
         });
 
+        product.SpaDescription.ServiceFees = serviceFees;
         product.SpaDescription.TermsAndConditions = termsAndConditions;
 
             /*category.SpaDescription = {};
