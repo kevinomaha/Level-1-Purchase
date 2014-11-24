@@ -25,7 +25,7 @@
 			<div class="form-group col-lg-6">
 				<label for="employeeNumber" class="col-sm-4 control-label col-lg-3" style="text-align:left">Employee Number</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="employeeNumber" value="{{selectedEmployee.UserID}}" readonly/>
+					<input type="text" class="form-control" id="employeeNumber" value="{{selectedEmployee.Extrinsics[18].Value}}" readonly/>
 				</div>
 			</div>
 			<div class="form-group col-lg-6">
@@ -40,13 +40,13 @@
 			<div class="form-group col-lg-6">
 				<label for="marketPlace" class="col-sm-4 control-label col-lg-3" style="text-align:left">Marketplace</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="marketPlace" value="" readonly/>
+					<input type="text" class="form-control" id="marketPlace" value="{{selectedEmployee.Extrinsics[1].Value}}" readonly/>
 				</div>
 			</div>
 			<div class="form-group col-lg-6">
 				<label for="jobFamily" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">Job Family</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="jobFamily" value="{{selectedEmployee.Extrinsics[20].Value}}" readonly/>
+					<input type="text" class="form-control" id="jobFamily" value="{{selectedEmployee.Extrinsics[2].Value}}" readonly/>
 				</div>
 			</div>
 		</div>
@@ -59,27 +59,35 @@
 				</div>
 			</div>
 			<div class="form-group col-lg-6">
-				<label for="apdCode" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">APD Code</label>
+				<label for="apdCode" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">ADP Code</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="apdCode" value="" readonly/>
+					<input type="text" class="form-control" id="apdCode" value="{{selectedEmployee.Extrinsics[3].Value}}" readonly/>
 				</div>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="form-group col-lg-6">
-				<label for="denomination" class="col-sm-4 control-label col-lg-3" style="text-align:left">Denomination</label>
+				<label for="denomination" class="col-sm-4 control-label col-lg-3" style="text-align:left">{{selectedProduct.Specs.Denomination.Label}}</label>
 				<div class="col-sm-8">
-					<select id = denomination class="form-control">
-						<option>$25</option>
+					<select id = denomination
+							class="form-control"
+							ng-required="true"
+							ng-model="selectedProduct.Specs.Denomination.Value"
+							ng-options="option.Value as option.Value for option in selectedProduct.Specs.Denomination.Options">
+						<option selected="" value="">Select a Denomination</option>
 					</select>
 				</div>
 			</div>
 			<div class="form-group col-lg-6">
 				<label for="reason" class="col-sm-4 control-label col-lg-3 col-lg-offset-1" style="text-align:left">Reason</label>
 				<div class="col-sm-8">
-					<select id = reason class="form-control">
-						<option>Winning Spirit</option>
+					<select id = reason
+							class="form-control"
+							ng-required="true"
+							ng-model="selectedProduct.Specs.ReasonCode.Value"
+							ng-options="option.Value as option.Value for option in selectedProduct.Specs.ReasonCode.Options">
+						<option class="view-select-placeholder" selected="" value=""></option>
 					</select>
 				</div>
 			</div>
@@ -126,12 +134,14 @@
 
 			<div class="form-group">
 				<label for="personal-message" class="control-label">Custom Personal Message</label>
-				<textarea id="personal-message" class="form-control" style="overflow:auto;resize:none" rows="4" cols="5" maxlength="500" contenteditable="false">Enter text here...</textarea>
+				<textarea id="personal-message" class="form-control" style="overflow:auto;resize:none" rows="4" cols="5" maxlength="500" contenteditable="false"
+						  ng-required="true"
+						  ng-model="">Enter text here...</textarea>
 			</div>
 
 			<div class="form-group">
 				<label for="closing" class="control-label">Closing</label>
-				<input type="text" class="form-control col-lg-12 col-md-12" maxlength="50" id="closing">
+				<input type="text" class="form-control col-lg-12 col-md-12" maxlength="50" ng-required="true" ng-model="" id="closing">
 			</div>
 		</form>
 	</div>
@@ -141,14 +151,16 @@
 			<div class="form-group row" style="margin-top:30px">
 				<label for="email-subject" class="control-label col-lg-1" style="text-align:left">Email Subject</label>
 				<div class=" col-lg-11">
-					<input type="text" class="form-control col-lg-9" maxlength="75" id="email-subject" style="width:40em">
+					<input type="text" class="form-control col-lg-9" maxlength="75" ng-required="true" ng-model="" id="email-subject" style="width:40em">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="deliveryDate" class="control-label col-lg-1" style="text-align:left">Delivery Date</label>
 				<div class=" col-lg-4">
-					<input type="date" class="form-control" id="deliveryDate" style="width:12em" ng-model="delivery-date" min="{{min-delivery-date}}">
+					<input type="date" class="form-control" id="deliveryDate" style="width:12em"
+						   ng-model="delivery-date"
+						   ng-required="true" min="{{min-delivery-date}}">
 					<!-- <p id="not-valid-date">{{date-status}}</p> -->
 				</div>
 			</div>

@@ -9,27 +9,22 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
 
     $scope.selectedEmployee = Customization.getEmployee();
     $scope.selectedProduct = Customization.getProduct();
-
+    console.log($scope.selectedEmployee);
+    console.log($scope.selectedProduct);
     Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
 
     Product.get($scope.selectedProduct.InteropID, function(p) {
         $scope.currentProduct = p;
+        console.log("product-1");
         console.log($scope.currentProduct);
     });
 
     $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
         success(function(data){
-            //console.log(data);
-            $scope.getTemplate = data;
-            //console.log($scope.getTemplate);
-            $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
-            console.log($scope.thumbnail);
-            console.log($scope.selectedEmployee.FirstName);
-            //console.log($scope.selectedEmployee.LastName);
-            //console.log($scope.selectedEmployee.UserID);
-            //console.log($scope.selectedEmployee.Username);
-            //console.log($scope.selectedEmployee);
-            //console.log($scope.selectedProduct);
+             $scope.getTemplate = data;
+
+             $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
+
         }).
         error(function(data, status, headers, config ) {
             console.log(data);

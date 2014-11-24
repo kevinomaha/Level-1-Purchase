@@ -541,7 +541,7 @@ four51.app.factory('Resources', function() {
         {
             Name:"Digital e-SuperCertificate® REWARD (emailable)",
             InteropID: "2d549bc6-db1d-46fa-bac6-1555558225fa",
-            StandardID:"SCD002-GC1-02",
+            StandardID:"0C83AB6E-E4A2-4B6C-87D5-9EBE6D5B4E34",
             PremiumID:"SCD-ES12",
             CanadianID:"CSCD-SC12",
             HolidayID:"HOLSCD-GC1",
