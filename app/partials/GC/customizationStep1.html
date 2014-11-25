@@ -8,7 +8,7 @@
 
 		<div class="row">
 			<div class="form-group col-lg-6">
-				<label for="firstName" class="col-sm-4  col-lg-3" style="text-align:left">First Name</label>
+				<label for="firstName" class="col-sm-4 control-label col-lg-3" style="text-align:left">First Name</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="firstName" value='{{selectedEmployee.FirstName}}' readonly/>
 				</div>
@@ -68,11 +68,11 @@
 
 		<div class="row">
 			<div class="form-group col-lg-6">
-				<label for="denomination" class="col-sm-4 control-label col-lg-3" style="text-align:left">{{selectedProduct.Specs.Denomination.Label}}</label>
+				<label for="denomination" class="col-sm-4 control-label col-lg-3" style="text-align:left">Denomination</label>
 				<div class="col-sm-8">
 					<select id = denomination
 							class="form-control"
-
+							ng-required="true"
 							ng-model="selectedProduct.Specs.Denomination.Value"
 							ng-options="option.Value as option.Value for option in selectedProduct.Specs.Denomination.Options">
 						<option selected="" value="">Select a Denomination</option>
@@ -84,7 +84,7 @@
 				<div class="col-sm-8">
 					<select id = reason
 							class="form-control"
-
+							ng-required="true"
 							ng-model="selectedProduct.Specs.ReasonCode.Value"
 							ng-options="option.Value as option.Value for option in selectedProduct.Specs.ReasonCode.Options">
 						<option class="view-select-placeholder" selected="" value=""></option>
@@ -93,8 +93,6 @@
 			</div>
 		</div>
 	</form>
-
-
 	<br>
 	<div class="container">
 		<h4 style="font-weight:bold">Personalize Your SuperCertificate</h4>
@@ -102,28 +100,28 @@
 		<form class="form-horizontal" role="form">
 
 			<div class="form-group radio">
-				<label for="fullName"><input type="radio" name="openingMessage">
+				<label for="fullName"><input type="radio" name="openingMessage" ng-model="openingMessage.fullname">
 					<span id="fullName" style="font-weight:normal;position:absolute;padding-top:13px">Use First &amp; Last Name</span>
 				</label>
 			</div>
 
 			<div class="form-group radio">
-				<label for="firstNameonly"><input type="radio" name="openingMessage" checked>
+				<label for="firstNameonly"><input type="radio" name="openingMessage" ng-model="openingMessage.firstname" checked>
 					<span id="firstNameonly" style="font-weight:normal;position:absolute;padding-top:13px">Use First Name only</span>
 				</label>
 			</div>
 
 			<div class="form-group radio">
-				<label for="customText"><input type="radio" name="openingMessage" class="radio" ng-model="check-customText">
+				<label for="customText"><input type="radio" name="openingMessage" class="radio" id="customText" ng-model="openingMessage.customText">
                 <span style="position:absolute">
                   Custom Text
-                  <input type="text" id="customText" maxlength="50" style="width:28em" ng-disabled="check-customText == 'false'">
+                  <input type="text" id="customTextArea" class="" maxlength="50" ng-disabled="!openingMessage.customText">
                 </span>
 				</label>
 			</div>
 
 			<div class="form-group radio">
-				<label for="noOpeningMessage"><input type="radio" name="openingMessage">
+				<label for="noOpeningMessage"><input type="radio" name="openingMessage" ng-model="openingMessage.none">
 					<span id="noOpeningMessage" style="font-weight:normal;position:absolute;padding-top:13px">None</span>
 				</label>
 			</div>
@@ -137,7 +135,7 @@
 			<div class="form-group">
 				<label for="personal-message" class="control-label">Custom Personal Message</label>
 				<textarea id="personal-message" class="form-control" style="overflow:auto;resize:none" rows="4" cols="5" maxlength="500" contenteditable="false"
-
+						  ng-required="true"
 						  ng-model="">Enter text here...</textarea>
 			</div>
 
@@ -152,18 +150,23 @@
 		<form role="form" class="form-horizontal">
 			<div class="form-group row" style="margin-top:30px">
 				<label for="email-subject" class="control-label col-lg-1" style="text-align:left">Email Subject</label>
-				<div class=" col-lg-11">
-					<input type="text" class="form-control col-lg-9" maxlength="75" ng-required="true" ng-model="" id="email-subject" style="width:40em">
+				<div class=" col-lg-11 col">
+					<input type="text" class="form-control col-lg-9 col-md-12" maxlength="75" ng-required="true" ng-model="" id="email-subject">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="deliveryDate" class="control-label col-lg-1" style="text-align:left">Delivery Date</label>
 				<div class=" col-lg-4">
-					<input type="date" class="form-control" id="deliveryDate" style="width:12em"
+					<input type="text" class="form-control" id="deliveryDate" style="width:12em"
 						   ng-model="delivery-date"
 						   ng-required="true" min="{{min-delivery-date}}">
-					<!-- <p id="not-valid-date">{{date-status}}</p> -->
+					<script>
+						$(function() {
+							$( "#deliveryDate" ).datepicker({minDate:0}).datepicker("setDate", new Date());
+						} );
+					</script>
+
 				</div>
 			</div>
 		</form>

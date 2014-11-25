@@ -7,10 +7,14 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         $scope.tempOrder = JSON.parse($scope.tempOrder);
     }
 
+    //personalized opening message
+    $scope.openingMessage = {};
+
     $scope.selectedEmployee = Customization.getEmployee();
     $scope.selectedProduct = Customization.getProduct();
-    console.log($scope.selectedEmployee);
-    console.log($scope.selectedProduct);
+    //console.log($scope.selectedEmployee);
+    //console.log($scope.selectedProduct);
+    $scope.
     Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
 
     Product.get($scope.selectedProduct.InteropID, function(p) {
