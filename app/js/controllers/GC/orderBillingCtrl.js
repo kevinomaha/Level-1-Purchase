@@ -62,11 +62,11 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
             $scope.cart_billing.$setValidity('cvn', true);
             $scope.cart_billing.$setValidity('expDate', true);
 		}
-		else if($scope.tempOrder.PaymentMethod == 'CreditCard' && !$scope.tempOrder.BillAddressID && $scope.tempOrder.BillAddress.AddressName != 'Main Billing Address') {
+		else if($scope.tempOrder.PaymentMethod == 'CreditCard' && !$scope.tempOrder.BillAddressID && $scope.tempOrder.BillAddress && $scope.tempOrder.BillAddress.AddressName != 'Main Billing Address') {
             $scope.tempOrder.BillAddress = {};
             $scope.tempOrder.BillAddressID = null;
 		}
-        else if ($scope.tempOrder.PaymentMethod == 'CreditCard' && $scope.tempOrder.BillAddress && $scope.tempOrder.BillAddress.AddressName == 'Main Billing Address') {
+        else if ($scope.tempOrder.PaymentMethod == 'CreditCard' && $scope.tempOrder.BillAddress && $scope.tempOrder.BillAddress && $scope.tempOrder.BillAddress.AddressName == 'Main Billing Address') {
             $scope.tempOrder.BillAddress = {};
             $scope.tempOrder.BillAddressID = null;
         }
