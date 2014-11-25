@@ -6,11 +6,11 @@ four51.app.factory('ProductDescription', function() {
         var productDescription = $(product.Description);
         var serviceFees = "";
         var termsAndConditions = "";
-        angular.forEach(productDescription, function(section) {
-            if (section.attributes && section.attributes['id'].value == "serviceFees") {
+        angular.forEach(productDescription[0].children, function(section) {
+            if (section.attributes && section.attributes['id'] && section.attributes['id'].value == "serviceFees") {
                 serviceFees += $(section).html();
             }
-            if (section.attributes && section.attributes['id'].value == "termsAndConditions") {
+            if (section.attributes && section.attributes['id'] && section.attributes['id'].value == "termsAndConditions") {
                 termsAndConditions += $(section).html();
             }
         });
