@@ -7,11 +7,10 @@
                     <img style="margin:0 auto; max-width:100%;" ng-src="{{selectedProduct.LargeImageUrl}}" alt="image cannot be previewed"/>
                 </div>
                 <div class="col-md-8">
-                    <div ng-bind-html="selectedProduct.SpaDescription.ServiceFees"></div>
+                    <div class="panel panel-default">
+                        <div class="panel-body" ng-bind-html="selectedProduct.SpaDescription.TermsAndConditions"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-body" ng-bind-html="selectedProduct.SpaDescription.TermsAndConditions"></div>
             </div>
         </div>
     </div>

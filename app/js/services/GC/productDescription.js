@@ -6,16 +6,12 @@ four51.app.factory('ProductDescription', function() {
         var productDescription = $(product.Description);
         var serviceFees = "";
         var termsAndConditions = "";
-        angular.forEach(productDescription[0].children, function(section) {
-            if (section.attributes && section.attributes['id'] && section.attributes['id'].value == "serviceFees") {
-                serviceFees += $(section).html();
-            }
-            if (section.attributes && section.attributes['id'] && section.attributes['id'].value == "termsAndConditions") {
+        angular.forEach(productDescription, function(section) {
+            if (section.attributes && section.attributes['id'] && section.attributes['id'].value == "infoDiv0") {
                 termsAndConditions += $(section).html();
             }
         });
 
-        product.SpaDescription.ServiceFees = serviceFees;
         product.SpaDescription.TermsAndConditions = termsAndConditions;
 
             /*category.SpaDescription = {};
