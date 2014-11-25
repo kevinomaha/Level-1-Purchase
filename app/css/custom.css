@@ -50,9 +50,6 @@ select.ng-invalid-required {
 }
 
 /* Ricoh Customizations */
-body {
-    margin-bottom: 0;
-}
 .jumbotron {
     background-image: none;
     background-color: #6b9162;

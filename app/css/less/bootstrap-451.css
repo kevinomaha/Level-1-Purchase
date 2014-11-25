@@ -7441,6 +7441,9 @@ table[datepicker] {
 /** To edit this background, follow this link:
 http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=6.8&edge=004263&shadow=003309&
 */
+body {
+  margin-bottom: 130px;
+}
 @media (min-width: 992px) and (max-width: 1199px) {
   .welcome-user {
     float: right;
