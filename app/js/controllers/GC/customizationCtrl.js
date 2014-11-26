@@ -14,7 +14,6 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     $scope.selectedProduct = Customization.getProduct();
     //console.log($scope.selectedEmployee);
     //console.log($scope.selectedProduct);
-    $scope.
     Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
 
     Product.get($scope.selectedProduct.InteropID, function(p) {
