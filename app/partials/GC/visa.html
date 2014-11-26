@@ -7,9 +7,14 @@
                     <img style="margin:0 auto; max-width:100%;" ng-src="{{selectedProduct.LargeImageUrl}}" alt="image cannot be previewed"/>
                 </div>
                 <div class="col-md-8">
-                    <div class="panel panel-default">
-                        <div class="panel-body" ng-bind-html="selectedProduct.SpaDescription.TermsAndConditions"></div>
-                    </div>
+                    <accordion close-others="true">
+                        <accordion-group heading="Terms and Conditions" is-open="true">
+                            <p><small ng-bind-html="selectedProduct.SpaDescription.TermsAndConditions"></small></p>
+                        </accordion-group>
+                        <accordion-group heading="More Info" ng-show="selectedProduct.SpaDescription.MoreInfo">
+                            <p><small ng-bind-html="selectedProduct.SpaDescription.MoreInfo"></small></p>
+                        </accordion-group>
+                    </accordion>
                 </div>
             </div>
         </div>

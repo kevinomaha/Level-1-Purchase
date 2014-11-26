@@ -78,3 +78,8 @@ select.ng-invalid-required {
     width: 50%;
     margin: 0 auto;
 }
+
+accordion h4 {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
