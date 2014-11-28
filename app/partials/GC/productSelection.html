@@ -5,7 +5,7 @@
                 <div class="col-md-2 col-sm-4" ng-repeat="prod in tree">
                     <div class="product-selector" ng-class="{'active': selectedProduct.Name == prod.Name}" ng-click="selectProduct(prod)">
                         <div>
-                            <h4 class="pname">{{prod.Name}}</h4>
+                            <h4 class="pname"><span ng-bind-html="prod.Name" /></h4>
                             <img ng-src="{{prod.Image.URL}}" alt/>
                         </div>
                         <p><small ng-bind-html="prod.Description"></small></p>
