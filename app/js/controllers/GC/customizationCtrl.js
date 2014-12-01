@@ -22,7 +22,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         console.log($scope.currentProduct);
     });
 
-    $http.get('https://gca-svcs01-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
+    $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
         success(function(data){
              $scope.getTemplate = data;
 
