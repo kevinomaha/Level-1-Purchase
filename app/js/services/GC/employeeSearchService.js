@@ -5,7 +5,7 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451',
                 fn(data);
         }
 
-        var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/GetUsers";
+        var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/GetUsersByWildCard";
 
         var _search = function(criteria, user, success, error) {
             criteria['p'] = user.PortalID;
