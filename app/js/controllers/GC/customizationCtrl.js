@@ -20,6 +20,8 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         $scope.currentProduct = p;
         console.log("product-1");
         console.log($scope.currentProduct);
+        console.log("Current logged in user:");
+        console.log($scope.user);
     });
 
     $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
