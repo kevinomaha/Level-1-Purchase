@@ -86,6 +86,7 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             recipient.BeingEdited = false;
             recipient.Valid = false;
             recipientList.push(recipient);
+            return this;
         };
 
         var _removeRecipient = function(recipient, recipientList) {
@@ -96,12 +97,24 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
                     recipientList.splice(i, 1);
                 }
             }
+            return this;
         };
 
         var _validateRecipientList = function(recipientList) {
             angular.forEach(recipientList, function(recipient) {
-                recipient.Valid = recipient.ShipAddressID;
+                recipient.Valid = recipient.Address.ID;
             });
+            return this;
+        };
+
+        var _setAddress = function(address, recipient, recipientList) {
+            angular.forEach(recipientList, function(r) {
+                if (r.UserID == recipient.UserID) {
+                    r.Address = address;
+                    r.BeingEdited = false;
+                }
+            });
+            return this;
         };
 
         return {
@@ -113,6 +126,7 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             employeeToSpecs: _employeeToSpecs,
             addRecipient: _addRecipient,
             removeRecipient: _removeRecipient,
-            validateRecipientList: _validateRecipientList
+            validateRecipientList: _validateRecipientList,
+            setAddress: _setAddress
         }
     }]);

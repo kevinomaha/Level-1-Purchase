@@ -1,5 +1,5 @@
-four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'EmployeeSearch', 'Customization',
-    function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization) {
+four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'Resources',
+    function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, Resources) {
 
         $scope.selectedProduct = Customization.getProduct();
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
@@ -42,21 +42,41 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
 
         $scope.selectEmployee = function(employee) {
-            Customization.addRecipient(employee, $scope.recipientList);
-            Customization.validateRecipientList($scope.recipientList);
-            Customization.setRecipients($scope.recipientList);
+            Customization
+                .addRecipient(employee, $scope.recipientList)
+                .validateRecipientList($scope.recipientList)
+                .setRecipients($scope.recipientList);
         };
 
         $scope.removeRecipient = function(recipient) {
-            Customization.removeRecipient(recipient, $scope.recipientList);
-            Customization.validateRecipientList($scope.recipientList);
-            Customization.setRecipients($scope.recipientList);
+            Customization
+                .removeRecipient(recipient, $scope.recipientList)
+                .validateRecipientList($scope.recipientList)
+                .setRecipients($scope.recipientList);
         };
 
         $scope.tempRecipient = {};
         $scope.editRecipient = function(recipient) {
+            angular.forEach($scope.recipientList, function(recipient) {
+                recipient.BeingEdited = false;
+            });
             recipient.BeingEdited = true;
             $scope.tempRecipient = angular.copy(recipient);
+            $scope.tempRecipient.Address = recipient.Address ? recipient.Address : {IsShipping: true, IsBilling: true};
+        };
+
+        $scope.saveIndicator = false;
+        $scope.saveRecipient = function(tempRecipient) {
+            $scope.saveIndicator = true;
+            tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
+            Address.save(tempRecipient.Address, function(data) {
+                Customization
+                    .setAddress(data, tempRecipient, $scope.recipientList)
+                    .validateRecipientList($scope.recipientList)
+                    .setRecipients($scope.recipientList);
+                $scope.saveIndicator = false;
+                $scope.tempRecipient = {};
+            });
         };
 
         $scope.goToCustomization = function() {
@@ -82,4 +102,10 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.searchCriterion = {};
             $scope.employees = [];
         };
+
+        $scope.countries = Resources.countries;
+        $scope.states = Resources.states;
+        AddressList.query(function(list) {
+            $scope.addresses = list;
+        });
     }]);

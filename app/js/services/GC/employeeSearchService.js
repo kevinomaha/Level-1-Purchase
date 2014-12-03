@@ -19,6 +19,7 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451', '$filter',
 
         function _extendRecipient(recipient, recipientList) {
             recipient.Selected = containsObject(recipient, recipientList);
+            recipient.Address = {IsShipping: true, IsBilling: true};
             recipient.ThirdPartyID = $filter('employeeproperty')(recipient, 'ThirdPartyID');
             recipient.Marketplace = $filter('employeeproperty')(recipient, 'CustomProperty1');
         }
