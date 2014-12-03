@@ -1,16 +1,16 @@
 four51.app.factory('Customization', ['$451', 'ProductDescription',
     function($451, ProductDescription) {
 
-        var selectedEmployee = store.get('451Cache.SelectedEmployee') ? store.get('451Cache.SelectedEmployee') : {};
+        var employeeList = store.get('451Cache.EmployeeList') ? store.get('451Cache.EmployeeList') : [];
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
 
-        var _getEmployee = function() {
-            return selectedEmployee;
+        var _getRecipients = function() {
+            return employeeList;
         };
 
-        var _setEmployee = function(employee) {
-            selectedEmployee = employee;
-            store.set('451Cache.SelectedEmployee', employee);
+        var _setRecipients = function(list) {
+            employeeList = list;
+            store.set('451Cache.EmployeeList', employeeList);
         };
 
         function productType(p) {
@@ -81,12 +81,38 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             }
         };
 
+        var _addRecipient = function(recipient, recipientList) {
+            recipient.Selected = true;
+            recipient.BeingEdited = false;
+            recipient.Valid = false;
+            recipientList.push(recipient);
+        };
+
+        var _removeRecipient = function(recipient, recipientList) {
+            recipient.Selected = false;
+            for (var i = 0; i < recipientList.length; i++) {
+                if (recipientList[i].UserID == recipient.UserID) {
+                    recipientList[i].Selected = false;
+                    recipientList.splice(i, 1);
+                }
+            }
+        };
+
+        var _validateRecipientList = function(recipientList) {
+            angular.forEach(recipientList, function(recipient) {
+                recipient.Valid = recipient.ShipAddressID;
+            });
+        };
+
         return {
-            getEmployee: _getEmployee,
-            setEmployee: _setEmployee,
+            getRecipients: _getRecipients,
+            setRecipients: _setRecipients,
             setProduct: _setProduct,
             getProduct: _getProduct,
             addToCart: _addToCart,
-            employeeToSpecs: _employeeToSpecs
+            employeeToSpecs: _employeeToSpecs,
+            addRecipient: _addRecipient,
+            removeRecipient: _removeRecipient,
+            validateRecipientList: _validateRecipientList
         }
     }]);

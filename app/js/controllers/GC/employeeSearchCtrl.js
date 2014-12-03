@@ -4,6 +4,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.selectedProduct = Customization.getProduct();
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
 
+        $scope.recipientList = Customization.getRecipients();
+
         $scope.searchCriterion = {};
         $scope.employees = [];
         $scope.searchError = "";
@@ -13,7 +15,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.searchError = "";
             $scope.employees = [];
             if (objKeyCount(searchCriterion) > 0) {
-                EmployeeSearch.search(searchCriterion, $scope.user, function(data) {
+                EmployeeSearch.search(searchCriterion, $scope.user, $scope.recipientList, function(data) {
                     $scope.employees = data;
                         $scope.searchIndicator = false;
                 },
@@ -38,8 +40,26 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             return count;
         }
 
+
         $scope.selectEmployee = function(employee) {
-            Customization.setEmployee(employee);
+            Customization.addRecipient(employee, $scope.recipientList);
+            Customization.validateRecipientList($scope.recipientList);
+            Customization.setRecipients($scope.recipientList);
+        };
+
+        $scope.removeRecipient = function(recipient) {
+            Customization.removeRecipient(recipient, $scope.recipientList);
+            Customization.validateRecipientList($scope.recipientList);
+            Customization.setRecipients($scope.recipientList);
+        };
+
+        $scope.tempRecipient = {};
+        $scope.editRecipient = function(recipient) {
+            recipient.BeingEdited = true;
+            $scope.tempRecipient = angular.copy(recipient);
+        };
+
+        $scope.goToCustomization = function() {
             switch($scope.selectedProduct.ProductType) {
                 case "Digital":
                     $location.path('customizationStep1');
@@ -62,19 +82,4 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.searchCriterion = {};
             $scope.employees = [];
         };
-
-        /*$scope.searchTest = function() {
-            $.ajax({
-                method: "GET",
-                url: 'https://gca-svcs01-dev.cloudapp.net/ClientService/GetUsers?p=1&ln=thompson&callback=?',
-                dataType: 'jsonp',
-                success: function(response, extra){
-                    console.log(response);
-                    console.log(extra);
-                },
-                error: function(response) {
-                    console.log(response);
-                }
-            });
-        };*/
     }]);
