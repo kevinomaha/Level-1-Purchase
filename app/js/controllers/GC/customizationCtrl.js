@@ -12,13 +12,15 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
 
     $scope.selectedEmployee = Customization.getEmployee();
     $scope.selectedProduct = Customization.getProduct();
-    //console.log($scope.selectedEmployee);
-    //console.log($scope.selectedProduct);
+    console.log("selected Employee");
+    console.log($scope.selectedEmployee);
+    console.log("selected product");
+    console.log($scope.selectedProduct);
     Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
 
     Product.get($scope.selectedProduct.InteropID, function(p) {
         $scope.currentProduct = p;
-        console.log("product-1");
+        console.log("current product");
         console.log($scope.currentProduct);
         console.log("Current logged in user:");
         console.log($scope.user);
@@ -27,9 +29,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
         success(function(data){
              $scope.getTemplate = data;
-
              $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
-
         }).
         error(function(data, status, headers, config ) {
             console.log(data);
