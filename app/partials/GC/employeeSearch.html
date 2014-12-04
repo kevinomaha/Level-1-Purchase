@@ -20,14 +20,10 @@
                                 <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
                                 <p>
                                     <small>
-                                    <span ng-show="recipient.ShipAddressID">
+                                    <span ng-show="recipient.Address.ID">
                                         <i class="fa fa-map-marker text-muted"></i>
-                                        <em> {{recipient.Street1}} </em>
+                                        <em> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
                                     </span>
-                                        <span ng-show="recipient.Street1 && (recipient.Email || recipient.City) || recipient.Email">
-                                            <i style="margin-left:4px;" class="fa fa-circle text-muted"></i>
-                                            <em> {{recipient.Email || recipient.City + ', ' + recipient.State}}</em>
-                                        </span>
                                     </small>
                                 </p>
                             </li>
@@ -317,8 +313,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!--<div>
+                                    <input type="checkbox"
+                                           ng-model="tempRecipient.Address.AssignToAll"
+                                           name="AssignToAll"> Assign Address to All Recipients?
+                                </div>-->
+                                <div class="btn btn-default" style="margin-top: 15px; trasition: none; -webkit-transition: none; -moz-trasition: none;" ng-class="{'btn-success active': tempRecipient.Address.AssignToAll}" ng-click="tempRecipient.Address.AssignToAll = !tempRecipient.Address.AssignToAll">
+                                    <i class="fa" ng-class="{'fa-square-o': !tempRecipient.Address.AssignToAll, 'fa-check-square-o': tempRecipient.Address.AssignToAll}"></i> Assign Address to All Recipients?
+                                </div>
                                 <div class="btn-group" style="margin-top: 15px;" role="group">
-                                    <button type="button"class="btn btn-default" style="width:50%;" ng-click="cancelEditRecipient()">Cancel</button>
+                                    <button type="button" class="btn btn-default" style="width:50%;" ng-click="cancelEditRecipient()">Cancel</button>
                                     <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_form.$invalid" value="Save Recipient" />
                                 </div>
                             </div>

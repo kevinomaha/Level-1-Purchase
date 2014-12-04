@@ -1,16 +1,17 @@
 four51.app.factory('Customization', ['$451', 'ProductDescription',
     function($451, ProductDescription) {
 
-        var employeeList = store.get('451Cache.EmployeeList') ? store.get('451Cache.EmployeeList') : [];
+        var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList') : [];
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
 
         var _getRecipients = function() {
-            return employeeList;
+            return recipientList;
         };
 
         var _setRecipients = function(list) {
-            employeeList = list;
-            store.set('451Cache.EmployeeList', employeeList);
+            recipientList = list;
+            if (recipientList.length == 0) recipientList.AssignToAll = {};
+            store.set('451Cache.RecipientList', recipientList);
         };
 
         function productType(p) {
@@ -85,6 +86,7 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             recipient.Selected = true;
             recipient.BeingEdited = false;
             recipient.Valid = false;
+            if (recipientList.AssignToAll && recipientList.AssignToAll.Address) recipient.Address = recipientList.AssignToAll.Address;
             recipientList.push(recipient);
             return this;
         };
@@ -112,13 +114,16 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             return this;
         };
 
-        var _setAddress = function(address, recipient, recipientList) {
-            angular.forEach(recipientList, function(r) {
-                if (r.UserID == recipient.UserID) {
+        var _setAddress = function(address, recipient, reciplist) {
+            angular.forEach(reciplist, function(r) {
+                if (r.UserID == recipient.UserID || recipient.Address.AssignToAll) {
                     r.Address = address;
                     r.BeingEdited = false;
                 }
             });
+            if (recipient.Address.AssignToAll) {
+                reciplist.AssignToAll = {Address: address};
+            }
             return this;
         };
 

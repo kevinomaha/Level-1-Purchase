@@ -73,7 +73,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.addressMessage = null;
             $scope.newAddress = null;
             if (tempRecipient.Address.Country == 'US' && tempRecipient.Address.IsShipping) {
-                AddressValidate.validate(tempRecipient.Address, function(address,newAddress) {
+                AddressValidate.validate(tempRecipient.Address,
+                    function(address,newAddress) {
                         if (address.status == "Valid") {
                             $scope.saveOriginalAddress();
                         }
@@ -92,6 +93,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     function(ex) {
                         $scope.saveIndicator = false;
                     });
+                //Use this when the Address Validation service is down
+                //$scope.saveOriginalAddress();
             }
             else {
                 $scope.saveOriginalAddress();
@@ -143,7 +146,9 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.useExistingAddress = function() {
             var address = angular.copy($scope.existingAddress);
+            var assignToAll = $scope.tempRecipient.Address ? $scope.tempRecipient.Address.AssignToAll : false;
             $scope.tempRecipient.Address = address;
+            $scope.tempRecipient.Address.AssignToAll = assignToAll;
         };
 
         $scope.goToCustomization = function() {
