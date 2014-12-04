@@ -1,7 +1,7 @@
 four51.app.controller('MerchantViewCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', '$window', 'Category', 'Product', 'AdvancedSearch', 'User', 'Order', 'OrderConfig', 'Customization',
 function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Category, Product, AdvancedSearch, User, Order, OrderConfig, Customization) {
 
-    $scope.selectedEmployee = Customization.getEmployee();
+    $scope.recipientList = Customization.getRecipients();
 
     $scope.productLoadingIndicator = true;
 	$scope.trusted = function(d){

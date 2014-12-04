@@ -10,13 +10,13 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     //personalized opening message
     $scope.openingMessage = {};
 
-    $scope.selectedEmployee = Customization.getEmployee();
+    $scope.recipientList = Customization.getRecipients();
     $scope.selectedProduct = Customization.getProduct();
     console.log("selected Employee");
     console.log($scope.selectedEmployee);
     console.log("selected product");
     console.log($scope.selectedProduct);
-    Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
+    //Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
 
     Product.get($scope.selectedProduct.InteropID, function(p) {
         $scope.currentProduct = p;

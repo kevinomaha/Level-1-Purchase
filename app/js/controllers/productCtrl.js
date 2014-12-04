@@ -6,7 +6,7 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 	$scope.loadingIndicator = true;
     $scope.digitalShipAddressID = "";
 
-    $scope.selectedEmployee = Customization.getEmployee();
+    $scope.recipientList = Customization.getRecipients();
 
     AddressList.query(function(list) {
         for (var a = 0; a < list.length; a++) {

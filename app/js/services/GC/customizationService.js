@@ -101,8 +101,13 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
         };
 
         var _validateRecipientList = function(recipientList) {
+            recipientList.ValidCount = 0;
             angular.forEach(recipientList, function(recipient) {
-                recipient.Valid = recipient.Address.ID;
+                recipient.Valid = false;
+                if (recipient.Address.ID) {
+                    recipient.Valid = true;
+                    recipientList.ValidCount++;
+                }
             });
             return this;
         };

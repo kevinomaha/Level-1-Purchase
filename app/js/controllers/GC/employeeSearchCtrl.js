@@ -1,10 +1,11 @@
-four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'Resources',
-    function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, Resources) {
+four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources',
+    function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
 
         $scope.selectedProduct = Customization.getProduct();
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
 
         $scope.recipientList = Customization.getRecipients();
+        Customization.validateRecipientList($scope.recipientList)
 
         $scope.searchCriterion = {};
         $scope.employees = [];
@@ -62,21 +63,87 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             });
             recipient.BeingEdited = true;
             $scope.tempRecipient = angular.copy(recipient);
-            $scope.tempRecipient.Address = recipient.Address ? recipient.Address : {IsShipping: true, IsBilling: true};
+            $scope.tempRecipient.Address = recipient.Address ? angular.copy(recipient.Address) : {IsShipping: true, IsBilling: true};
         };
 
         $scope.saveIndicator = false;
         $scope.saveRecipient = function(tempRecipient) {
             $scope.saveIndicator = true;
             tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
-            Address.save(tempRecipient.Address, function(data) {
+            $scope.addressMessage = null;
+            $scope.newAddress = null;
+            if (tempRecipient.Address.Country == 'US' && tempRecipient.Address.IsShipping) {
+                AddressValidate.validate(tempRecipient.Address, function(address,newAddress) {
+                        if (address.status == "Valid") {
+                            $scope.saveOriginalAddress();
+                        }
+                        else if (address.status == "ValidWithRecommendation") {
+                            $scope.newAddress = newAddress;
+                            $scope.addressMessage = "This is the suggested address based on the information provided.";
+                        }
+                        else if (address.status == "Invalid") {
+                            $scope.addressMessage = "This address is invalid."
+                        }
+                        else if (address.status == "Error") {
+                            $scope.addressMessage = address.response;
+                        }
+                        $scope.saveIndicator = false;
+                    },
+                    function(ex) {
+                        $scope.saveIndicator = false;
+                    });
+            }
+            else {
+                $scope.saveOriginalAddress();
+            }
+        };
+
+        $scope.saveOriginalAddress = function() {
+            $scope.saveIndicator = true;
+            Address.save($scope.tempRecipient.Address, function(data) {
                 Customization
-                    .setAddress(data, tempRecipient, $scope.recipientList)
+                    .setAddress(data, $scope.tempRecipient, $scope.recipientList)
                     .validateRecipientList($scope.recipientList)
                     .setRecipients($scope.recipientList);
                 $scope.saveIndicator = false;
-                $scope.tempRecipient = {};
+                clearRecipient();
+                getAddresses();
             });
+        };
+
+        $scope.saveRecommendedAddress = function() {
+            $scope.saveIndicator = true;
+            Address.save($scope.newAddress , function(data) {
+                Customization
+                    .setAddress(data, $scope.tempRecipient, $scope.recipientList)
+                    .validateRecipientList($scope.recipientList)
+                    .setRecipients($scope.recipientList);
+                clearRecipient();
+                $scope.saveIndicator = false;
+                getAddresses();
+            });
+        };
+
+        $scope.cancelEditRecipient = function() {
+            clearRecipient();
+            Customization
+                .validateRecipientList($scope.recipientList)
+                .setRecipients($scope.recipientList);
+        };
+
+        function clearRecipient() {
+            angular.forEach($scope.recipientList, function(recipient) {
+                recipient.BeingEdited = false;
+            });
+            $scope.tempRecipient = {};
+            $scope.existingAddress = {};
+            $scope.addressMessage = null;
+            $scope.newAddress = null;
+        }
+
+        $scope.useExistingAddress = function() {
+            var address = angular.copy($scope.existingAddress);
+            $scope.tempRecipient.Address = address;
         };
 
         $scope.goToCustomization = function() {
@@ -105,7 +172,11 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.countries = Resources.countries;
         $scope.states = Resources.states;
-        AddressList.query(function(list) {
-            $scope.addresses = list;
-        });
+
+        function getAddresses() {
+            AddressList.query(function(list) {
+                $scope.addresses = list;
+            });
+        }
+        getAddresses();
     }]);
