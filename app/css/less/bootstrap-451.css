@@ -7621,8 +7621,8 @@ body {
   transition: bottom 400ms;
 }
 .recipient-list-container {
-  max-height: 400px;
-  overflow-y: scroll;
+  /*max-height:400px;
+  overflow-y:scroll;*/
 }
 .recipient-list-container .list-group-item {
   cursor: pointer;

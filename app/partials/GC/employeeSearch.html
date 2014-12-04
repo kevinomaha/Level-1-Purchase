@@ -1,6 +1,42 @@
 <section class="employee-search" style="margin-top:15px;">
     <div class="row">
-        <div class="col-sm-6 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-2">
+        <div class="col-md-3 col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><b>Recipient List</b></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-danger" ng-show="recipientList.length == 0">No recipients selected</div>
+                    <div class="recipient-list-container" ng-show="recipientList.length > 0">
+                        <ul class="list-group" style="margin-bottom:0;">
+                            <li class="list-group-item" ng-repeat="recipient in recipientList" ng-class="{'list-group-item-danger': (!recipient.Valid && !recipient.BeingEdited), 'list-group-item-info': recipient.BeingEdited}">
+                                <div class="pull-right">
+                                    <div class="btn-group-vertical" ng-show="!recipient.BeingEdited">
+                                        <div class="btn btn-primary btn-sm" ng-click="editRecipient(recipient)"><i class="fa fa-edit"></i></div>
+                                        <div class="btn btn-danger btn-sm" ng-click="removeRecipient(recipient)"><i class="fa fa-times"></i></div>
+                                    </div>
+                                </div>
+                                <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
+                                <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
+                                <p>
+                                    <small>
+                                    <span ng-show="recipient.ShipAddressID">
+                                        <i class="fa fa-map-marker text-muted"></i>
+                                        <em> {{recipient.Street1}} </em>
+                                    </span>
+                                        <span ng-show="recipient.Street1 && (recipient.Email || recipient.City) || recipient.Email">
+                                            <i style="margin-left:4px;" class="fa fa-circle text-muted"></i>
+                                            <em> {{recipient.Email || recipient.City + ', ' + recipient.State}}</em>
+                                        </span>
+                                    </small>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-4" ng-show="!tempRecipient.UserID">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><b>Employee Search</b></h3>
@@ -9,7 +45,7 @@
                     <loadingindicator ng-show="searchIndicator"></loadingindicator>
                     <form name="employee_search" ng-submit="seachEmployees(searchCriterion)">
                         <div class="row">
-                            <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2  ">
+                            <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                                 <p class="text-info">Please enter your search criteria.</p>
                                 <div class="view-form-icon">
                                     <div>
@@ -56,7 +92,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-5 col-lg-4">
+        <div class="col-sm-6 col-md-5 col-lg-5" ng-show="!tempRecipient.UserID">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><b>Search Results</b></h3>
@@ -75,17 +111,159 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="employee in employees">
+                                <tr ng-repeat="employee in employees" ng-show="!employee.Selected">
                                     <td><div class="btn btn-sm btn-info" ng-click="selectEmployee(employee)">Select</div></td>
                                     <td>{{employee.FirstName}}</td>
                                     <td>{{employee.LastName}}</td>
-                                    <td>{{employee | employeeproperty:'ThirdPartyID'}}</td>
-                                    <td>{{employee | employeeproperty:'CustomProperty1'}}</td>
+                                    <td>{{employee.ThirdPartyID}}</td>
+                                    <td>{{employee.Marketplace}}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-10 col-lg-9" ng-show="tempRecipient.UserID">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><b>Edit Recipient</b></h3>
+                </div>
+                <div class="panel-body">
+                    <form name="recipient_form" ng-submit="saveRecipient(tempRecipient)">
+                        <div class="row">
+                            <loadingindicator ng-show="saveIndicator"></loadingindicator>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>First Name</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.FirstName" name="FirstName" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Email Address</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Username" name="Email" readonly="readonly" />
+                                                <i class="fa fa-envelope"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Last Name</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.LastName" name="LastName" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Employee ID</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.ThirdPartyID" name="LastName" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Ship To First Name</label>
+                                                <input class="form-control" type="text" ng-maxlength="50" ng-model="tempRecipient.Address.FirstName" name="ShipToFirstName" ng-required="true"/>
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Address Line 1</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Address.Street1" name="Street1" ng-required="true"/>
+                                                <i class="fa fa-road"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>City</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Address.City" name="City" ng-required="physicalProduct"/>
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Phone</label>
+                                                <input class="form-control" type="text" ui-mask="999-999-9999" ng-model="tempRecipient.Address.Phone" name="Phone" ng-required="false"/>
+                                                <i class="fa fa-phone"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Ship To Last Name</label>
+                                                <input class="form-control" type="text" ng-maxlength="50" ng-model="tempRecipient.Address.LastName" name="ShipToLastName" ng-required="true"/>
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Address Line 2</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Address.Street2" name="Street2" />
+                                                <i class="fa fa-road"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="view-form-icon">
+                                                    <div>
+                                                        <label>State</label>
+                                                        <select class="form-control"
+                                                                ng-options="state.value as state.value for state in states | filter:country"
+                                                                ng-model="tempRecipient.Address.State"
+                                                                ng-required="true">
+                                                            <option class="view-select-placeholder" value="" selected>Select a State</option>
+                                                        </select>
+                                                        <i class="fa fa-map-marker"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="view-form-icon">
+                                                    <div>
+                                                        <label>Zip</label>
+                                                        <input class="form-control" type="text" ng-maxlength="10" ng-model="tempRecipient.Address.Zip" name="Zip" ng-required="true"/>
+                                                        <i class="fa fa-home"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Country</label>
+                                                <select class="form-control"
+                                                        ng-options="country.value as country.label for country in countries"
+                                                        ng-model="tempRecipient.Address.Country"
+                                                        ng-required="true">
+                                                    <option class="view-select-placeholder" value="" selected>Select a Country</option>
+                                                </select>
+                                                <i class="fa fa-globe"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-group" style="margin-top: 15px;" role="group">
+                                    <button type="button"class="btn btn-default" style="width:50%;">Cancel</button>
+                                    <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_form.$invalid" value="Save Recipient" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+             </div>
         </div>
     </div>
 </section>
