@@ -10,7 +10,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     //personalized opening message
     $scope.openingMessage = {};
 
-    $scope.recipientList = Customization.getRecipients();
+    $scope.recipientList = angular.copy(Customization.getRecipients());
     $scope.selectedProduct = Customization.getProduct();
 
     $scope.selectedRecipients = [];
@@ -56,8 +56,14 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         }
     };
 
-    $scope.addToCart = function(product) {
-        Customization.addToCart(product, $scope.tempOrder);
+    $scope.addToCartStatic = function(product) {
+        Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
+        $location.path('cart');
+    };
+
+    $scope.addToCartVariable = function(product) {
+        Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.tempOrder);
         $scope.cacheOrder($scope.tempOrder);
         $location.path('cart');
     };

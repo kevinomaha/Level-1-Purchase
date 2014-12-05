@@ -53,7 +53,18 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             return selectedProduct;
         };
 
-        var _addToCart = function(product, order) {
+        var randomString = function() {
+            var chars = "0123456789abcdefghijklmnop";
+            var string_length = 7;
+            var randomstring = '';
+            for (var i=0; i<string_length; i++) {
+                var rnum = Math.floor(Math.random() * chars.length);
+                randomstring += chars.substring(rnum,rnum+1);
+            }
+            return randomstring;
+        };
+
+        var _addToCartStatic = function(product, selectedRecipients, order) {
             if (!order) {
                 order = {};
                 order.LineItems = [];
@@ -61,10 +72,34 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             if (!order.LineItems) {
                 order.LineItems = [];
             }
-            var lineItem = {};
-            lineItem.Quantity = 1;
-            lineItem.Product = product;
-            order.LineItems.push(lineItem);
+
+            angular.forEach(selectedRecipients, function(recipient) {
+                var lineItem = {};
+                lineItem.Quantity = 1;
+                lineItem.Product = angular.copy(product);
+                lineItem.UniqueID = randomString();
+                lineItem.ShipAddressID = recipient.Address.ID;
+
+                angular.forEach(product.Specs, function(spec) {
+                    switch(spec.Name) {
+                        case "FirstName":
+                            lineItem.Product.Specs[spec.Name] = recipient.FirstName;
+                            break;
+                        case "LastName":
+                            lineItem.Product.Specs[spec.Name] = recipient.LastName;
+                            break;
+                        case "EmailName":
+                            lineItem.Product.Specs[spec.Name] = recipient.Username;
+                            break;
+                    }
+                });
+
+                order.LineItems.push(lineItem);
+            });
+        };
+
+        var _addToCartVariable = function(product, selectedRecipients, order) {
+
         };
 
         var _employeeToSpecs = function(employee, product) {
@@ -132,7 +167,8 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             setRecipients: _setRecipients,
             setProduct: _setProduct,
             getProduct: _getProduct,
-            addToCart: _addToCart,
+            addToCartStatic: _addToCartStatic,
+            addToCartVariable: _addToCartVariable,
             employeeToSpecs: _employeeToSpecs,
             addRecipient: _addRecipient,
             removeRecipient: _removeRecipient,
