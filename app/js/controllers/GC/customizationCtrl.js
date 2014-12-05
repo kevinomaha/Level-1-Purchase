@@ -12,8 +12,9 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
 
     $scope.recipientList = Customization.getRecipients();
     $scope.selectedProduct = Customization.getProduct();
-    console.log("selected Employee");
-    console.log($scope.selectedEmployee);
+
+    $scope.selectedRecipients = [];
+
     console.log("selected product");
     console.log($scope.selectedProduct);
     //Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
@@ -26,6 +27,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         console.log($scope.user);
     });
 
+    //Move this to a service -- It is recommended to not make any HTTP calls within a controller
     $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
         success(function(data){
              $scope.getTemplate = data;
@@ -37,6 +39,22 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             console.log(headers);
             console.log(config);
         });
+
+    $scope.selectRecipient = function(recipient) {
+        if (!recipient.Valid) return;
+        if (!recipient.Selected) {
+            recipient.Selected = true;
+            $scope.selectedRecipients.push(recipient);
+        }
+        else {
+            recipient.Selected = false;
+            for (var i = 0; i < $scope.selectedRecipients; i++) {
+                if ($scope.selectedRecipients[i].UserID == recipient.UserID) {
+                    $scope.selectedRecipients.splice(i, 1);
+                }
+            }
+        }
+    };
 
     $scope.addToCart = function(product) {
         Customization.addToCart(product, $scope.tempOrder);

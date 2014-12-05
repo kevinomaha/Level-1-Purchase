@@ -72,7 +72,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
             $scope.addressMessage = null;
             $scope.newAddress = null;
-            if (tempRecipient.Address.Country == 'US' && tempRecipient.Address.IsShipping) {
+            if (tempRecipient.Address.Country == 'US' && tempRecipient.Address.IsShipping && !tempRecipient.Address.ID) {
                 AddressValidate.validate(tempRecipient.Address,
                     function(address,newAddress) {
                         if (address.status == "Valid") {
