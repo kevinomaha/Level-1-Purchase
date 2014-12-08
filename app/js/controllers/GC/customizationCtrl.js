@@ -7,21 +7,9 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         $scope.tempOrder = JSON.parse($scope.tempOrder);
     }
 
-    //personalized opening message
-    $scope.openingMessage = {};
     var today = new Date();
     $scope.currentDate = angular.copy(today);
     $scope.maxDate = today.setDate(today.getDate() + 120);
-
-    $scope.filteredSpecs = [
-        "DesignName",
-        "DeliveryDate",
-        "Denomination",
-        "EmailSubject",
-        "OpeningMessage",
-        "PersonalMessage",
-        "ClosingMessage"
-    ];
 
     $scope.recipientList = angular.copy(Customization.getRecipients());
     $scope.selectedProduct = Customization.getProduct();
@@ -30,15 +18,8 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
 
     $scope.logoOptions = [];
 
-    console.log("selected product");
-    console.log($scope.selectedProduct);
-
     Product.get($scope.selectedProduct.InteropID, function(p) {
         $scope.currentProduct = p;
-        console.log("current product");
-        console.log($scope.currentProduct);
-        console.log("Current logged in user:");
-        console.log($scope.user);
     });
 
     //Move this to a service -- It is recommended to not make any HTTP calls within a controller
@@ -77,8 +58,10 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     };
 
     $scope.addToCartVariable = function(product) {
-        Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.tempOrder);
-        $scope.cacheOrder($scope.tempOrder);
-        $location.path('cart');
+        Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.tempOrder, function(order) {
+            $scope.tempOrder = order;
+            $scope.cacheOrder($scope.tempOrder);
+            $location.path('cart');
+        });
     };
 }]);

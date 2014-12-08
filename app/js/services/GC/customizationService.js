@@ -1,5 +1,5 @@
-four51.app.factory('Customization', ['$451', 'ProductDescription',
-    function($451, ProductDescription) {
+four51.app.factory('Customization', ['$451', 'ProductDescription', 'Variant',
+    function($451, ProductDescription, Variant) {
 
         var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList'): {List:[]};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
@@ -102,11 +102,7 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             });
         };
 
-        var _addToCartVariable = function(product, selectedRecipients, order) {
-
-        };
-
-        var _employeeToSpecs = function(employee, product) {
+        function recipientToSpecs(employee, product) {
             if (product.Specs) {
                 angular.forEach(product.Specs, function(spec) {
                     switch(spec.Name) {
@@ -116,9 +112,70 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
                         case "LastName":
                             spec.Value = employee.LastName;
                             break;
+                        case "RecipientID":
+                            spec.Value = employee.EmployeeNumber;
+                            break;
+                        case "RecipientEmailAddress":
+                            spec.Value = employee.Username;
+                            break;
+                        case "Email":
+                            spec.Value = employee.Username;
+                            break;
+                        case "Marketplace":
+                            spec.Value = employee.Marketplace;
+                            break;
+                        case "JobFamily":
+                            spec.Value = employee.JobFamily;
+                            break;
+                        case "Supervisor":
+                            spec.Value = employee.Supervisor;
+                            break;
+                        case "ADPCode":
+                            spec.Value = employee.ADPCompanyCode;
+                            break;
+                        case "SerialNumber":
+                            spec.Value = employee.SerialNumber;
+                            break;
                     }
                 });
             }
+            return product;
+        }
+
+        var _addToCartVariable = function(product, selectedRecipients, user, order, success) {
+            if (!order) {
+                order = {};
+                order.LineItems = [];
+            }
+            if (!order.LineItems) {
+                order.LineItems = [];
+            }
+
+            var recipCount = selectedRecipients.length;
+            var variantCount = 0;
+
+            function saveVariant(variant, recipient) {
+                Variant.save(variant, function(data) {
+                    variantCount++;
+                    var li = {
+                        Product: product,
+                        Variant: data,
+                        Quantity: 1,
+                        ShipAddressID: recipient.Address.ID
+                    };
+                    order.LineItems.push(li);
+                    if (recipCount == variantCount) success(order);
+                });
+            }
+
+            angular.forEach(selectedRecipients, function(recipient) {
+                var employeeProduct = recipientToSpecs(recipient, angular.copy(product));
+                var variant = {
+                    ProductInteropID: product.InteropID,
+                    Specs: employeeProduct.Specs
+                };
+                saveVariant(variant, recipient);
+            });
         };
 
         var _addRecipient = function(recipient, recipientList) {
@@ -173,7 +230,6 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             getProduct: _getProduct,
             addToCartStatic: _addToCartStatic,
             addToCartVariable: _addToCartVariable,
-            employeeToSpecs: _employeeToSpecs,
             addRecipient: _addRecipient,
             removeRecipient: _removeRecipient,
             validateRecipientList: _validateRecipientList,

@@ -94,7 +94,7 @@
                                             <select class="form-control"
                                                     ng-required="selectedProduct.Specs.Denomination.Required"
                                                     ng-model="selectedProduct.Specs.Denomination.Value"
-                                                    ng-options="denom as denom.Value for denom in selectedProduct.Specs.Denomination.Options">
+                                                    ng-options="denom.Value as denom.Value for denom in selectedProduct.Specs.Denomination.Options">
                                                 <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.Denomination.Label || selectedProduct.Specs.Denomination.Name}}</option>
                                             </select>
                                             <i class="fa fa-dollar"></i>
@@ -114,7 +114,7 @@
                                     </div>
                                     <div ng-show="selectedProduct.Specs.Logo" class="alert alert-info" style="padding:5px; margin-top:10px;">
                                         <loadingindicator ng-show="logoCheckingIndicator" title="Checking For Logos..."/>
-                                        <p ng-show="ng-show="logoOptions.length == 0"><i class="fa fa-info-circle pull-left fa-2x" style="margin:5px 5px 0 0;"></i><small>There are currently no logos saved to your account. To add a logo for a future order, please email your logo to LogoSupport@giftcertificates.com.</small></p>
+                                        <p ng-show="logoOptions.length == 0"><i class="fa fa-info-circle pull-left fa-2x" style="margin:5px 5px 0 0;"></i><small>There are currently no logos saved to your account. To add a logo for a future order, please email your logo to LogoSupport@giftcertificates.com.</small></p>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -127,7 +127,7 @@
                                         <img ng-src="{{designPreviewSRC}}" style="margin:0 auto;">
                                     </figure>
                                     <figure style="max-height:400px;">
-                                        <img ng-src="{{selectedLogoSRC}}" style="margin:0 auto;width: 144px;" ng-show="selectedProduct.selectedLogo">
+                                        <img ng-src="{{selectedLogoSRC}}" style="margin:0 auto;width: 144px;" ng-show="selectedProduct.Specs.Logo.Value">
                                     </figure>
                                 </div>
                             </div>
@@ -228,7 +228,7 @@
                                             <li ng-show="selectedRecipients.length == 0">Select at least one valid recipient</li>
                                         </ul>
                                     </div>
-                                    <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="award_customization.$invalid" ng-click="createAwards()">Create Awards</div>
+                                    <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="award_customization.$invalid || selectedRecipients.length == 0" ng-click="addToCartVariable(selectedProduct)">Create Awards</div>
                                 </div>
                             </div>
 
