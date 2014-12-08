@@ -3,6 +3,7 @@ four51.app.config(['$routeProvider', '$locationProvider', function($routeProvide
 
 	$routeProvider.
         when('/employeesearch', { templateUrl: 'partials/GC/employeeSearch.html', controller: 'EmployeeSearchCtrl' }).
+        when('/supercertificate', { templateUrl: 'partials/GC/customization.html', controller: 'CustomizationCtrl' }).
         when('/customizationStep1', { templateUrl: 'partials/GC/customizationStep1.html', controller: 'CustomizationCtrl' }).
         when('/customizationStep2', { templateUrl: 'partials/GC/customizationStep2.html', controller: 'CustomizationCtrl' }).
         when('/customizationStep3', { templateUrl: 'partials/GC/customizationStep3.html', controller: 'CustomizationCtrl' }).

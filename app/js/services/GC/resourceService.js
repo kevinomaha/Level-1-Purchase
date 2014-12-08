@@ -551,7 +551,7 @@ four51.app.factory('Resources', function() {
         {
             Name:"Original SuperCertificate® REWARD",
             InteropID: "53fef6f3-d384-432e-a2e1-2de1f20af5e2",
-            StandardID:"SCP002-FD1-02",
+            StandardID:"0767B64D-767B-4F7F-97B6-654ED3B6E04E",
             PremiumID:"SCP-PS12",
             CanadianID:"CSCP-SC12",
             HolidayID:"HOLSCP-FD1",

@@ -39,6 +39,10 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
         function _extendProduct(product) {
             product.ProductType = productType(product);
 
+            angular.forEach(product.Specs, function(spec) {
+                spec.Value = spec.DefaultValue ? spec.DefaultValue : null;
+            });
+
             if (product.ExternalID) ProductDescription.parse(product); //Only parse description of product, not product's category
         }
 

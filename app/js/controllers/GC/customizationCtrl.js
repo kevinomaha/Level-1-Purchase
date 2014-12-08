@@ -17,7 +17,6 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
 
     console.log("selected product");
     console.log($scope.selectedProduct);
-    //Customization.employeeToSpecs($scope.selectedEmployee, $scope.selectedProduct);
 
     Product.get($scope.selectedProduct.InteropID, function(p) {
         $scope.currentProduct = p;
@@ -28,7 +27,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     });
 
     //Move this to a service -- It is recommended to not make any HTTP calls within a controller
-    $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
+    /*$http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
         success(function(data){
              $scope.getTemplate = data;
              $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
@@ -38,7 +37,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             console.log(status);
             console.log(headers);
             console.log(config);
-        });
+        });*/
 
     $scope.selectRecipient = function(recipient) {
         if (!recipient.Valid) return;

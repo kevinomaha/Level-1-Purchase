@@ -154,9 +154,11 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.goToCustomization = function() {
             switch($scope.selectedProduct.ProductType) {
                 case "Digital":
-                    $location.path('customizationStep1');
+                    //$location.path('customizationStep1');
+                    $location.path('supercertificate');
                     break;
                 case "Original":
+                    //$location.path('customizationStep1'); //should be updated to new path or this step should be dynamic
                     $location.path('customizationStep1'); //should be updated to new path or this step should be dynamic
                     break;
                 case "e-Cards":
