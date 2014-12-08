@@ -3,7 +3,7 @@
         <label>{{customfield.Placeholder || customfield.Label || customfield.Name | r | specnames}}</label>
         <div ng-class="{'input-group':(customfield.Prefix || customfield.Suffix)}">
             <span class="input-group-addon" ng-if="customfield.Prefix">{{customfield.Prefix | r}}</span>
-            <input class="form-control" placeholder="{{customfield.Placeholder || customfield.Label || customfield.Name | r | specnames}}" size="{{customfield.Width * .13}}" ng-maxlength="{{customfield.MaxLength}}" ui-mask="{{customfield.MaskedInput}}" type="text" autocomplete="off" ng-required="{{customfield.Required}}" ng-model="customfield.Value"></input>
+            <input class="form-control" placeholder="{{customfield.Placeholder || customfield.Label || customfield.Name | r | specnames}}"  ng-readonly="customfield.ReadOnly" size="{{customfield.Width * .13}}" ng-maxlength="{{customfield.MaxLength}}" ui-mask="{{customfield.MaskedInput}}" type="text" autocomplete="off" ng-required="{{customfield.Required}}" ng-model="customfield.Value"></input>
             <span class="input-group-addon" ng-if="customfield.Suffix">{{customfield.Suffix | r}}</span>
         </div>
         <i class="fa fa-edit"></i>
@@ -21,7 +21,7 @@
         <label>{{customfield.Label || customfield.Name | r | specnames}}</label>
         <div ng-class="{'input-group':(customfield.Prefix || customfield.Suffix)}">
             <span class="input-group-addon" ng-if="customfield.Prefix">{{customfield.Prefix | r}}</span>
-            <textarea class="form-control" ng-attr-placeholder="{{customfield.Placeholder || customfield.Label || customfield.Name | r | specnames}}" cols="{{customfield.Width * .13}} rows={{customfield.Lines}}" ng-maxlength="{{customfield.MaxLength}}" ng-required="{{customfield.Required}}" ng-model="customfield.Value"></textarea>
+            <textarea class="form-control" ng-attr-placeholder="{{customfield.Placeholder || customfield.Label || customfield.Name | r | specnames}}" ng-readonly="customfield.ReadOnly" cols="{{customfield.Width * .13}} rows={{customfield.Lines}}" ng-maxlength="{{customfield.MaxLength}}" ng-required="{{customfield.Required}}" ng-model="customfield.Value"></textarea>
             <span class="input-group-addon" ng-if="customfield.Suffix">{{customfield.Suffix | r}}</span>
         </div>
         <i class="fa fa-edit"></i>

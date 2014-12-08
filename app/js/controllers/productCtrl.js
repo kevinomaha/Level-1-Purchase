@@ -121,18 +121,6 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
                 $scope.LineItem.Variant = data.variant;
                 ProductDisplayService.setNewLineItemScope($scope);
                 ProductDisplayService.setProductViewScope($scope);
-                angular.forEach($scope.LineItem.Product.Specs, function(s) {
-                    if (s.Name.toLowerCase().indexOf('email') > -1) {
-                        s.InputType = "email";
-                        s.ReadOnly =  true;
-                        s.Required =  false;
-                        s.Placeholder = "Recipient's " + (s.Label || s.Name);
-                    }
-                    else {
-                        s.InputType = "text";
-                        s.Placeholder = (s.Label || s.Name);
-                    }
-                });
                 $scope.$broadcast('ProductGetComplete');
                 if ($scope.LineItem.Product.Specs.Email || $scope.LineItem.Product.Specs.Email1){
                     $scope.digitalProduct = true;

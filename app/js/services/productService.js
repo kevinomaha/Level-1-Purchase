@@ -6,11 +6,40 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
 			fn(data);
 	}
 
+    var filteredSpecs = [
+        "DesignName",
+        "DeliveryDate",
+        "Denomination",
+        "EmailSubject",
+        "OpeningMessage",
+        "PersonalMessage",
+        "ClosingMessage"
+    ];
+
+    var employeeSpecs = [
+        "FirstName",
+        "LastName",
+        "RecipientID",
+        "Marketplace",
+        "JobFamily",
+        "Supervisor",
+        "ADPCode",
+        "SerialNumber",
+        "RecipientEmailAddress",
+        "Email"
+    ];
+
 	function _extend(product) {
 		product.ViewName = product.ViewName || 'default';
 		angular.forEach(product.Specs, function(spec) {
-			if (spec.ControlType == 'File' && spec.File && spec.File.Url.indexOf('auth') == -1)
-				spec.File.Url += "&auth=" + Security.auth();
+			if (spec.ControlType == 'File' && spec.File && spec.File.Url.indexOf('auth') == -1) {
+                spec.File.Url += "&auth=" + Security.auth();
+            }
+            spec.Filtered = filteredSpecs.indexOf(spec.Name) > -1;
+            spec.ReadOnly = employeeSpecs.indexOf(spec.Name) > -1;
+            spec.Required = spec.ReadOnly ? false : spec.Required;
+            spec.Placeholder = spec.ReadOnly ? "Recipient's " + (spec.Label || spec.Name) : (spec.Label || spec.Name);
+            spec.InputType = spec.Name.toLowerCase().indexOf('email') > -1 ? 'email' : 'text';
 		});
 
 		angular.forEach(product.StaticSpecGroups, function(group) {
