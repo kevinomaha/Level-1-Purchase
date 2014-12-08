@@ -17,6 +17,7 @@ function ($scope, $rootScope, $location, $451, $modal, Order, OrderConfig, User,
 
 	$scope.shippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : [];
     $scope.orderfields = store.get("451Cache.GCOrderFields") ? store.get("451Cache.GCOrderFields") : [];
+    console.log($scope.orderfields);
     if ($scope.orderfields && !$scope.tempOrder.OrderFields) {
         $scope.tempOrder.OrderFields = $scope.orderfields;
     }
