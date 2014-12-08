@@ -13,7 +13,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Cate
         }
         else {
             recipient.Selected = false;
-            for (var i = 0; i < $scope.selectedRecipients; i++) {
+            for (var i = 0; i < $scope.selectedRecipients.length; i++) {
                 if ($scope.selectedRecipients[i].UserID == recipient.UserID) {
                     $scope.selectedRecipients.splice(i, 1);
                 }

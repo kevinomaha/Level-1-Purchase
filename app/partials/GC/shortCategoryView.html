@@ -76,14 +76,16 @@
                                                     <h3 class="text-success">{{LineItem.PriceSchedule.PriceBreaks[0].Price * LineItem.Quantity | currency}}{{variantLineItemsOrderTotal}}</h3>
                                                 </div>
                                             </div>
-                                            <button type="button" id="451_btn_orderadd" ng-disabled="addToOrderForm.$invalid" ng-click="addToOrder(LineItem)" class="btn btn-lg btn-block" ng-class="{'btn-danger': (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError), 'btn-primary': (!LineItem.qtyError && !addToOrderForm.$invalid && !addToOrderError)}">
-                                                <span ng-class="{'hidden':(LineItem.qtyError || addToOrderForm.$invalid || addToOrderError)}">{{addToOrderText}}</span>
-                                                <div class="add-to-error-overlay" ng-show="allowAddToOrder && (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError)">
+                                            <button type="button" id="451_btn_orderadd" ng-disabled="addToOrderForm.$invalid || $parent.$parent.selectedRecipients.length == 0" ng-click="addToOrder(LineItem)" class="btn btn-lg btn-block" ng-class="{'btn-danger': (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError || $parent.$parent.selectedRecipients.length == 0), 'btn-primary': (!LineItem.qtyError && !addToOrderForm.$invalid && !addToOrderError && $parent.$parent.selectedRecipients.length > 0)}">
+                                                <span ng-class="{'hidden':(LineItem.qtyError || addToOrderForm.$invalid || addToOrderError || $parent.$parent.selectedRecipients.length == 0)}">{{addToOrderText}}</span>
+                                                <div class="add-to-error-overlay" ng-show="allowAddToOrder && (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError || $parent.$parent.selectedRecipients.length == 0)">
                                                     <small>
-                                                        {{LineItem.qtyError}}<br ng-show="LineItem.qtyError"/>
-                                                <span ng-show="addToOrderForm.$invalid" >
-                                                    Product is missing required fields for Add to Cart.<br/>
-                                                </span>
+                                                        <span ng-show="addToOrderForm.$invalid" >
+                                                            Product is missing required fields for Add to Cart.<br/>
+                                                        </span>
+                                                        <span ng-show="$parent.$parent.selectedRecipients.length == 0" >
+                                                            Please select at least one recipient.<br/>
+                                                        </span>
                                                         {{addToOrderError}}
                                                     </small>
                                                 </div>

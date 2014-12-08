@@ -6,6 +6,12 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 	$scope.loadingIndicator = true;
     $scope.digitalShipAddressID = "";
 
+    $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems: []};
+    if (typeof($scope.tempOrder) != 'object') {
+        $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
+        $scope.tempOrder = JSON.parse($scope.tempOrder);
+    }
+
     $scope.recipientList = Customization.getRecipients();
 
     AddressList.query(function(list) {
@@ -68,7 +74,14 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
         return randomstring;
     };
 
-    $scope.addToOrder = function(){
+    $scope.addToOrder = function(lineitem) {
+        var product = angular.copy(lineitem.Product);
+        Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.tempOrder);
+        $scope.cacheOrder($scope.tempOrder);
+        $location.path('cart');
+    };
+
+    /*$scope.addToOrder = function(){
         if(!$scope.tempOrder){
             $scope.tempOrder = {};
             $scope.tempOrder.LineItems = [];
@@ -96,7 +109,7 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
         $scope.cacheOrder($scope.tempOrder);
 
         $location.path('/cart');
-    };
+    };*/
 
     $scope.$on('event:MerchantProductSelected', function(event,product) {
         if (product) {
@@ -109,15 +122,23 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
                 ProductDisplayService.setNewLineItemScope($scope);
                 ProductDisplayService.setProductViewScope($scope);
                 angular.forEach($scope.LineItem.Product.Specs, function(s) {
-                    s.InputType =  s.Name.toLowerCase().indexOf('email') > -1 ? "email" : "text";
-                    s.ProductSpec =  true;
+                    if (s.Name.toLowerCase().indexOf('email') > -1) {
+                        s.InputType = "email";
+                        s.ReadOnly =  true;
+                        s.Required =  false;
+                        s.Placeholder = "Recipient's " + (s.Label || s.Name);
+                    }
+                    else {
+                        s.InputType = "text";
+                        s.Placeholder = (s.Label || s.Name);
+                    }
                 });
                 $scope.$broadcast('ProductGetComplete');
                 if ($scope.LineItem.Product.Specs.Email || $scope.LineItem.Product.Specs.Email1){
                     $scope.digitalProduct = true;
                     $scope.LineItem.Product.Specs = (tempSpecs && tempSpecs.Email1 && data.product.Specs.Email1) ? tempSpecs : $scope.LineItem.Product.Specs;
-                    if ($scope.LineItem.Product.Specs.Email) $scope.LineItem.Product.Specs.Email.Value = $scope.selectedEmployee.Username;
-                    if ($scope.LineItem.Product.Specs.Email1) $scope.LineItem.Product.Specs.Email1.Value = $scope.selectedEmployee.Username;
+                    //if ($scope.LineItem.Product.Specs.Email) $scope.LineItem.Product.Specs.Email.Value = $scope.selectedEmployee.Username;
+                    //if ($scope.LineItem.Product.Specs.Email1) $scope.LineItem.Product.Specs.Email1.Value = $scope.selectedEmployee.Username;
                 }
             });
             $scope.selectedProduct =  product;

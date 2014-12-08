@@ -88,7 +88,7 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
                         case "LastName":
                             lineItem.Product.Specs[spec.Name] = recipient.LastName;
                             break;
-                        case "EmailName":
+                        case "Email":
                             lineItem.Product.Specs[spec.Name] = recipient.Username;
                             break;
                     }
