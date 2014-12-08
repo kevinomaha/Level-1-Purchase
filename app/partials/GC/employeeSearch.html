@@ -1,39 +1,45 @@
-<section class="employee-search" style="margin-top:15px;">
+<section class="main-gc-purchase-view employee-search">
+    <div class="steps">
+        <div>
+            <h4 class="text-info pull-right"  ng-hide="recipientList.List.length == 0" ng-click="goToCustomization()">Continue to Customization <i class="fa fa-arrow-circle-right"></i></h4>
+            <h2>List Creation (step 2 of 3)</h2>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-md-3 col-lg-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><b>Recipient List</b></h3>
+        <div class="col-md-3">
+            <div ng-show="recipientList.List.length == 0">
+                <div class="alert alert-danger">No recipients</div>
+            </div>
+            <div ng-show="recipientList.List.length > 0">
+                <div class="input-group" style="margin-bottom:5px;">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input class="form-control view-form-icon" placeholder="Find a recipient..." type="text" ng-model="recipientListSearchTerm" />
                 </div>
-                <div class="panel-body">
-                    <div class="alert alert-danger" ng-show="recipientList.length == 0">No recipients selected</div>
-                    <div class="recipient-list-container" ng-show="recipientList.length > 0">
-                        <ul class="list-group" style="margin-bottom:0;">
-                            <li class="list-group-item" ng-repeat="recipient in recipientList" ng-class="{'list-group-item-danger': (!recipient.Valid && !recipient.BeingEdited), 'list-group-item-info': recipient.BeingEdited}">
-                                <div class="pull-right">
-                                    <div class="btn-group-vertical" ng-show="!recipient.BeingEdited">
-                                        <div class="btn btn-primary btn-sm" ng-click="editRecipient(recipient)"><i class="fa fa-edit"></i></div>
-                                        <div class="btn btn-danger btn-sm" ng-click="removeRecipient(recipient)"><i class="fa fa-times"></i></div>
-                                    </div>
+                <div class="recipient-list-container">
+                    <ul class="list-group" style="margin-bottom:0;">
+                        <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-danger': (!recipient.Valid && !recipient.BeingEdited), 'list-group-item-info': recipient.BeingEdited}">
+                            <div class="pull-right">
+                                <div class="btn-group-vertical" ng-show="!recipient.BeingEdited">
+                                    <div class="btn btn-primary btn-sm" ng-click="editRecipient(recipient); changeAddType('manual'); $parent.showMaker = true;"><i class="fa fa-edit"></i></div>
+                                    <div class="btn btn-danger btn-sm" ng-click="removeRecipient(recipient)"><i class="fa fa-times"></i></div>
                                 </div>
-                                <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
-                                <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
-                                <p>
-                                    <small>
+                            </div>
+                            <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
+                            <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
+                            <p>
+                                <small>
                                     <span ng-show="recipient.Address.ID">
                                         <i class="fa fa-map-marker text-muted"></i>
                                         <em> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
                                     </span>
-                                    </small>
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
+                                </small>
+                            </p>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="btn btn-success" style="width: 100%;" ng-click="goToCustomization()" ng-disabled="recipientList.ValidCount == 0 || !recipientList.ValidCount">Continue</div>
         </div>
-        <div class="col-sm-6 col-md-4 col-lg-4" ng-show="!tempRecipient.UserID">
+        <div class="col-sm-6 col-md-4" ng-show="!tempRecipient.UserID">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><b>Employee Search</b></h3>
@@ -89,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-5 col-lg-5" ng-show="!tempRecipient.UserID">
+        <div class="col-sm-6 col-md-5" ng-show="!tempRecipient.UserID">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><b>Search Results</b></h3>
@@ -108,7 +114,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="employee in employees" ng-show="!employee.Selected">
+                                <tr ng-repeat="employee in employees" ng-show="!employee.Added">
                                     <td><div class="btn btn-sm btn-info" ng-click="selectEmployee(employee)">Select</div></td>
                                     <td>{{employee.FirstName}}</td>
                                     <td>{{employee.LastName}}</td>

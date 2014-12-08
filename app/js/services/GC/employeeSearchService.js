@@ -5,7 +5,8 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451', '$filter',
                 fn(data);
         }
 
-        var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/GetUsersByWildCard";
+        //var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/GetUsersByWildCard";
+        var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/GetUsers";
 
         function containsObject(obj, list) {
             for (var i = 0; i < list.length; i++) {
@@ -18,7 +19,7 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451', '$filter',
         }
 
         function _extendEmployee(recipient, recipientList) {
-            if (recipientList) recipient.Selected = containsObject(recipient, recipientList);
+            if (recipientList) recipient.Added = containsObject(recipient, recipientList.List);
             recipient.Address = {IsShipping: true, IsBilling: true};
             recipient.EmployeeNumber = $filter('employeeproperty')(recipient, 'ThirdPartyID');
             recipient.Marketplace = $filter('employeeproperty')(recipient, 'CustomProperty1');

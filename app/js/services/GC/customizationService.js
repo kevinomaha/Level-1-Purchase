@@ -1,7 +1,7 @@
 four51.app.factory('Customization', ['$451', 'ProductDescription',
     function($451, ProductDescription) {
 
-        var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList') : [];
+        var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList'): {List:[]};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
 
         var _getRecipients = function() {
@@ -10,7 +10,7 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
 
         var _setRecipients = function(list) {
             recipientList = list;
-            if (recipientList.length == 0) recipientList.AssignToAll = {};
+            if (recipientList.List.length == 0) recipientList.AssignToAll = {};
             store.set('451Cache.RecipientList', recipientList);
         };
 
@@ -53,7 +53,18 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             return selectedProduct;
         };
 
-        var _addToCart = function(product, order) {
+        var randomString = function() {
+            var chars = "0123456789abcdefghijklmnop";
+            var string_length = 7;
+            var randomstring = '';
+            for (var i=0; i<string_length; i++) {
+                var rnum = Math.floor(Math.random() * chars.length);
+                randomstring += chars.substring(rnum,rnum+1);
+            }
+            return randomstring;
+        };
+
+        var _addToCartStatic = function(product, selectedRecipients, order) {
             if (!order) {
                 order = {};
                 order.LineItems = [];
@@ -61,10 +72,34 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             if (!order.LineItems) {
                 order.LineItems = [];
             }
-            var lineItem = {};
-            lineItem.Quantity = 1;
-            lineItem.Product = product;
-            order.LineItems.push(lineItem);
+
+            angular.forEach(selectedRecipients, function(recipient) {
+                var lineItem = {};
+                lineItem.Quantity = 1;
+                lineItem.Product = angular.copy(product);
+                lineItem.UniqueID = randomString();
+                lineItem.ShipAddressID = recipient.Address.ID;
+
+                angular.forEach(product.Specs, function(spec) {
+                    switch(spec.Name) {
+                        case "FirstName":
+                            lineItem.Product.Specs[spec.Name] = recipient.FirstName;
+                            break;
+                        case "LastName":
+                            lineItem.Product.Specs[spec.Name] = recipient.LastName;
+                            break;
+                        case "EmailName":
+                            lineItem.Product.Specs[spec.Name] = recipient.Username;
+                            break;
+                    }
+                });
+
+                order.LineItems.push(lineItem);
+            });
+        };
+
+        var _addToCartVariable = function(product, selectedRecipients, order) {
+
         };
 
         var _employeeToSpecs = function(employee, product) {
@@ -83,20 +118,20 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
         };
 
         var _addRecipient = function(recipient, recipientList) {
-            recipient.Selected = true;
+            recipient.Added = true;
             recipient.BeingEdited = false;
             recipient.Valid = false;
             if (recipientList.AssignToAll && recipientList.AssignToAll.Address) recipient.Address = recipientList.AssignToAll.Address;
-            recipientList.push(recipient);
+            recipientList.List.push(recipient);
             return this;
         };
 
         var _removeRecipient = function(recipient, recipientList) {
-            recipient.Selected = false;
-            for (var i = 0; i < recipientList.length; i++) {
-                if (recipientList[i].UserID == recipient.UserID) {
-                    recipientList[i].Selected = false;
-                    recipientList.splice(i, 1);
+            recipient.Added = false;
+            for (var i = 0; i < recipientList.List.length; i++) {
+                if (recipientList.List[i].UserID == recipient.UserID) {
+                    recipientList.List[i].Added = false;
+                    recipientList.List.splice(i, 1);
                 }
             }
             return this;
@@ -104,7 +139,7 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
 
         var _validateRecipientList = function(recipientList) {
             recipientList.ValidCount = 0;
-            angular.forEach(recipientList, function(recipient) {
+            angular.forEach(recipientList.List, function(recipient) {
                 recipient.Valid = false;
                 if (recipient.Address.ID) {
                     recipient.Valid = true;
@@ -115,7 +150,7 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
         };
 
         var _setAddress = function(address, recipient, reciplist) {
-            angular.forEach(reciplist, function(r) {
+            angular.forEach(reciplist.List, function(r) {
                 if (r.UserID == recipient.UserID || recipient.Address.AssignToAll) {
                     r.Address = address;
                     r.BeingEdited = false;
@@ -132,7 +167,8 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
             setRecipients: _setRecipients,
             setProduct: _setProduct,
             getProduct: _getProduct,
-            addToCart: _addToCart,
+            addToCartStatic: _addToCartStatic,
+            addToCartVariable: _addToCartVariable,
             employeeToSpecs: _employeeToSpecs,
             addRecipient: _addRecipient,
             removeRecipient: _removeRecipient,

@@ -1,5 +1,5 @@
 <section class="main-gc-purchase-view container">
-    <div class="steps">
+    <!--<div class="steps">
         <div ng-show="step != 4" ng-class="{'crushstep':step == 2 || step == 3}">
             <h4 class="text-info pull-right" ng-show="step == 1 && selectedProduct.Name && selectedProductType != 'MerchantCards'" ng-click="step = 2">List Creation <i class="fa fa-arrow-circle-right"></i></h4>
             <h2 ng-class="{'fade-out-left':step == 2 || step == 3}">Product Selection (step 1 of 3)</h2>
@@ -17,13 +17,19 @@
         <div ng-show="step == 4">
             <h2>Editing Award</h2>
         </div>
+    </div>-->
+    <div class="steps">
+        <div ng-show="step != 4" ng-class="{'crushstep':step == 2 || step == 3}">
+            <!--<h4 class="text-info pull-right" ng-show="step == 1 && selectedProduct.Name && selectedProductType != 'MerchantCards'" ng-click="step = 2">List Creation <i class="fa fa-arrow-circle-right"></i></h4>-->
+            <h2 ng-class="{'fade-out-left':step == 2 || step == 3}">Product Selection (step 1 of 3)</h2>
+        </div>
     </div>
     <div id="one" class="gc-purchase-step" ng-show="step == 1">
         <div class="gc-purchase-step-body">
             <ng-include src="'partials/GC/productSelection.html'"></ng-include>
         </div>
     </div>
-    <div id="two" class="gc-purchase-step" ng-show="step == 2">
+    <!--<div id="two" class="gc-purchase-step" ng-show="step == 2">
         <div class="gc-purchase-step-body">
             <form name="recipient_form">
                 <ng-include src="'partials/GC/listCreation.html'"></ng-include>
@@ -39,5 +45,5 @@
         <div class="gc-purchase-step-body">
             <ng-include src="'partials/GC/editingAward.html'"></ng-include>
         </div>
-    </div>
+    </div>-->
 </section>
