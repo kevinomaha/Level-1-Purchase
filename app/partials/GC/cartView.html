@@ -423,8 +423,9 @@
                         <span class="pull-right text-success" ng-show="item.Markup"><span ng-show="item.Quantity > 1">(</span>{{item.Denomination | currency}} + {{item.Markup | currency}}<span ng-show="item.Quantity > 1">) x {{item.Quantity}}</span></span>
                     </div>
                     <div class="col-xs-2">
+                        <i style="cursor:pointer; margin-right:-15px; padding-right:15px;" class="fa fa-2x fa-edit pull-right" ng-show="item.Specs.Email1 && !item.Editing" ng-click="editMerchantCard(item)">Edit</i>
                         <i style="cursor:pointer; margin-right:-15px; padding-right:15px;" class="text-danger fa fa-2x fa-times pull-right" ng-click="removeItem(item)"></i>
-                        <i style="cursor:pointer; margin-right:-15px; padding-right:15px;" class="fa fa-2x fa-edit pull-right" ng-show="item.Specs.Email1 && !item.Editing" ng-click="editMerchantCard(item)"></i>
+
                     </div>
                 </div>
                 <div class="row" collapse="!item.Editing">
