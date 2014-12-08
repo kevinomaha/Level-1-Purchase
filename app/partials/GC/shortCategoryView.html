@@ -6,15 +6,16 @@
     </div>
 </div>-->
 <div ng-show="currentCategory.SpaDescription" style="margin-top:10px;">
-
         <div class="spa-category-description">
             <div class="row">
-                <div class="col-lg-4 col-md-3">
+                <div class="col-md-6 col-md-offset-3">
                     <figure class="text-center">
                         <img style="" ng-src="{{currentCategory.SpaDescription.image}}"/>
                     </figure>
                 </div>
-                <div class="col-lg-8 col-md-9">
+            </div>
+            <div class="row">
+                <div>
                     <div class="panel panel-default panel-collapser" ng-repeat="tab in tabs" ng-if="tab.content">
                         <div class="panel-heading">
                             <div class="panel-title" ng-click="switchCollapse(tab.title)" ng-class="{active:tab.title == collapser}">
@@ -96,11 +97,10 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 <!--    <div class="col-md-6 col-lg-5 col-lg-offset-1">

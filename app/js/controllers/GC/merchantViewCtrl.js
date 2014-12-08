@@ -3,10 +3,28 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Cate
 
     $scope.recipientList = Customization.getRecipients();
 
+    $scope.selectedRecipients = [];
+
+    $scope.selectRecipient = function(recipient) {
+        if (!recipient.Valid) return;
+        if (!recipient.Selected) {
+            recipient.Selected = true;
+            $scope.selectedRecipients.push(recipient);
+        }
+        else {
+            recipient.Selected = false;
+            for (var i = 0; i < $scope.selectedRecipients; i++) {
+                if ($scope.selectedRecipients[i].UserID == recipient.UserID) {
+                    $scope.selectedRecipients.splice(i, 1);
+                }
+            }
+        }
+    };
+
     $scope.productLoadingIndicator = true;
 	$scope.trusted = function(d){
 		if(d) return $sce.trustAsHtml(d);
-	}
+	};
 	Product.search($routeParams.categoryInteropID, null, null, function(products) {
 		var sortable = [];
 		for (var i = 0; i < products.length; i++) {
