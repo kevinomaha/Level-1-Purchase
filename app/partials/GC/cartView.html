@@ -70,12 +70,13 @@
                     <div>
                         <div class="form-group row">
                             <label><p><b>Email Address for Order Notification</b></p></label>
+                            <div class="col-sm-6">
                             <ul>
                                 <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldemail">
-                                    <input class="form-control ng-dirty ng-valid ng-valid-required ng-valid-pattern" ng-class="{'input-invalid': orderFieldErrors.indexOf(field.Name) > -1}" placeholder="{{field.Label || field.Name | r | specnames}}" type="text" autocomplete="off" ng-model="field.Value" ng-pattern="/^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/"/>
+                                    <input class="form-control ng-pristine ng-dirty ng-invalid ng-invalid-required" ng-class="{'input-invalid': orderFieldErrors.indexOf(field.Name) > -1}" placeholder="Email Address" type="text" autocomplete="off" ng-model="field.Value" ng-pattern="/^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/" ng-required="true" required="required"/>
                                 </li>
                             </ul>
-
+                            </div>
                         </div>
                         <div ng-hide="tempOrder.merchantCardsAllDigital">
                             <div>
