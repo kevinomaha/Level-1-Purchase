@@ -76,7 +76,7 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 
     $scope.addToOrder = function(lineitem) {
         var product = angular.copy(lineitem.Product);
-        Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.tempOrder);
+        Customization.addToCartStatic(product, $scope.$parent.$parent.selectedRecipients, $scope.tempOrder);
         $scope.cacheOrder($scope.tempOrder);
         $location.path('cart');
     };

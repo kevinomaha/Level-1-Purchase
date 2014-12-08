@@ -83,13 +83,13 @@ four51.app.factory('Customization', ['$451', 'ProductDescription',
                 angular.forEach(product.Specs, function(spec) {
                     switch(spec.Name) {
                         case "FirstName":
-                            lineItem.Product.Specs[spec.Name] = recipient.FirstName;
+                            lineItem.Product.Specs[spec.Name].Value = recipient.FirstName;
                             break;
                         case "LastName":
-                            lineItem.Product.Specs[spec.Name] = recipient.LastName;
+                            lineItem.Product.Specs[spec.Name].Value = recipient.LastName;
                             break;
                         case "Email":
-                            lineItem.Product.Specs[spec.Name] = recipient.Username;
+                            lineItem.Product.Specs[spec.Name].Value = recipient.Username;
                             break;
                     }
                 });
