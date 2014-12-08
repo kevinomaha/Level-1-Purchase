@@ -1,5 +1,5 @@
-four51.app.factory('Customization', ['$451', 'ProductDescription', 'Variant',
-    function($451, ProductDescription, Variant) {
+four51.app.factory('Customization', ['$451', '$resource', 'ProductDescription',
+    function($451, $resource, ProductDescription) {
 
         var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList'): {List:[]};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
@@ -99,9 +99,6 @@ four51.app.factory('Customization', ['$451', 'ProductDescription', 'Variant',
                         case "ADPCode":
                             spec.Value = employee.ADPCompanyCode;
                             break;
-                        case "SerialNumber":
-                            spec.Value = employee.SerialNumber;
-                            break;
                     }
                 });
             }
@@ -140,13 +137,37 @@ four51.app.factory('Customization', ['$451', 'ProductDescription', 'Variant',
             var recipCount = selectedRecipients.length;
             var itemCount = 0;
 
-            function getPreview(lineItem, order) {
-                //get image preview
-                itemCount++;
-                order.LineItems.push(lineItem);
-                if (recipCount == itemCount) {
-                    success(order);
-                }
+            function getPreviewDetails(lineItem, order) {
+                var denomination = lineItem.Product.Specs.Denomination.Value.replace('$', '');
+                var designID = "";
+                var baseURL = "https://gca-svcs02-dev.cloudapp.net/ClientService/";
+                var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
+                var previewURL = baseURL + "LoadTemplatePreview/:serial";
+                $resource(serialURL, {}).get().$promise.then(
+                    function(serialNumber) {
+                        lineItem.Product.Specs['SerialNumber'].Value = serialNumber;
+                        console.log(serialNumber);
+                        $resource(previewURL, {}).get(designID).$promise.then(
+                            function(previewURL) {
+                                lineItem.PreviewURL = previewURL;
+                                console.log(previewURL);
+
+                                itemCount++;
+                                lineItem.Specs = angular.copy(lineItem.Product.Specs);
+                                order.LineItems.push(lineItem);
+                                if (recipCount == itemCount) {
+                                    success(order);
+                                }
+                            },
+                            function(ex) {
+                                console.log(ex);
+                            }
+                        );
+                    },
+                    function(ex) {
+                        console.log(ex);
+                    }
+                );
             }
 
             angular.forEach(selectedRecipients, function(recipient) {
@@ -156,7 +177,7 @@ four51.app.factory('Customization', ['$451', 'ProductDescription', 'Variant',
                 lineItem.UniqueID = randomString();
                 lineItem.ShipAddressID = recipient.Address.ID;
 
-                getPreview(lineItem, order);
+                getPreviewDetails(lineItem, order);
             });
         };
 
