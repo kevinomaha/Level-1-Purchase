@@ -68,40 +68,6 @@ four51.app.factory('Customization', ['$451', 'ProductDescription', 'Variant',
             return randomstring;
         };
 
-        var _addToCartStatic = function(product, selectedRecipients, order) {
-            if (!order) {
-                order = {};
-                order.LineItems = [];
-            }
-            if (!order.LineItems) {
-                order.LineItems = [];
-            }
-
-            angular.forEach(selectedRecipients, function(recipient) {
-                var lineItem = {};
-                lineItem.Quantity = 1;
-                lineItem.Product = angular.copy(product);
-                lineItem.UniqueID = randomString();
-                lineItem.ShipAddressID = recipient.Address.ID;
-
-                angular.forEach(product.Specs, function(spec) {
-                    switch(spec.Name) {
-                        case "FirstName":
-                            lineItem.Product.Specs[spec.Name].Value = recipient.FirstName;
-                            break;
-                        case "LastName":
-                            lineItem.Product.Specs[spec.Name].Value = recipient.LastName;
-                            break;
-                        case "Email":
-                            lineItem.Product.Specs[spec.Name].Value = recipient.Username;
-                            break;
-                    }
-                });
-
-                order.LineItems.push(lineItem);
-            });
-        };
-
         function recipientToSpecs(employee, product) {
             if (product.Specs) {
                 angular.forEach(product.Specs, function(spec) {
@@ -142,6 +108,26 @@ four51.app.factory('Customization', ['$451', 'ProductDescription', 'Variant',
             return product;
         }
 
+        var _addToCartStatic = function(product, selectedRecipients, order) {
+            if (!order) {
+                order = {};
+                order.LineItems = [];
+            }
+            if (!order.LineItems) {
+                order.LineItems = [];
+            }
+
+            angular.forEach(selectedRecipients, function(recipient) {
+                var lineItem = {};
+                lineItem.Quantity = 1;
+                lineItem.Product = recipientToSpecs(recipient, angular.copy(product));
+                lineItem.UniqueID = randomString();
+                lineItem.ShipAddressID = recipient.Address.ID;
+
+                order.LineItems.push(lineItem);
+            });
+        };
+
         var _addToCartVariable = function(product, selectedRecipients, user, order, success) {
             if (!order) {
                 order = {};
@@ -152,29 +138,25 @@ four51.app.factory('Customization', ['$451', 'ProductDescription', 'Variant',
             }
 
             var recipCount = selectedRecipients.length;
-            var variantCount = 0;
+            var itemCount = 0;
 
-            function saveVariant(variant, recipient) {
-                Variant.save(variant, function(data) {
-                    variantCount++;
-                    var li = {
-                        Product: product,
-                        Variant: data,
-                        Quantity: 1,
-                        ShipAddressID: recipient.Address.ID
-                    };
-                    order.LineItems.push(li);
-                    if (recipCount == variantCount) success(order);
-                });
+            function getPreview(lineItem, order) {
+                //get image preview
+                itemCount++;
+                order.LineItems.push(lineItem);
+                if (recipCount == itemCount) {
+                    success(order);
+                }
             }
 
             angular.forEach(selectedRecipients, function(recipient) {
-                var employeeProduct = recipientToSpecs(recipient, angular.copy(product));
-                var variant = {
-                    ProductInteropID: product.InteropID,
-                    Specs: employeeProduct.Specs
-                };
-                saveVariant(variant, recipient);
+                var lineItem = {};
+                lineItem.Quantity = 1;
+                lineItem.Product = recipientToSpecs(recipient, angular.copy(product));
+                lineItem.UniqueID = randomString();
+                lineItem.ShipAddressID = recipient.Address.ID;
+
+                getPreview(lineItem, order);
             });
         };
 
