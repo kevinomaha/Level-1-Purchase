@@ -9,11 +9,26 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
 
     //personalized opening message
     $scope.openingMessage = {};
+    var today = new Date();
+    $scope.currentDate = angular.copy(today);
+    $scope.maxDate = today.setDate(today.getDate() + 120);
+
+    $scope.filteredSpecs = [
+        "DesignName",
+        "DeliveryDate",
+        "Denomination",
+        "EmailSubject",
+        "OpeningMessage",
+        "PersonalMessage",
+        "ClosingMessage"
+    ];
 
     $scope.recipientList = angular.copy(Customization.getRecipients());
     $scope.selectedProduct = Customization.getProduct();
 
     $scope.selectedRecipients = [];
+
+    $scope.logoOptions = [];
 
     console.log("selected product");
     console.log($scope.selectedProduct);

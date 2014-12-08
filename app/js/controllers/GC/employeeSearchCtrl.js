@@ -159,7 +159,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     break;
                 case "Original":
                     //$location.path('customizationStep1'); //should be updated to new path or this step should be dynamic
-                    $location.path('customizationStep1'); //should be updated to new path or this step should be dynamic
+                    $location.path('supercertificate'); //should be updated to new path or this step should be dynamic
                     break;
                 case "e-Cards":
                     $location.path('customizationStep1'); //should be updated to new path or this step should be dynamic
