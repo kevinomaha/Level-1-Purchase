@@ -1,11 +1,5 @@
-four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'Customization', '$http', 'Order', 'Product',
-function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, Order, Product) {
-
-    $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems: []};
-    if (typeof($scope.tempOrder) != 'object') {
-        $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
-        $scope.tempOrder = JSON.parse($scope.tempOrder);
-    }
+four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'Customization', '$http', 'User', 'Order', 'Product',
+function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, User, Order, Product) {
 
     var today = new Date();
     $scope.currentDate = angular.copy(today);
@@ -52,16 +46,26 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     };
 
     $scope.addToCartStatic = function(product) {
-        Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.tempOrder);
-        $scope.cacheOrder($scope.tempOrder);
-        $location.path('cart');
+        Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.currentOrder, function(order) {
+            $scope.currentOrder = order;
+            Order.save($scope.currentOrder, function(data) {
+                $scope.user.CurrentOrderID = data.ID;
+                User.save($scope.user, function() {
+                    $location.path('cart');
+                });
+            });
+        });
     };
 
     $scope.addToCartVariable = function(product) {
-        Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.tempOrder, function(order) {
-            $scope.tempOrder = order;
-            $scope.cacheOrder($scope.tempOrder);
-            $location.path('cart');
+        Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {
+            $scope.currentOrder = order;
+            Order.save($scope.currentOrder, function(data) {
+                $scope.user.CurrentOrderID = data.ID;
+                User.save($scope.user, function() {
+                    $location.path('cart');
+                });
+            });
         });
     };
 }]);

@@ -1,5 +1,5 @@
-four51.app.controller('Four51Ctrl', ['$scope', '$route','$routeParams', '$location', '$451', 'User', 'Order', 'Security', 'OrderConfig', 'Category', 'SpendingAccount', 'Product', 'Shipper', 'AddressList', 'AppConst', 'EmployeeSearch',
-function ($scope, $route, $routParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, Product, Shipper, AddressList, AppConst, EmployeeSearch) {
+four51.app.controller('Four51Ctrl', ['$scope', '$rootScope', '$route','$routeParams', '$location', '$451', 'User', 'Order', 'Security', 'OrderConfig', 'Category', 'SpendingAccount', 'Product', 'Shipper', 'AddressList', 'AppConst', 'EmployeeSearch',
+function ($scope, $rootScope, $route, $routParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, Product, Shipper, AddressList, AppConst, EmployeeSearch) {
     $scope.AppConst = AppConst;
 	$scope.scroll = 0;
 	$scope.isAnon = $451.isAnon; //need to know this before we have access to the user object
@@ -35,37 +35,27 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
                     $scope.user.PortalID = data;
                 });
 
-                user.Company.GoogleAnalyticsCode = "UA-4208136-57";
+                if (window.location.href.indexOf('qastore') > -1 || window.location.href.indexOf('teststore') > -1) {
+                    user.Company.GoogleAnalyticsCode = "UA-4208136-57";
+                }
+                else {
+                    user.Company.GoogleAnalyticsCode = "UA-4208136-59";
+                }
                 analytics(user.Company.GoogleAnalyticsCode);
 
 	            if (!$scope.user.TermsAccepted)
 		            $location.path('conditions');
 
-	            /*if (user.CurrentOrderID) {
+	            if (user.CurrentOrderID) {
                     Order.get(user.CurrentOrderID, function(ordr) {
                         $scope.currentOrder = ordr;
 			            OrderConfig.costcenter(ordr, user);
+                        $scope.$broadcast('event:orderUpdate', $scope.currentOrder);
                     });
                 }
                 else {
                     $scope.currentOrder = null;
-                }*/
-                $scope.currentOrder = null;
-
-                $scope.gcShippers = store.get("451Cache.GCShippers") ? store.get("451Cache.GCShippers") : null;
-                /*if (!$scope.gcShippers && !$scope.gettingShippers && window.location.href.indexOf('cart') > -1) {*/
-                if (!$scope.gcShippers && !$scope.gettingShippers) {
-                    $scope.gettingShippers = true;
-                    getShippers();
-                }
-                else if ($scope.gcShippers) {
-                    $scope.$broadcast('event:shippersObtained');
-                }
-
-                $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
-                if ($scope.tempOrder) {
-                    $scope.$broadcast("event:tempOrderUpdated", $scope.tempOrder);
-                    getShippers();
+                    $rootScope.$broadcast('event:orderUpdate', $scope.currentOrder);
                 }
 
             });
@@ -107,92 +97,4 @@ function ($scope, $route, $routParams, $location, $451, User, Order, Security, O
 	$scope.$on("$routeChangeSuccess", init);
     $scope.$on('event:auth-loginRequired', cleanup);
 
-    //GC INCENTIVES PURCHASE
-    var attempt = 0;
-    function getShippers() {
-        if (!$scope.tempOrder) return;
-        var tempOrder = {};
-        if (typeof($scope.tempOrder) != 'object') {
-            tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
-            tempOrder = JSON.parse(tempOrder);
-        }
-        else {
-            tempOrder = $scope.tempOrder
-        }
-        if (!store.get("451Cache.GCShippers")) {
-            if (tempOrder.LineItems && tempOrder.LineItems.length == 0) return;
-            tempOrder.LineItems = [tempOrder.LineItems[0]];
-            AddressList.query(function(list) {
-                var shipAddress = {};
-                var found = false;
-                angular.forEach(list, function(a) {
-                    if (a.IsShipping && !found) {
-                        shipAddress = a;
-                        found = true;
-                    }
-                });
-                tempOrder.ShipAddressID = shipAddress.ID;
-                tempOrder.LineItems[0].ShipAddressID = shipAddress.ID;
-                Order.save(tempOrder,
-                    function(o){
-                        //save the order fields for use later
-                        angular.forEach(o.OrderFields, function(field) {
-                            switch(field.Name) {
-                                case "Opening":
-                                    field.HelpText = "(Up to 50 characters):";
-                                    break;
-                                case "Message":
-                                    field.HelpText = "(Up to 300 characters):";
-                                    break;
-                                case "Closing":
-                                    field.HelpText = "(Up to 50 characters):";
-                                    break;
-                                default:
-                                    field.HelpText = null;
-                            }
-                        });
-                        o.OrderFields.length > 0 ? store.set("451Cache.GCOrderFields", o.OrderFields) : console.log("No Order Fields");
-
-                        Shipper.query(o, function(list) {
-                            $scope.shippers = angular.copy(list);
-                            if ($scope.shippers.length > 0) {
-                                store.set("451Cache.GCShippers", $scope.shippers);
-                                $scope.$broadcast('event:shippersObtained');
-                            }
-                            else {
-                                console.log("Shippers empty");
-                            }
-                            if ($scope.shippers.length > 0) {
-                                console.log("Shipper Count:" + $scope.shippers.length);
-                                tempOrder = null;
-                                Order.delete(o,
-                                    function() {
-                                        //console.log("Ship Order Deleted");
-                                    },
-                                    function(ex) {
-                                        //console.log("Failed to delete ship order");
-                                    }
-                                );
-                            }
-                            else {
-                                console.log("Shippers Count: 0");
-                                console.log(o);
-                                attempt++;
-                                if (attempt < 5) {
-                                    getShippers();
-                                }
-                            }
-                        });
-                    },
-                    function(ex) {
-                        console.log("Order save failed for shippers");
-                        attempt++;
-                        if (attempt < 5) {
-                            getShippers();
-                        }
-                    }
-                );
-            });
-        }
-    }
 }]);

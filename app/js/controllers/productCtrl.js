@@ -6,12 +6,6 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 	$scope.loadingIndicator = true;
     $scope.digitalShipAddressID = "";
 
-    $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems: []};
-    if (typeof($scope.tempOrder) != 'object') {
-        $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
-        $scope.tempOrder = JSON.parse($scope.tempOrder);
-    }
-
     $scope.recipientList = Customization.getRecipients();
 
     AddressList.query(function(list) {
@@ -57,12 +51,6 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 		);
 	};
 
-    $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems:[]};
-    if (typeof($scope.tempOrder) != 'object') {
-        $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
-        $scope.tempOrder = JSON.parse($scope.tempOrder);
-    }
-
     var randomString = function() {
         var chars = "0123456789abcdefghijklmnop";
         var string_length = 7;
@@ -76,40 +64,16 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 
     $scope.addToOrder = function(lineitem) {
         var product = angular.copy(lineitem.Product);
-        Customization.addToCartStatic(product, $scope.$parent.$parent.selectedRecipients, $scope.tempOrder);
-        $scope.cacheOrder($scope.tempOrder);
-        $location.path('cart');
+        Customization.addToCartStatic(product, $scope.$parent.$parent.selectedRecipients, $scope.currentOrder, function(order) {
+            $scope.currentOrder = order;
+            Order.save($scope.currentOrder, function(data) {
+                $scope.user.CurrentOrderID = data.ID;
+                User.save($scope.user, function() {
+                    $location.path('cart');
+                });
+            });
+        });
     };
-
-    /*$scope.addToOrder = function(){
-        if(!$scope.tempOrder){
-            $scope.tempOrder = {};
-            $scope.tempOrder.LineItems = [];
-        }
-        if(!$scope.tempOrder.LineItems){
-            $scope.tempOrder.LineItems = [];
-        }
-
-        $scope.LineItem.MerchantCardUniqueID = randomString();
-        if ($scope.LineItem.Product.Specs['Physical/Digital'] && $scope.LineItem.Product.Specs['Physical/Digital'].Value == 'Digital') {
-            $scope.LineItem.Specs = $scope.LineItem.Product.Specs;
-            $scope.LineItem.ShipAddressID = $scope.digitalShipAddressID;
-            $scope.LineItem.Shipper = shipper;
-            $scope.LineItem.ShipperName = shipper.Name;
-            $scope.LineItem.ShipperID = shipper.ID;
-            $scope.LineItem.IsDigital = true;
-        }
-        else {
-            $scope.LineItem.IsDigital = false;
-        }
-
-        $scope.tempOrder.LineItems.push($scope.LineItem);
-        $scope.$broadcast('event:tempOrderUpdated',$scope.tempOrder);
-        
-        $scope.cacheOrder($scope.tempOrder);
-
-        $location.path('/cart');
-    };*/
 
     $scope.$on('event:MerchantProductSelected', function(event,product) {
         if (product) {

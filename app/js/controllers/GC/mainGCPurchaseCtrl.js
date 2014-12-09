@@ -1116,11 +1116,11 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     $scope.messagepopover = {title: 'Custom Personal Message', content: 'Ex. Thanks for your hard work!<br/>(Up to 300 characters)'};
     $scope.closingpopover = {title: 'Custom Closing Message', content: 'Ex. Your Company<br/>(Up to 50 characters)'};
 
-    $scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems: []};
+    /*$scope.tempOrder = store.get("451Cache.TempOrder") ? store.get("451Cache.TempOrder") : {LineItems: []};
     if (typeof($scope.tempOrder) != 'object') {
         $scope.tempOrder = LZString.decompressFromUTF16($scope.tempOrder);
         $scope.tempOrder = JSON.parse($scope.tempOrder);
-    }
+    }*/
 
     $scope.createAwards = function () {
 

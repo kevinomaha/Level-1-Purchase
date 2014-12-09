@@ -61,7 +61,7 @@ function ($location, $route, $scope, $451, $rootScope, User, SpendingAccount, $w
     };
 
 	$scope.$on('event:orderUpdate', function(event, order) {
-		$scope.cartCount = order ? (order.Status == 'Unsubmitted' || order.Status == 'AwaitingApproval') ? order.LineItems.length : null : null;
+		$scope.cartCount = order ? (order.Status == 'Unsubmitted' || order.Status == 'AwaitingApproval') ? order.LineItems.length : 0 : 0;
 
         if (!order || order.Status == "Open") {
             SpendingAccount.query(function(data) {
@@ -70,29 +70,12 @@ function ($location, $route, $scope, $451, $rootScope, User, SpendingAccount, $w
         }
 	});
 
-    $scope.$on('event:tempOrderUpdated', function(event, order) {
-        if (typeof(order) != 'object') {
-            order = LZString.decompressFromUTF16(order);
-            order = (order && typeof(order) == 'string') ? JSON.parse(order) : {};
-        }
-        $scope.tempOrderCount = 0;
+    $scope.$watch('currentOrder', function() {
+        var order = angular.copy($scope.currentOrder);
+        $scope.cartCount = 0;
         if (order && order.LineItems) {
             angular.forEach(order.LineItems, function(li) {
-                $scope.tempOrderCount += +(li.Quantity);
-            });
-        }
-    });
-
-    $scope.$watch('tempOrder.LineItems', function(newval) {
-        var order = angular.copy($scope.tempOrder);
-        if (order && typeof(order) != 'object') {
-            order = LZString.decompressFromUTF16(order);
-            order = JSON.parse(order);
-        }
-        $scope.tempOrderCount = 0;
-        if (order && order.LineItems) {
-            angular.forEach(order.LineItems, function(li) {
-                $scope.tempOrderCount += +(li.Quantity);
+                $scope.cartCount += +(li.Quantity);
             });
         }
     }, true);

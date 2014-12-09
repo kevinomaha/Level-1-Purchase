@@ -105,7 +105,7 @@ four51.app.factory('Customization', ['$451', '$resource', 'ProductDescription',
             return product;
         }
 
-        var _addToCartStatic = function(product, selectedRecipients, order) {
+        var _addToCartStatic = function(product, selectedRecipients, order, success) {
             if (!order) {
                 order = {};
                 order.LineItems = [];
@@ -121,8 +121,10 @@ four51.app.factory('Customization', ['$451', '$resource', 'ProductDescription',
                 lineItem.UniqueID = randomString();
                 lineItem.ShipAddressID = recipient.Address.ID;
 
+                lineItem.Specs = angular.copy(lineItem.Product.Specs);
                 order.LineItems.push(lineItem);
             });
+            success(order);
         };
 
         var _addToCartVariable = function(product, selectedRecipients, user, order, success) {
