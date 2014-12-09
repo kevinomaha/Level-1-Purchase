@@ -4,9 +4,26 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             $location.path('main');
         };
 
+        $scope.DigitalShipper = null;
         Shipper.query($scope.currentOrder, function(list) {
             $scope.shippers = list;
+            angular.forEach($scope.shippers, function(shipper) {
+                if (shipper.Name.indexOf('Email') > -1) {
+                    $scope.DigitalShipper = shipper;
+                    applyDigitalShipper();
+                }
+            });
         });
+
+        function applyDigitalShipper() {
+            if ($scope.currentOrder && $scope.DigitalShipper) {
+                angular.forEach($scope.currentOrder.LineItems, function(item) {
+                    if (item.IsDigital) {
+                        item.ShipperID = $scope.DigitalShipper.ID;
+                    }
+                });
+            }
+        }
 
         $scope.originalItemSpecs = {};
         $scope.editItem = function(item) {
@@ -94,6 +111,28 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
                     }
                 );
             }
+        };
+
+        $scope.submitOrder = function() {
+            $scope.displayLoadingIndicator = true;
+            $scope.errorMessage = null;
+            Order.submit($scope.currentOrder,
+                function(order) {
+                    $scope.user.CurrentOrderID = null;
+                    User.save($scope.user, function(data) {
+                        $scope.user = data;
+                        $scope.displayLoadingIndicator = false;
+                        $scope.currentOrder = null;
+                        $location.path('/order/' + order.ID);
+                    });
+                },
+                function(ex) {
+                    $scope.errorMessage = ex.Message;
+                    $scope.displayLoadingIndicator = false;
+                    $scope.shippingUpdatingIndicator = false;
+                    $scope.shippingFetchIndicator = false;
+                }
+            );
         };
 
 

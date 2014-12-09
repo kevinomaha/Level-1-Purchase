@@ -1,6 +1,6 @@
 four51.app.controller('OrderBillingCtrl', ['$scope', '$location', '$451', 'SpendingAccount', 'Address', 'CustomAddressList',
 function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) {
-	SpendingAccount.query(function(data) {
+	/*SpendingAccount.query(function(data) {
 		$scope.SpendingAccounts = data;
 		budgetAccountCalculation($scope.tempOrder.BudgetAccountID);
 
@@ -211,6 +211,6 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
     $scope.editBillAddress = function(address) {
         $scope.billaddressform = true;
         $scope.billaddress = address;
-    };
+    };*/
 }]);
 

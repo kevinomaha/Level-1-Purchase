@@ -1,6 +1,6 @@
 four51.app.controller('PaymentSelectionController', ['$scope', '$rootScope', 'SavedCreditCard',
 function ($scope, $rootScope, SavedCreditCard) {
-	$scope.setPaymentMethod = function(type) {
+	/*$scope.setPaymentMethod = function(type) {
 		$scope.tempOrder.PaymentMethod = type;
         $scope.cacheOrder($scope.tempOrder);
 		$rootScope.$broadcast('event:paymentMethodChange', type);
@@ -71,6 +71,6 @@ function ($scope, $rootScope, SavedCreditCard) {
         if (id == null) return false;
         var card = getCardByID(id);
         return card.IsCustEditable;
-    };
+    };*/
 }]);
 
