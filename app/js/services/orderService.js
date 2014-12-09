@@ -9,6 +9,9 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
 
     function _extend(order) {
         order.isEditable = order.Status == 'Unsubmitted' || order.Status == 'Open' || order.Status == 'AwaitingApproval';
+        order.IsAllDigital = true;
+        order.HasPhysicalMerchantCards = false;
+        var images = {};
         angular.forEach(order.LineItems, function(item) {
             item.OriginalQuantity = item.Quantity; //needed to validate qty changes compared to available quantity
             angular.forEach(item.Specs, function(spec) {
@@ -16,11 +19,30 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
                     spec.File.Url += "&auth=" + Security.auth();
             });
             item.SpecsLength = Object.keys(item.Specs).length;
+
+            if (item.Product.Name.indexOf('Digital') == -1 && item.Product.Name.indexOf('e-') == -1) {
+                order.IsAllDigital = false;
+            }
+
+            if (item.Product.Name.indexOf(' Gift Card') > -1) {
+                order.HasPhysicalMerchantCards = true;
+            }
+
+            if (!images[item.Product.ExternalID]) {
+                images[item.Product.ExternalID] = {};
+                images[item.Product.ExternalID].LargeImageUrl = item.Product.LargeImageUrl;
+                images[item.Product.ExternalID].SmallImageUrl = item.Product.SmallImageUrl;
+            }
+            else {
+                item.Product.LargeImageUrl = images[item.Product.ExternalID].LargeImageUrl;
+                item.Product.SmallImageUrl = images[item.Product.ExternalID].SmallImageUrl;
+            }
         });
 
         order.forceMultipleShip = function(value) {
             _multipleShip = value;
-        }
+        };
+
         order.IsMultipleShip = function() {
             var multi = false;
             if (_multipleShip && order.LineItems[0].ShipAddressID == null) return true;
@@ -31,7 +53,17 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
                     false;
             });
             return multi;
-        }
+        };
+
+        var filteredFields = [
+            "Opening",
+            "Message",
+            "Closing"
+        ];
+
+        angular.forEach(order.OrderFields, function(field) {
+            field.Filtered = filteredFields.indexOf(field.Name) > -1;
+        });
     }
 
     var _get = function(id, success, suppress) {

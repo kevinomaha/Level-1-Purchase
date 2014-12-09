@@ -1,4 +1,193 @@
 <section class="cart-view">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="row">
+                <div class="col-md-7">
+                    <h3 class="text-primary cart-title">{{currentOrder.LineItems.length}} AWARD{{currentOrder.LineItems.length > 1 ? 'S' : ''}} IN YOUR CART <i class="fa fa-shopping-cart pull-right"></i></h3>
+                    <hr style="margin-bottom:5px;"/>
+                    <div style="margin-top:2px;" class="btn btn-link" ng-show="currentOrder.LineItems.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
+                    <hr style="margin-top:5px;"/>
+                    <form name="cart_order_fields">
+                        <div class="container white-wrapper" style="border:1px solid #ddd;padding-bottom: 10px;padding-top: 10px;margin-bottom: 20px;">
+                            <div style="margin-bottom: 10px;">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <ul>
+                                            <li ng-repeat="field in currentOrder.OrderFields | onproperty:[{Property: 'Filtered', Value: false}]">
+                                                <div class="view-form-icon">
+                                                    <label>{{field.Label || field.Name | r | specnames}}</label>
+                                                    <div>
+                                                        <input class="form-control" placeholder="{{field.Label || field.Name | r | specnames}}" type="text" autocomplete="off" ng-model="field.Value" />
+                                                    </div>
+                                                    <i class="fa fa-edit"></i>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div ng-show="currentOrder.HasPhysicalMerchantCards">
+                                    <div>
+                                        <p><b>Personalize Physical Merchant Gift Cards Message Sheet: </b><span class="label label-default">Optional</span></p>
+                                        <p><small>You may enter a personalized message to be included in the envelope with you merchant gift cards. Only one message sheet will be included per order.</small></p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <ul>
+                                                <li ng-repeat="field in currentOrder.OrderFields | gccustomorderfieldsnonemail : currentOrder.IsAllDigital | filter:{Name:'Opening'}">
+                                                    <div class="view-form-icon">
+                                                        <label>{{field.Label || field.Name | r | specnames}} <span style="font-weight: normal;">(Up to {{field.MaxLength}} characters)</span></label>
+                                                        <div>
+                                                            <input class="form-control" placeholder="{{field.Label || field.Name | r | specnames}}" type="text" autocomplete="off" ng-model="field.Value" />
+                                                        </div>
+                                                        <i class="fa fa-edit"></i>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <ul>
+                                            <li ng-repeat="field in currentOrder.OrderFields | gccustomorderfieldsnonemail : currentOrder.IsAllDigital | filter:{Name:'Message'}">
+                                                <div class="view-form-icon">
+                                                    <label>{{field.Label || field.Name | r | specnames}} <span style="font-weight: normal;">(Up to {{field.MaxLength}} characters)</span></label>
+                                                    <div>
+                                                        <textarea class="form-control" placeholder="{{field.Label || field.Name | r | specnames}}" type="text" autocomplete="off" ng-model="field.Value"></textarea>
+                                                    </div>
+                                                    <i class="fa fa-edit"></i>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <ul>
+                                            <li ng-repeat="field in currentOrder.OrderFields | gccustomorderfieldsnonemail : currentOrder.IsAllDigital | filter:{Name:'Closing'}">
+                                                <div class="view-form-icon">
+                                                    <label>{{field.Label || field.Name | r | specnames}} <span style="font-weight: normal;">(Up to {{field.MaxLength}} characters)</span></label>
+                                                    <div>
+                                                        <input class="form-control" ng-class="{'input-invalid': orderFieldErrors.indexOf(field.Name) > -1}" placeholder="{{field.Label || field.Name | r | specnames}}" type="text" autocomplete="off" ng-model="field.Value" />
+                                                    </div>
+                                                    <i class="fa fa-edit"></i>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form name="cart_line_item_groups">
+                        <div class="recipient-groups">
+                            <div ng-show="currentOrder.LineItems.length > 1">
+                                <div>Assign Shipping Method to all line items:</div>
+                                <div>
+                                    <div class="form-group">
+                                        <select class="form-control"
+                                                ng-change="updateAllShippers()"
+                                                name="shipMethod"
+                                                ng-model="currentOrder.ShipMethod"
+                                                ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !currentOrder.IsDigital"
+                                                ng-options="shipper as shipper.Name for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:false">
+                                            <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-lineitem" ng-repeat="item in currentOrder.LineItems">
+                                    <button title="Remove Item" class="btn btn-danger" ng-click="removeItem(item)">
+                                        <span class="fa fa-minus-circle fa-inverse"></span>
+                                    </button>
+                                    <button title="Edit Item" class="btn btn-primary edit-item" ng-show="!item.Editing && objectLength(item.Specs) > 0" ng-click="editItem(item)">
+                                        <span class="fa fa-edit fa-inverse"></span>
+                                    </button>
+                                    <div class="col-sm-3">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-12 col-md-6 ">
+                                                <div class="view-form-icon">
+                                                    <quantityfield required="true" lineitem="item" class="quantity"/>
+                                                </div>
+                                                <p class="quantity-total text-center">
+                                                    <small>{{'Total Quantity' | r}} <span ng-show="item.Quantity * item.Product.QuantityMultiplier">{{item.Quantity * item.Product.QuantityMultiplier}}</span></small>
+                                                </p>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-12 col-md-6 thumbnail" ng-show="item.Variant.LargeImageUrl || item.Product.SmallImageUrl">
+                                                <figure>
+                                                    <img ng-src="{{item.Variant.LargeImageUrl || item.Product.SmallImageUrl}}" />
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-md-6" >
+                                                <a ng-href="cart/{{item.Product.InteropID}}/{{$index}}">
+                                                    <h3 class="text-primary">
+                                                        <i class="fa fa-edit"></i>
+                                                        {{item.ProductIDText}}
+                                                    </h3>
+                                                    <p>
+                                                        <span ng-bind-html="item.Product.Name"></span>
+                                                    </p>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <div ng-if="!(user.Permissions.contains('HidePricing'))">
+                                                            <small>{{'Total' | r}}</small>
+                                                            <h2 class="text-success">
+                                                                {{item.LineTotal | currency}}
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6" ng-if="!(user.Permissions.contains('HidePricing'))">
+                                                        <p>
+                                                            <small>{{'Unit Price' | r}}</small>
+                                                            <br/>
+                                                            {{item.UnitPrice | currency}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" collapse="!item.Editing">
+                                            Test
+                                            <!--<div class="col-xs-12">
+                                                <button class="btn btn-default" ng-show="item.SpecsLength > 0" ng-init="toggleSpecs = false" ng-click="toggleSpecs = !toggleSpecs">
+                                                    <span ng-show="toggleSpecs == false"><i class="fa fa-plus-circle"></i> {{'Show' | r}} </span>
+                                                    <span ng-show="toggleSpecs == true"><i class="fa fa-minus-circle"></i> {{'Hide' | r}} </span>
+                                                    {{'Specification' | r}}
+                                                </button>
+                                                <ul ng-show="toggleSpecs == true" class="list-group">
+                                                    <li ng-repeat="spec in item.Specs | filter:{'CanSetForLineItem':true} " class="list-group-item">
+                                                        <span class="text-info">{{spec.Name}}: </span>
+                                                        <span ng-if="spec.ControlType == 'File'"><a ng-href="{{spec.File.Url}}">{{spec.File.OriginalName + Extension}}</a></span></span>
+                                                        <span ng-if="spec.ControlType != 'File'">{{spec.Value || '(unspecified)'}}</span>
+                                                    </li>
+                                                </ul>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--
+<section class="cart-view">
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
     <loadingindicator class="checkout-indicator" ng-show="orderSaveLoadingIndicator" title="Your order is now being processed. Please do not navigate away from this page or close your browser until the processing has completed." />
@@ -20,10 +209,10 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <ul ng-if="!!orderfields">
-                                    <li ng-show="false" ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'OrderPlatform'}">
+                                    <li ng-show="false" ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.IsAllDigital | filter:{Name:'OrderPlatform'}">
                                         <input class="form-control" ng-class="{'input-invalid': orderFieldErrors.indexOf(field.Name) > -1}" placeholder="{{field.Label || field.Name | r | specnames}}" type="text" autocomplete="off" ng-model="field.Value" />
                                     </li>
-                                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'PONumber'}">
+                                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.IsAllDigital | filter:{Name:'PONumber'}">
                                         <div class="view-form-icon">
                                             <label>{{field.Label || field.Name | r | specnames}} <span ng-show="field.HelpText" style="font-weight: normal;">{{field.HelpText}}</span></label>
                                             <div>
@@ -38,7 +227,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <ul ng-if="!!orderfields">
-                                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'ExpenseCode'}">
+                                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.IsAllDigital | filter:{Name:'ExpenseCode'}">
                                         <div class="view-form-icon">
                                             <label>{{field.Label || field.Name | r | specnames}} <span ng-show="field.HelpText" style="font-weight: normal;">{{field.HelpText}}</span></label>
                                             <div>
@@ -53,7 +242,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <ul ng-if="!!orderfields">
-                                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Promo_Code'}">
+                                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.IsAllDigital | filter:{Name:'Promo_Code'}">
                                         <div class="view-form-icon">
                                             <label>{{field.Label || field.Name | r | specnames}} <span ng-show="field.HelpText" style="font-weight: normal;">{{field.HelpText}}</span></label>
                                             <div>
@@ -87,7 +276,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <ul>
-                                        <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Opening'}">
+                                        <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.IsAllDigital | filter:{Name:'Opening'}">
                                             <div class="view-form-icon">
                                                 <label>{{field.Label || field.Name | r | specnames}} <span ng-show="field.HelpText" style="font-weight: normal;">{{field.HelpText}}</span></label>
                                                 <div>
@@ -105,7 +294,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <ul ng-if="!!orderfields">
-                                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Message'}">
+                                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.IsAllDigital | filter:{Name:'Message'}">
                                         <div class="view-form-icon">
                                             <label>{{field.Label || field.Name | r | specnames}} <span ng-show="field.HelpText" style="font-weight: normal;">{{field.HelpText}}</span></label>
                                             <div>
@@ -121,7 +310,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <ul ng-if="!!orderfields">
-                                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.isAllDigital | filter:{Name:'Closing'}">
+                                    <li ng-repeat="field in tempOrder.OrderFields | gccustomorderfieldsnonemail : tempOrder.IsAllDigital | filter:{Name:'Closing'}">
                                         <div class="view-form-icon">
                                             <label>{{field.Label || field.Name | r | specnames}} <span ng-show="field.HelpText" style="font-weight: normal;">{{field.HelpText}}</span></label>
                                             <div>
@@ -212,13 +401,13 @@
                                         <i ng-click="editAward(lineitem, $index)" style="cursor:pointer; padding-top:5px;" class="fa fa-2x fa-edit"></i> <span ng-click="editAward(lineitem, $index)" style="cursor:pointer; position:relative; top:-5px; margin-left:5px;">EDIT</span>
                                     </div>
                                     <div class="col-xs-2 text-right" ng-show="group.LineItems.length > 1">
-                                        <!--<select class="form-control" ng-change="updateLineItemShipper(lineitem)" name="shipMethod"
+                                        &lt;!&ndash;<select class="form-control" ng-change="updateLineItemShipper(lineitem)" name="shipMethod"
                                                 ng-model="lineitem.ShipMethod"
                                                 ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
                                                 ng-options="shipper.Name as shipper.Name for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:group.IsDigital"
                                                 ng-required="!shipToMultipleAddresses && user.ShipMethod != null">
                                             <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
-                                        </select>-->
+                                        </select>&ndash;&gt;
                                         <div style="margin:10px 0;" ng-show="group.IsDigital">
                                             <b>Email Delivery</b>
                                             <p>{{lineitem.Specs.FutureShipDate.Value}}</p>
@@ -481,7 +670,7 @@
                                     <select class="form-control" name="shipMethod"
                                             ng-model="tempOrder.MerchantCardShipMethod"
                                             ng-change="setShipper()"
-                                            ng-options="shipper.Name as shipper.Name for shipper in shippers | gcshippers : tempOrder.Total:currentOrder.LineItems.length:tempOrder.cartModifiers.isAllDigitalMerchant"
+                                            ng-options="shipper.Name as shipper.Name for shipper in shippers | gcshippers : tempOrder.Total:currentOrder.LineItems.length:tempOrder.cartModifiers.IsAllDigitalMerchant"
                                             ng-required="tempOrder.merchantCardLineItems.length > 0 && !tempOrder.merchantCardsAllDigital" >
                                         <option class="view-select-placeholder" value="" selected="selected">Select shipping method...</option>
                                     </select>
@@ -511,14 +700,14 @@
                 <p class="text-right"><span class="pull-left text-info">Subtotal:</span>{{tempOrder.SubTotal | currency}}</p>
                 <p class="text-right"><span class="pull-left text-info">Shipping and Handling:</span>{{tempOrder.ShippingTotal | currency}}</p>
                 <p class="text-right"><span class="pull-left text-info">Total:</span>{{tempOrder.Total | currency}}</p>
-                <div class="alert alert-info" style="padding:7px;" ng-show="tempOrder.merchantCardLineItems.length > 0 || !tempOrder.isAllDigital">
+                <div class="alert alert-info" style="padding:7px;" ng-show="tempOrder.merchantCardLineItems.length > 0 || !tempOrder.IsAllDigital">
                     <small>
                         <div ng-show="tempOrder.merchantCardLineItems.length > 0">
                             <p>*The service fee for each product is included in the total price.</p>
                             <p>If your order is for merchant gift cards, please be aware that all physical gift cards will ship together. If one or more gift cards selected is out of stock, shipment of this order will be delayed.</p>
                             <p>*E-gift cards cannot be returned or exchanged.</p>
                         </div>
-                        <div ng-show="!tempOrder.isAllDigital">
+                        <div ng-show="!tempOrder.IsAllDigital">
                             <p style="margin-bottom: 0px;">*Orders placed after 2 p.m. EST will be shipped the following business day.</p>
                         </div>
                     </small>
@@ -535,8 +724,8 @@
                 <div ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length == 0 && user.Permissions.contains('CreateBillToAddress') && !addressesLoading" class="row">
                     <addressinput address='billaddress' user='user'></addressinput>
                 </div>
-                <!--<b>Subtotal:</b>-->
-                <!--<span>{{tempOrder.Total | currency}}</span>-->
+                &lt;!&ndash;<b>Subtotal:</b>&ndash;&gt;
+                &lt;!&ndash;<span>{{tempOrder.Total | currency}}</span>&ndash;&gt;
                 <form name="cart_billing" ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length > 0">
                     <orderbillinggc></orderbillinggc>
                 </form>
@@ -592,3 +781,4 @@
 </div>
 </section>
 
+-->

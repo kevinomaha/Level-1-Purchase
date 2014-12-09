@@ -1,6 +1,50 @@
-four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$451', 'Order', 'OrderConfig', 'User',
-    function ($scope, $routeParams, $location, $451, Order, OrderConfig, User) {
-        var isEditforApproval = $routeParams.id != null && $scope.user.Permissions.contains('EditApprovalOrder');
+four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper',
+    function ($scope, $routeParams, $location, $451, Order, OrderConfig, User, Shipper) {
+        $scope.backToCustomization = function() {
+            $location.path('main');
+        };
+
+        Shipper.query($scope.currentOrder, function(list) {
+            $scope.shippers = list;
+        });
+
+        $scope.editItem = function(item) {
+            item.Editing = true;
+        };
+
+        $scope.removeItem = function(item) {
+            if (confirm('Are you sure you wish to remove this item from your cart?') == true) {
+                Order.deletelineitem($scope.currentOrder.ID, item.ID,
+                    function(order) {
+                        $scope.currentOrder = order;
+                        Order.clearshipping($scope.currentOrder);
+                        if (!order) {
+                            $scope.user.CurrentOrderID = null;
+                            User.save($scope.user, function(){
+                                $location.path('catalog');
+                            });
+                        }
+                        $scope.displayLoadingIndicator = false;
+                        $scope.actionMessage = 'Your Changes Have Been Saved';
+                    },
+                    function (ex) {
+                        $scope.errorMessage = ex.Message.replace(/\<<Approval Page>>/g, 'Approval Page');
+                        $scope.displayLoadingIndicator = false;
+                    }
+                );
+            }
+        };
+
+        $scope.objectLength = function(obj) {
+            var length = 0;
+            angular.forEach(obj, function(property) {
+                length++;
+            });
+            return length;
+        };
+
+
+        /*var isEditforApproval = $routeParams.id != null && $scope.user.Permissions.contains('EditApprovalOrder');
         if (isEditforApproval) {
             Order.get($routeParams.id, function(order) {
                 $scope.currentOrder = order;
@@ -144,5 +188,5 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
 
         $scope.cancelEdit = function() {
             $location.path('order');
-        };
+        };*/
     }]);

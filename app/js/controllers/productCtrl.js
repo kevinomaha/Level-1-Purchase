@@ -64,7 +64,7 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 
     $scope.addToOrder = function(lineitem) {
         var product = angular.copy(lineitem.Product);
-        Customization.addToCartStatic(product, $scope.$parent.$parent.selectedRecipients, $scope.currentOrder, function(order) {
+        Customization.addToCartStatic(product, $scope.$parent.$parent.selectedRecipients, $scope.$parent.$parent.currentOrder, function(order) {
             $scope.currentOrder = order;
             Order.save($scope.currentOrder, function(data) {
                 $scope.user.CurrentOrderID = data.ID;
