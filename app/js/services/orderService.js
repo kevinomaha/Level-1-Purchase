@@ -25,7 +25,9 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
     ];
 
     var filteredSpecs = [
-        "Physical/Digital"
+        "Physical/Digital",
+        "DesignID",
+        "PreviewURL"
     ];
 
     function _extend(order) {

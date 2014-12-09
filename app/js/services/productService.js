@@ -13,7 +13,9 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
         "EmailSubject",
         "OpeningMessage",
         "PersonalMessage",
-        "ClosingMessage"
+        "ClosingMessage",
+        "DesignID",
+        "PreviewURL"
     ];
 
     var employeeSpecs = [
