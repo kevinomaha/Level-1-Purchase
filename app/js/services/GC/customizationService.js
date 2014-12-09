@@ -1,5 +1,5 @@
-four51.app.factory('Customization', ['$451', '$resource', 'ProductDescription',
-    function($451, $resource, ProductDescription) {
+four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
+    function($451, $http, ProductDescription) {
 
         var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList'): {List:[]};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
@@ -143,33 +143,25 @@ four51.app.factory('Customization', ['$451', '$resource', 'ProductDescription',
                 var denomination = lineItem.Product.Specs.Denomination.Value.replace('$', '');
                 var designID = "";
                 var baseURL = "https://gca-svcs02-dev.cloudapp.net/ClientService/";
-                var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
-                var previewURL = baseURL + "LoadTemplatePreview/:serial";
-                $resource(serialURL, {}).get().$promise.then(
-                    function(serialNumber) {
-                        lineItem.Product.Specs['SerialNumber'].Value = serialNumber;
-                        console.log(serialNumber);
-                        $resource(previewURL, {}).get(designID).$promise.then(
-                            function(previewURL) {
-                                lineItem.PreviewURL = previewURL;
-                                console.log(previewURL);
+                //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
+                var serialURL = baseURL + "GetSerialNumber";
+                $http.get(serialURL).success(function (serialNumber) {
+                    var number = serialNumber.replace(/"/g, '');
+                    lineItem.Product.Specs['SerialNumber'].Value = number;
+                    console.log(number);
+                    var previewURL = baseURL + "LoadTemplatePreview/" + number;
+                    $http.get(previewURL).success(function (previewURL) {
+                        lineItem.PreviewURL = previewURL;
+                        console.log(previewURL);
 
-                                itemCount++;
-                                lineItem.Specs = angular.copy(lineItem.Product.Specs);
-                                order.LineItems.push(lineItem);
-                                if (recipCount == itemCount) {
-                                    success(order);
-                                }
-                            },
-                            function(ex) {
-                                console.log(ex);
-                            }
-                        );
-                    },
-                    function(ex) {
-                        console.log(ex);
-                    }
-                );
+                        itemCount++;
+                        lineItem.Specs = angular.copy(lineItem.Product.Specs);
+                        order.LineItems.push(lineItem);
+                        if (recipCount == itemCount) {
+                            success(order);
+                        }
+                    });
+                });
             }
 
             angular.forEach(selectedRecipients, function(recipient) {

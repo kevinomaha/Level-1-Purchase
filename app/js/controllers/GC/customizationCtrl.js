@@ -17,17 +17,17 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
     });
 
     //Move this to a service -- It is recommended to not make any HTTP calls within a controller
-    /*$http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=SCD002-GC1-02&o=1').
+    $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + $scope.selectedProduct.ExternalID + '&o=1').
         success(function(data){
-             $scope.getTemplate = data;
-             $scope.thumbnail = $scope.getTemplate[0].ThumbnailUrl;
+             //$scope.getTemplate = data;
+             $scope.ProductThumbnail = data[0].ThumbnailUrl;
         }).
         error(function(data, status, headers, config ) {
             console.log(data);
             console.log(status);
             console.log(headers);
             console.log(config);
-        });*/
+        });
 
     $scope.selectRecipient = function(recipient) {
         if (!recipient.Valid) return;

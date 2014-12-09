@@ -135,6 +135,28 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             );
         };
 
+        $scope.cancelOrder = function() {
+            if (confirm('Are you sure you wish to cancel your order?') == true) {
+                $scope.displayLoadingIndicator = true;
+                $scope.actionMessage = null;
+                Order.delete($scope.currentOrder,
+                    function(){
+                        $scope.currentOrder = null;
+                        $scope.user.CurrentOrderID = null;
+                        User.save($scope.user, function(){
+                            $location.path('catalog');
+                        });
+                        $scope.displayLoadingIndicator = false;
+                        $scope.actionMessage = 'Your Changes Have Been Saved';
+                    },
+                    function(ex) {
+                        $scope.actionMessage = 'An error occurred: ' + ex.Message;
+                        $scope.displayLoadingIndicator = false;
+                    }
+                );
+            }
+        };
+
 
         /*var isEditforApproval = $routeParams.id != null && $scope.user.Permissions.contains('EditApprovalOrder');
         if (isEditforApproval) {
