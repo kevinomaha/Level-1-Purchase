@@ -7,6 +7,27 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
             $rootScope.$broadcast('event:orderUpdate', data);
     }
 
+    var employeeSpecs = [
+        "FirstName",
+        "LastName",
+        "RecipientID",
+        "Marketplace",
+        "JobFamily",
+        "Supervisor",
+        "ADPCode",
+        "SerialNumber",
+        "RecipientEmailAddress",
+        "Email"
+    ];
+
+    var additionalReadOnlySpecs = [
+        "OccasionMessage"
+    ];
+
+    var filteredSpecs = [
+        "Physical/Digital"
+    ];
+
     function _extend(order) {
         order.isEditable = order.Status == 'Unsubmitted' || order.Status == 'Open' || order.Status == 'AwaitingApproval';
         order.IsAllDigital = true;
@@ -14,9 +35,16 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         var images = {};
         angular.forEach(order.LineItems, function(item) {
             item.OriginalQuantity = item.Quantity; //needed to validate qty changes compared to available quantity
-            angular.forEach(item.Specs, function(spec) {
-                if (spec.ControlType == 'File' && spec.File && spec.File.Url.indexOf('auth') == -1)
+            angular.forEach(item.Specs, function(spec, index) {
+                if (spec.ControlType == 'File' && spec.File && spec.File.Url.indexOf('auth') == -1) {
                     spec.File.Url += "&auth=" + Security.auth();
+                }
+                spec.Filtered = filteredSpecs.indexOf(spec.Name) > -1;
+                spec.ReadOnly = (employeeSpecs.indexOf(spec.Name) > -1 || additionalReadOnlySpecs.indexOf(spec.Name) > -1);
+                spec.Required = spec.ReadOnly ? false : spec.Required;
+                spec.Placeholder = (spec.Label || spec.Name);
+                spec.InputType = spec.Name.toLowerCase().indexOf('email') > -1 ? 'email' : 'text';
+                spec.OrderIndex = (spec.Name == 'Message') ? 99 : index;
             });
             item.SpecsLength = Object.keys(item.Specs).length;
 

@@ -8,9 +8,40 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             $scope.shippers = list;
         });
 
+        $scope.originalItemSpecs = {};
         $scope.editItem = function(item) {
+            $scope.originalItemSpecs[item.ID] = angular.copy(item.Specs);
             item.Editing = true;
         };
+
+        $scope.updateItem = function(item) {
+            item.Editing = false;
+            for (var i = 0; i < $scope.currentOrder.LineItems; i++) {
+                if (item.ID == $scope.currentOrder.LineItem[i].ID) {
+                    $scope.currentOrder.LineItem[i].Specs = item.Specs;
+                }
+            }
+            $scope.saveChanges();
+        };
+
+        $scope.cancelEditItem = function(item) {
+            item.Editing = false;
+            item.Specs = $scope.originalItemSpecs[item.ID];
+        };
+
+        $scope.$watch('currentOrder.LineItems', function() {
+            angular.forEach($scope.currentOrder.LineItems, function(item) {
+                item.SpecFormValid = true;
+                if (item.Editing) {
+                    angular.forEach(item.Specs, function(spec) {
+                        if (spec.Required && !spec.Value) {
+                            item.SpecFormValid = false;
+                        }
+                    });
+                }
+            });
+        }, true);
+
 
         $scope.removeItem = function(item) {
             if (confirm('Are you sure you wish to remove this item from your cart?') == true) {
@@ -41,6 +72,28 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
                 length++;
             });
             return length;
+        };
+
+        $scope.saveChanges = function() {
+            $scope.actionMessage = null;
+            $scope.errorMessage = null;
+            if($scope.currentOrder.LineItems.length == $451.filter($scope.currentOrder.LineItems, {Property:'Selected', Value: true}).length) {
+                $scope.cancelOrder();
+            }
+            else {
+                $scope.displayLoadingIndicator = true;
+                Order.save($scope.currentOrder,
+                    function(data) {
+                        $scope.currentOrder = data;
+                        $scope.displayLoadingIndicator = false;
+                        $scope.actionMessage = 'Your Changes Have Been Saved!';
+                    },
+                    function(ex) {
+                        $scope.errorMessage = ex.Message;
+                        $scope.displayLoadingIndicator = false;
+                    }
+                );
+            }
         };
 
 
