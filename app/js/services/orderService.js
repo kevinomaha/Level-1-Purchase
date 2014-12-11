@@ -25,7 +25,9 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
     ];
 
     var filteredSpecs = [
-        "Physical/Digital"
+        "Physical/Digital",
+        "DesignID",
+        "PreviewURL"
     ];
 
     function _extend(order) {
@@ -33,6 +35,7 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         order.IsAllDigital = true;
         order.HasPhysicalMerchantCards = false;
         var images = {};
+        order.MerchantCardCount = 0;
         angular.forEach(order.LineItems, function(item) {
             item.OriginalQuantity = item.Quantity; //needed to validate qty changes compared to available quantity
             angular.forEach(item.Specs, function(spec, index) {
@@ -50,10 +53,20 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
 
             if (item.Product.Name.indexOf('Digital') == -1 && item.Product.Name.indexOf('e-') == -1) {
                 order.IsAllDigital = false;
+                item.IsDigital = false;
+            }
+            else {
+                item.IsDigital = true;
             }
 
+            //Physical Merchant Cards exist
             if (item.Product.Name.indexOf(' Gift Card') > -1) {
                 order.HasPhysicalMerchantCards = true;
+            }
+
+            //All Merchant Cards count
+            if (item.Product.Name.indexOf('Gift Card') > -1) {
+                order.MerchantCardCount++;
             }
 
             if (!images[item.Product.ExternalID]) {
