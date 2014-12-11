@@ -3,7 +3,7 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
         $scope.backToCustomization = function() {
             $location.path('main');
         };
-
+        console.log($scope.currentOrder.OrderFields);
         Shipper.query($scope.currentOrder, function(list) {
             $scope.shippers = list;
         });
