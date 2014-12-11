@@ -136,8 +136,13 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 order.LineItems = [];
             }
 
+            console.log('Adding to cart');
+
+
             var recipCount = selectedRecipients.length;
             var itemCount = 0;
+
+            console.log('recip count ' + recipCount);
 
             function getPreviewDetails(lineItem, order) {
                 var denomination = lineItem.Product.Specs.Denomination.Value.replace('$', '');
@@ -145,23 +150,30 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 var baseURL = "https://gca-svcs02-dev.cloudapp.net/ClientService/";
                 //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
                 var serialURL = baseURL + "GetSerialNumber";
+                console.log('Serial URL: ' + serialURL);
                 $http.get(serialURL).success(function (serialNumber) {
+                    console.log('New Serial: ' + serialNumber);
+
                     var number = serialNumber.replace(/"/g, '');
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
-                    var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value;
-                    $http.post(previewURL).success(function (previewID) {
-                        if (lineItem.Product.Specs['PreviewURL']) lineItem.Product.Specs['PreviewURL'].Value = "https://gca-svcs02-dev.cloudapp.net/DigitalTemplate/GetTemplatePreview/" + previewID.replace(/"/g, '');;
-                        console.log(lineItem.Product.Specs['PreviewURL'].Value);
-
-                        itemCount++;
-                        lineItem.Specs = angular.copy(lineItem.Product.Specs);
-                        order.LineItems.push(lineItem);
-                        if (recipCount == itemCount) {
-                            success(order);
-                        }
-                    });
-                });
+                    if (lineItem.Product.Specs['DesignID']) {
+                        var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value;
+                        $http.post(previewURL).success(function (previewID) {
+                            if (lineItem.Product.Specs['PreviewURL'])
+                                lineItem.Product.Specs['PreviewURL'].Value = "https://gca-svcs02-dev.cloudapp.net/DigitalTemplate/GetTemplatePreview/" + previewID.replace(/"/g, '');
+                            console.log(lineItem.Product.Specs['PreviewURL'].Value);
+                            itemCount++;
+                            lineItem.Specs = angular.copy(lineItem.Product.Specs);
+                            order.LineItems.push(lineItem);
+                            if (recipCount == itemCount) {
+                                success(order);
+                            }
+                        });
+                    }
+                })
             }
+
+            console.log('Almost Post add to cart ');
 
             angular.forEach(selectedRecipients, function(recipient) {
                 var lineItem = {};
@@ -172,6 +184,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
 
                 getPreviewDetails(lineItem, order);
             });
+            console.log('Post add to cart ');
         };
 
         var _addRecipient = function(recipient, recipientList) {
