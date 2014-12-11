@@ -136,8 +136,13 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 order.LineItems = [];
             }
 
+            console.log('Adding to cart');
+
+
             var recipCount = selectedRecipients.length;
             var itemCount = 0;
+
+            console.log('recip count ' + recipCount);
 
             function getPreviewDetails(lineItem, order) {
                 var denomination = lineItem.Product.Specs.Denomination.Value.replace('$', '');
@@ -145,7 +150,10 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 var baseURL = "https://gca-svcs02-dev.cloudapp.net/ClientService/";
                 //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
                 var serialURL = baseURL + "GetSerialNumber";
+                console.log('Serial URL: ' + serialURL);
                 $http.get(serialURL).success(function (serialNumber) {
+                    console.log('New Serial: ' + serialNumber);
+
                     var number = serialNumber.replace(/"/g, '');
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
@@ -165,6 +173,8 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 })
             }
 
+            console.log('Almost Post add to cart ');
+
             angular.forEach(selectedRecipients, function(recipient) {
                 var lineItem = {};
                 lineItem.Quantity = 1;
@@ -174,6 +184,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
 
                 getPreviewDetails(lineItem, order);
             });
+            console.log('Post add to cart ');
         };
 
         var _addRecipient = function(recipient, recipientList) {
