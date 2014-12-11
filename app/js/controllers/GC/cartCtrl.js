@@ -59,7 +59,7 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             });
         }, true);
 
-
+        console.log($scope.currentOrder.OrderFields);
         $scope.removeItem = function(item) {
             if (confirm('Are you sure you wish to remove this item from your cart?') == true) {
                 Order.deletelineitem($scope.currentOrder.ID, item.ID,
