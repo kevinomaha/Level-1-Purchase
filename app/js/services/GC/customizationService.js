@@ -148,19 +148,21 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 $http.get(serialURL).success(function (serialNumber) {
                     var number = serialNumber.replace(/"/g, '');
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
-                    var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value;
-                    $http.post(previewURL).success(function (previewID) {
-                        if (lineItem.Product.Specs['PreviewURL']) lineItem.Product.Specs['PreviewURL'].Value = "https://gca-svcs02-dev.cloudapp.net/DigitalTemplate/GetTemplatePreview/" + previewID.replace(/"/g, '');;
-                        console.log(lineItem.Product.Specs['PreviewURL'].Value);
-
-                        itemCount++;
-                        lineItem.Specs = angular.copy(lineItem.Product.Specs);
-                        order.LineItems.push(lineItem);
-                        if (recipCount == itemCount) {
-                            success(order);
-                        }
-                    });
-                });
+                    if (lineItem.Product.Specs['DesignID']) {
+                        var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value;
+                        $http.post(previewURL).success(function (previewID) {
+                            if (lineItem.Product.Specs['PreviewURL'])
+                                lineItem.Product.Specs['PreviewURL'].Value = "https://gca-svcs02-dev.cloudapp.net/DigitalTemplate/GetTemplatePreview/" + previewID.replace(/"/g, '');
+                            console.log(lineItem.Product.Specs['PreviewURL'].Value);
+                            itemCount++;
+                            lineItem.Specs = angular.copy(lineItem.Product.Specs);
+                            order.LineItems.push(lineItem);
+                            if (recipCount == itemCount) {
+                                success(order);
+                            }
+                        });
+                    }
+                })
             }
 
             angular.forEach(selectedRecipients, function(recipient) {
