@@ -224,7 +224,8 @@
                             </h3>
                         </div>
                         <div class="panel-body">
-                            <div ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length == 0 && user.Permissions.contains('CreateBillToAddress') && !addressesLoading" class="row">
+                            <div ng-show="billaddressform class="row">
+                            <!--<div ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length == 0 && user.Permissions.contains('CreateBillToAddress') && !addressesLoading" class="row">-->
                                 <addressinput address='billaddress' user='user'></addressinput>
                             </div>
                             <form name="cart_billing" ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length > 0">
