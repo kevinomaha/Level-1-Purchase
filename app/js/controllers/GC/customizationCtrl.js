@@ -62,7 +62,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             });
         });
     };
-
+    console.log($scope.selectedRecipients);
     $scope.addToCartVariable = function(product) {
         Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {
             $scope.currentOrder = order;
