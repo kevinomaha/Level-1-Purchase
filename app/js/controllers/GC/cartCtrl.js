@@ -157,6 +157,8 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             }
         };
 
+        console.log($scope.currentOrder);
+
 
         /*var isEditforApproval = $routeParams.id != null && $scope.user.Permissions.contains('EditApprovalOrder');
         if (isEditforApproval) {
