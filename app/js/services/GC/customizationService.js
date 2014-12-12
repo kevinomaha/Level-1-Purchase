@@ -82,7 +82,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                             spec.Value = employee.EmployeeNumber;
                             break;
                         case "RecipientEmailAddress":
-                            spec.Value = employee.Username;
+                            spec.Value = employee.EmailAddress;
                             break;
                         case "Email":
                             spec.Value = employee.Username;
