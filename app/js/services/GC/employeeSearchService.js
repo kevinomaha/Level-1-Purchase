@@ -26,6 +26,7 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451', '$filter',
             recipient.JobFamily = $filter('employeeproperty')(recipient, 'CustomProperty2');
             recipient.Supervisor = $filter('employeeproperty')(recipient, 'ManagerID');
             recipient.ADPCompanyCode = $filter('employeeproperty')(recipient, 'CustomProperty3');
+            recipient.Email = $filter('employeeproperty')(recipient, 'EmailAddress');
         }
 
         var _search = function(criteria, user, recipientList, success, error) {
