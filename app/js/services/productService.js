@@ -15,7 +15,8 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
         "PersonalMessage",
         "ClosingMessage",
         "DesignID",
-        "PreviewURL"
+        "PreviewURL",
+        "SerialNumber"
     ];
 
     var employeeSpecs = [
@@ -26,7 +27,6 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
         "JobFamily",
         "Supervisor",
         "ADPCode",
-        "SerialNumber",
         "RecipientEmailAddress",
         "Email"
     ];

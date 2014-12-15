@@ -58,10 +58,11 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.tempRecipient = {};
         $scope.editRecipient = function(recipient) {
-            angular.forEach($scope.recipientList, function(recipient) {
-                recipient.BeingEdited = false;
+            angular.forEach($scope.recipientList.List, function(r) {
+                if (r.UserID == recipient.UserID) {
+                    r.BeingEdited = true;
+                }
             });
-            recipient.BeingEdited = true;
             $scope.tempRecipient = angular.copy(recipient);
             $scope.tempRecipient.Address = recipient.Address ? angular.copy(recipient.Address) : {IsShipping: true, IsBilling: true};
         };
@@ -135,7 +136,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         function clearRecipient() {
-            angular.forEach($scope.recipientList, function(recipient) {
+            angular.forEach($scope.recipientList.List, function(recipient) {
                 recipient.BeingEdited = false;
             });
             $scope.tempRecipient = {};

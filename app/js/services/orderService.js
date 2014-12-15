@@ -15,7 +15,6 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         "JobFamily",
         "Supervisor",
         "ADPCode",
-        "SerialNumber",
         "RecipientEmailAddress",
         "Email"
     ];
@@ -27,7 +26,9 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
     var filteredSpecs = [
         "Physical/Digital",
         "DesignID",
-        "PreviewURL"
+        "PreviewURL",
+        "SerialNumber",
+        "DesignName"
     ];
 
     function _extend(order) {
