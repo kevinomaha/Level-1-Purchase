@@ -173,6 +173,9 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
         };
 
+        $scope.recipientsReady = false;
+
+
         $scope.clearSearch = function() {
             $scope.searchCriterion = {};
             $scope.employees = [];
