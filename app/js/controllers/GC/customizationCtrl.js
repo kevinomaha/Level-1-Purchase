@@ -57,6 +57,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             Order.save($scope.currentOrder, function(data) {
                 $scope.user.CurrentOrderID = data.ID;
                 User.save($scope.user, function() {
+                    Customization.clearRecipients();
                     $location.path('cart');
                 });
             });
@@ -69,6 +70,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
             Order.save($scope.currentOrder, function(data) {
                 $scope.user.CurrentOrderID = data.ID;
                 User.save($scope.user, function() {
+                    Customization.clearRecipients();
                     $location.path('cart');
                 });
             });
