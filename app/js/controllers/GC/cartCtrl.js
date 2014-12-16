@@ -1,5 +1,5 @@
-four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper',
-    function ($scope, $routeParams, $location, $451, Order, OrderConfig, User, Shipper) {
+four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'CustomAddressList',
+    function ($scope, $routeParams, $location, $451, Order, OrderConfig, User, Shipper, CustomAddressList) {
         $scope.backToCustomization = function() {
             $location.path('main');
         };
@@ -10,18 +10,47 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             angular.forEach($scope.shippers, function(shipper) {
                 if (shipper.Name.indexOf('Email') > -1) {
                     $scope.DigitalShipper = shipper;
-                    applyDigitalShipper();
+                    getAllAddresses()
                 }
             });
         });
 
-        function applyDigitalShipper() {
-            if ($scope.currentOrder && $scope.DigitalShipper) {
-                angular.forEach($scope.currentOrder.LineItems, function(item) {
-                    if (item.IsDigital) {
-                        item.ShipperID = $scope.DigitalShipper.ID;
+        function getAllAddresses() {
+            $scope.addressesLoading = true;
+            CustomAddressList.getall(function(list) {
+                $scope.addresses = list;
+                var shippingFound = false;
+                angular.forEach($scope.addresses, function(add) {
+                    if (add.IsShipping && add.IsCustEditable) {
+                        shippingFound = true;
                     }
                 });
+                if (!shippingFound) $scope.shipaddressform = true;
+                $scope.addressesLoading = false;
+                for (var a = 0; a < list.length; a++) {
+                    if (list[a].IsShipping && !list[a].IsCustEditable) {
+                        $scope.digitalShipAddressID = list[a].ID;
+                        assignDigitalShipInfo();
+                    }
+                }
+            });
+        }
+
+        function assignDigitalShipInfo() {
+            $scope.digitalShipper = {};
+            for (var s = 0; s < $scope.shippers.length; s++) {
+                if ($scope.shippers[s].Name.indexOf('Email') > -1) {
+                    $scope.digitalShipper = $scope.shippers[s];
+                }
+            }
+            for (var i = 0; i < $scope.currentOrder.LineItems.length; i++) {
+                if ($scope.currentOrder.LineItems[i].IsDigital) {
+                    $scope.currentOrder.LineItems[i].ShipAddressID = $scope.digitalShipAddressID;
+                    $scope.currentOrder.LineItems[i].Shipper = angular.copy($scope.digitalShipper);
+                    $scope.currentOrder.LineItems[i].ShipperName = $scope.digitalShipper.Name;
+                    $scope.currentOrder.LineItems[i].ShipMethod = $scope.digitalShipper.Name;
+                    $scope.currentOrder.LineItems[i].ShipperID = $scope.digitalShipper.ID;
+                }
             }
         }
 
@@ -156,8 +185,6 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
                 );
             }
         };
-
-        console.log($scope.currentOrder);
 
 
         /*var isEditforApproval = $routeParams.id != null && $scope.user.Permissions.contains('EditApprovalOrder');

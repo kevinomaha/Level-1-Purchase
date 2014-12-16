@@ -201,7 +201,7 @@ four51.app.filter('gcshippers', function() {
         }
         else {
             angular.forEach(shipper, function(s) {
-                if (s.Name.indexOf('Email Delivery') > -1) {
+                if (a.IsShipping && !a.IsCustEditable) {
                     results.push(s);
                 }
             });
@@ -217,7 +217,7 @@ four51.app.filter('gcshipaddress', function() {
         if (!isAllDigital) {
             angular.forEach(addresses, function(a) {
                 //Order is not all digital - return only user created addresses - Email Delivery will be filtered out
-                if (a.AddressName != 'Email Delivery' && a.IsCustEditable) {
+                if (a.IsShipping && a.IsCustEditable) {
                     results.push(a);
                 }
             });
@@ -225,7 +225,7 @@ four51.app.filter('gcshipaddress', function() {
         else {
             angular.forEach(addresses, function(a) {
                 //Order is all digital - return Email Delivery only
-                if (a.AddressName == 'Email Delivery' && !a.IsCustEditable) {
+                if (a.IsShipping && !a.IsCustEditable) {
                     results.push(a);
                 }
             });
@@ -319,14 +319,14 @@ four51.app.filter('billingAddresses', function() {
             var results = [];
             if (order.PaymentMethod && order.PaymentMethod == 'BudgetAccount') {
                 angular.forEach(addresses, function(a) {
-                    if (a.AddressName == 'Main Billing Address') {
+                    if (a.IsBilling && !a.IsCustEditable) {
                         results.push(a);
                     }
                 });
             }
             else {
                 angular.forEach(addresses, function(a) {
-                    if (a.AddressName != 'Main Billing Address') {
+                    if (a.IsBilling && a.IsCustEditable) {
                         results.push(a);
                     }
                 });
@@ -352,7 +352,7 @@ four51.app.filter('gcProductDesignNames', function() {
     }
 });
 
-four51.app.filter('gcProductDesigns', function() {
+/*four51.app.filter('gcProductDesigns', function() {
     return function(specs,selectedproduct) {
         var results = [];
 
@@ -391,7 +391,7 @@ four51.app.filter('gcProductDesigns', function() {
 
         return results;
     }
-});
+});*/
 
 four51.app.filter('gcProductDenominations', function() {
     return function(specs) {

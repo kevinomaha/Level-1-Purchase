@@ -239,7 +239,7 @@ function($resource, $451, Address, Variant) {
         }
 
         groupOrder(order);
-        console.log(order);
+        //console.log(order);
 
         if (order.IsMultipleShip()) {
             angular.forEach(order.lineItemGroups, function(group) {

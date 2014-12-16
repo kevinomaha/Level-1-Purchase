@@ -76,10 +76,10 @@ four51.app.directive('creditcard', function() {
                 return bResult;
             };
 
-            $scope.$watch('tempOrder.CreditCard.AccountNumber', function(ccnumber) {
+            $scope.$watch('currentOrder.CreditCard.AccountNumber', function(ccnumber) {
                 //http://tamas.io/custom-angularjs-filter-to-determine-credit-card-type/
                 if (!ccnumber) return;
-                $scope.tempOrder.CreditCard.Type = null;
+                $scope.currentOrder.CreditCard.Type = null;
                 $scope.creditCardIconUrl = null;
                 var len = ccnumber.length;
                 if (ccnumber && len >= 4) {
@@ -129,31 +129,31 @@ four51.app.directive('creditcard', function() {
                     /*if (/^(4026)|^(417500)|^(4405)|^(4508)|^(4844)|^(4913)|^(4917)/.test(ccnumber)) {
                      cardType = "Electron"; //Visa Electron
                      }*/
-                    $scope.tempOrder.CreditCard.Type = cardType;
+                    $scope.currentOrder.CreditCard.Type = cardType;
                     $scope.creditCardIconUrl = cardType ? 'css/images/CreditCardIcons/' + cardType + '.png' : null;
 
                     ccnumber = ccnumber.toString().replace(/\s+/g, '');
                     $scope.cart_billing.$setValidity('creditCardNumber', validateNumber(ccnumber));
                     $scope.cart_billing.$setValidity('creditCardType', validateType(cardType));
-                    if ($scope.tempOrder.CreditCard.CVN && $scope.tempOrder.CreditCard.CVN.length > 0) {
+                    if ($scope.currentOrder.CreditCard.CVN && $scope.currentOrder.CreditCard.CVN.length > 0) {
                         $scope.cart_billing.$setValidity('cvnNumber', validateCVN(cvn));
                     }
                 }
             });
 
             function validateCVN(cvn) {
-                if ($scope.tempOrder.CreditCard.Type == 'AmericanExpress')
+                if ($scope.currentOrder.CreditCard.Type == 'AmericanExpress')
                     return cvn.length == 4;
                 return cvn.length == 3;
             }
 
-            $scope.$watch('tempOrder.CreditCard.CVN', function(cvn) {
-                if (!cvn || $scope.tempOrder.CreditCard.Type == null) return false;
+            $scope.$watch('currentOrder.CreditCard.CVN', function(cvn) {
+                if (!cvn || $scope.currentOrder.CreditCard.Type == null) return false;
 
                 $scope.cart_billing.$setValidity('cvnNumber', validateCVN(cvn));
             });
 
-            $scope.$watch('tempOrder.CreditCard.ExpirationDate', function(date) {
+            $scope.$watch('currentOrder.CreditCard.ExpirationDate', function(date) {
                 if (!date) return false;
                 var month = parseInt(date.substring(0,2));
                 var year = parseInt(date.substring(2,4)) + 2000;

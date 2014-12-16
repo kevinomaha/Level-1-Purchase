@@ -2,19 +2,19 @@
     <loadingindicator ng-show="loadingAddresses"></loadingindicator>
     <div ng-show="!billaddressform">
         <paymentselectorgc></paymentselectorgc>
-        <div class="view-form-icon" ng-hide="tempOrder.PaymentMethod == 'BudgetAccount'">
+        <div class="view-form-icon" ng-hide="currentOrder.PaymentMethod == 'BudgetAccount'">
             <div>
                 <label class="required">Billing Address</label>
                 <div class="input-group">
                     <select class="form-control" ng-show="(addresses | filter:{IsBilling:true}).length > 0" name="billingAddress"
-                            ng-options="address.ID as address.AddressName for address in addresses | filter:{IsBilling:true} | billingAddresses:tempOrder" ng-model="tempOrder.BillAddressID" required>
+                            ng-options="address.ID as address.AddressName for address in addresses | filter:{IsBilling:true} | billingAddresses:currentOrder" ng-model="currentOrder.BillAddressID" ng-required="true">
                     </select>
                 <span class="input-group-btn">
                     <button class="btn btn-primary" type="button" ng-click="billaddressform = true" tabindex="-1">New</button>
                 </span>
                 </div>
             </div>
-            <div ng-show="tempOrder.BillAddressID && BillAddress.AddressName && BillAddress.AddressName != 'Main Billing Address'" class="check-out-view-selected-billing" style="border: 1px solid #d6d6d6; padding: 15px; margin-top: 15px;">
+            <div ng-show="currentOrder.BillAddressID && BillAddress.IsBilling && BillAddress.IsCustEditable" class="check-out-view-selected-billing" style="border: 1px solid #d6d6d6; padding: 15px; margin-top: 15px;">
                 <p style="font-size: 11px; font-weight: bold;">Billing Address <span class="text-muted" style="cursor:pointer;" ng-click="editBillAddress(BillAddress)">Edit</span></p>
                 <div ng-show="BillAddress.CompanyName"><small>{{BillAddress.CompanyName}}</small></div>
                 <div ng-show="(BillAddress.FirstName || BillAddress.LastName) && (!user.Permissions.contains('EditBillToName') && BillAddress.IsCustEditable)">

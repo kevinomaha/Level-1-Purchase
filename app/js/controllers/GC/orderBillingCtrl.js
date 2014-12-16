@@ -1,52 +1,39 @@
 four51.app.controller('OrderBillingCtrl', ['$scope', '$location', '$451', 'SpendingAccount', 'Address', 'CustomAddressList',
 function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) {
-	/*SpendingAccount.query(function(data) {
+	SpendingAccount.query(function(data) {
 		$scope.SpendingAccounts = data;
-		budgetAccountCalculation($scope.tempOrder.BudgetAccountID);
-
-        if ($scope.tempOrder.PaymentMethod == 'CreditCard') {
-            $scope.tempOrder.PaymentMethod = 'CreditCard';
-            $scope.cacheOrder($scope.tempOrder);
+		budgetAccountCalculation($scope.currentOrder.BudgetAccountID);
+        if ($scope.currentOrder.PaymentMethod == 'CreditCard') {
+            $scope.currentOrder.BillAddressID = null;
         }
-		else if ($scope.SpendingAccounts && $scope.SpendingAccounts.length == 0) {
-			$scope.tempOrder.PaymentMethod = 'CreditCard';
-            $scope.cacheOrder($scope.tempOrder);
-		}
-		else {
-			$scope.tempOrder.PaymentMethod = 'BudgetAccount';
-			$scope.tempOrder.BudgetAccountID = $scope.SpendingAccounts[0].ID;
-			$scope.currentBudgetAccount = $scope.SpendingAccounts[0];
-
-            CustomAddressList.getall(function(list) {
-                $scope.loadingAddresses = false;
-                angular.forEach(list, function(a) {
-                    if (a.AddressName == "Main Billing Address") {
-                        $scope.tempOrder.BillAddressID = a.ID;
-                        $scope.tempOrder.BillAddress = a;
-                    }
-                });
-                $scope.cacheOrder($scope.tempOrder);
+        CustomAddressList.getall(function(list) {
+            $scope.loadingAddresses = false;
+            angular.forEach(list, function(a) {
+                if (a.IsBilling && !a.IsCustEditable && $scope.currentOrder.PaymentMethod && $scope.currentOrder.PaymentMethod == 'BudgetAccount') {
+                    $scope.currentOrder.BillAddressID = a.ID;
+                    $scope.currentOrder.BillAddress = a;
+                }
             });
-		}
+        });
 	});
 
-	$scope.$watch('tempOrder.BillAddressID', function(newValue) {
+	$scope.$watch('currentOrder.BillAddressID', function(newValue) {
 		if (newValue) {
 			Address.get(newValue, function(add) {
 				if ($scope.user.Permissions.contains('EditBillToName') && !add.IsCustEditable) {
-					$scope.tempOrder.BillFirstName = add.FirstName;
-					$scope.tempOrder.BillLastName = add.LastName;
+					$scope.currentOrder.BillFirstName = add.FirstName;
+					$scope.currentOrder.BillLastName = add.LastName;
 				}
-				$scope.BillAddress = (add.AddressName != 'Main Billing Address') ? add : {};
-                $scope.tempOrder.BillAddress = (add.AddressName != 'Main Billing Address') ? add : {};
+				$scope.BillAddress = (add.IsBilling && add.IsCustEditable) ? add : {};
+                $scope.currentOrder.BillAddress = (add.IsBilling && add.IsCustEditable) ? add : {};
 			});
 		}
 	});
 
-	$scope.$watch('tempOrder.PaymentMethod', function(event) {
+	$scope.$watch('currentOrder.PaymentMethod', function(event) {
 		if (event == 'BudgetAccount' && $scope.SpendingAccounts) {
 			if ($scope.SpendingAccounts.length == 1) {
-                $scope.tempOrder.BudgetAccountID = $scope.SpendingAccounts[0].ID;
+                $scope.currentOrder.BudgetAccountID = $scope.SpendingAccounts[0].ID;
             }
 			else {
 				var count = 0, account;
@@ -57,18 +44,18 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 					}
 				});
 				if (count == 1 && account)
-					$scope.tempOrder.BudgetAccountID = account.ID;
+					$scope.currentOrder.BudgetAccountID = account.ID;
 			}
             $scope.cart_billing.$setValidity('cvn', true);
             $scope.cart_billing.$setValidity('expDate', true);
 		}
-		else if($scope.tempOrder.PaymentMethod == 'CreditCard' && !$scope.tempOrder.BillAddressID && $scope.tempOrder.BillAddress && $scope.tempOrder.BillAddress.AddressName != 'Main Billing Address') {
-            $scope.tempOrder.BillAddress = {};
-            $scope.tempOrder.BillAddressID = null;
+		else if($scope.currentOrder.PaymentMethod == 'CreditCard' && !$scope.currentOrder.BillAddressID && $scope.currentOrder.BillAddress && ($scope.currentOrder.BillAddress.IsBilling && $scope.currentOrder.BillAddress.IsCustEditable)) {
+            $scope.currentOrder.BillAddress = {};
+            $scope.currentOrder.BillAddressID = null;
 		}
-        else if ($scope.tempOrder.PaymentMethod == 'CreditCard' && $scope.tempOrder.BillAddress && $scope.tempOrder.BillAddress && $scope.tempOrder.BillAddress.AddressName == 'Main Billing Address') {
-            $scope.tempOrder.BillAddress = {};
-            $scope.tempOrder.BillAddressID = null;
+        else if ($scope.currentOrder.PaymentMethod == 'CreditCard' && $scope.currentOrder.BillAddress && $scope.currentOrder.BillAddress && ($scope.currentOrder.BillAddress.IsBilling && !$scope.currentOrder.BillAddress.IsCustEditable)) {
+            $scope.currentOrder.BillAddress = {};
+            $scope.currentOrder.BillAddressID = null;
         }
 		$scope.cart_billing.$setValidity('paymentMethod', validatePaymentMethod(event));
 	});
@@ -83,19 +70,19 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 			});
             if ($scope.currentBudgetAccount) {
                 var discount = $scope.currentBudgetAccount.AccountType.MaxPercentageOfOrderTotal != 100 ?
-                    $scope.tempOrder.Total * ($scope.currentBudgetAccount.AccountType.MaxPercentageOfOrderTotal *.01) :
+                    $scope.currentOrder.Total * ($scope.currentBudgetAccount.AccountType.MaxPercentageOfOrderTotal *.01) :
                     $scope.currentBudgetAccount.Balance;
             }
 			$scope.cart_billing.$setValidity('paymentMethod', valid);
 		}
 	}
 
-	$scope.$watch('tempOrder.Total', function(total) {
-		if ($scope.currentOrder && $scope.tempOrder.BudgetAccountID)
-			budgetAccountCalculation($scope.tempOrder.BudgetAccountID);
+	$scope.$watch('currentOrder.Total', function(total) {
+		if ($scope.currentOrder && $scope.currentOrder.BudgetAccountID)
+			budgetAccountCalculation($scope.currentOrder.BudgetAccountID);
 	});
 
-	$scope.$watch('tempOrder.BudgetAccountID', function(value) {
+	$scope.$watch('currentOrder.BudgetAccountID', function(value) {
 		$scope.currentBudgetAccount = null;
 		budgetAccountCalculation(value);
 	});
@@ -104,7 +91,7 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 		var validateAccount = function() {
 			var account = null;
 			angular.forEach($scope.SpendingAccounts, function(a) {
-				if ($scope.tempOrder && a.ID == $scope.tempOrder.BudgetAccountID)
+				if ($scope.tempOrder && a.ID == $scope.currentOrder.BudgetAccountID)
 					account = a;
 			});
 			if (account) {
@@ -113,7 +100,7 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 					return false;
 				}
 
-				if (account.Balance < $scope.tempOrder.Total) {
+				if (account.Balance < $scope.currentOrder.Total) {
 					return account.AccountType.AllowExceed;
 				}
 				else
@@ -171,11 +158,11 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 			return returnVal;
 		}
 		else {
-            return $scope.tempOrder.PaymentMethod == "BudgetAccount";
+            return $scope.currentOrder.PaymentMethod == "BudgetAccount";
 		}
 	}
 
-	$scope.$watch('[tempOrder.CreditCard.CVN,tempOrder.CreditCard.Type]', function(event) {
+	$scope.$watch('[currentOrder.CreditCard.CVN,currentOrder.CreditCard.Type]', function(event) {
 		$scope.cart_billing.$setValidity('cvn', validateCVN(event));
 	}, true);
 
@@ -199,18 +186,18 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 			return returnVal;
 		}
 		else {
-            return $scope.tempOrder.PaymentMethod == "BudgetAccount";
+            return true;
 		}
         $scope.$apply();
 	}
 
-	$scope.$watch('tempOrder.CreditCard.ExpirationDate', function(event) {
+	$scope.$watch('currentOrder.CreditCard.ExpirationDate', function(event) {
 		$scope.cart_billing.$setValidity('expDate', validateExpDate(event));
 	});
 
     $scope.editBillAddress = function(address) {
         $scope.billaddressform = true;
         $scope.billaddress = address;
-    };*/
+    };
 }]);
 

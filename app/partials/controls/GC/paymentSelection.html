@@ -2,65 +2,65 @@
     <span class="btn-group">
         <button class="btn btn-default" type="button"
                 ng-show="user.Permissions.contains('PayByPO')"
-                ng-click="tempOrder.PaymentMethod = 'PurchaseOrder'">
-            <i ng-class="{'fa fa-check': tempOrder.PaymentMethod == 'PurchaseOrder' }"></i>
+                ng-click="currentOrder.PaymentMethod = 'PurchaseOrder'">
+            <i ng-class="{'fa fa-check': currentOrder.PaymentMethod == 'PurchaseOrder' }"></i>
             Purchase Order
         </button>
         <button class="btn btn-default" type="button"
-                ng-show="user.Permissions.contains('SubmitForApproval') && tempOrder.Approvals"
+                ng-show="user.Permissions.contains('SubmitForApproval') && currentOrder.Approvals"
                 ng-disabled="isSplitBilling"
-                ng-click="tempOrder.PaymentMethod = 'Undetermined'">
-            <i ng-class="{'fa fa-check': tempOrder.PaymentMethod == 'Undetermined' }"></i>
+                ng-click="currentOrder.PaymentMethod = 'Undetermined'">
+            <i ng-class="{'fa fa-check': currentOrder.PaymentMethod == 'Undetermined' }"></i>
             Approval Order
         </button>
         <button class="btn btn-default" type="button"
                 ng-if="user.Permissions.contains('PayByBudgetAccount') && SpendingAccounts[0]"
                 ng-click="setBudgetAccount((SpendingAccounts|filter:{AccountType.PurchaseCredit:true}).length)">
-            <i ng-class="{'fa fa-check': tempOrder.PaymentMethod == 'BudgetAccount' }"></i>
+            <i ng-class="{'fa fa-check': currentOrder.PaymentMethod == 'BudgetAccount' }"></i>
             Spending Account
         </button>
         <button class="btn btn-default" type="button"
                 ng-if="user.AvailableCreditCards.length > 0 && user.Permissions.contains('PayByCreditCard')"
-                ng-click="tempOrder.PaymentMethod = 'CreditCard'">
-            <i ng-class="{'fa fa-check': tempOrder.PaymentMethod == 'CreditCard' }"></i>
+                ng-click="currentOrder.PaymentMethod = 'CreditCard'">
+            <i ng-class="{'fa fa-check': currentOrder.PaymentMethod == 'CreditCard' }"></i>
             Credit Card
         </button>
     </span>
-    <div class="view-form-icon" ng-if="user.Permissions.contains('PayByBudgetAccount')" ng-show="tempOrder.PaymentMethod == 'BudgetAccount'">
+    <div class="view-form-icon" ng-if="user.Permissions.contains('PayByBudgetAccount')" ng-show="currentOrder.PaymentMethod == 'BudgetAccount'">
         <div class="alert alert-success">
             {{selectedBudgetAccount.Label + ' - Balance: ' + (selectedBudgetAccount.Balance | currency)}}
         </div>
-        <div class="alert alert-warning" ng-show="selectedBudgetAccount.Balance < tempOrder.Total">
+        <div class="alert alert-warning" ng-show="selectedBudgetAccount.Balance < currentOrder.Total">
             <p><b>Please resolve the following issues:</b></p>
-            <p><i class="fa fa-exclamation-circle text-danger" style="position:static;color:#a94442;"></i> Insufficient funds – Order will ship once funds are received and applied to your account.  For immediate processing, please use the credit card payment option.</p>
+            <p><i class="fa fa-exclamation-circle text-danger" style="position:static;color:#a94442;"></i> Insufficient funds ï¿½ Order will ship once funds are received and applied to your account.  For immediate processing, please use the credit card payment option.</p>
         </div>
         <div class="row view-form-icon" ng-show="(SpendingAccounts|filter:{AccountType.PurchaseCredit:true}).length > 1">
             <div class="col-sm-6">
-                <label ng-show="tempOrder.BudgetAccountID">Spending Account</label>
+                <label ng-show="currentOrder.BudgetAccountID">Spending Account</label>
                 <select class="form-control" placeholder="Spending Account"
                     ng-options="account.ID as (account.Label + ' - Balance: ' + (account.Balance | currency)) for account in SpendingAccounts | filter:{AccountType.PurchaseCredit:true}"
-                    ng-model="tempOrder.BudgetAccountID"
-                    ng-required="tempOrder.PaymentMethod == 'BudgetAccount'">
+                    ng-model="currentOrder.BudgetAccountID"
+                    ng-required="currentOrder.PaymentMethod == 'BudgetAccount'">
                 </select>
                 <i class="fa fa-dollar"></i>
             </div>
         </div>
         <hr/>
     </div>
-    <div ng-show="tempOrder.PaymentMethod == 'CreditCard'">
+    <div ng-show="currentOrder.PaymentMethod == 'CreditCard'">
         <creditcard></creditcard>
     </div>
-    <!--<div ng-show="tempOrder.PaymentMethod == 'CreditCard' || isSplitBilling">
-        <div ng-show="tempOrder.PaymentMethod == 'CreditCard'">
-            <div class="row view-form-icon" ng-show="tempOrder.SavedCards">
-                <div class="col-sm-4" ng-class="{'view-form-select-saved': !tempOrder.CreditCardID, '': tempOrder.CreditCardID }">
+    <!--<div ng-show="currentOrder.PaymentMethod == 'CreditCard' || isSplitBilling">
+        <div ng-show="currentOrder.PaymentMethod == 'CreditCard'">
+            <div class="row view-form-icon" ng-show="currentOrder.SavedCards">
+                <div class="col-sm-4" ng-class="{'view-form-select-saved': !currentOrder.CreditCardID, '': currentOrder.CreditCardID }">
                     <label>{{('Saved' | r) + ' ' +  ('Card' | r)}}</label>
                     <div class="input-group">
-                        <select class="form-control" style="min-width: 200px;" ng-model="tempOrder.CreditCardID" ng-options="card.ID as card.Name for card in tempOrder.SavedCards">
+                        <select class="form-control" style="min-width: 200px;" ng-model="currentOrder.CreditCardID" ng-options="card.ID as card.Name for card in currentOrder.SavedCards">
                             <option value="" />
                         </select>
                         <span class="input-group-btn">
-                            <button ng-show="showDelete(tempOrder.CreditCardID)" title="Delete" class="btn btn-danger" ng-click="deleteSavedCard(tempOrder.CreditCardID)">
+                            <button ng-show="showDelete(currentOrder.CreditCardID)" title="Delete" class="btn btn-danger" ng-click="deleteSavedCard(currentOrder.CreditCardID)">
                                 Delete
                             </button>
                         </span>
@@ -74,10 +74,10 @@
                     <div>
                         <label>Type</label>
                         <select id="credit-card-type" class="form-control"
-                                ng-model="tempOrder.CreditCard.Type"
+                                ng-model="currentOrder.CreditCard.Type"
                                 ng-change="cardTypeChange()"
                                 ng-options="creditCard.Type as creditCard.DisplayName for creditCard in user.AvailableCreditCards"
-                                ng-required="tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCardID">
+                                ng-required="currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCardID">
                         </select>
                         <i class="fa fa-credit-card"></i>
                     </div>
@@ -86,30 +86,30 @@
             <div class="col-sm-8">
                 <div class="view-form-icon">
                     <div>
-                        <label ng-class="{required: tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCard.AccountNumber}" for="account-number" ng-show="tempOrder.CreditCard.AccountNumber || tempOrder.PaymentMethod == 'CreditCard'">Account Number</label>
-                        <input id="account-number" class="form-control" ng-model="tempOrder.CreditCard.AccountNumber" ng-required="tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCardID" type="text" ng-maxlength="16" autocomplete="false" placeholder="Account Number" />
+                        <label ng-class="{required: currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCard.AccountNumber}" for="account-number" ng-show="currentOrder.CreditCard.AccountNumber || currentOrder.PaymentMethod == 'CreditCard'">Account Number</label>
+                        <input id="account-number" class="form-control" ng-model="currentOrder.CreditCard.AccountNumber" ng-required="currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCardID" type="text" ng-maxlength="16" autocomplete="false" placeholder="Account Number" />
                         <i class="fa">#</i>
                     </div>
                 </div>
             </div>
             <div ng-if="user.Permissions.contains('CardholderName')" class="col-sm-8">
-                <label ng-class="{required: tempOrder.PaymentMethod == 'CreditCard'}" for="cardholder-name" ng-show="tempOrder.CreditCard.CardholderName || tempOrder.PaymentMethod == 'CreditCard'">Cardholder Name</label>
-                <input id="cardholder-name" class="form-control" ng-model="tempOrder.CreditCard.CardholderName" ng-required="tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCardID" type="text" placeholder="Cardholder Name" />
+                <label ng-class="{required: currentOrder.PaymentMethod == 'CreditCard'}" for="cardholder-name" ng-show="currentOrder.CreditCard.CardholderName || currentOrder.PaymentMethod == 'CreditCard'">Cardholder Name</label>
+                <input id="cardholder-name" class="form-control" ng-model="currentOrder.CreditCard.CardholderName" ng-required="currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCardID" type="text" placeholder="Cardholder Name" />
                 <i class="fa fa-user"></i>
             </div>
         </div>
         <div class="small-creditcard-inputs">
             <div class="view-form-icon">
                 <div>
-                    <label ng-class="{required: (tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCard.ExpirationDate) || expDateInvalid}" for="expiration-date" ng-show="tempOrder.CreditCard.ExpirationDate || tempOrder.PaymentMethod == 'CreditCard'">Exp Date</label>
-                    <input id="expiration-date" ng-class="{'input-invalid': expDateInvalid}" class="form-control" ng-model="tempOrder.CreditCard.ExpirationDate" ng-required="tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCardID" type="text" ui-mask="99/99" placeholder="MM/YY" />
+                    <label ng-class="{required: (currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCard.ExpirationDate) || expDateInvalid}" for="expiration-date" ng-show="currentOrder.CreditCard.ExpirationDate || currentOrder.PaymentMethod == 'CreditCard'">Exp Date</label>
+                    <input id="expiration-date" ng-class="{'input-invalid': expDateInvalid}" class="form-control" ng-model="currentOrder.CreditCard.ExpirationDate" ng-required="currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCardID" type="text" ui-mask="99/99" placeholder="MM/YY" />
                     <i class="fa fa-calendar"></i>
                 </div>
             </div>
             <div class="view-form-icon">
                 <div>
-                    <label  ng-class="{required: (tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCard.CVN) || cvnInvalid}" for="cvn" ng-show="tempOrder.CreditCard.CVN || tempOrder.PaymentMethod == 'CreditCard'">CVN <span style="text-decoration: underline;color:#005983;" tooltip="Card Verification Number or Security Code.">What's This?</span></label>
-                    <input id="cvn" ng-class="{'input-invalid': cvnInvalid}" class="form-control" ng-model="tempOrder.CreditCard.CVN" ng-required="tempOrder.PaymentMethod == 'CreditCard' && !tempOrder.CreditCardID" type="text" ng-maxlength="4" placeholder="CVN" />
+                    <label  ng-class="{required: (currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCard.CVN) || cvnInvalid}" for="cvn" ng-show="currentOrder.CreditCard.CVN || currentOrder.PaymentMethod == 'CreditCard'">CVN <span style="text-decoration: underline;color:#005983;" tooltip="Card Verification Number or Security Code.">What's This?</span></label>
+                    <input id="cvn" ng-class="{'input-invalid': cvnInvalid}" class="form-control" ng-model="currentOrder.CreditCard.CVN" ng-required="currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCardID" type="text" ng-maxlength="4" placeholder="CVN" />
                     <i class="fa fa-lock"></i>
                 </div>
             </div>
@@ -119,7 +119,7 @@
             <label>
                 <input style="min-height: 0;"
                        type="checkbox"
-                       ng-model="tempOrder.CreditCard.Save"
+                       ng-model="currentOrder.CreditCard.Save"
                        ng-true-value="true"
                        ng-false-value="false">
                 <small>Save my credit card information</small>

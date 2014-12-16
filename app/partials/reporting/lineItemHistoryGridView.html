@@ -53,7 +53,7 @@
                             {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
                             {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
                         </div>
-                        <address ng-show="!order.IsMultipleShip() && order.ShipAddress.AddressName != 'Email Delivery'">
+                        <address ng-show="!order.IsMultipleShip() && order.ShipAddress && order.ShipAddress.IsShipping && order.ShipAddress.IsCustEditable">
                             <div>{{order.ShipAddress.FirstName}} {{order.ShipAddress.LastName}}</div>
                             <div>{{order.ShipAddress.Street1}}</div>
                             <div ng-if="order.ShipAddress.Street2">{{order.ShipAddress.Street2}}</div>
@@ -93,7 +93,7 @@
                         {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
                     </div>
                     <div ng-show="!order.IsMultipleShip() && item.ShipperName.indexOf('Email') == -1">
-                        <address ng-show="!order.IsMultipleShip() && order.ShipAddress.AddressName != 'Email Delivery'">
+                        <address ng-show="!order.IsMultipleShip() && order.ShipAddress && order.ShipAddress.IsShipping && order.ShipAddress.IsCustEditable">
                             <div>{{order.ShipAddress.FirstName}} {{order.ShipAddress.LastName}}</div>
                             <div>{{order.ShipAddress.Street1}}</div>
                             <div ng-if="order.ShipAddress.Street2">{{order.ShipAddress.Street2}}</div>
@@ -109,50 +109,3 @@
         </div>
     </div>
 </div>
-
-<!--<div class="panel-order-history" ng-repeat="item in order.LineItems" style="border-bottom:1px solid #ddd;">
-    <div class="col-sm-6 col-lg-5">
-        <h4 class="text-primary">
-            {{item.Product.Name}}
-        </h4>
-        <p ng-show="item.Specs.FirstName1 || item.Specs.LastName1"><b>Recipient Name:</b> {{(item.Specs.FirstName1.Value && item.Specs.LastName1.Value) ? (item.Specs.FirstName1.Value + ' ' + item.Specs.LastName1.Value) : 'Anonymous'}}</p>
-     </div>
-    <div class="col-sm-6 col-lg-7">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="row">
-                    <div ng-if="!(user.Permissions.contains('HidePricing'))" class="col-xs-12 col-sm-6">
-                        <p>
-                            <small class="text-info">{{'Total' | r}}</small><br />
-                            <span class="text-success">{{item.LineTotal | currency:"$"}}</span>
-                        </p>
-                    </div>
-                    <div ng-if="!(user.Permissions.contains('HidePricing'))" class="col-xs-12 col-sm-6">
-                        <p>
-                            <small class="text-info">{{'Unit Price' | r}}</small><br />
-                            <span class="text-success">{{item.UnitPrice | currency:"$"}}</span> x {{item.Quantity * (item.Product.QuantityMultiplier || 1)}}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <p ng-show="item.ShipperName">
-                            <strong>{{'Ship' | r}} {{'Method' | r}}</strong><br />
-                            {{item.ShipperName | gcshipping}}
-                        </p>
-                    </div>
-                    <div class="col-xs-6" ng-show="item.ShipperName.indexOf('Email') == -1">
-                        <address ng-show="item.ShipAddress">
-                            <strong>{{'Ship To' | r}}</strong><br>
-                            {{item.ShipAddress.Street1}}<br>
-                            {{item.ShipAddress.Street2}}<br ng-show="item.ShipAddress.Street2">
-                            {{item.ShipAddress.City}}, {{item.ShipAddress.State}} {{item.ShipAddress.Zip}}
-                        </address>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>-->

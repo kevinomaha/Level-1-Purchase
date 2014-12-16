@@ -1,46 +1,45 @@
 four51.app.controller('PaymentSelectionController', ['$scope', '$rootScope', 'SavedCreditCard',
 function ($scope, $rootScope, SavedCreditCard) {
-	/*$scope.setPaymentMethod = function(type) {
-		$scope.tempOrder.PaymentMethod = type;
-        $scope.cacheOrder($scope.tempOrder);
+	$scope.setPaymentMethod = function(type) {
+		$scope.currentOrder.PaymentMethod = type;
 		$rootScope.$broadcast('event:paymentMethodChange', type);
 	};
 
 	$scope.setBudgetAccount = function(count) {
 		$scope.setPaymentMethod('BudgetAccount');
-		//if ($scope.tempOrder.BudgetAccountID || count > 1) return;
+		//if ($scope.currentOrder.BudgetAccountID || count > 1) return;
 		angular.forEach($scope.SpendingAccounts, function(a) {
 			if (a.AccountType.PurchaseCredit) {
-				$scope.tempOrder.BudgetAccountID = a.ID;
+				$scope.currentOrder.BudgetAccountID = a.ID;
 				$scope.selectedBudgetAccount = a;
 			}
 		});
         angular.forEach($scope.addresses, function(a) {
-            if (a.AddressName == "Main Billing Address") {
-                $scope.tempOrder.BillAddressID = a.ID;
+            if (a.IsBilling && !a.IsCustEditable) {
+                $scope.currentOrder.BillAddressID = a.ID;
             }
         });
 	};
 
     SavedCreditCard.query(function(cards) {
-        $scope.tempOrder.SavedCards = cards;
+        $scope.currentOrder.SavedCards = cards;
     });
 
-    $scope.$watch('tempOrder.BudgetAccountID', function() {
-        if ($scope.tempOrder.BudgetAccountID && $scope.tempOrder.PaymentMethod != 'CreditCard') {
+    $scope.$watch('currentOrder.BudgetAccountID', function() {
+        if ($scope.currentOrder.BudgetAccountID && $scope.currentOrder.PaymentMethod != 'CreditCard') {
             $scope.setBudgetAccount();
         }
     });
 
 	$rootScope.$on('event:SpendingAccountUpdate', function(event, accounts) {
-		if ($scope.tempOrder.PaymentMethod == 'BudgetAccount') {
+		if ($scope.currentOrder.PaymentMethod == 'BudgetAccount') {
 			angular.forEach(accounts, function(a) {
 				if ($scope.selectedBudgetAccount) return;
-				if ($scope.tempOrder.BudgetAccountID == null && a.AccountType.PurchaseCredit) {
-					$scope.tempOrder.BudgetAccountID = a.ID;
+				if ($scope.currentOrder.BudgetAccountID == null && a.AccountType.PurchaseCredit) {
+					$scope.currentOrder.BudgetAccountID = a.ID;
 					$scope.selectedBudgetAccount = a;
 				}
-				else if (a.AccountType.PurchaseCredit && a.ID == $scope.tempOrder.BudgetAccountID) {
+				else if (a.AccountType.PurchaseCredit && a.ID == $scope.currentOrder.BudgetAccountID) {
 					$scope.selectedBudgetAccount = a;
 				}
 			});
@@ -49,7 +48,7 @@ function ($scope, $rootScope, SavedCreditCard) {
 
     var getCardByID = function(id) {
         var selectedCard = null;
-        angular.forEach($scope.tempOrder.SavedCards, function(card) {
+        angular.forEach($scope.currentOrder.SavedCards, function(card) {
             if (card.ID == id)
                 selectedCard = card;
         });
@@ -61,8 +60,8 @@ function ($scope, $rootScope, SavedCreditCard) {
             var card = getCardByID(id);
             SavedCreditCard.delete(card, function() {
                 SavedCreditCard.query(function(cards) {
-                    $scope.tempOrder.CreditCardID = null;
-                    $scope.tempOrder.SavedCards = cards;
+                    $scope.currentOrder.CreditCardID = null;
+                    $scope.currentOrder.SavedCards = cards;
                 });
             });
         }
@@ -71,6 +70,6 @@ function ($scope, $rootScope, SavedCreditCard) {
         if (id == null) return false;
         var card = getCardByID(id);
         return card.IsCustEditable;
-    };*/
+    };
 }]);
 
