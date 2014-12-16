@@ -64,12 +64,6 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization
         });
     };
 
-    console.log("in customizationctrl");
-    console.log("in selectedRecipients");
-    console.log($scope.selectedRecipients);
-    console.log("in selectedProduct");
-    console.log($scope.selectedProduct);
-
     $scope.addToCartVariable = function(product) {
         Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {
             $scope.currentOrder = order;

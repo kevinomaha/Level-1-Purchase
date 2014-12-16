@@ -153,7 +153,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.tempRecipient.Address.AssignToAll = assignToAll;
         };
 
-        console.log($scope.tempRecipient);
+
 
         $scope.goToCustomization = function() {
             switch($scope.selectedProduct.ProductType) {
