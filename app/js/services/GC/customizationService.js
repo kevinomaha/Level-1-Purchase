@@ -14,6 +14,11 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             store.set('451Cache.RecipientList', recipientList);
         };
 
+        var _clearRecipients = function() {
+            recipientList = {List:[], AssignToAll: {}};
+            store.set('451Cache.RecipientList', recipientList);
+        };
+
         function productType(p) {
             var type = "";
 
@@ -235,6 +240,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
         return {
             getRecipients: _getRecipients,
             setRecipients: _setRecipients,
+            clearRecipients: _clearRecipients,
             setProduct: _setProduct,
             getProduct: _getProduct,
             addToCartStatic: _addToCartStatic,
