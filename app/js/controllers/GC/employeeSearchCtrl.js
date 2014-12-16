@@ -2,6 +2,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
 
         $scope.selectedProduct = Customization.getProduct();
+        $console($scope.selectedProduct);
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
 
         $scope.recipientList = Customization.getRecipients();
@@ -152,6 +153,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.tempRecipient.Address.AssignToAll = assignToAll;
         };
 
+
+
         $scope.goToCustomization = function() {
             switch($scope.selectedProduct.ProductType) {
                 case "Digital":
@@ -172,6 +175,9 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     $location.path('catalog/' + $scope.selectedProduct.InteropID);
             }
         };
+
+        $scope.recipientsReady = false;
+
 
         $scope.clearSearch = function() {
             $scope.searchCriterion = {};
