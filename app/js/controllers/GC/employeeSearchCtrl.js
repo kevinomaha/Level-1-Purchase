@@ -178,8 +178,10 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.recipientsReady = false;
         console.log($scope.selectedProduct.ProductType);
-        /*function areRecipientReady() {
-            if( $scope.selectedProduct. )
+       /* function areRecipientReady() {
+            if( $scope.selectedProduct.ProductType=="Digital"| $scope.selectedProduct.ProductType=="e-Cards" )
+            {}
+            else if( $scope.selectedProduct.ProductType=="Original"| $scope.selectedProduct.ProductType=="e-Cards" )
             {}
 
         }*/
