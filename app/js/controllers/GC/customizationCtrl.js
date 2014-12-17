@@ -7,6 +7,8 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
 
         $scope.recipientList = angular.copy(Customization.getRecipients());
         $scope.selectedProduct = Customization.getProduct();
+        console.log("from customizationservice in customizationctrl:");
+        console.log($scope.selectedProduct);
 
         $scope.selectedRecipients = [];
 
@@ -63,6 +65,7 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                 });
             });
         };
+        console.log("in customizationctrl selectedrecipients:");
         console.log($scope.selectedRecipients);
         $scope.addToCartVariable = function(product) {
             Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {

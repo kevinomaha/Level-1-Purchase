@@ -3,8 +3,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
 
         var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList'): {List:[]};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
-        console.log("in customizationctrl");
-        console.log(selectedProduct);
+
         var _getRecipients = function() {
             return recipientList;
         };
