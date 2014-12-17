@@ -48,6 +48,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .addRecipient(employee, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
+            console.log("new recipient added");
         };
 
         $scope.removeRecipient = function(recipient) {
@@ -179,11 +180,15 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.recipientsReady = false;
         console.log("in employeesearchctrl");
         console.log($scope.selectedProduct.ProductType);
-        console.log(Customization.selectedProduct);
-       /* function areRecipientReady() {
+        console.log($scope.selectedProduct);
+    /*    function areRecipientReady() {
             if( $scope.selectedProduct.ProductType=="Digital"| $scope.selectedProduct.ProductType=="e-Cards" )
-            {}
+            {
+                $scope.recipientList.ValidCount == $scope.recipientList.List
+            }
             else if( $scope.selectedProduct.ProductType=="Original"| $scope.selectedProduct.ProductType=="e-Cards" )
+            {}
+            else //if($scope.selectedProduct.ProductType=="Merchant")
             {}
 
         }*/
@@ -203,4 +208,5 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             });
         }
         getAddresses();
+        console.log($scope.recipientList.List.length);
     }]);
