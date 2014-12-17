@@ -177,7 +177,9 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         $scope.recipientsReady = false;
+        console.log("in employeesearchctrl");
         console.log($scope.selectedProduct.ProductType);
+        console.log(Customization.selectedProduct);
        /* function areRecipientReady() {
             if( $scope.selectedProduct.ProductType=="Digital"| $scope.selectedProduct.ProductType=="e-Cards" )
             {}
