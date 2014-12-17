@@ -2,7 +2,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
 
         $scope.selectedProduct = Customization.getProduct();
-        console.log($scope.selectedProduct);
+        //console.log($scope.selectedProduct);
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
 
         $scope.recipientList = Customization.getRecipients();
@@ -177,6 +177,12 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         $scope.recipientsReady = false;
+        console.log($scope.selectedProduct.ProductType);
+        /*function areRecipientReady() {
+            if( $scope.selectedProduct. )
+            {}
+
+        }*/
 
 
         $scope.clearSearch = function() {
