@@ -60,6 +60,7 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
             Order.save($scope.currentOrder, function(data) {
                 $scope.user.CurrentOrderID = data.ID;
                 User.save($scope.user, function() {
+                    Customization.clearRecipients();
                     $location.path('cart');
                 });
             });
