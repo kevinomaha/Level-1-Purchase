@@ -48,7 +48,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .addRecipient(employee, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
-            console.log("new recipient added");
+            //console.log("new recipient added");
         };
 
         $scope.removeRecipient = function(recipient) {
@@ -157,6 +157,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
 
         $scope.goToCustomization = function() {
+            console.log("inside gotocustomization print recipient list");
+            console.log($scope.recipientList);
             switch($scope.selectedProduct.ProductType) {
                 case "Digital":
                     //$location.path('customizationStep1');
