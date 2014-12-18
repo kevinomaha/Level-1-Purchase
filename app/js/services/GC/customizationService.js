@@ -150,7 +150,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             console.log('recip count ' + recipCount);
 
             function getPreviewDetails(lineItem, order) {
-                var denomination = lineItem.Product.Specs.Denomination.Value.replace('$', '');
+                var denomination = lineItem.Product.Specs.Denomination ? lineItem.Product.Specs.Denomination.Value.replace('$', '') : null;
                 var designID = "";
                 var baseURL = "https://gca-svcs02-dev.cloudapp.net/ClientService/";
                 //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
@@ -237,6 +237,20 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             return this;
         };
 
+        var _getTemplateThumbnails = function(product, success) {
+            $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1').
+                success(function(data){
+                    success(data);
+                }).
+                error(function(data, status, headers, config ) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(headers);
+                    console.log(config);
+                }
+            );
+        };
+
         return {
             getRecipients: _getRecipients,
             setRecipients: _setRecipients,
@@ -248,6 +262,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             addRecipient: _addRecipient,
             removeRecipient: _removeRecipient,
             validateRecipientList: _validateRecipientList,
-            setAddress: _setAddress
+            setAddress: _setAddress,
+            getTemplateThumbnails: _getTemplateThumbnails
         }
     }]);
