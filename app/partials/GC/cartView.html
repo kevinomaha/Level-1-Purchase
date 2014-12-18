@@ -110,15 +110,15 @@
                                     </button>
                                     <div class="col-sm-3">
                                         <div class="row">
-                                            <div class="col-xs-6 col-sm-12 col-md-6 ">
-                                                <div class="view-form-icon">
-                                                    <quantityfield required="true" lineitem="item" class="quantity"/>
+                                            <div class="col-xs-6 col-sm-6 col-md-3">
+                                                <div class="text-center">
+                                                    <small>{{'Quantity' | r}}</small>
+                                                    <h2 class="text-success">
+                                                        {{item.Quantity}}
+                                                    </h2>
                                                 </div>
-                                                <p class="quantity-total text-center">
-                                                    <small>{{'Total Quantity' | r}} <span ng-show="item.Quantity * item.Product.QuantityMultiplier">{{item.Quantity * item.Product.QuantityMultiplier}}</span></small>
-                                                </p>
                                             </div>
-                                            <div class="col-xs-6 col-sm-12 col-md-6 thumbnail" ng-show="item.Variant.LargeImageUrl || item.Product.SmallImageUrl">
+                                            <div class="col-xs-6 col-sm-6 col-md-9 thumbnail" ng-show="item.Variant.LargeImageUrl || item.Product.SmallImageUrl">
                                                 <figure>
                                                     <img ng-src="{{item.Variant.LargeImageUrl || item.Product.SmallImageUrl}}" />
                                                 </figure>
@@ -127,7 +127,7 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-8">
                                                 <div>
                                                     <h3 class="text-primary">
                                                         <i class="fa fa-edit"></i>
@@ -138,6 +138,16 @@
                                                     </p>
                                                 </div>
                                             </div>
+                                            <div class="col-md-3">
+                                                <div class="text-center" ng-if="!(user.Permissions.contains('HidePricing'))">
+                                                    <small>{{'Total' | r}}</small>
+                                                    <h2 class="text-success">
+                                                        {{item.LineTotal | currency}}
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-md-5">
                                                 <div ng-show="!item.IsDigital" class="view-form-icon">
                                                     <div ng-show="user.ShipMethod != null && shippers">
@@ -149,18 +159,6 @@
                                                                 ng-required="!currentOrder.IsMultipleShip() && user.ShipMethod != null">
                                                         </select>
                                                         <i class="fa fa-truck"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3 col-md-offset-1">
-                                                <div class="row">
-                                                    <div ng-if="!(user.Permissions.contains('HidePricing'))">
-                                                        <div ng-if="!(user.Permissions.contains('HidePricing'))">
-                                                            <small>{{'Total' | r}}</small>
-                                                            <h2 class="text-success">
-                                                                {{item.LineTotal | currency}}
-                                                            </h2>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -202,7 +200,7 @@
                             <p class="text-right"><span class="pull-left text-info">Subtotal:</span>{{currentOrder.Subtotal | currency}}</p>
                             <p class="text-right"><span class="pull-left text-info">Shipping and Handling:</span>{{currentOrder.ShippingCost | currency}}</p>
                             <p class="text-right"><span class="pull-left text-info">Total:</span>{{currentOrder.Total | currency}}</p>
-                            <div class="alert alert-info" style="padding:7px;" ng-show="currentOrder.MerchantCardCount > 0 || !currentOrder.IsAllDigital">
+                            <!--<div class="alert alert-info" style="padding:7px;" ng-show="currentOrder.MerchantCardCount > 0 || !currentOrder.IsAllDigital">
                                 <small>
                                     <div ng-show="currentOrder.MerchantCardCount > 0">
                                         <p>*The service fee for each product is included in the total price.</p>
@@ -213,7 +211,7 @@
                                         <p style="margin-bottom: 0;">*Orders placed after 2 p.m. EST will be shipped the following business day.</p>
                                     </div>
                                 </small>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="panel panel-default">
