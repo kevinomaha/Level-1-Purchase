@@ -44,11 +44,12 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
 
         $scope.selectEmployee = function(employee) {
+            console.log("inside selectEmployee");
             Customization
                 .addRecipient(employee, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
-            //console.log("new recipient added");
+            console.log("calling areRecipientReady from selectEmployee");
             areRecipientReady();
         };
 
@@ -72,6 +73,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.saveIndicator = false;
         $scope.saveRecipient = function(tempRecipient) {
+            console.log("inside saveRecipient");
             $scope.saveIndicator = true;
             tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
             $scope.addressMessage = null;
@@ -103,6 +105,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             else {
                 $scope.saveOriginalAddress();
             }
+            console.log("calling areRecipientReady from saveRecipient");
             areRecipientReady();
         };
 
@@ -182,16 +185,21 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         //console.log($scope.selectedProduct.ProductType);
         //console.log($scope.selectedProduct);
         function areRecipientReady() {
+            console.log("inside areRecipientReady")
             if( $scope.recipientList.ValidCount == $scope.recipientList.List.length ) {
                 if ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards" ) {
+                    console.log($scope.selectedProduct.ProductType);
                     $scope.recipientsReady = true;
+                    console.log("new value of recipientready:" + $scope.recipientsReady);
                     angular.forEach($scope.recipientList.List, function(user){
                         if( user.EmailAddress.length<=0 )
                             $scope.recipientsReady = false;
                     });
                 }
                 else if ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa") {
+                    console.log($scope.selectedProduct.ProductType);
                     $scope.recipientsReady = true;
+                    console.log("new value of recipientready:" + $scope.recipientsReady);
                 }
                 else if($scope.selectedProduct.ProductType=="Merchant")
                 {
