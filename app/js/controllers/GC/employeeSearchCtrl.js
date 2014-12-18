@@ -6,7 +6,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
 
         $scope.recipientList = Customization.getRecipients();
-        Customization.validateRecipientList($scope.recipientList)
+        Customization.validateRecipientList($scope.recipientList);
 
         $scope.searchCriterion = {};
         $scope.employees = [];
@@ -187,8 +187,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         //console.log($scope.selectedProduct.ProductType);
         //console.log($scope.selectedProduct);
         function areRecipientReady() {
-            console.log("inside areRecipientReady")
-
+            console.log("inside areRecipientReady and calling validaterecipientlist");
+            $scope.recipientList = Customization.validateRecipientList($scope.recipientList);
             if ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards" ) {
                 console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
@@ -200,8 +200,12 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
             else if ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa") {
                 console.log($scope.selectedProduct.ProductType);
-                if( $scope.recipientList.ValidCount == $scope.recipientList.List.length )
+                console.log("validcount" + $scope.recipientList.ValidCount);
+                console.log("length" + $scope.recipientList.List.length );
+                if( $scope.recipientList.ValidCount == $scope.recipientList.List.length ) {
+                    console.log("inside the comparison block");
                     $scope.recipientsReady = true;
+                }
                 console.log("current value of recipientready:" + $scope.recipientsReady);
             }
             else if($scope.selectedProduct.ProductType=="Merchant")
