@@ -202,9 +202,11 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 console.log($scope.selectedProduct.ProductType);
                 console.log("new value of recipientready:" + $scope.recipientsReady);
                 for(var i=0; i<$scope.recipientList.List.length; i++) {
-                    console.log($scope.recipientList.List[i]);
+                    console.log("list[i]" + $scope.recipientList.List[i]);
+                    console.log("valid" + $scope.recipientList.List[i].Valid);
                     console.log($scope.recipientList.List);
-                    console.log($scope.recipientList.ValidCount);
+                    Customization.validateRecipientList($scope.recipientList).setRecipients($scope.recipientList);
+                    console.log("validcount" + $scope.recipientList.ValidCount);
                 }}
                 /*angular.forEach($scope.recipientList.List, function(user){
                     console.log(user);
