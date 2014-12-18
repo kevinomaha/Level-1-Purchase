@@ -202,8 +202,11 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 $scope.recipientsReady = true;
                 console.log("new value of recipientready:" + $scope.recipientsReady);
                 angular.forEach($scope.recipientList.List, function(user){
-                    if( !user.Address.ID )
+                    console.log(user.FirstName + user.Address.ID);
+                    if( !user.Valid ) {
+                        console.log("inside foreach loop");
                         $scope.recipientsReady = false;
+                    }
                 });
                 console.log("current value of recipientready:" + $scope.recipientsReady);
             }
