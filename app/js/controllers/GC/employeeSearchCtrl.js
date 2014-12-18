@@ -199,7 +199,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                         console.log("in else");
                     }
                 }
-                if(j==$scope.recipientList.List.length-1) {
+                if(j==$scope.recipientList.List.length) {
                     $scope.recipientsReady = true;
                 }
             }
@@ -212,7 +212,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                         $scope.recipientList.List[i].Valid==true ? j++ : j ;
                     }
                 }
-                if(j==($scope.recipientList.List.length-1)) {
+                if(j==($scope.recipientList.List.length)) {
                     $scope.recipientsReady = true;
                 }
             }
