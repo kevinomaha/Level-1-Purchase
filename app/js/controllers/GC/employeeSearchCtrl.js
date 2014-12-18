@@ -1,5 +1,6 @@
 four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources',
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
+        areRecipientReady();
         $scope.recipientsReady = false;
         $scope.selectedProduct = Customization.getProduct();
         //console.log($scope.selectedProduct);
@@ -199,12 +200,12 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 //console.log("no of recipients: " + $scope.recipientList.List.length );
             }
             else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
-                console.log($scope.selectedProduct.ProductType);
-                console.log("new value of recipientready:" + $scope.recipientsReady);
+                //console.log($scope.selectedProduct.ProductType);
+                //console.log("new value of recipientready:" + $scope.recipientsReady);
                 var j=0;
                 for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].Valid==true) ; i++) {
                     j++;
-                    console.log("j=" + j);
+                    //console.log("j=" + j);
                 }
                 if(j==$scope.recipientList.List.length-1)
                     $scope.recipientsReady = true;
