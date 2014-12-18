@@ -40,8 +40,7 @@
                     <h3 class="panel-title" ng-show="selectedProduct.Name"><b>Selected Product:</b> {{selectedProduct.Name}}</h3>
                 </div>
                 <div class="panel-body">
-                    <loadingindicator ng-show="selectedProduct.productLoadingIndicator" title="Please wait while your product is updated" />
-                    <loadingindicator ng-show="selectedProduct.buildingProductsIndicator" title="Please wait while your product(s) are generated" />
+                    <loadingindicator ng-show="generateAwardsIndicator" title="Please wait while your awards(s) are generated" />
                     <div class="row">
                         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                             <div class="row">
