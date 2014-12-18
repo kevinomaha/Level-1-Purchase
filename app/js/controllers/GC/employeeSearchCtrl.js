@@ -188,6 +188,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         //console.log($scope.selectedProduct);
         function areRecipientReady() {
             console.log("inside areRecipientReady....");
+            Customization.validateRecipientList($scope.recipientList).setRecipients($scope.recipientList);
             if ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards" ) {
                 console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
@@ -202,7 +203,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 $scope.recipientsReady = true;
                 console.log("new value of recipientready:" + $scope.recipientsReady);
                 angular.forEach($scope.recipientList.List, function(user){
-                    console.log(user.FirstName + user.Address.ID);
+                    console.log(user.FirstName + user.Valid);
                     if( !user.Valid ) {
                         console.log("inside foreach loop");
                         $scope.recipientsReady = false;
