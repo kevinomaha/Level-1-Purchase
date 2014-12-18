@@ -13,7 +13,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.searchError = "";
         $scope.searchIndicator = false;
         $scope.seachEmployees = function(searchCriterion) {
-            console.log("")
+            console.log("inside seachEmployee..");
+            console.log($scope.selectedProduct.ProductType);
             $scope.searchIndicator = true;
             $scope.searchError = "";
             $scope.employees = [];
