@@ -1,6 +1,6 @@
 four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources',
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
-
+        $scope.recipientsReady = false;
         $scope.selectedProduct = Customization.getProduct();
         //console.log($scope.selectedProduct);
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
@@ -49,6 +49,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
             //console.log("new recipient added");
+            areRecipientReady();
         };
 
         $scope.removeRecipient = function(recipient) {
@@ -102,6 +103,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             else {
                 $scope.saveOriginalAddress();
             }
+            areRecipientReady();
         };
 
         $scope.saveOriginalAddress = function() {
@@ -157,8 +159,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
 
         $scope.goToCustomization = function() {
-            console.log("inside gotocustomization print recipient list");
-            console.log($scope.recipientList);
             switch($scope.selectedProduct.ProductType) {
                 case "Digital":
                     //$location.path('customizationStep1');
@@ -179,21 +179,32 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
         };
 
-        $scope.recipientsReady = false;
-        console.log("in employeesearchctrl");
-        console.log($scope.selectedProduct.ProductType);
-        console.log($scope.selectedProduct);
-    /*    function areRecipientReady() {
-            if( $scope.selectedProduct.ProductType=="Digital"| $scope.selectedProduct.ProductType=="e-Cards" )
-            {
-                $scope.recipientList.ValidCount == $scope.recipientList.List
-            }
-            else if( $scope.selectedProduct.ProductType=="Original"| $scope.selectedProduct.ProductType=="e-Cards" )
-            {}
-            else //if($scope.selectedProduct.ProductType=="Merchant")
-            {}
 
-        }*/
+        //console.log("in employeesearchctrl");
+        //console.log($scope.selectedProduct.ProductType);
+        //console.log($scope.selectedProduct);
+        function areRecipientReady() {
+            if( $scope.recipientList.ValidCount == $scope.recipientList.List.length ) {
+                if ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards" ) {
+                    $scope.recipientsReady = true;
+                    angular.forEach($scope.recipientList.List, function(user){
+                        if( user.EmailAddress.length<=0 )
+                            $scope.recipientsReady = false;
+                    });
+                }
+                else if ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa") {
+                    $scope.recipientsReady = true;
+                }
+                else if($scope.selectedProduct.ProductType=="Merchant")
+                {
+                    $scope.recipientsReady = true;
+                    angular.forEach($scope.recipientList.List, function(user){
+                        if( user.EmailAddress.length<=0 )
+                            $scope.recipientsReady = false;
+                    });
+                }
+            }
+        }
 
 
         $scope.clearSearch = function() {
