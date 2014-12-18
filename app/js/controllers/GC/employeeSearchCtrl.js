@@ -161,15 +161,13 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             console.log($scope.recipientList);
             switch($scope.selectedProduct.ProductType) {
                 case "Digital":
-                    //$location.path('customizationStep1');
                     $location.path('supercertificate');
                     break;
                 case "Original":
-                    //$location.path('customizationStep1'); //should be updated to new path or this step should be dynamic
-                    $location.path('supercertificate'); //should be updated to new path or this step should be dynamic
+                    $location.path('supercertificate');
                     break;
                 case "e-Cards":
-                    $location.path('customizationStep1'); //should be updated to new path or this step should be dynamic
+                    $location.path('ecard');
                     break;
                 case "Visa":
                     $location.path('visa');
