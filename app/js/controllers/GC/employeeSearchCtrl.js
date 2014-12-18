@@ -186,9 +186,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         //console.log("in employeesearchctrl");
         //console.log($scope.selectedProduct.ProductType);
         //console.log($scope.selectedProduct);
-        function areRecipientReady() {
+        /*function areRecipientReady() {
             console.log("inside areRecipientReady....");
-            Customization.validateRecipientList($scope.recipientList).setRecipients($scope.recipientList);
             if ( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards") && $scope.recipientList.length>0 ) {
                 //console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
@@ -212,9 +211,9 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                         $scope.recipientsReady = "false";
                     }
                 });
-                console.log("leaving original/visa-current value of recipientready:" + $scope.recipientsReady);*/
+                console.log("leaving original/visa-current value of recipientready:" + $scope.recipientsReady);
             }
-            /*else if( ($scope.selectedProduct.ProductType=="Merchant")&& $scope.recipientList.length>0 )
+            else if( ($scope.selectedProduct.ProductType=="Merchant")&& $scope.recipientList.length>0 )
             {
                 if( $scope.recipientList.ValidCount == $scope.recipientList.List.length )
                 {
@@ -224,8 +223,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                             $scope.recipientsReady = false;
                     });
                 }
-            }*/
-        }
+            }
+        }*/
 
 
         $scope.clearSearch = function() {
