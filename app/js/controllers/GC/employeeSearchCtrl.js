@@ -186,11 +186,17 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& $scope.recipientList.List.length>0 ) {
                 console.log($scope.selectedProduct.ProductType);
                 var j=0;
-                for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].EmailAddress.length > 0); i++) {
+                for(var i=0; i<$scope.recipientList.List.length; i++) {
                     console.log($scope.recipientList.List[i]);
-                    j++;
+                    if ($scope.recipientList.List[i].EmailAddress)
+                    {
+                        // check the pattern of the email address and if needed get new from user
+                        j++;
+                    }
+                    else
+                    {
+                    }
                 }
-
                 if(j==$scope.recipientList.List.length-1) {
                     $scope.recipientsReady = true;
                 }
@@ -198,11 +204,13 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
                 console.log($scope.selectedProduct.ProductType);
                 var j=0;
-                for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].Valid==true) ; i++) {
+                for(var i=0; i<$scope.recipientList.List.length; i++) {
                     console.log($scope.recipientList.List[i]);
-                    j++;
+                    if($scope.recipientList.List[i].Valid){
+                        $scope.recipientList.List[i].Valid==true ? j++ : j ;
+                    }
                 }
-                if(j==$scope.recipientList.List.length-1) {
+                if(j==($scope.recipientList.List.length-1)) {
                     $scope.recipientsReady = true;
                 }
             }
