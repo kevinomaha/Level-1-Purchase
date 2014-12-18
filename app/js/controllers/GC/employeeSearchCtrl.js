@@ -192,9 +192,11 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     {
                         // check the pattern of the email address and if needed get new from user
                         j++;
+                        console.log("in if" + j);
                     }
                     else
                     {
+                        console.log("in else");
                     }
                 }
                 if(j==$scope.recipientList.List.length-1) {
