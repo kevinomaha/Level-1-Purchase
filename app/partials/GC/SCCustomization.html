@@ -12,7 +12,7 @@
             </div>
             <div class="recipient-list-container">
                 <ul class="list-group" style="margin-bottom:0;">
-                    <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}" ng-click="selectRecipient(recipient)">
+                    <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
                         <div class="pull-right">
                             <div>
                                 <i class="fa fa-3x" ng-show="recipient.Valid" ng-class="{'fa-circle-o text-muted': !recipient.Selected, 'fa-check-circle text-success': recipient.Selected}"></i>
@@ -180,21 +180,21 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6" ng-if="selectedProduct.Specs.DeliveryDate">
+                                        <div class="col-sm-6" ng-if="selectedProduct.Specs.FutureShipDate">
                                             <div class="view-form-icon">
                                                 <div>
-                                                    <label>{{selectedProduct.Specs.DeliveryDate.Label || selectedProduct.Specs.DeliveryDate.Name}}<span style="color: rgb(128, 128, 128);font-size: x-small;"> (MM/DD/YYYY)</span></label>
+                                                    <label>{{selectedProduct.Specs.FutureShipDate.Label || selectedProduct.Specs.FutureShipDate.Name}}<span style="color: rgb(128, 128, 128);font-size: x-small;"> (MM/DD/YYYY)</span></label>
                                                     <!--Default Datepicker -->
                                                     <input class="form-control hidden-lg hidden-md"
                                                            type="date"
-                                                           ng-model="selectedProduct.Specs.DeliveryDate.Value"
-                                                           ng-required="selectedProduct.Specs.DeliveryDate.Required"
+                                                           ng-model="selectedProduct.Specs.FutureShipDate.Value"
+                                                           ng-required="selectedProduct.Specs.FutureShipDate.Required"
                                                            style="margin:0; height:40px; padding-top:8px;"/>
-                                                    <div class="btn btn-default btn-block text-info hidden-lg hidden-md" ng-click="selectedProduct.DeliveryDate = null">{{selectedProduct.Specs.DeliveryDate.Value | date:'MM/dd/yyyy'}}</div>
-                                                    <input name="DeliveryDate" placeholder="{{selectedProduct.Specs.DeliveryDate.Label || selectedProduct.Specs.DeliveryDate.Name}}" ng-model="selectedProduct.Specs.DeliveryDate.Value" ng-required="selectedProduct.Specs.DeliveryDate.Required"
+                                                    <div class="btn btn-default btn-block text-info hidden-lg hidden-md" ng-click="selectedProduct.FutureShipDate = null">{{selectedProduct.Specs.FutureShipDate.Value | date:'MM/dd/yyyy'}}</div>
+                                                    <input name="FutureShipDate" placeholder="{{selectedProduct.Specs.FutureShipDate.Label || selectedProduct.Specs.FutureShipDate.Name}}" ng-model="selectedProduct.Specs.FutureShipDate.Value" ng-required="selectedProduct.Specs.FutureShipDate.Required"
                                                            type="text"
                                                            class="form-control hidden-sm hidden-xs"
-                                                           ng-class="{'input-invalid': award_customization.DeliveryDate.$invalid}"
+                                                           ng-class="{'input-invalid': award_customization.FutureShipDate.$invalid}"
                                                            readonly="readonly"
                                                            style="cursor: pointer; background-color:#FFF;"
                                                            datepicker-popup="MM/dd/yyyy"
@@ -241,22 +241,4 @@
             </div>
         </form>
     </div>
-    <!--<div class="view-footer navbar-fixed-bottom hidden-lg hidden-md">
-        <ul class="view-footer-buttons" ng-show="!showAwardMaker">
-            <li style="width:50%;">
-                <button class="btn btn-warning" ng-click="$parent.step = 2">Edit List</button>
-            </li>
-            <li style="width:50%;">
-                <button class="btn btn-primary" ng-click="showAwardMaker = true;">Done Selecting</button>
-            </li>
-        </ul>
-        <ul class="view-footer-buttons" ng-show="showAwardMaker">
-            <li style="width:50%;">
-                <button class="btn btn-primary" ng-click="showAwardMaker = false;">Select Recipients</button>
-            </li>
-            <li style="width:50%;">
-                <button class="btn btn-success" ng-click="createAwards()" ng-disabled="award_customization.$invalid">Create Awards</button>
-            </li>
-        </ul>
-    </div>-->
 </section>

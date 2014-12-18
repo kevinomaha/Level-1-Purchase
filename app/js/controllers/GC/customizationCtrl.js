@@ -17,7 +17,7 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         });
 
         //Move this to a service -- It is recommended to not make any HTTP calls within a controller
-        $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + $scope.selectedProduct.ExternalID + '&o=1').
+        /*$http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + $scope.selectedProduct.ExternalID + '&o=1').
             success(function(data){
                 $scope.Templates = data;
                 if (data.length == 1) $scope.selectTemplate(data[0]);
@@ -28,14 +28,28 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                 console.log(headers);
                 console.log(config);
             }
-        );
+        );*/
+        Customization.getTemplateThumbnails($scope.selectedProduct, function(templates) {
+            $scope.Templates = templates;
+            if ($scope.Templates.length == 1) $scope.selectTemplate($scope.Templates[0]);
+        });
 
         $scope.selectTemplate = function(template) {
             if ($scope.selectedProduct.Specs['DesignID']) $scope.selectedProduct.Specs['DesignID'].Value = template.DesignId;
             if ($scope.selectedProduct.Specs['DesignName']) $scope.selectedProduct.Specs['DesignName'].Value = template.Name;
         };
 
-        $scope.selectRecipient = function(recipient) {
+        if ($scope.recipientList.List) {
+            angular.forEach($scope.recipientList.List, function(recipient) {
+                if (recipient.Valid) {
+                    recipient.Selected = true;
+                    $scope.selectedRecipients.push(recipient);
+                }
+            });
+        }
+
+        //Automatically selecting all recipients - TP#12177
+        /*$scope.selectRecipient = function(recipient) {
             if (!recipient.Valid) return;
             if (!recipient.Selected) {
                 recipient.Selected = true;
@@ -49,7 +63,7 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                     }
                 }
             }
-        };
+        };*/
 
         $scope.addToCartStatic = function(product) {
             Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.currentOrder, function(order) {

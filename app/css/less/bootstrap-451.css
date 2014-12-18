@@ -7625,7 +7625,7 @@ body {
   overflow-y:scroll;*/
 }
 .recipient-list-container .list-group-item {
-  cursor: pointer;
+  /*cursor: pointer;*/
   min-height: 75px;
 }
 .recipient-upload-table .col-xs-12 .row {
