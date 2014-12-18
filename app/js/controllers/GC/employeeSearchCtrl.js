@@ -200,8 +200,12 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
             else if ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa") {
                 console.log($scope.selectedProduct.ProductType);
-                if( $scope.recipientList.ValidCount == $scope.recipientList.List.length )
+                console.log("validcount" + $scope.recipientList.ValidCount);
+                console.log("length" + $scope.recipientList.List.length );
+                if( $scope.recipientList.ValidCount == $scope.recipientList.List.length ) {
+                    console.log("inside the comparison block");
                     $scope.recipientsReady = true;
+                }
                 console.log("current value of recipientready:" + $scope.recipientsReady);
             }
             else if($scope.selectedProduct.ProductType=="Merchant")
