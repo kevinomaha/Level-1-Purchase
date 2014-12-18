@@ -188,7 +188,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         console.log($scope.selectedProduct);
         function areRecipientReady() {
             console.log("inside areRecipientReady....");
-            if($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards") {
+            if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& $scope.recipientList.List.length>0 ) {
                 console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
                 angular.forEach($scope.recipientList.List, function(user){
@@ -196,16 +196,15 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     if( user.EmailAddress.length<=0 )
                         $scope.recipientsReady = false;
                 });
-                console.log("no of users: " + $scope.recipientList.length );
-                console.log("no of users: " + $scope.recipientList.count );
+                console.log("no of recipients: " + $scope.recipientList.List.length );
             }
-            /*else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.length>0 ){
+            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
                 console.log($scope.selectedProduct.ProductType);
                 console.log("new value of recipientready:" + $scope.recipientsReady);
-                for(var i=0; i<$scope.recipientList.length; i++) {
-                    console.log($scope.recipientList[i]);
-                    console.log($scope.recipientList[i].Valid);
-                }
+                for(var i=0; i<$scope.recipientList.List.length; i++) {
+                    console.log($scope.recipientList.List[i]);
+                    console.log($scope.recipientList.List[i].Valid);
+                }}
                 /*angular.forEach($scope.recipientList.List, function(user){
                     console.log(user);
                     if( !user.Valid ) {
