@@ -6,7 +6,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
 
         $scope.recipientList = Customization.getRecipients();
-        Customization.validateRecipientList($scope.recipientList)
+        Customization.validateRecipientList($scope.recipientList);
 
         $scope.searchCriterion = {};
         $scope.employees = [];
@@ -187,8 +187,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         //console.log($scope.selectedProduct.ProductType);
         //console.log($scope.selectedProduct);
         function areRecipientReady() {
-            console.log("inside areRecipientReady")
-
+            console.log("inside areRecipientReady and calling validaterecipientlist");
+            Customization.validateRecipientList($scope.recipientList);
             if ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards" ) {
                 console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
