@@ -188,15 +188,15 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         console.log($scope.selectedProduct);
         function areRecipientReady() {
             console.log("inside areRecipientReady....");
-            if ( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards") && $scope.recipientList.length>0 ) {
+            if($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards") {
                 console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
-                //console.log("new value of recipientready:" + $scope.recipientsReady);
                 angular.forEach($scope.recipientList.List, function(user){
                     console.log("user is" + user);
                     if( user.EmailAddress.length<=0 )
                         $scope.recipientsReady = false;
                 });
+                debugFunction();
             }
             /*else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.length>0 ){
                 console.log($scope.selectedProduct.ProductType);
@@ -227,6 +227,10 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }*/
         }
 
+        function debugFunction(){
+            console.log("recipientReady: " + $scope.recipientsReady);
+            console.log("recipientList: " + $scope.recipientList);
+        }
 
         $scope.clearSearch = function() {
             $scope.searchCriterion = {};
