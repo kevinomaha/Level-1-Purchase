@@ -201,13 +201,14 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
                 console.log($scope.selectedProduct.ProductType);
                 console.log("new value of recipientready:" + $scope.recipientsReady);
-                for(var i=0; i<$scope.recipientList.List.length; i++) {
-                    console.log("list[i]" + $scope.recipientList.List[i]);
-                    console.log("valid" + $scope.recipientList.List[i].Valid);
-                    console.log($scope.recipientList.List);
-                    Customization.validateRecipientList($scope.recipientList).setRecipients($scope.recipientList);
-                    console.log("validcount" + $scope.recipientList.ValidCount);
-                }}
+                var j=0;
+                for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].Valid==true) ; i++) {
+                    j++;
+                    console.log("j=" + j);
+                }
+                if(j==$scope.recipientList.List.length)
+                    $scope.recipientsReady = true;
+            }
                 /*angular.forEach($scope.recipientList.List, function(user){
                     console.log(user);
                     if( !user.Valid ) {
