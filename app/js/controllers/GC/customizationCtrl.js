@@ -65,13 +65,17 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
             }
         };*/
 
+        $scope.generateAwardsIndicator = false;
+
         $scope.addToCartStatic = function(product) {
+            $scope.generateAwardsIndicator = true;
             Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.currentOrder, function(order) {
                 $scope.currentOrder = order;
                 Order.save($scope.currentOrder, function(data) {
                     $scope.user.CurrentOrderID = data.ID;
                     User.save($scope.user, function() {
                         Customization.clearRecipients();
+                        $scope.generateAwardsIndicator = false;
                         $location.path('cart');
                     });
                 });
@@ -79,12 +83,14 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         };
 
         $scope.addToCartVariable = function(product) {
+            $scope.generateAwardsIndicator = true;
             Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {
                 $scope.currentOrder = order;
                 Order.save($scope.currentOrder, function(data) {
                     $scope.user.CurrentOrderID = data.ID;
                     User.save($scope.user, function() {
                         Customization.clearRecipients();
+                        $scope.generateAwardsIndicator = false;
                         $location.path('cart');
                     });
                 });
