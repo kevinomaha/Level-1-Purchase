@@ -188,7 +188,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         //console.log($scope.selectedProduct);
         function areRecipientReady() {
             console.log("inside areRecipientReady and calling validaterecipientlist");
-            Customization.validateRecipientList($scope.recipientList);
+            $scope.recipientList = Customization.validateRecipientList($scope.recipientList);
             if ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards" ) {
                 console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
