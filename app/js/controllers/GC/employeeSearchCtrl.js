@@ -191,38 +191,24 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             console.log("inside areRecipientReady....");
             if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& $scope.recipientList.List.length>0 ) {
                 var j=0;
-                for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].EmailAddress.length > 0); i++)
+                for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].EmailAddress.length > 0); i++) {
+                    console.log($scope.recipientList.List[i]);
                     j++;
-                if(j==$scope.recipientList.List.length-1)
+                }
+                if(j==$scope.recipientList.List.length-1) {
                     $scope.recipientsReady = true;
+                }
             }
             else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
                 var j=0;
-                for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].Valid==true) ; i++)
+                for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].Valid==true) ; i++) {
+                    console.log($scope.recipientList.List[i]);
                     j++;
-                if(j==$scope.recipientList.List.length-1)
-                    $scope.recipientsReady = true;
-            }
-                /*angular.forEach($scope.recipientList.List, function(user){
-                    console.log(user);
-                    if( !user.Valid ) {
-                        console.log("inside foreach loop for" + user.FirstName);
-                        $scope.recipientsReady = "false";
-                    }
-                });
-                console.log("leaving original/visa-current value of recipientready:" + $scope.recipientsReady);
-            }
-            else if( ($scope.selectedProduct.ProductType=="Merchant")&& $scope.recipientList.length>0 )
-            {
-                if( $scope.recipientList.ValidCount == $scope.recipientList.List.length )
-                {
-                    $scope.recipientsReady = true;
-                    angular.forEach($scope.recipientList.List, function(user){
-                        if( user.EmailAddress.length<=0 )
-                            $scope.recipientsReady = false;
-                    });
                 }
-            }*/
+                if(j==$scope.recipientList.List.length-1) {
+                    $scope.recipientsReady = true;
+                }
+            }
         }
 
         $scope.clearSearch = function() {
