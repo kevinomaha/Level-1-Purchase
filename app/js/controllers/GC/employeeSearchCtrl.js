@@ -202,9 +202,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 console.log($scope.selectedProduct.ProductType);
                 console.log("new value of recipientready:" + $scope.recipientsReady);
                 for(var i=0; i<$scope.recipientList.length; i++) {
-                    console.log(user);
-                    console.log(user.Valid);
-
+                    console.log($scope.recipientList[i]);
+                    console.log($scope.recipientList[i].Valid);
                 }
                 /*angular.forEach($scope.recipientList.List, function(user){
                     console.log(user);
@@ -215,7 +214,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 });
                 console.log("leaving original/visa-current value of recipientready:" + $scope.recipientsReady);*/
             }
-            else if( ($scope.selectedProduct.ProductType=="Merchant")&& $scope.recipientList.length>0 )
+            /*else if( ($scope.selectedProduct.ProductType=="Merchant")&& $scope.recipientList.length>0 )
             {
                 if( $scope.recipientList.ValidCount == $scope.recipientList.List.length )
                 {
@@ -225,7 +224,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                             $scope.recipientsReady = false;
                     });
                 }
-            }
+            }*/
         }
 
 
@@ -243,5 +242,5 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             });
         }
         getAddresses();
-        console.log($scope.recipientList.List.length);
+
     }]);
