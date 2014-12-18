@@ -35,7 +35,17 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
             if ($scope.selectedProduct.Specs['DesignName']) $scope.selectedProduct.Specs['DesignName'].Value = template.Name;
         };
 
-        $scope.selectRecipient = function(recipient) {
+        if ($scope.recipientList.List) {
+            angular.forEach($scope.recipientList.List, function(recipient) {
+                if (recipient.Valid) {
+                    recipient.Selected = true;
+                    $scope.selectedRecipients.push(recipient);
+                }
+            });
+        }
+
+        //Automatically selecting all recipients - TP#12177
+        /*$scope.selectRecipient = function(recipient) {
             if (!recipient.Valid) return;
             if (!recipient.Selected) {
                 recipient.Selected = true;
@@ -49,7 +59,7 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                     }
                 }
             }
-        };
+        };*/
 
         $scope.addToCartStatic = function(product) {
             Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.currentOrder, function(order) {
