@@ -166,13 +166,13 @@
                                         <div class="row" collapse="!item.Editing">
                                             <form name="editSpecsForm">
                                                 <div class="col-sm-6">
-                                                    <div class="form-group" ng-repeat="s in item.Specs | onproperty:[{Property: 'Filtered', Value: false}] | orderobjectby:'OrderIndex'" ng-if="$even">
+                                                    <div class="form-group" ng-repeat="s in item.Specs | onproperty:[{Property: 'Filtered', Value: false}] | onproperty:[{Property: 'ReadOnly', Value: false}] | orderobjectby:'OrderIndex'" ng-if="$even">
                                                         <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
                                                         <customselectionfield customfield="s" ng-if="s.ControlType == 'Selection'"></customselectionfield>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <div class="form-group" ng-repeat="s in item.Specs | onproperty:[{Property: 'Filtered', Value: false}] | orderobjectby:'OrderIndex'" ng-if="$odd">
+                                                    <div class="form-group" ng-repeat="s in item.Specs | onproperty:[{Property: 'Filtered', Value: false}] | onproperty:[{Property: 'ReadOnly', Value: false}] | orderobjectby:'OrderIndex'" ng-if="$odd">
                                                         <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
                                                         <customselectionfield customfield="s" ng-if="s.ControlType == 'Selection'"></customselectionfield>
                                                     </div>
