@@ -1,6 +1,6 @@
 four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources',
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
-        areRecipientReady();
+
         $scope.recipientsReady = false;
         $scope.selectedProduct = Customization.getProduct();
         //console.log($scope.selectedProduct);
