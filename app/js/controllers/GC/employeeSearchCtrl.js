@@ -196,7 +196,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     if( user.EmailAddress.length<=0 )
                         $scope.recipientsReady = false;
                 });
-                debugFunction();
+                console.log("no of users: " + $scope.recipientList.length );
+                console.log("no of users: " + $scope.recipientList.count );
             }
             /*else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.length>0 ){
                 console.log($scope.selectedProduct.ProductType);
@@ -225,11 +226,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     });
                 }
             }*/
-        }
-
-        function debugFunction(){
-            console.log("recipientReady: " + $scope.recipientsReady);
-            console.log("recipientList: " + $scope.recipientList);
         }
 
         $scope.clearSearch = function() {
