@@ -189,10 +189,11 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         function areRecipientReady() {
             console.log("inside areRecipientReady....");
             if ( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards") && $scope.recipientList.length>0 ) {
-                //console.log($scope.selectedProduct.ProductType);
+                console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
                 //console.log("new value of recipientready:" + $scope.recipientsReady);
                 angular.forEach($scope.recipientList.List, function(user){
+                    console.log("user is" + user);
                     if( user.EmailAddress.length<=0 )
                         $scope.recipientsReady = false;
                 });
