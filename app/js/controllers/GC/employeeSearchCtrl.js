@@ -13,8 +13,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.searchError = "";
         $scope.searchIndicator = false;
         $scope.seachEmployees = function(searchCriterion) {
-            console.log("inside seachEmployee..");
-            console.log($scope.selectedProduct.ProductType);
+            //console.log("inside seachEmployee..");
+            //console.log($scope.selectedProduct.ProductType);
             $scope.searchIndicator = true;
             $scope.searchError = "";
             $scope.employees = [];
@@ -188,6 +188,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         //console.log($scope.selectedProduct);
         function areRecipientReady() {
             console.log("inside areRecipientReady....");
+            Customization.validateRecipientList($scope.recipientList).setRecipients($scope.recipientList);
             if ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards" ) {
                 console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
@@ -199,14 +200,12 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
             else if ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa") {
                 console.log($scope.selectedProduct.ProductType);
-                $scope.recipientsReady = true;
-                console.log("new value of recipientready:" + $scope.recipientsReady);
                 angular.forEach($scope.recipientList.List, function(user){
-                    console.log(user.FirstName + user.Address.ID);
-                    if( !user.Valid ) {
+                    console.log(user);
+                    /*if( user.Valid ) {
                         console.log("inside foreach loop");
-                        $scope.recipientsReady = false;
-                    }
+                        $scope.recipientsReady = ;
+                    }*/
                 });
                 console.log("current value of recipientready:" + $scope.recipientsReady);
             }
