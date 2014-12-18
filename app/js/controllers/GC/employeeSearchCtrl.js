@@ -14,8 +14,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.searchError = "";
         $scope.searchIndicator = false;
         $scope.seachEmployees = function(searchCriterion) {
-            //console.log("inside seachEmployee..");
-            //console.log($scope.selectedProduct.ProductType);
             $scope.searchIndicator = true;
             $scope.searchError = "";
             $scope.employees = [];
@@ -61,6 +59,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .removeRecipient(recipient, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
+            areRecipientReady();
         };
 
         $scope.tempRecipient = {};
@@ -76,7 +75,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.saveIndicator = false;
         $scope.saveRecipient = function(tempRecipient) {
-            console.log("inside saveRecipient");
+            //console.log("inside saveRecipient");
             $scope.saveIndicator = true;
             tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
             $scope.addressMessage = null;
@@ -183,23 +182,21 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
         };
 
-
-        //console.log("in employeesearchctrl");
-        //console.log($scope.selectedProduct.ProductType);
-        //console.log($scope.selectedProduct);
         function areRecipientReady() {
-            console.log("inside areRecipientReady....");
             if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& $scope.recipientList.List.length>0 ) {
+                console.log($scope.selectedProduct.ProductType);
                 var j=0;
                 for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].EmailAddress.length > 0); i++) {
                     console.log($scope.recipientList.List[i]);
                     j++;
                 }
+
                 if(j==$scope.recipientList.List.length-1) {
                     $scope.recipientsReady = true;
                 }
             }
             else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
+                console.log($scope.selectedProduct.ProductType);
                 var j=0;
                 for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].Valid==true) ; i++) {
                     console.log($scope.recipientList.List[i]);
