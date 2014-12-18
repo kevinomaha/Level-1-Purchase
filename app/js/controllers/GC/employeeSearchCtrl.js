@@ -187,8 +187,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         //console.log($scope.selectedProduct.ProductType);
         //console.log($scope.selectedProduct);
         function areRecipientReady() {
-            console.log("inside areRecipientReady and calling validaterecipientlist");
-            $scope.recipientList = Customization.validateRecipientList($scope.recipientList);
+            console.log("inside areRecipientReady....");
             if ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards" ) {
                 console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
@@ -200,12 +199,12 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
             else if ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa") {
                 console.log($scope.selectedProduct.ProductType);
-                console.log("validcount" + $scope.recipientList.ValidCount);
-                console.log("length" + $scope.recipientList.List.length );
-                if( $scope.recipientList.ValidCount == $scope.recipientList.List.length ) {
-                    console.log("inside the comparison block");
-                    $scope.recipientsReady = true;
-                }
+                $scope.recipientsReady = true;
+                console.log("new value of recipientready:" + $scope.recipientsReady);
+                angular.forEach($scope.recipientList.List, function(user){
+                    if( !user.Address.ID )
+                        $scope.recipientsReady = false;
+                });
                 console.log("current value of recipientready:" + $scope.recipientsReady);
             }
             else if($scope.selectedProduct.ProductType=="Merchant")
