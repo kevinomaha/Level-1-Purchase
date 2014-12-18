@@ -105,6 +105,9 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
 
         angular.forEach(order.OrderFields, function(field) {
             field.Filtered = filteredFields.indexOf(field.Name) > -1;
+            field.Placeholder = (field.Label || field.Name);
+            field.InputType = (field.Name.toLowerCase().indexOf('email') > -1 && field.Name.toLowerCase().indexOf('subject') == -1) ? 'email' : 'text';
+            field.OrderIndex = (field.Name == 'Message') ? 999 : field.ListOrder;
         });
     }
 
