@@ -206,7 +206,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     j++;
                     console.log("j=" + j);
                 }
-                if(j==$scope.recipientList.List.length)
+                if(j==$scope.recipientList.List.length-1)
                     $scope.recipientsReady = true;
             }
                 /*angular.forEach($scope.recipientList.List, function(user){
