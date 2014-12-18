@@ -190,23 +190,16 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         function areRecipientReady() {
             console.log("inside areRecipientReady....");
             if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& $scope.recipientList.List.length>0 ) {
-                console.log($scope.selectedProduct.ProductType);
-                //$scope.recipientsReady = true;
-                angular.forEach($scope.recipientList.List, function(user){
-                    //console.log("user is" + user);
-                    if( user.EmailAddress.length<=0 )
-                        $scope.recipientsReady = false;
-                });
-                //console.log("no of recipients: " + $scope.recipientList.List.length );
+                var j=0;
+                for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].EmailAddress.length > 0); i++)
+                    j++;
+                if(j==$scope.recipientList.List.length-1)
+                    $scope.recipientsReady = true;
             }
             else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
-                //console.log($scope.selectedProduct.ProductType);
-                //console.log("new value of recipientready:" + $scope.recipientsReady);
                 var j=0;
-                for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].Valid==true) ; i++) {
+                for(var i=0; i<$scope.recipientList.List.length && ($scope.recipientList.List[i].Valid==true) ; i++)
                     j++;
-                    //console.log("j=" + j);
-                }
                 if(j==$scope.recipientList.List.length-1)
                     $scope.recipientsReady = true;
             }
