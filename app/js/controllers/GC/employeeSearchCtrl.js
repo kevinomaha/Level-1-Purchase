@@ -200,14 +200,16 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
             else if ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa") {
                 console.log($scope.selectedProduct.ProductType);
+                $scope.recipientsReady = true;
+                console.log("new value of recipientready:" + $scope.recipientsReady);
                 angular.forEach($scope.recipientList.List, function(user){
                     console.log(user);
-                    /*if( user.Valid ) {
-                        console.log("inside foreach loop");
-                        $scope.recipientsReady = ;
-                    }*/
+                    if( !user.Valid ) {
+                        console.log("inside foreach loop for" + user.FirstName);
+                        $scope.recipientsReady = "false";
+                    }
                 });
-                console.log("current value of recipientready:" + $scope.recipientsReady);
+                console.log("leaving original/visa-current value of recipientready:" + $scope.recipientsReady);
             }
             else if($scope.selectedProduct.ProductType=="Merchant")
             {
