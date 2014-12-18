@@ -189,29 +189,33 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         function areRecipientReady() {
             console.log("inside areRecipientReady....");
             Customization.validateRecipientList($scope.recipientList).setRecipients($scope.recipientList);
-            if ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards" ) {
-                console.log($scope.selectedProduct.ProductType);
+            if ( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards") && $scope.recipientList.length>0 ) {
+                //console.log($scope.selectedProduct.ProductType);
                 $scope.recipientsReady = true;
-                console.log("new value of recipientready:" + $scope.recipientsReady);
+                //console.log("new value of recipientready:" + $scope.recipientsReady);
                 angular.forEach($scope.recipientList.List, function(user){
                     if( user.EmailAddress.length<=0 )
                         $scope.recipientsReady = false;
                 });
             }
-            else if ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa") {
+            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.length>0 ){
                 console.log($scope.selectedProduct.ProductType);
-                $scope.recipientsReady = true;
                 console.log("new value of recipientready:" + $scope.recipientsReady);
-                angular.forEach($scope.recipientList.List, function(user){
+                for(var i=0; i<$scope.recipientList.length; i++) {
+                    console.log(user);
+                    console.log(user.Valid);
+
+                }
+                /*angular.forEach($scope.recipientList.List, function(user){
                     console.log(user);
                     if( !user.Valid ) {
                         console.log("inside foreach loop for" + user.FirstName);
                         $scope.recipientsReady = "false";
                     }
                 });
-                console.log("leaving original/visa-current value of recipientready:" + $scope.recipientsReady);
+                console.log("leaving original/visa-current value of recipientready:" + $scope.recipientsReady);*/
             }
-            else if($scope.selectedProduct.ProductType=="Merchant")
+            else if( ($scope.selectedProduct.ProductType=="Merchant")&& $scope.recipientList.length>0 )
             {
                 if( $scope.recipientList.ValidCount == $scope.recipientList.List.length )
                 {
