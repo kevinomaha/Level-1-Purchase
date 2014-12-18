@@ -7,7 +7,7 @@
                     <hr style="margin-bottom:5px;"/>
                     <div style="margin-top:2px;" class="btn btn-link" ng-show="currentOrder.LineItems.length > 0" ng-click="backToCustomization()"><i style="position:relative; top:3px;" class="fa pull-left fa-chevron-left"></i> Create More Awards</div>
                     <hr style="margin-top:5px;"/>
-                    <form name="cart_order_fields" ng-show="currentOrder.HasPhysicalMerchantCards || (currentOrder.OrderFields | onproperty:[{Property: 'Filtered', Value: false}]).length > 0">
+                    <form name="cart_order_fields" ng-show="currentOrder.MerchantCardCount > 0 || (currentOrder.OrderFields | onproperty:[{Property: 'Filtered', Value: false}]).length > 0">
                         <div class="container white-wrapper" style="border:1px solid #ddd;padding-bottom: 10px;padding-top: 10px;margin-bottom: 20px;">
                             <div style="margin-bottom: 10px;">
                                 <div class="row">
@@ -21,7 +21,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div ng-show="currentOrder.HasPhysicalMerchantCards">
+                            <div ng-show="currentOrder.MerchantCardCount > 0">
                                 <div>
                                     <p><b>Personalize Physical Merchant Gift Cards Message Sheet: </b><span class="label label-default">Optional</span></p>
                                     <p><small>You may enter a personalized message to be included in the envelope with you merchant gift cards. Only one message sheet will be included per order.</small></p>
