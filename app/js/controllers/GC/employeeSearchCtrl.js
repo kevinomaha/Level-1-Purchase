@@ -1,5 +1,6 @@
 four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources',
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
+
         $scope.recipientsReady = false;
         $scope.selectedProduct = Customization.getProduct();
         //console.log($scope.selectedProduct);
@@ -13,8 +14,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.searchError = "";
         $scope.searchIndicator = false;
         $scope.seachEmployees = function(searchCriterion) {
-            //console.log("inside seachEmployee..");
-            //console.log($scope.selectedProduct.ProductType);
             $scope.searchIndicator = true;
             $scope.searchError = "";
             $scope.employees = [];
@@ -60,6 +59,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .removeRecipient(recipient, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
+            areRecipientReady();
         };
 
         $scope.tempRecipient = {};
@@ -75,7 +75,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.saveIndicator = false;
         $scope.saveRecipient = function(tempRecipient) {
-            console.log("inside saveRecipient");
+            //console.log("inside saveRecipient");
             $scope.saveIndicator = true;
             tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
             $scope.addressMessage = null;
@@ -182,51 +182,41 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
         };
 
-
-        //console.log("in employeesearchctrl");
-        //console.log($scope.selectedProduct.ProductType);
-        //console.log($scope.selectedProduct);
         function areRecipientReady() {
-            console.log("inside areRecipientReady....");
-            Customization.validateRecipientList($scope.recipientList).setRecipients($scope.recipientList);
-            if ( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards") && $scope.recipientList.length>0 ) {
-                //console.log($scope.selectedProduct.ProductType);
-                $scope.recipientsReady = true;
-                //console.log("new value of recipientready:" + $scope.recipientsReady);
-                angular.forEach($scope.recipientList.List, function(user){
-                    if( user.EmailAddress.length<=0 )
-                        $scope.recipientsReady = false;
-                });
-            }
-            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.length>0 ){
+            if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& $scope.recipientList.List.length>0 ) {
                 console.log($scope.selectedProduct.ProductType);
-                console.log("new value of recipientready:" + $scope.recipientsReady);
-                for(var i=0; i<$scope.recipientList.length; i++) {
-                    console.log($scope.recipientList[i]);
-                    console.log($scope.recipientList[i].Valid);
-                }
-                /*angular.forEach($scope.recipientList.List, function(user){
-                    console.log(user);
-                    if( !user.Valid ) {
-                        console.log("inside foreach loop for" + user.FirstName);
-                        $scope.recipientsReady = "false";
+                var j=0;
+                for(var i=0; i<$scope.recipientList.List.length; i++) {
+                    console.log($scope.recipientList.List[i]);
+                    if ($scope.recipientList.List[i].EmailAddress)
+                    {
+                        // check the pattern of the email address and if needed get new from user
+                        j++;
+                        console.log("in if" + j);
                     }
-                });
-                console.log("leaving original/visa-current value of recipientready:" + $scope.recipientsReady);*/
-            }
-            /*else if( ($scope.selectedProduct.ProductType=="Merchant")&& $scope.recipientList.length>0 )
-            {
-                if( $scope.recipientList.ValidCount == $scope.recipientList.List.length )
-                {
-                    $scope.recipientsReady = true;
-                    angular.forEach($scope.recipientList.List, function(user){
-                        if( user.EmailAddress.length<=0 )
-                            $scope.recipientsReady = false;
-                    });
+                    else
+                    {
+                        console.log("in else");
+                    }
                 }
-            }*/
+                if(j==$scope.recipientList.List.length) {
+                    $scope.recipientsReady = true;
+                }
+            }
+            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
+                console.log($scope.selectedProduct.ProductType);
+                var j=0;
+                for(var i=0; i<$scope.recipientList.List.length; i++) {
+                    console.log($scope.recipientList.List[i]);
+                    if($scope.recipientList.List[i].Valid){
+                        $scope.recipientList.List[i].Valid==true ? j++ : j ;
+                    }
+                }
+                if(j==($scope.recipientList.List.length)) {
+                    $scope.recipientsReady = true;
+                }
+            }
         }
-
 
         $scope.clearSearch = function() {
             $scope.searchCriterion = {};
