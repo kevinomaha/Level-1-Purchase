@@ -107,7 +107,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             else {
                 $scope.saveOriginalAddress();
             }
-            $scope.$apply();
             console.log("calling areRecipientReady from saveRecipient");
             areRecipientReady();
         };
@@ -184,10 +183,11 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         function areRecipientReady() {
-            var list = $scope.recipientList.List;
+
             if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
                 console.log($scope.selectedProduct.ProductType);
                 var j=0;
+                var list = $scope.recipientList.List;
                 for(var i=0; i<list.length; i++) {
                     console.log(list[i]);
                     if (list[i].EmailAddress)
@@ -204,12 +204,11 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 }
                 if(j==list.length) {
                     $scope.recipientsReady = true;
-
                 }
             }
             else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& list.length>0 ){
                 console.log($scope.selectedProduct.ProductType);
-                var j=0;
+                /*var j=0;
                 for(var i=0; i<list.length; i++) {
                     console.log(list[i]);
                     console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid );
@@ -221,8 +220,19 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 console.log("outside for loop");
                 if( j==list.length ) {
                     $scope.recipientsReady = true;
-                }
+                }*/
+                var k=0;
+                angular.forEach($scope.recipientList.List, function(list) {
+                    console.log("checking if user " + list.FirstName + "is valid:" + list.Valid );
+                    if(list.Valid == true ){
+                       k++;
+                    }
+                });
+                console.log("outside foreach loop");
+                if( k==$scope.recipientList.List.length)
+                    $scope.recipientsReady = true;
             }
+            console.log("at the end recipientready is: " + $scope.recipientsReady );
         }
 
         $scope.clearSearch = function() {
