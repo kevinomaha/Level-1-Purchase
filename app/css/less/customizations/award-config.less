@@ -1,0 +1,62 @@
+.list-group-item-invalid {
+  color: #808080;
+  background-color: #E5E5E5;
+}
+
+.main-gc-purchase-view .app-loading-indicator-cell p {
+  color: #000000;
+  bottom: 40%;
+}
+
+.template-selection {
+  figure {
+    cursor: pointer;
+    padding:5px;
+    background-color: @gray-lighter;
+    .border-top-radius(@border-radius-base);
+    border:1px solid #ccc;
+    .transition(all 200ms ease-in-out);
+  }
+  img {
+    padding:5px;
+    background-color:#fff;
+    position:relative;
+    max-width:100%;
+    .border-top-radius(@border-radius-base);
+    .border-bottom-radius(@border-radius-base);
+    border:1px solid #ddd;
+    border-bottom-width:0px;
+    .transition(all 200ms ease-in-out);
+  }
+  p {
+    position:relative;
+    overflow:hidden;
+    white-space: nowrap;
+    border:1px solid #ccc;
+    border-top-width:0px;
+    background-color:#fff;
+    padding:5px;
+    text-align:center;
+    .border-bottom-radius(@border-radius-base);
+    .transition(all 200ms ease-in-out);
+  }
+  i {
+    position:absolute;
+    left:5px;
+    background-color:@ricoh-green;
+    color:#fff;
+    padding:2px;
+    .border-top-radius(50%);
+    .border-bottom-radius(50%);
+  }
+}
+
+.template-selected {
+  img,
+  figure {
+    border-color:@ricoh-green;
+  }
+  figure {
+    background-color:lighten(@ricoh-green, 15);
+  }
+}

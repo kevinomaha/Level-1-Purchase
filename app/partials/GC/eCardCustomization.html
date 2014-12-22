@@ -43,22 +43,17 @@
                     <loadingindicator ng-show="generateAwardsIndicator" title="Please wait while your awards(s) are generated" />
                     <div class="row">
                         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                            <div class="row">
-                                <!--<div ng-show="ProductThumbnail">
-                                    <img ng-src="{{ProductThumbnail}}" style="display:block; margin-left:auto; margin-right:auto; text-align:center" />
-                                </div>-->
-                                <div ng-show="Templates.length > 1" class="template-selection row">
-                                    <div class="view-form-icon" ng-show="selectedProduct.Specs.DesignName">
-                                        <div>
-                                            <label>{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</label>
-                                            <div ng-repeat="template in Templates" class="col-sm-3">
-                                                <figure ng-class="{'template-selected':selectedProduct.Specs.DesignID.Value == template.DesignId}" ng-click="selectTemplate(template)">
-                                                    <img ng-src="{{template.ThumbnailUrl}}" />
-                                                </figure>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div ng-show="selectedProduct.Specs.DesignName && Templates.length > 1" class="template-selection row">
+                                <label>{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</label>
+                                <div ng-repeat="template in Templates" class="col-sm-3" ng-class="{'template-selected':selectedProduct.Specs.DesignID.Value == template.DesignId}">
+                                    <figure ng-click="selectTemplate(template)">
+                                        <!--<i class="fa fa-check" ng-show="selectedProduct.Specs.DesignID.Value == template.DesignId"></i>-->
+                                        <img ng-src="{{template.ThumbnailUrl}}" />
+                                    </figure>
+                                    <p><i class="fa fa-check" ng-show="selectedProduct.Specs.DesignID.Value == template.DesignId"></i>{{template.Name}}</p>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-sm-6">
                                     <!--<div class="view-form-icon" ng-show="selectedProduct.Specs.DesignName && selectedProduct.Specs.DesignName.Options && selectedProduct.Specs.DesignName.Options.length > 1">
                                         <div>
