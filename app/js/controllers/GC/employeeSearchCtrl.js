@@ -206,7 +206,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     $scope.recipientsReady = true;
                 }
             }
-            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& list.length>0 ){
+            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
                 console.log($scope.selectedProduct.ProductType);
                 /*var j=0;
                 for(var i=0; i<list.length; i++) {
