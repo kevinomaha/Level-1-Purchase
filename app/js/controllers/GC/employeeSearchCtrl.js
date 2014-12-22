@@ -221,15 +221,21 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 if( j==list.length ) {
                     $scope.recipientsReady = true;
                 }*/
-                var k=0;
-                angular.forEach($scope.recipientList.List, function(list) {
+                var k= 0, j=$scope.recipientList.List ;
+                $scope.$watch(
+                    function(){ return $scope.recipientList.List },
+                    function(newVal) {
+                        j = newVal;
+                });
+                angular.forEach(j, function(list) {
+                    console.log(list);
                     console.log("checking if user " + list.FirstName + "is valid:" + list.Valid );
                     if(list.Valid == true ){
                        k++;
                     }
                 });
                 console.log("outside foreach loop");
-                if( k==$scope.recipientList.List.length)
+                if( k==j.length)
                     $scope.recipientsReady = true;
             }
             console.log("at the end recipientready is: " + $scope.recipientsReady );
