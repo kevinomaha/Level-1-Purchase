@@ -43,7 +43,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             return count;
         }
 
-
         $scope.selectEmployee = function(employee) {
             console.log("inside selectEmployee");
             Customization
@@ -185,7 +184,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     }
                 }
                 if(j==list.length) {
-                    recipientsReady = true;
+                    console.log( "recipientList.List.length:" + list.length );
+                    $scope.recipientsReady = true;
                 }
             }
             else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& list.length>0 ){
@@ -200,9 +200,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     }
                 }
                 console.log("outside for loop");
-                if( j==list.length ) {
-                   $scope.recipientsReady = true;
-                }
+                if( j==list.length )
+                    $scope.recipientsReady = true;
                 /*var k= 0;
                 angular.forEach(list, function(l) {
                     console.log(l);
@@ -214,7 +213,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 if( k==list.length)
                     recipientsReady = true;*/
             }
-            console.log("at the end recipientsready is: " + recipientsReady );
+            console.log("at the end recipientsready is: " + $scope.recipientsReady );
         }
 
         $scope.goToCustomization = function() {
