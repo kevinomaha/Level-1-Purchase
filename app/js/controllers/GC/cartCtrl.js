@@ -62,9 +62,15 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
 
         $scope.updateItem = function(item) {
             item.Editing = false;
-            for (var i = 0; i < $scope.currentOrder.LineItems; i++) {
-                if (item.ID == $scope.currentOrder.LineItem[i].ID) {
-                    $scope.currentOrder.LineItem[i].Specs = item.Specs;
+            for (var i = 0; i < $scope.currentOrder.LineItems.length; i++) {
+                if (item.ID == $scope.currentOrder.LineItems[i].ID) {
+                    $scope.currentOrder.LineItems[i].Specs = item.Specs;
+                    angular.forEach($scope.currentOrder.LineItems[i].Specs, function(spec) {
+                        if (spec.Name.toLowerCase().indexOf('futureshipdate') > -1) {
+                            var tempDate = new Date(spec.Value);
+                            spec.Value = tempDate.getMonth()+1 + "/" + tempDate.getDate() + "/" + tempDate.getFullYear();
+                        }
+                    });
                 }
             }
             $scope.saveChanges();
@@ -196,5 +202,9 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             });
             $scope.saveChanges();
         };
+
+        var today = new Date();
+        $scope.currentDate = angular.copy(today);
+        $scope.maxDate = today.setDate(today.getDate() + 120);
 
     }]);

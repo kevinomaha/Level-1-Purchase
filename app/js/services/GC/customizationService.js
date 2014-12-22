@@ -169,6 +169,14 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                             console.log(lineItem.Product.Specs['PreviewURL'].Value);
                             itemCount++;
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);
+
+                            angular.forEach(lineItem.Specs, function(spec) {
+                                if (spec.Value instanceof Date) {
+                                    var tempDate = new Date(spec.Value);
+                                    spec.Value = tempDate.getMonth()+1 + "/" + tempDate.getDate() + "/" + tempDate.getFullYear();
+                                }
+                            });
+
                             order.LineItems.push(lineItem);
                             if (recipCount == itemCount) {
                                 success(order);
