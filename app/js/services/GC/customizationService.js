@@ -261,6 +261,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
 
         var _areRecipientsReady = function(recipientList, product, recipientsReady) {
             console.log("inside customization.areRecipientsReady");
+            Customization.validateRecipientList(recipientList);
             if( (product.ProductType == "Digital" || product.ProductType == "e-Cards")&& recipientList.length>0 ) {
                 console.log(product.ProductType);
                 var j=0;
@@ -307,9 +308,8 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 angular.forEach(j, function(list) {
                     console.log(list);
                     console.log("checking if user " + list.FirstName + "is valid:" + list.Valid );
-                    if(list.Valid == true ){
+                    if(list.Valid && list.BeingEdited )
                         k++;
-                    }
                 });
                 console.log("outside foreach loop");
                 if( k==j.length)
