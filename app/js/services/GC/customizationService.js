@@ -221,6 +221,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
         };
 
         var _validateRecipientList = function(recipientList) {
+            console.log("inside validateRecipientList");
             recipientList.ValidCount = 0;
             angular.forEach(recipientList.List, function(recipient) {
                 recipient.Valid = false;
