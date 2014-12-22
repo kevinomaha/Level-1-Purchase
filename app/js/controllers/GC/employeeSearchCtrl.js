@@ -165,12 +165,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         function areRecipientsReady() {
-            console.log("inside customization.areRecipientsReady");
-            console.log("before validate: "+ $scope.recipientList.List);
-            $scope.recipientList = Customization.validateRecipientList($scope.recipientList);
-            console.log("after validate: "+ $scope.recipientList.List );
-
-            list = $scope.recipientList.List;
+            var list = $scope.recipientList.List;
 
             if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
                 console.log($scope.selectedProduct.ProductType);
@@ -195,25 +190,20 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
             else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& list.length>0 ){
                 console.log($scope.selectedProduct.ProductType);
-                /*var j=0;
-                 for(var i=0; i<list.length; i++) {
-                 console.log(list[i]);
-                 console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid );
-                 if(list[i].Valid){
-                 console.log("inside the if condition");
-                 list[i].Valid==true ? j++ : j ;
-                 }
-                 }
-                 console.log("outside for loop");
-                 if( j==list.length ) {
-                 $scope.recipientsReady = true;
-                 }*/
-                var k= 0;
-                /*$scope.$watch(
-                 function(){ return $scope.recipientList.List },
-                 function(newVal) {
-                 j = newVal;
-                 });*/
+                var j=0;
+                for( var i=0; i<list.length; i++ ) {
+                    console.log(list[i]);
+                    console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid );
+                    if(list[i].Valid){
+                        console.log("inside the if condition");
+                        j++;
+                    }
+                }
+                console.log("outside for loop");
+                if( j==list.length ) {
+                   $scope.recipientsReady = true;
+                }
+                /*var k= 0;
                 angular.forEach(list, function(l) {
                     console.log(l);
                     console.log("checking if user " + l.FirstName + "is valid:" + l.Valid );
@@ -222,7 +212,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 });
                 console.log("outside foreach loop");
                 if( k==list.length)
-                    recipientsReady = true;
+                    recipientsReady = true;*/
             }
             console.log("at the end recipientsready is: " + recipientsReady );
         }
