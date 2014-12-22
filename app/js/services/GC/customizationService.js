@@ -259,6 +259,67 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             );
         };
 
+
+
+        var _areRecipientsReady = function(recipientList, product, recipientReady) {
+            console.log("inside customization.areRecipientsReady");
+            if( (product.ProductType == "Digital" || product.ProductType == "e-Cards")&& recipientList.length>0 ) {
+                console.log(product.ProductType);
+                var j=0;
+                var list = recipientList.List;
+                for(var i=0; i<list.length; i++) {
+                    console.log(list[i]);
+                    if (list[i].EmailAddress)
+                    {
+                        // check the pattern of the email address and if needed get new from user
+                        j++;
+                        console.log("in if" + j);
+                    }
+                    else
+                    {
+                        console.log("in else");
+                        $scope.onlyEmail = true; // for getting emailaddress from user in case not present already
+                    }
+                }
+                if(j==list.length) {
+                    recipientsReady = true;
+                }
+            }
+            else if ( (product.ProductType == "Original" | product.ProductType == "Visa")&& recipientList.List.length>0 ){
+                console.log(product.ProductType);
+                /*var j=0;
+                 for(var i=0; i<list.length; i++) {
+                 console.log(list[i]);
+                 console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid );
+                 if(list[i].Valid){
+                 console.log("inside the if condition");
+                 list[i].Valid==true ? j++ : j ;
+                 }
+                 }
+                 console.log("outside for loop");
+                 if( j==list.length ) {
+                 $scope.recipientsReady = true;
+                 }*/
+                var k= 0, j=recipientList.List ;
+                /*$scope.$watch(
+                    function(){ return $scope.recipientList.List },
+                    function(newVal) {
+                        j = newVal;
+                    });*/
+                angular.forEach(j, function(list) {
+                    console.log(list);
+                    console.log("checking if user " + list.FirstName + "is valid:" + list.Valid );
+                    if(list.Valid == true ){
+                        k++;
+                    }
+                });
+                console.log("outside foreach loop");
+                if( k==j.length)
+                    recipientsReady = true;
+            }
+            console.log("at the end recipientready is: " + recipientsReady );
+        }
+
         return {
             getRecipients: _getRecipients,
             setRecipients: _setRecipients,
@@ -271,6 +332,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             removeRecipient: _removeRecipient,
             validateRecipientList: _validateRecipientList,
             setAddress: _setAddress,
-            getTemplateThumbnails: _getTemplateThumbnails
+            getTemplateThumbnails: _getTemplateThumbnails,
+            areRecipientsReady: _areRecipientsReady
         }
     }]);

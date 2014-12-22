@@ -50,8 +50,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .addRecipient(employee, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
-            console.log("calling areRecipientReady from selectEmployee");
-            areRecipientReady();
+            console.log("calling areRecipientsReady from selectEmployee");
+            $scope.recipientsReady = Customization.areRecipientsReady($scope.recipientList, $scope.selectedProduct, $scope.recipientsReady);
         };
 
         $scope.removeRecipient = function(recipient) {
@@ -59,7 +59,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .removeRecipient(recipient, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
-            areRecipientReady();
+            $scope.recipientsReady = Customization.areRecipientsReady($scope.recipientList, $scope.selectedProduct, $scope.recipientsReady);
         };
 
         $scope.tempRecipient = {};
@@ -105,10 +105,10 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 //$scope.saveOriginalAddress();
             }
             else {
-                $scope.saveOriginalAddress();
+                $scope.saveOriginalAddress().success();
             }
-            console.log("calling areRecipientReady from saveRecipient");
-            areRecipientReady();
+            console.log("calling areRecipientsReady from saveRecipient");
+            $scope.recipientsReady = Customization.areRecipientsReady($scope.recipientList, $scope.selectedProduct, $scope.recipientsReady);
         };
 
         $scope.saveOriginalAddress = function() {
@@ -182,64 +182,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
         };
 
-        function areRecipientReady() {
-
-            if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
-                console.log($scope.selectedProduct.ProductType);
-                var j=0;
-                var list = $scope.recipientList.List;
-                for(var i=0; i<list.length; i++) {
-                    console.log(list[i]);
-                    if (list[i].EmailAddress)
-                    {
-                        // check the pattern of the email address and if needed get new from user
-                        j++;
-                        console.log("in if" + j);
-                    }
-                    else
-                    {
-                        console.log("in else");
-                        $scope.onlyEmail = true; // for getting emailaddress from user in case not present already
-                    }
-                }
-                if(j==list.length) {
-                    $scope.recipientsReady = true;
-                }
-            }
-            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
-                console.log($scope.selectedProduct.ProductType);
-                /*var j=0;
-                for(var i=0; i<list.length; i++) {
-                    console.log(list[i]);
-                    console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid );
-                    if(list[i].Valid){
-                        console.log("inside the if condition");
-                        list[i].Valid==true ? j++ : j ;
-                    }
-                }
-                console.log("outside for loop");
-                if( j==list.length ) {
-                    $scope.recipientsReady = true;
-                }*/
-                var k= 0, j=$scope.recipientList.List ;
-                $scope.$watch(
-                    function(){ return $scope.recipientList.List },
-                    function(newVal) {
-                        j = newVal;
-                });
-                angular.forEach(j, function(list) {
-                    console.log(list);
-                    console.log("checking if user " + list.FirstName + "is valid:" + list.Valid );
-                    if(list.Valid == true ){
-                       k++;
-                    }
-                });
-                console.log("outside foreach loop");
-                if( k==j.length)
-                    $scope.recipientsReady = true;
-            }
-            console.log("at the end recipientready is: " + $scope.recipientsReady );
-        }
 
         $scope.clearSearch = function() {
             $scope.searchCriterion = {};
