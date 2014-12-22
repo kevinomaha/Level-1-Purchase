@@ -261,7 +261,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
 
         var _areRecipientsReady = function(recipientList, product, recipientsReady) {
             console.log("inside customization.areRecipientsReady");
-            Customization.validateRecipientList(recipientList);
+            _validateRecipientList(recipientList);
             if( (product.ProductType == "Digital" || product.ProductType == "e-Cards")&& recipientList.length>0 ) {
                 console.log(product.ProductType);
                 var j=0;
