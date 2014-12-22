@@ -50,7 +50,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .addRecipient(employee, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
-            console.log("calling areRecipientsReady from selectEmployee");
+            $scope.$digest();
+            console.log("calling areRecipientsReady from selectEmployee" + $scope.recipientList);
             $scope.recipientsReady = Customization.areRecipientsReady($scope.recipientList, $scope.selectedProduct, $scope.recipientsReady);
         };
 
@@ -108,7 +109,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             else {
                 $scope.saveOriginalAddress();
             }
-            console.log("calling areRecipientsReady from saveRecipient");
+            $scope.$digest();
+            console.log("calling areRecipientsReady from saveRecipient"+ $scope.recipientList);
             $scope.recipientsReady = Customization.areRecipientsReady($scope.recipientList, $scope.selectedProduct, $scope.recipientsReady);
         };
 
