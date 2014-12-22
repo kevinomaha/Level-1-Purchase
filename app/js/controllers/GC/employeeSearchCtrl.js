@@ -162,7 +162,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         function areRecipientsReady() {
             Customization.validateRecipientList($scope.recipientList);
-            var list = recipientList.List;
+            var list = $scope.recipientList.List;
             if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
                 console.log($scope.selectedProduct.ProductType);
                 var j=0;
