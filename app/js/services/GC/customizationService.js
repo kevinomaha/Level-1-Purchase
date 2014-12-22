@@ -259,9 +259,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             );
         };
 
-
-
-        var _areRecipientsReady = function(recipientList, product, recipientReady) {
+        var _areRecipientsReady = function(recipientList, product, recipientsReady) {
             console.log("inside customization.areRecipientsReady");
             if( (product.ProductType == "Digital" || product.ProductType == "e-Cards")&& recipientList.length>0 ) {
                 console.log(product.ProductType);
@@ -317,7 +315,8 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 if( k==j.length)
                     recipientsReady = true;
             }
-            console.log("at the end recipientready is: " + recipientsReady );
+            console.log("at the end recipientsready is: " + recipientsReady );
+            return recipientsReady;
         }
 
         return {

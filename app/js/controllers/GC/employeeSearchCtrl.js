@@ -59,6 +59,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .removeRecipient(recipient, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
+            console.log("calling areRecipientsReady from removeRecipient");
             $scope.recipientsReady = Customization.areRecipientsReady($scope.recipientList, $scope.selectedProduct, $scope.recipientsReady);
         };
 
@@ -75,7 +76,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.saveIndicator = false;
         $scope.saveRecipient = function(tempRecipient) {
-            //console.log("inside saveRecipient");
+            console.log("inside saveRecipient");
             $scope.saveIndicator = true;
             tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
             $scope.addressMessage = null;
