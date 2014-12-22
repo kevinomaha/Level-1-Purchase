@@ -164,8 +164,8 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         function areRecipientsReady() {
+            $scope.recipientList = Customization.validateRecipientList($scope.recipientList);
             var list = $scope.recipientList.List;
-
             if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
                 console.log($scope.selectedProduct.ProductType);
                 var j=0;
@@ -202,16 +202,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 console.log("outside for loop");
                 if( j==list.length )
                     $scope.recipientsReady = true;
-                /*var k= 0;
-                angular.forEach(list, function(l) {
-                    console.log(l);
-                    console.log("checking if user " + l.FirstName + "is valid:" + l.Valid );
-                    if(l.Valid && l.BeingEdited )
-                        k++;
-                });
-                console.log("outside foreach loop");
-                if( k==list.length)
-                    recipientsReady = true;*/
             }
             console.log("at the end recipientsready is: " + $scope.recipientsReady );
         }
