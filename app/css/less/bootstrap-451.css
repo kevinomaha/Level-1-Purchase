@@ -8002,3 +8002,16 @@ body {
   color: #000000;
   bottom: 40%;
 }
+.template-selection img {
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px;
+}
+.template-selection figure {
+  border-radius: 4px;
+  cursor: pointer;
+}
+.template-selection .template-selected {
+  border: 3px solid #005983;
+}
