@@ -12,6 +12,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         console.log('Clicked Product ' + product.interopID + ' and type ' + product.ProductType );
         //$scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/L1slctv2MGC3');
         Customization.setProduct(product);
+        Customization.clearRecipients();
         $location.path('employeesearch');
     };
 

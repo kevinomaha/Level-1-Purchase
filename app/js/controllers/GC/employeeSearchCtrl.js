@@ -107,6 +107,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             else {
                 $scope.saveOriginalAddress();
             }
+            $scope.$apply();
             console.log("calling areRecipientReady from saveRecipient");
             areRecipientReady();
         };
@@ -183,12 +184,13 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         function areRecipientReady() {
-            if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& $scope.recipientList.List.length>0 ) {
+            var list = $scope.recipientList.List;
+            if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
                 console.log($scope.selectedProduct.ProductType);
                 var j=0;
-                for(var i=0; i<$scope.recipientList.List.length; i++) {
-                    console.log($scope.recipientList.List[i]);
-                    if ($scope.recipientList.List[i].EmailAddress)
+                for(var i=0; i<list.length; i++) {
+                    console.log(list[i]);
+                    if (list[i].EmailAddress)
                     {
                         // check the pattern of the email address and if needed get new from user
                         j++;
@@ -197,22 +199,27 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     else
                     {
                         console.log("in else");
+                        $scope.onlyEmail = true; // for getting emailaddress from user in case not present already
                     }
                 }
-                if(j==$scope.recipientList.List.length) {
+                if(j==list.length) {
                     $scope.recipientsReady = true;
+
                 }
             }
-            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
+            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& list.length>0 ){
                 console.log($scope.selectedProduct.ProductType);
                 var j=0;
-                for(var i=0; i<$scope.recipientList.List.length; i++) {
-                    console.log($scope.recipientList.List[i]);
-                    if($scope.recipientList.List[i].Valid){
-                        $scope.recipientList.List[i].Valid==true ? j++ : j ;
+                for(var i=0; i<list.length; i++) {
+                    console.log(list[i]);
+                    console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid );
+                    if(list[i].Valid){
+                        console.log("inside the if condition");
+                        list[i].Valid==true ? j++ : j ;
                     }
                 }
-                if(j==($scope.recipientList.List.length)) {
+                console.log("outside for loop");
+                if( j==list.length ) {
                     $scope.recipientsReady = true;
                 }
             }
