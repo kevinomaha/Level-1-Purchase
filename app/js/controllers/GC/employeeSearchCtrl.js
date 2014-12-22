@@ -193,7 +193,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 var j=0;
                 for( var i=0; i<list.length; i++ ) {
                     console.log(list[i]);
-                    console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid );
+                    console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid + "ValidCount" + list.ValidCount );
                     if(list[i].Valid){
                         console.log("inside the if condition");
                         j++;
