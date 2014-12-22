@@ -44,13 +44,10 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         }
 
         $scope.selectEmployee = function(employee) {
-            console.log("inside selectEmployee");
             Customization
                 .addRecipient(employee, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
-
-            console.log("calling areRecipientsReady from selectEmployee" + $scope.recipientList);
             areRecipientsReady();
         };
 
@@ -164,7 +161,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         function areRecipientsReady() {
-            $scope.recipientList = Customization.validateRecipientList($scope.recipientList);
+            Customization.validateRecipientList($scope.recipientList);
             var list = $scope.recipientList.List;
             if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
                 console.log($scope.selectedProduct.ProductType);
