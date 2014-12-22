@@ -47,7 +47,11 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
                 spec.ReadOnly = (employeeSpecs.indexOf(spec.Name) > -1 || additionalReadOnlySpecs.indexOf(spec.Name) > -1);
                 spec.Required = spec.ReadOnly ? false : spec.Required;
                 spec.Placeholder = (spec.Label || spec.Name);
-                spec.InputType = (spec.Name.toLowerCase().indexOf('email') > -1 && spec.Name.toLowerCase().indexOf('subject') == -1) ? 'email' : 'text';
+
+                spec.InputType = (spec.Name.toLowerCase().indexOf('email') > -1 && spec.Name.toLowerCase().indexOf('subject') == -1) ? 'email' : (spec.Name.toLowerCase().indexOf('futureshipdate') > -1) ? 'date' : 'text';
+
+
+
                 spec.OrderIndex = (spec.Name == 'Message') ? 999 : spec.ListOrder;
             });
             item.SpecsLength = Object.keys(item.Specs).length;
