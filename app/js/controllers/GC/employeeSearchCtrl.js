@@ -106,7 +106,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 //$scope.saveOriginalAddress();
             }
             else {
-                $scope.saveOriginalAddress().success();
+                $scope.saveOriginalAddress();
             }
             console.log("calling areRecipientsReady from saveRecipient");
             $scope.recipientsReady = Customization.areRecipientsReady($scope.recipientList, $scope.selectedProduct, $scope.recipientsReady);
