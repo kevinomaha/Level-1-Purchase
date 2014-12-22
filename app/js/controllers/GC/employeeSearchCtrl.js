@@ -107,6 +107,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             else {
                 $scope.saveOriginalAddress();
             }
+            $scope.$apply();
             console.log("calling areRecipientReady from saveRecipient");
             areRecipientReady();
         };
@@ -197,10 +198,12 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                     else
                     {
                         console.log("in else");
+                        $scope.onlyEmail = true; // for getting emailaddress from user in case not present already
                     }
                 }
                 if(j==$scope.recipientList.List.length) {
                     $scope.recipientsReady = true;
+
                 }
             }
             else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& $scope.recipientList.List.length>0 ){
@@ -208,10 +211,13 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 var j=0;
                 for(var i=0; i<$scope.recipientList.List.length; i++) {
                     console.log($scope.recipientList.List[i]);
+                    console.log("checking if user " + $scope.recipientList.List[i].FirstName + "is valid:" + $scope.recipientList.List[i].Valid );
                     if($scope.recipientList.List[i].Valid){
+                        console.log("inside the if condition");
                         $scope.recipientList.List[i].Valid==true ? j++ : j ;
                     }
                 }
+                console.log("outside for loop");
                 if(j==($scope.recipientList.List.length)) {
                     $scope.recipientsReady = true;
                 }
