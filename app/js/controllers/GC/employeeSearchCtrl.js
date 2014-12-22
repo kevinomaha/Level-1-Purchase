@@ -52,7 +52,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .setRecipients($scope.recipientList);
             $scope.$digest();
             console.log("calling areRecipientsReady from selectEmployee" + $scope.recipientList);
-            $scope.recipientsReady = Customization.areRecipientsReady($scope.recipientList, $scope.selectedProduct, $scope.recipientsReady);
+            areRecipientsReady();
         };
 
         $scope.removeRecipient = function(recipient) {
@@ -111,7 +111,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
             $scope.$digest();
             console.log("calling areRecipientsReady from saveRecipient"+ $scope.recipientList);
-            $scope.recipientsReady = Customization.areRecipientsReady($scope.recipientList, $scope.selectedProduct, $scope.recipientsReady);
+            areRecipientsReady();
         };
 
         $scope.saveOriginalAddress = function() {
@@ -164,7 +164,68 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.tempRecipient.Address.AssignToAll = assignToAll;
         };
 
+        function areRecipientsReady() {
+            console.log("inside customization.areRecipientsReady");
+            console.log("before validate: "+ recipientList);
+            $scope.recipientList = Customization.validateRecipientList($scope.recipientList);
+            console.log("after validate: "+ recipientList);
 
+            list = $scope.recipientList.List;
+
+            if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
+                console.log($scope.selectedProduct.ProductType);
+                var j=0;
+                for(var i=0; i<list.length; i++) {
+                    console.log(list[i]);
+                    if (list[i].EmailAddress)
+                    {
+                        // check the pattern of the email address and if needed get new from user
+                        j++;
+                        console.log("in if" + j);
+                    }
+                    else
+                    {
+                        console.log("in else");
+                        $scope.onlyEmail = true; // for getting emailaddress from user in case not present already
+                    }
+                }
+                if(j==list.length) {
+                    recipientsReady = true;
+                }
+            }
+            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& list.length>0 ){
+                console.log($scope.selectedProduct.ProductType);
+                /*var j=0;
+                 for(var i=0; i<list.length; i++) {
+                 console.log(list[i]);
+                 console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid );
+                 if(list[i].Valid){
+                 console.log("inside the if condition");
+                 list[i].Valid==true ? j++ : j ;
+                 }
+                 }
+                 console.log("outside for loop");
+                 if( j==list.length ) {
+                 $scope.recipientsReady = true;
+                 }*/
+                var k= 0;
+                /*$scope.$watch(
+                 function(){ return $scope.recipientList.List },
+                 function(newVal) {
+                 j = newVal;
+                 });*/
+                angular.forEach(list, function(l) {
+                    console.log(l);
+                    console.log("checking if user " + l.FirstName + "is valid:" + l.Valid );
+                    if(l.Valid && l.BeingEdited )
+                        k++;
+                });
+                console.log("outside foreach loop");
+                if( k==list.length)
+                    recipientsReady = true;
+            }
+            console.log("at the end recipientsready is: " + recipientsReady );
+        }
 
         $scope.goToCustomization = function() {
             switch($scope.selectedProduct.ProductType) {
