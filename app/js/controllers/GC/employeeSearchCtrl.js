@@ -166,9 +166,9 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         function areRecipientsReady() {
             console.log("inside customization.areRecipientsReady");
-            console.log("before validate: "+ recipientList);
+            console.log("before validate: "+ $scope.recipientList.List);
             $scope.recipientList = Customization.validateRecipientList($scope.recipientList);
-            console.log("after validate: "+ recipientList);
+            console.log("after validate: "+ $scope.recipientList.List );
 
             list = $scope.recipientList.List;
 
