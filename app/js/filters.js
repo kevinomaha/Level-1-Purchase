@@ -201,7 +201,7 @@ four51.app.filter('gcshippers', function() {
         }
         else {
             angular.forEach(shipper, function(s) {
-                if (a.IsShipping && !a.IsCustEditable) {
+                if (s.Name.indexOf('Email') != -1) {
                     results.push(s);
                 }
             });
