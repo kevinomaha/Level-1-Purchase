@@ -57,7 +57,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
             console.log("calling areRecipientsReady from removeRecipient");
-            $scope.recipientsReady = Customization.areRecipientsReady($scope.recipientList, $scope.selectedProduct, $scope.recipientsReady);
+            areRecipientsReady();
         };
 
         $scope.tempRecipient = {};
@@ -161,46 +161,45 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         function areRecipientsReady() {
-            Customization.validateRecipientList($scope.recipientList).then(function(recipientList){
-                var list = recipientList.List;
-                if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
-                    console.log($scope.selectedProduct.ProductType);
-                    var j=0;
-                    for(var i=0; i<list.length; i++) {
-                        console.log(list[i]);
-                        if (list[i].EmailAddress)
-                        {
-                            // check the pattern of the email address and if needed get new from user
-                            j++;
-                            console.log("in if" + j);
-                        }
-                        else
-                        {
-                            console.log("in else");
-                            $scope.onlyEmail = true; // for getting emailaddress from user in case not present already
-                        }
+            Customization.validateRecipientList($scope.recipientList);
+            var list = recipientList.List;
+            if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
+                console.log($scope.selectedProduct.ProductType);
+                var j=0;
+                for(var i=0; i<list.length; i++) {
+                    console.log(list[i]);
+                    if (list[i].EmailAddress)
+                    {
+                        // check the pattern of the email address and if needed get new from user
+                        j++;
+                        console.log("in if" + j);
                     }
-                    if(j==list.length) {
-                        console.log( "recipientList.List.length:" + list.length );
-                        $scope.recipientsReady = true;
+                    else
+                    {
+                        console.log("in else");
+                        $scope.onlyEmail = true; // for getting emailaddress from user in case not present already
                     }
                 }
-                else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& list.length>0 ){
-                    console.log($scope.selectedProduct.ProductType);
-                    var j=0;
-                    for( var i=0; i<list.length; i++ ) {
-                        console.log(list[i]);
-                        console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid + "ValidCount" + list.ValidCount );
-                        if(list[i].Valid){
-                            console.log("inside the if condition");
-                            j++;
-                        }
-                    }
-                    console.log("outside for loop");
-                    if( j==list.length )
-                        $scope.recipientsReady = true;
+                if(j==list.length) {
+                    console.log( "recipientList.List.length:" + list.length );
+                    $scope.recipientsReady = true;
                 }
-            });
+            }
+            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& list.length>0 ){
+                console.log($scope.selectedProduct.ProductType);
+                var j=0;
+                for( var i=0; i<list.length; i++ ) {
+                    console.log(list[i]);
+                    console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid + "ValidCount" + list.ValidCount );
+                    if(list[i].Valid){
+                        console.log("inside the if condition");
+                        j++;
+                    }
+                }
+                console.log("outside for loop");
+                if( j==list.length )
+                    $scope.recipientsReady = true;
+            }
             console.log("at the end recipientsready is: " + $scope.recipientsReady );
         }
 
