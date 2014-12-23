@@ -24,7 +24,7 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451', '$filter',
             recipient.EmployeeNumber = $filter('employeeproperty')(recipient, 'ThirdPartyID');
             recipient.Marketplace = $filter('employeeproperty')(recipient, 'CustomProperty1');
             recipient.JobFamily = $filter('employeeproperty')(recipient, 'CustomProperty2');
-            recipient.Supervisor = $filter('employeeproperty')(recipient, 'ManagerID');
+            recipient.Supervisor = (recipient.SupervisorFirstName ? recipient.SupervisorFirstName : '') + (recipient.SupervisorLastName ? ' ' + recipient.SupervisorLastName : '');
             recipient.ADPCompanyCode = $filter('employeeproperty')(recipient, 'CustomProperty3');
         }
 
