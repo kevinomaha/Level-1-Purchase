@@ -1,5 +1,5 @@
-four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources',
-    function ($routeParams, $sce, $scope, $451, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
+four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$filter', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources',
+    function ($routeParams, $sce, $scope, $451, $filter, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
 
         $scope.recipientsReady = false;
         $scope.selectedProduct = Customization.getProduct();
@@ -19,8 +19,14 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.employees = [];
             if (objKeyCount(searchCriterion) > 0) {
                 EmployeeSearch.search(searchCriterion, $scope.user, $scope.recipientList, function(data) {
-                    $scope.employees = data;
+                    if (newEmployeeCount(data) > 0) {
+                        $scope.employees = data;
                         $scope.searchIndicator = false;
+                    }
+                    else {
+                        $scope.searchError = "No results were returned. Please try again.";
+                    }
+                    $scope.searchIndicator = false;
                 },
                 function() {
                     $scope.searchError = "No results were returned. Please try again.";
@@ -32,6 +38,14 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 $scope.searchIndicator = false;
             }
         };
+
+        function newEmployeeCount(list) {
+            var count = 0;
+            angular.forEach(list, function(employee) {
+                if (!employee.Added) count++;
+            });
+            return count;
+        }
 
         function objKeyCount(obj) {
             var count = 0;

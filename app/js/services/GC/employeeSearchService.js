@@ -32,7 +32,7 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451', '$filter',
             criteria['p'] = user.PortalID;
             $resource(baseUrl, {}).query(criteria).$promise.then(function(data) {
                 angular.forEach(data, function(employee) {
-                    _extendEmployee(employee);
+                    _extendEmployee(employee, recipientList);
                 });
                 _then(success, data);
             },
