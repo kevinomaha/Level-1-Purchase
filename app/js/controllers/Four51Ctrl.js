@@ -50,6 +50,7 @@ function ($scope, $rootScope, $route, $routParams, $location, $451, User, Order,
                     Order.get(user.CurrentOrderID, function(ordr) {
                         $scope.currentOrder = ordr;
 			            OrderConfig.costcenter(ordr, user);
+			            OrderConfig.paymentMethod(ordr, user);
                         $scope.$broadcast('event:orderUpdate', $scope.currentOrder);
                     });
                 }

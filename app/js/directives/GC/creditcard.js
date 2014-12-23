@@ -142,6 +142,7 @@ four51.app.directive('creditcard', function() {
             });
 
             function validateCVN(cvn) {
+                if (!$scope.currentOrder.CreditCard.Type || !$scope.currentOrder.CreditCard.AccountNumber || $scope.currentOrder.CreditCardID) return true;
                 if ($scope.currentOrder.CreditCard.Type == 'AmericanExpress')
                     return cvn.length == 4;
                 return cvn.length == 3;

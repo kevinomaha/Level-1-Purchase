@@ -241,13 +241,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     };
 
     $scope.clearRecipient('recipient');
-    $scope.recipientList = store.get("451Cache.RecipientList") ? store.get("451Cache.RecipientList") : [];
-
-    if ($scope.recipientList.length > 0) {
-        angular.forEach($scope.recipientList, function (recipient) {
-            recipient.FullName = recipient.FirstName + " " + recipient.LastName;
-        });
-    }
 
 
     $scope.isDesktop = function () {
@@ -256,9 +249,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     };
 
     $rootScope.showMaker = true;
-    if ($scope.recipientList.length != 0) {
-        $scope.showMaker = false;
-    }
 
     $scope.countries = Resources.countries;
     $scope.states = Resources.states;

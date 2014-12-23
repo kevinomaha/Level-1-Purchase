@@ -32,7 +32,7 @@ function ($scope, $rootScope, SavedCreditCard) {
     });
 
 	$rootScope.$on('event:SpendingAccountUpdate', function(event, accounts) {
-		if ($scope.currentOrder.PaymentMethod == 'BudgetAccount') {
+		if ($scope.currentOrder && $scope.currentOrder.PaymentMethod == 'BudgetAccount') {
 			angular.forEach(accounts, function(a) {
 				if ($scope.selectedBudgetAccount) return;
 				if ($scope.currentOrder.BudgetAccountID == null && a.AccountType.PurchaseCredit) {

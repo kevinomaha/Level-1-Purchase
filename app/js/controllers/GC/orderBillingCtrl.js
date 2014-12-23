@@ -163,7 +163,12 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
 	}
 
 	$scope.$watch('[currentOrder.CreditCard.CVN,currentOrder.CreditCard.Type]', function(event) {
-		$scope.cart_billing.$setValidity('cvn', validateCVN(event));
+        if ($scope.currentOrder && (!$scope.currentOrder.CreditCard.Type || !$scope.currentOrder.CreditCard.AccountNumber || $scope.currentOrder.CreditCardID))  {
+            $scope.cart_billing.$setValidity('cvn', true);
+        }
+        else {
+            $scope.cart_billing.$setValidity('cvn', validateCVN(event));
+        }
 	}, true);
 
 	function validateExpDate(event) {
