@@ -48,7 +48,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .addRecipient(employee, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
-            areRecipientsReady();
         };
 
         $scope.removeRecipient = function(recipient) {
@@ -56,8 +55,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .removeRecipient(recipient, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
-            console.log("calling areRecipientsReady from removeRecipient");
-            areRecipientsReady();
         };
 
         $scope.tempRecipient = {};
@@ -106,8 +103,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 $scope.saveOriginalAddress();
             }
 
-            console.log("calling areRecipientsReady from saveRecipient"+ $scope.recipientList);
-            areRecipientsReady();
+
         };
 
         $scope.saveOriginalAddress = function() {
@@ -203,6 +199,30 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             console.log("at the end recipientsready is: " + $scope.recipientsReady );
         }
 
+        function detailsNeeded(recipientList){
+            console.log("in detailsNeeded");
+            if(selectedProduct.IsDigital){
+                console.log("digital product");
+                angular.forEach(recipientList.List, function(recipient){
+                    if(!recipient.EmailAddress)
+                        return false;
+                })
+            }
+            else if(selectedProduct.ProductType=="Merchant")
+            {
+                console.log("merchant product");
+                angular.forEach(recipientList.List, function(recipient){
+                    if(!recipient.EmailAddress)
+                        return false;
+                })
+                recipientList.List.ValidCount==recipientList.List.length ? true:false;
+            }
+            else{
+                console.log("physical product");
+                recipientList.List.ValidCount==recipientList.List.length ? true:false;
+            }
+
+        }
 
         $scope.goToCustomization = function() {
             switch($scope.selectedProduct.ProductType) {
