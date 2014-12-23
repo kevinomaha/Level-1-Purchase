@@ -1,23 +1,4 @@
 <section class="main-gc-purchase-view container">
-    <!--<div class="steps">
-        <div ng-show="step != 4" ng-class="{'crushstep':step == 2 || step == 3}">
-            <h4 class="text-info pull-right" ng-show="step == 1 && selectedProduct.Name && selectedProductType != 'MerchantCards'" ng-click="step = 2">List Creation <i class="fa fa-arrow-circle-right"></i></h4>
-            <h2 ng-class="{'fade-out-left':step == 2 || step == 3}">Product Selection (step 1 of 3)</h2>
-        </div>
-        <div ng-show="step != 4" ng-class="{'crushstep':step == 1 || step == 3}">
-            <h4 class="text-info pull-right"  ng-hide="step != 2 || (recipientList.length == 0 && digitalProduct)" ng-click="stepToCustomization()">Continue to Customization <i class="fa fa-arrow-circle-right"></i></h4>
-            <h4 class="text-info pull-left"  ng-show="step == 2" ng-click="step = 1"><i class="fa fa-arrow-circle-left"></i> Product Selection</h4>
-            <h2 ng-class="{'fade-out-left':step == 3, 'fade-out-right':step == 1}">List Creation (step 2 of 3)</h2>
-        </div>
-        <div ng-show="step != 4" ng-class="{'crushstep':step == 1 || step == 2}">
-            <h4 class="text-info pull-right"  ng-show="false">Generate Awards <i class="fa fa-gift"></i></h4>
-            <h4 class="text-info pull-left" ng-show="step == 3" ng-click="step = 2"><i class="fa fa-arrow-circle-left"></i> List Creation</h4>
-            <h2 ng-class="{'fade-out-right':step == 2 || step == 1}">Customization (step 3 of 3)</h2>
-        </div>
-        <div ng-show="step == 4">
-            <h2>Editing Award</h2>
-        </div>
-    </div>-->
     <div class="steps">
         <div ng-show="step != 4" ng-class="{'crushstep':step == 2 || step == 3}">
             <!--<h4 class="text-info pull-right" ng-show="step == 1 && selectedProduct.Name && selectedProductType != 'MerchantCards'" ng-click="step = 2">List Creation <i class="fa fa-arrow-circle-right"></i></h4>-->
@@ -29,21 +10,4 @@
             <ng-include src="'partials/GC/productSelection.html'"></ng-include>
         </div>
     </div>
-    <!--<div id="two" class="gc-purchase-step" ng-show="step == 2">
-        <div class="gc-purchase-step-body">
-            <form name="recipient_form">
-                <ng-include src="'partials/GC/listCreation.html'"></ng-include>
-            </form>
-        </div>
-    </div>
-    <div id="three" class="gc-purchase-step" ng-show="step == 3">
-        <div class="gc-purchase-step-body">
-            <ng-include src="'partials/GC/SCCustomization.html'"></ng-include>
-        </div>
-    </div>
-    <div id="three" class="gc-purchase-step" ng-show="step == 4">
-        <div class="gc-purchase-step-body">
-            <ng-include src="'partials/GC/editingAward.html'"></ng-include>
-        </div>
-    </div>-->
 </section>
