@@ -110,6 +110,8 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             $scope.checkForLogos();
         }
 
+        product.IsDigital = (product.Name.indexOf('Digital') > -1 || product.Name.indexOf('e-') > -1);
+
         switch (product.StandardID) {
             case "SCD002-GC1-02":
                 $scope.digitalProduct = true;

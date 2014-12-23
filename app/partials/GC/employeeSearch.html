@@ -30,9 +30,9 @@
                             <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
                             <p>
                                 <small>
-                                    <span ng-show="recipient.Address.ID">
-                                        <i class="fa fa-map-marker text-muted"></i>
-                                        <em> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
+                                    <span>
+                                        <em ng-show="!selectedProduct.IsDigital && recipient.Address.ID"><i class="fa fa-map-marker text-muted"></i> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
+                                        <em ng-show="selectedProduct.IsDigital"><i class="fa fa-envelope text-muted"></i> {{recipient.EmailAddress}} </em>
                                     </span>
                                 </small>
                             </p>
