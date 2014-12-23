@@ -1,8 +1,9 @@
 <section class="main-gc-purchase-view employee-search">
     <div class="steps">
         <div>
-            <h4 class="text-info pull-right"  ng-show="recipientList.List.length > 0 && recipientList.List.length == (recipientList.List | filter:{Valid:true}).length" ng-click="goToCustomization()">Continue to Customization <i class="fa fa-arrow-circle-right"></i></h4>
-            <h4 class="pull-right" style="color:#a94442"  ng-show="recipientList.List.length > 0 && recipientList.List.length != (recipientList.List | filter:{Valid:true}).length">Recipient details needed</h4>
+            <h4 class="text-info pull-right"  ng-show="recipientList.List.length > 0 && selectedProduct.IsDigital && recipientList.List.length == (recipientList.List | filter:{EmailAddress}).length" ng-click="goToCustomization()">Continue to Customization <i class="fa fa-arrow-circle-right"></i></h4>
+            <h4 class="pull-right" style="color:#a94442"  ng-show="recipientList.List.length > 0 && selectedProduct.IsDigital && recipientList.List.length != (recipientList.List | filter:{EmailAddress}).length">Recipient details needed</h4>
+            <h4 class="pull-right" style="color:#a94442"  ng-show="recipientList.List.length > 0 && !selectedProduct.IsDigital && recipientList.List.length != (recipientList.List | filter:{Valid:true}).length">Recipient details needed</h4>
             <h4 class="pull-right" style="color:#a94442"  ng-show="recipientList.List.length == 0">Select Recipients to Proceed</h4>
             <h2>List Creation (step 2 of 3)</h2>
         </div>
