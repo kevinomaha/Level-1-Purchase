@@ -156,11 +156,19 @@
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
-                                        <div class="view-form-icon">
+                                        <div class="view-form-icon" ng-show="!ifMerchant()">
                                             <div>
                                                 <label>Email Address</label>
                                                 <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
-                                                       ng-required="true" ng-readonly="!isMerchant()"/>
+                                                       readonly="readonly"/>
+                                                <i class="fa fa-envelope"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon" ng-show="ifMerchant()">
+                                            <div>
+                                                <label>Email Address</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
+                                                       required="true" ng-readonly="false" ng-pattern="/^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/"/>
                                                 <i class="fa fa-envelope"></i>
                                             </div>
                                         </div>
