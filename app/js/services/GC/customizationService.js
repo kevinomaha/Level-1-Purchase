@@ -189,9 +189,12 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             console.log('Almost Post add to cart ');
 
             angular.forEach(selectedRecipients, function(recipient) {
+                console.log("current recipient");
+                console.log(recipient);
                 var lineItem = {};
                 lineItem.Quantity = 1;
                 lineItem.Product = recipientToSpecs(recipient, angular.copy(product));
+
                 lineItem.UniqueID = randomString();
                 lineItem.ShipAddressID = recipient.Address.ID;
 
