@@ -36,14 +36,14 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                 }
             });
         }
-
+/*
         if ($scope.recipientList.List && $scope.selectedProduct.IsDigital) {
             angular.forEach($scope.recipientList.List, function(recipient){
                 if(recipient.selected){
                     $scope.selectedRecipients.push(recipient);
                 }
             });
-        }
+        }*/
 
         //Automatically selecting all recipients - TP#12177
         /*$scope.selectRecipient = function(recipient) {
@@ -82,6 +82,7 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         $scope.addToCartVariable = function(product) {
             console.log("check product in addcartvariable" + product + product.Specs);
             $scope.generateAwardsIndicator = true;
+
             Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {
                 $scope.currentOrder = order;
                 Order.save($scope.currentOrder, function(data) {
