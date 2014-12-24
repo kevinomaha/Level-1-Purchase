@@ -93,4 +93,6 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                 });
             });
         };
+
+        console.log("from customization ctrl- opeing mesaage option" + $scope.selectedProduct.OpeningMessageOption);
     }]);
