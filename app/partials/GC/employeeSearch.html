@@ -137,7 +137,7 @@
                     <h3 class="panel-title"><b>Edit Recipient</b></h3>
                 </div>
                 <div class="panel-body">
-                    <form name="recipient_form" ng-submit="saveRecipient(tempRecipient)">
+                    <form name="recipient_form" ng-show="!selectedProduct.IsDigital" ng-submit="saveRecipient(tempRecipient)">
                         <div class="row">
                             <loadingindicator ng-show="saveIndicator"></loadingindicator>
                             <div class="col-md-6">
@@ -204,14 +204,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" ng-show="selectedProduct.IsDigital">
-                                    <div class="btn-group" style="margin-top: 15px;" role="group">
-                                        <button type="button" class="btn btn-default" style="width:50%;" ng-click="cancelEditRecipientDigital()">Cancel</button>
-                                        <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_form.$invalid" value="Save Recipient" />
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-md-6" ng-show="!selectedProduct.IsDigital">
+                            <div class="col-md-6">
                                 <div ng-show="addressMessage">
                                     <div class="row" >
                                         <div ng-class="{'col-xs-7':newAddress, 'container':!newAddress}">
@@ -341,6 +335,83 @@
                                 <div class="btn-group" style="margin-top: 15px;" role="group">
                                     <button type="button" class="btn btn-default" style="width:50%;" ng-click="cancelEditRecipient()">Cancel</button>
                                     <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_form.$invalid" value="Save Recipient" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form name="recipient_digital_form" ng-show="selectedProduct.IsDigital" ng-submit="saveRecipient(tempRecipient)">
+                        <div class="row">
+                            <loadingindicator ng-show="saveIndicator"></loadingindicator>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>First Name</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.FirstName" name="FirstName" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Email Address</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
+                                                       ng-required="true" ng-readonly="!selectedProduct.IsDigital"/>
+                                                <i class="fa fa-envelope"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Marketplace</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Marketplace" name="Marketplace" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Supervisor</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Supervisor" name="Supervisor" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Last Name</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.LastName" name="LastName" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Employee Number</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.EmployeeNumber" name="EmployeeNumber" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Job Family</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.JobFamily" name="JobFamily" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>ADP Company Code</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.ADPCompanyCode" name="ADPCompanyCode" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="selectedProduct.IsDigital">
+                                    <div class="btn-group" style="margin-top: 15px;" role="group">
+                                        <button type="button" class="btn btn-default" style="width:50%;" ng-click="cancelEditRecipientDigital()">Cancel</button>
+                                        <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_digital_form.$invalid" value="Save Recipient" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

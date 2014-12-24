@@ -86,35 +86,40 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.saveRecipient = function(tempRecipient) {
             console.log("inside saveRecipient");
             $scope.saveIndicator = true;
-            tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
-            $scope.addressMessage = null;
-            $scope.newAddress = null;
-            if (tempRecipient.Address.Country == 'US' && tempRecipient.Address.IsShipping && !tempRecipient.Address.ID) {
-                AddressValidate.validate(tempRecipient.Address,
-                    function(address,newAddress) {
-                        if (address.status == "Valid") {
-                            $scope.saveOriginalAddress();
-                        }
-                        else if (address.status == "ValidWithRecommendation") {
-                            $scope.newAddress = newAddress;
-                            $scope.addressMessage = "This is the suggested address based on the information provided.";
-                        }
-                        else if (address.status == "Invalid") {
-                            $scope.addressMessage = "This address is invalid."
-                        }
-                        else if (address.status == "Error") {
-                            $scope.addressMessage = address.response;
-                        }
-                        $scope.saveIndicator = false;
-                    },
-                    function(ex) {
-                        $scope.saveIndicator = false;
-                    });
-                //Use this when the Address Validation service is down
-                //$scope.saveOriginalAddress();
+            if($scope.selectedProduct.IsDigital){
+                $scope.saveEmailAddress(tempRecipient);
             }
             else {
-                $scope.saveOriginalAddress();
+                tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
+                $scope.addressMessage = null;
+                $scope.newAddress = null;
+                if (tempRecipient.Address.Country == 'US' && tempRecipient.Address.IsShipping && !tempRecipient.Address.ID) {
+                    AddressValidate.validate(tempRecipient.Address,
+                        function (address, newAddress) {
+                            if (address.status == "Valid") {
+                                $scope.saveOriginalAddress();
+                            }
+                            else if (address.status == "ValidWithRecommendation") {
+                                $scope.newAddress = newAddress;
+                                $scope.addressMessage = "This is the suggested address based on the information provided.";
+                            }
+                            else if (address.status == "Invalid") {
+                                $scope.addressMessage = "This address is invalid."
+                            }
+                            else if (address.status == "Error") {
+                                $scope.addressMessage = address.response;
+                            }
+                            $scope.saveIndicator = false;
+                        },
+                        function (ex) {
+                            $scope.saveIndicator = false;
+                        });
+                    //Use this when the Address Validation service is down
+                    //$scope.saveOriginalAddress();
+                }
+                else {
+                    $scope.saveOriginalAddress();
+                }
             }
 
 
@@ -153,6 +158,22 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .setRecipients($scope.recipientList);
         };
 
+        $scope.cancelEditRecipientDigital = function(){
+            clearRecipient();
+            $scope.allEmailPresent();
+            Customization.setRecipients($scope.recipientList);
+        };
+
+        $scope.saveEmailAddress = function(temp){
+            $scope.saveIndicator = true;
+            angular.forEach($scope.recipientList.List, function(recipient){
+                if(recipient.UserID==temp.UserID){
+                    recipient.EmailAddress = temp.EmailAddress;
+                    recipient.BeingEdited = false;
+                }
+            });
+        };
+
         function clearRecipient() {
             angular.forEach($scope.recipientList.List, function(recipient) {
                 recipient.BeingEdited = false;
@@ -169,49 +190,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.tempRecipient.Address = address;
             $scope.tempRecipient.Address.AssignToAll = assignToAll;
         };
-
-        function areRecipientsReady() {
-            Customization.validateRecipientList($scope.recipientList);
-            var list = $scope.recipientList.List;
-            if( ($scope.selectedProduct.ProductType == "Digital" || $scope.selectedProduct.ProductType == "e-Cards")&& list.length>0 ) {
-                console.log($scope.selectedProduct.ProductType);
-                var j=0;
-                for(var i=0; i<list.length; i++) {
-                    console.log(list[i]);
-                    if (list[i].EmailAddress)
-                    {
-                        // check the pattern of the email address and if needed get new from user
-                        j++;
-                        console.log("in if" + j);
-                    }
-                    else
-                    {
-                        console.log("in else");
-                        $scope.onlyEmail = true; // for getting emailaddress from user in case not present already
-                    }
-                }
-                if(j==list.length) {
-                    console.log( "recipientList.List.length:" + list.length );
-                    $scope.recipientsReady = true;
-                }
-            }
-            else if ( ($scope.selectedProduct.ProductType == "Original" | $scope.selectedProduct.ProductType == "Visa")&& list.length>0 ){
-                console.log($scope.selectedProduct.ProductType);
-                var j=0;
-                for( var i=0; i<list.length; i++ ) {
-                    console.log(list[i]);
-                    console.log("checking if user " + list[i].FirstName + "is valid:" + list[i].Valid + "ValidCount" + list.ValidCount );
-                    if(list[i].Valid){
-                        console.log("inside the if condition");
-                        j++;
-                    }
-                }
-                console.log("outside for loop");
-                if( j==list.length )
-                    $scope.recipientsReady = true;
-            }
-            console.log("at the end recipientsready is: " + $scope.recipientsReady );
-        }
 
         $scope.goToCustomization = function() {
             switch($scope.selectedProduct.ProductType) {
