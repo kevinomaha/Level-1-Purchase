@@ -86,43 +86,46 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         $scope.saveRecipient = function(tempRecipient) {
             console.log("inside saveRecipient");
             $scope.saveIndicator = true;
-            if($scope.selectedProduct.IsDigital){
-                $scope.saveEmailAddress(tempRecipient);
+            tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
+            $scope.addressMessage = null;
+            $scope.newAddress = null;
+            if (tempRecipient.Address.Country == 'US' && tempRecipient.Address.IsShipping && !tempRecipient.Address.ID) {
+                AddressValidate.validate(tempRecipient.Address,
+                    function (address, newAddress) {
+                        if (address.status == "Valid") {
+                            $scope.saveOriginalAddress();
+                        }
+                        else if (address.status == "ValidWithRecommendation") {
+                            $scope.newAddress = newAddress;
+                            $scope.addressMessage = "This is the suggested address based on the information provided.";
+                        }
+                        else if (address.status == "Invalid") {
+                            $scope.addressMessage = "This address is invalid."
+                        }
+                        else if (address.status == "Error") {
+                            $scope.addressMessage = address.response;
+                        }
+                        $scope.saveIndicator = false;
+                    },
+                    function (ex) {
+                        $scope.saveIndicator = false;
+                    });
+                //Use this when the Address Validation service is down
+                //$scope.saveOriginalAddress();
             }
             else {
-                tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
-                $scope.addressMessage = null;
-                $scope.newAddress = null;
-                if (tempRecipient.Address.Country == 'US' && tempRecipient.Address.IsShipping && !tempRecipient.Address.ID) {
-                    AddressValidate.validate(tempRecipient.Address,
-                        function (address, newAddress) {
-                            if (address.status == "Valid") {
-                                $scope.saveOriginalAddress();
-                            }
-                            else if (address.status == "ValidWithRecommendation") {
-                                $scope.newAddress = newAddress;
-                                $scope.addressMessage = "This is the suggested address based on the information provided.";
-                            }
-                            else if (address.status == "Invalid") {
-                                $scope.addressMessage = "This address is invalid."
-                            }
-                            else if (address.status == "Error") {
-                                $scope.addressMessage = address.response;
-                            }
-                            $scope.saveIndicator = false;
-                        },
-                        function (ex) {
-                            $scope.saveIndicator = false;
-                        });
-                    //Use this when the Address Validation service is down
-                    //$scope.saveOriginalAddress();
-                }
-                else {
-                    $scope.saveOriginalAddress();
-                }
+                $scope.saveOriginalAddress();
             }
+        };
 
-
+        $scope.saveDigitalRecipient = function(tempRecipient){
+            console.log("if digital");
+            $scope.recipientList = Customization.saveEmailAddress(tempRecipient, $scope.recipientList);
+            angular.forEach($scope.recipientList.List, function(recipient) {
+                recipient.BeingEdited = false;
+            });
+            $scope.tempRecipient = {};
+            console.log("leaving saveDigitalRecipient");
         };
 
         $scope.saveOriginalAddress = function() {
@@ -162,16 +165,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             clearRecipient();
             $scope.allEmailPresent();
             Customization.setRecipients($scope.recipientList);
-        };
-
-        $scope.saveEmailAddress = function(temp){
-            $scope.saveIndicator = true;
-            angular.forEach($scope.recipientList.List, function(recipient){
-                if(recipient.UserID==temp.UserID){
-                    recipient.EmailAddress = temp.EmailAddress;
-                    recipient.BeingEdited = false;
-                }
-            });
         };
 
         function clearRecipient() {

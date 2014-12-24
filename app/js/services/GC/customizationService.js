@@ -246,6 +246,19 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             return this;
         };
 
+        var _saveEmailAddress = function(temp, recipientList){
+            console.log("in saveEmail address:");
+            angular.forEach(recipientList.List, function(recipient){
+                console.log("checking each user");
+                if(recipient.UserID==temp.UserID){
+                    recipient.EmailAddress = temp.EmailAddress;
+                    recipient.BeingEdited = false;
+                }
+            });
+            console.log("leaving saveEmailAddress");
+            return this;
+        };
+
         var _getTemplateThumbnails = function(product, success) {
             $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1').
                 success(function(data){
@@ -272,6 +285,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             removeRecipient: _removeRecipient,
             validateRecipientList: _validateRecipientList,
             setAddress: _setAddress,
-            getTemplateThumbnails: _getTemplateThumbnails
+            getTemplateThumbnails: _getTemplateThumbnails,
+            saveEmailAddress: _saveEmailAddress
         }
     }]);
