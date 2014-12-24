@@ -120,7 +120,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.saveDigitalRecipient = function(tempRecipient){
             console.log("if digital");
-            $scope.recipientList = Customization.saveEmailAddress(tempRecipient, $scope.recipientList);
+            Customization.saveEmailAddress(tempRecipient, $scope.recipientList);
             angular.forEach($scope.recipientList.List, function(recipient) {
                 recipient.BeingEdited = false;
             });
