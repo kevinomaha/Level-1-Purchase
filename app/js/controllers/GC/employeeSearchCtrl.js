@@ -62,10 +62,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 .addRecipient(employee, $scope.recipientList)
                 .validateRecipientList($scope.recipientList)
                 .setRecipients($scope.recipientList);
-            if($scope.selectedProduct.ProductType="Merchant")
-            {
-                angul
-            }
         };
 
         $scope.removeRecipient = function(recipient) {
