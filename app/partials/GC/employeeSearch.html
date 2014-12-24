@@ -205,7 +205,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" ng-show="!selectedProduct.IsDigital">
                                 <div ng-show="addressMessage">
                                     <div class="row" >
                                         <div ng-class="{'col-xs-7':newAddress, 'container':!newAddress}">
@@ -337,6 +337,7 @@
                                     <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_form.$invalid" value="Save Recipient" />
                                 </div>
                             </div>
+
                         </div>
                     </form>
                 </div>
