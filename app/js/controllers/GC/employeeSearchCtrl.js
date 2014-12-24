@@ -234,6 +234,27 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             $scope.employees = [];
         };
 
+        $scope.checkMerchant = function() {
+            if($scope.selectedProduct.ProductType=="Merchant"){
+                var k=0;
+                angular.forEach($scope.recipientList.List, function(recipient) {
+                    if(recipient.EmailAddress){
+                        k++;
+                        recipient.Valid=true;
+                    }
+                });
+                if(k==$scope.recipientList.List.length){
+                    Customization.validateRecipientList($scope.recipientList);
+                    return "true";
+                }
+                else
+                    return "false";
+            }
+            else{
+                return "false";
+            }
+        };
+
         $scope.countries = Resources.countries;
         $scope.states = Resources.states;
 
