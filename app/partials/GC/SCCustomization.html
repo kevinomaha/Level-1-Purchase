@@ -143,7 +143,7 @@
                                     <div class="view-form-icon">
                                         <div>
                                             <label>{{selectedProduct.OpeningMessageOption == 'Custom Message' ? 'Custom ' : ''}} {{selectedProduct.Specs.OpeningMessage.Label || selectedProduct.Specs.OpeningMessage.Name}} <span style="color: rgb(128, 128, 128);font-size: x-small;" ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'">(up to 50 characters)</span></label>
-                                            <div ng-hide="selectedProduct.OpeningMessageOption == 'Custom Message'" class="btn-group btn-group-justified" ng-init="selectedProduct.OpeningMessageOption = 'First and Last Name'">
+                                            <div ng-hide="selectedProduct.OpeningMessageOption == 'Custom Message'" class="btn-group btn-group-justified" ng-init="selectedProduct.OpeningMessageOption = 'Custom Message'">
                                                 <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'First and Last Name'" ng-class="{active:selectedProduct.OpeningMessageOption == 'First and Last Name'}">Full Name</div>
                                                 <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'First Name Only'" ng-class="{active:selectedProduct.OpeningMessageOption == 'First Name Only'}">First Name</div>
                                                 <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'Custom Message'" ng-class="{active:selectedProduct.OpeningMessageOption == 'Custom Message'}">Custom Text</div>
