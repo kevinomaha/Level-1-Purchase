@@ -153,7 +153,8 @@
                                         <div class="view-form-icon">
                                             <div>
                                                 <label>Email Address</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"/>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
+                                                       ng-required="true" ng-readonly="!selectedProduct.IsDigital"/>
                                                 <i class="fa fa-envelope"></i>
                                             </div>
                                         </div>
