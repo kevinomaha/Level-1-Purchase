@@ -1,10 +1,9 @@
 <section class="product-selection-view container">
     <div class="row">
         <div class="col-md-12 col-md-offset-1">
-            <div class="row">
+            <div class="row" style="display:inline-flex">
                 <div class="col-md-2 col-sm-4" ng-repeat="prod in tree">
-                    <div class="product-selector"
-                         style="height:inherit" ng-class="{'active': selectedProduct.Name == prod.Name}"
+                    <div class="product-selector" ng-class="{'active': selectedProduct.Name == prod.Name}"
                          ng-click="selectProduct(prod)">
                         <div>
                             <h4 class="pname"><span ng-bind-html="prod.Name" /></h4>
