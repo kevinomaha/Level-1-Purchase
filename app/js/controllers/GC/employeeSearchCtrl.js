@@ -236,10 +236,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             var k=0;
             if($scope.selectedProduct.IsDigital)
             {
-                //for(var i=0; i<$scope.recipientList.List.length; i++)
-                //    if($scope.recipientList.List[i].EmailAddress)
                 angular.forEach($scope.recipientList.List, function(recipient) {
-                    console.log(recipient.EmailAddress);
                     if(recipient.EmailAddress)
                         k++;
                 });
@@ -248,6 +245,13 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
                 else
                     return "false";
             }
+        };
+
+        $scope.emailPresent = function(recipient){
+            if(recipient.EmailAddress)
+                return "true";
+            else
+                return "false";
         };
 
         $scope.clearSearch = function() {
