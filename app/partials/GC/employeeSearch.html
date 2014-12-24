@@ -21,7 +21,7 @@
                 </div>
                 <div class="recipient-list-container">
                     <ul class="list-group" style="margin-bottom:0;">
-                        <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{ 'list-group-item-danger': (!recipient.Valid && !recipient.BeingEdited && !selectedProduct.IsDigital), 'list-group-item-info': (recipient.BeingEdited && !selectedProduct.IsDigital), 'list-group-item-info':( selectedProduct.IsDigital && emailPresent(recipient)),  'list-group-item-danger':( selectedProduct.IsDigital && !emailPresent(recipient)) }">
+                        <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{ 'list-group-item-danger': (!recipient.Valid && !recipient.BeingEdited && !selectedProduct.IsDigital), 'list-group-item-info': (recipient.BeingEdited),  'list-group-item-danger':( selectedProduct.IsDigital && !emailPresent(recipient)) }">
                             <div class="pull-right">
                                 <div class="btn-group-vertical" ng-show="!recipient.BeingEdited">
                                     <div class="btn btn-primary btn-sm" ng-click="editRecipient(recipient); changeAddType('manual'); $parent.showMaker = true;"><i class="fa fa-edit"></i></div>
