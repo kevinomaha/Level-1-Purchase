@@ -255,6 +255,13 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
         };
 
+        $scope.ifMerchant = function(){
+            if($scope.selectedProduct.ProductType=="Merchant")
+                return "true";
+            else
+                return "false";
+        };
+
         $scope.countries = Resources.countries;
         $scope.states = Resources.states;
 
