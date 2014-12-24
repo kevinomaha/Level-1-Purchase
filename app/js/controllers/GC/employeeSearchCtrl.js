@@ -248,8 +248,10 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         $scope.emailPresent = function(recipient){
-            if(recipient.EmailAddress)
+            if(recipient.EmailAddress) {
+                recipient.selected = true;
                 return "true";
+            }
             else
                 return "false";
         };
