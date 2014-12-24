@@ -14,6 +14,8 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
 
         Product.get($scope.selectedProduct.InteropID, function(p) {
             $scope.currentProduct = p;
+            console.log("from customizationCtrl currentorder just formed");
+            console.log($scope.currentProduct);
         });
 
         Customization.getTemplateThumbnails($scope.selectedProduct, function(templates) {
