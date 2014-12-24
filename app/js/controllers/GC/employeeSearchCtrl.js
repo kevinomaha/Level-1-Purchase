@@ -237,6 +237,7 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             if(selectedProduct.IsDigital)
             {
                 angular.forEach(recipientList.List, function(recipient) {
+                    console.log(recipient.EmailAddress);
                     if(!recipient.EmailAddress)
                         k++;
                 });

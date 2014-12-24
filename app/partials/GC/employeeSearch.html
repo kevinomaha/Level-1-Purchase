@@ -6,7 +6,7 @@
             <h4 class="pull-right" style="color:#a94442"  ng-show="!selectedProduct.IsDigital && recipientList.List.length > 0 && recipientList.List.length != (recipientList.List | filter:{Valid:true}).length">Recipient details needed-physical</h4>
             <h4 class="pull-right" style="color:#a94442"  ng-show="selectedProduct.IsDigital && recipientList.List.length > 0 && !allEmailPresent()">Recipient details needed-digital{{allEmailPresent()}}</h4>
             <h4 class="pull-right" style="color:#a94442"  ng-show="recipientList.List.length == 0">Select Recipients to Proceed</h4>
-            <h2>List Creation (step 2 of 3)</h2>
+            <h2>List Creation (step 2 of 3){{allEmailPresent()}}</h2>
         </div>
     </div>
     <div class="row">
