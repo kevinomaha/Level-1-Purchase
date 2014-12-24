@@ -232,6 +232,20 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
             }
         };
 
+        $scope.allEmailPresent = function(){
+            var k=0;
+            if(selectedProduct.IsDigital)
+            {
+                angular.forEach(recipientList.List, function(recipient) {
+                    if(!recipient.EmailAddress)
+                        k++;
+                });
+                if(k==recipientList.List.length)
+                    return "true";
+                else
+                    return "false";
+            }
+        };
 
         $scope.clearSearch = function() {
             $scope.searchCriterion = {};
