@@ -5,8 +5,8 @@
             <h4 class="text-info pull-right"  ng-show="selectedProduct.IsDigital && recipientList.List.length > 0 && allEmailPresent()" ng-click="goToCustomization()">Continue to Customization<i class="fa fa-arrow-circle-right"></i></h4>
 
 
-            <h4 class="pull-right" style="color:#a94442"  ng-show="!selectedProduct.IsDigital && recipientList.List.length > 0 && recipientList.List.length != (recipientList.List | filter:{Valid:true}).length">Recipient details needed-p</h4>
-            <h4 class="pull-right" style="color:#a94442"  ng-show="selectedProduct.IsDigital && recipientList.List.length > 0 && !allEmailPresent()">Recipient details needed-d</h4>
+            <h4 class="pull-right" style="color:#a94442"  ng-show="!selectedProduct.IsDigital && recipientList.List.length > 0 && recipientList.List.length != (recipientList.List | filter:{Valid:true}).length">Recipient details needed</h4>
+            <h4 class="pull-right" style="color:#a94442"  ng-show="selectedProduct.IsDigital && recipientList.List.length > 0 && !allEmailPresent()">Recipient details needed</h4>
 
 
             <h4 class="pull-right" style="color:#a94442"  ng-show="recipientList.List.length == 0">Select Recipients to Proceed</h4>
@@ -156,7 +156,7 @@
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
-                                        <div class="view-form-icon" ng-show="!ifMerchant()">
+                                        <div class="view-form-icon" ng-hide="ifMerchant()">
                                             <div>
                                                 <label>Email Address</label>
                                                 <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
