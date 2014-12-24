@@ -37,6 +37,14 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
             });
         }
 
+        if ($scope.recipientList.List && $scope.selectedProduct.IsDigital) {
+            angular.forEach($scope.recipientList.List, function(recipient){
+                if(recipient.selected){
+                    $scope.selectedRecipients.push(recipient);
+                }
+            });
+        }
+
         //Automatically selecting all recipients - TP#12177
         /*$scope.selectRecipient = function(recipient) {
             if (!recipient.Valid) return;
