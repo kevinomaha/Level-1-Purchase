@@ -80,6 +80,7 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         };
 
         $scope.addToCartVariable = function(product) {
+            console.log("check product in addcartvariable" + product + product.Specs);
             $scope.generateAwardsIndicator = true;
             Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {
                 $scope.currentOrder = order;
