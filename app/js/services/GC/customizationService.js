@@ -159,14 +159,10 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                         if (spec.Name == "FirstName") {
                             found=true;
                             str = spec.Value;
-                            console.log("str is:");
-                            console.log(str);
                         }
                         else if (spec.Name == "LastName"){
                             found=true;
                             str = spec.Value;
-                            console.log("str is:")
-                            console.log(str);
                         }
                     }
                 });
@@ -207,19 +203,15 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                                    var token = spec.Value.split(" ");
                                    var value, temp, newValue;
                                    temp = spec.Value;
-                                   console.log("temp value:");
-                                   console.log(temp);
+
                                    angular.forEach(token, function(t){
-                                       console.log("for each str in spec.value:");
-                                       console.log(t);
+
                                        var i = t.indexOf("[[");
-                                       console.log("i");
-                                       console.log(i);
+
                                        if(i>=0){
                                            console.log("inside if");
                                            var j = t.indexOf("]]");
-                                           console.log("j");
-                                           console.log(j);
+
                                            value = t.substring(i+2,j);
                                            console.log("value:");
                                            console.log(value);
@@ -231,6 +223,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                                    });
                                    console.log("new temp value:");
                                    console.log(temp);
+                                   console.log(user.FirstName);
                                }
                             });
 
