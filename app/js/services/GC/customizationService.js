@@ -179,6 +179,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
 
                             angular.forEach(lineItem.Specs, function(spec) {
                                if (spec.Name == "OpeningMessage" ){
+                                   console.log("for opening message");
                                    var token = spec.Value.split(" ");
                                    var value;
                                    angular.forEach(token, function(t){
