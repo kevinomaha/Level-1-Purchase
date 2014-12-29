@@ -183,11 +183,18 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                                    var token = spec.Value.split(" ");
                                    var value;
                                    angular.forEach(token, function(t){
-                                       console.log("for each str in spec.value:"+token);
+                                       console.log("for each str in spec.value:");
+                                       console.log(token);
                                        var i = t.indexOf("[[");
+                                       console.log("i");
+                                       console.log(i);
                                        if(i>=0){
+                                           console.log("inside if");
                                            var j = t.indexOf("]]");
+                                           console.log("j");
+                                           console.log(j);
                                            value = t.split(i+2,j);
+                                           console.log("value:");
                                            console.log(value);
                                        }
                                    });
