@@ -153,22 +153,24 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 var str;
                 console.log("inside returntoekenvalue");
                 console.log(lineItem);
+                var found=false;
                 angular.forEach(lineItem.Specs, function(spec) {
-                    if(value=="RecipientFirstName" || value=="RecipientLastName") {
+                    if(!found && (value=="RecipientFirstName" || value=="RecipientLastName") ) {
                         if (spec.Name == "FirstName") {
+                            found=true;
                             str = spec.Value;
                             console.log("str is:");
                             console.log(str);
-                            return str;
                         }
                         else if (spec.Name == "LastName"){
+                            found=true;
                             str = spec.Value;
                             console.log("str is:")
                             console.log(str);
-                            return str;
                         }
                     }
                 });
+                return str;
             }
 
             function getPreviewDetails(lineItem, order) {
