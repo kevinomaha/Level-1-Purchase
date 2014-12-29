@@ -155,15 +155,20 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 console.log(lineItem);
                 angular.forEach(lineItem.Specs, function(spec) {
                     if(value=="RecipientFirstName" || value=="RecipientLastName") {
-                        if (spec.Name == "FirstName")
+                        if (spec.Name == "FirstName") {
                             str = spec.Value;
-                        else (spec.Name == "LastName")
+                            console.log("str is:");
+                            console.log(str);
+                            return str;
+                        }
+                        else if (spec.Name == "LastName"){
                             str = spec.Value;
-                        console.log("str is:")
-                        console.log(str);
+                            console.log("str is:")
+                            console.log(str);
+                            return str;
+                        }
                     }
                 });
-                return str;
             }
 
             function getPreviewDetails(lineItem, order) {
