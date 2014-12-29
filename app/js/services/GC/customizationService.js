@@ -153,16 +153,16 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 var str;
                 console.log("inside returntoekenvalue");
                 console.log(lineItem);
-
                 angular.forEach(lineItem.Specs, function(spec) {
-                    if(value=="RecipientFirstName") {
+                    if(value=="RecipientFirstName" || value=="RecipientLastName") {
                         if (spec.Name == "FirstName")
+                            str = spec.Value;
+                        else (spec.Name == "LastName")
                             str = spec.Value;
                         console.log("str is:")
                         console.log(str);
                     }
                 });
-
                 return str;
             }
 
@@ -198,7 +198,10 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                                if (spec.Name == "OpeningMessage" ){
                                    console.log("for opening message");
                                    var token = spec.Value.split(" ");
-                                   var value;
+                                   var value, temp, newValue;
+                                   temp = spec.Value;
+                                   console.log("temp value:");
+                                   console.log(temp);
                                    angular.forEach(token, function(t){
                                        console.log("for each str in spec.value:");
                                        console.log(t);
@@ -213,11 +216,14 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                                            value = t.substring(i+2,j);
                                            console.log("value:");
                                            console.log(value);
-                                           value = returnTokenValue(value, lineItem);
-                                           console.log("new value:");
-                                           console.log(value);
+                                           newValue = returnTokenValue(value, lineItem);
+                                           console.log("newValue:");
+                                           console.log(newValue);
+                                           temp.replace(value, newValue);
                                        }
                                    });
+                                   console.log("new temp value:");
+                                   console.log(temp);
                                }
                             });
 
