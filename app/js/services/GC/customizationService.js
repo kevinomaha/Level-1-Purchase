@@ -179,7 +179,17 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
 
                             angular.forEach(lineItem.Specs, function(spec) {
                                if (spec.Name == "OpeningMessage" ){
-                                   spec.Value="Dear";
+                                   var token = spec.Value.split(" ");
+                                   var value;
+                                   angular.forEach(token, function(t){
+                                       console.log("for each str in spec.value:"+token);
+                                       var i = t.indexOf("[[");
+                                       if(i>=0){
+                                           var j = t.indexOf("]]");
+                                           value = t.split(i+2,j);
+                                           console.log(value);
+                                       }
+                                   });
                                }
                             });
 
