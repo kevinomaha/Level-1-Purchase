@@ -185,6 +185,8 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                     }
                 })
             }
+            console.log("new order with lineitem:");
+            console.log(order);
 
             console.log('Almost Post add to cart ');
 
