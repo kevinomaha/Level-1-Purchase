@@ -151,10 +151,15 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
 
             function returnTokenValue(value, lineItem){
                 var str;
+                console.log("inside returntoekenvalue");
+                console.log(lineItem);
 
                 angular.forEach(lineItem.Specs, function(spec) {
-                    if(value=="RecipientFirstName" && spec.Name == "FirstName"){
-                        str = spec.Value;
+                    if(value=="RecipientFirstName") {
+                        if (spec.Name == "FirstName")
+                            str = spec.Value;
+                        console.log("str is:")
+                        console.log(str);
                     }
                 });
 
