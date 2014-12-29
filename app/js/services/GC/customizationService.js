@@ -177,6 +177,12 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                                 }
                             });
 
+                            angular.forEach(lineItem.Specs, function(spec) {
+                               if (spec.Name == "OpeningMessage" ){
+                                   spec.Value="Dear";
+                               }
+                            });
+
                             order.LineItems.push(lineItem);
                             if (recipCount == itemCount) {
                                 success(order);
