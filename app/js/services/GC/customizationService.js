@@ -184,7 +184,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                                    var value;
                                    angular.forEach(token, function(t){
                                        console.log("for each str in spec.value:");
-                                       console.log(token);
+                                       console.log(t);
                                        var i = t.indexOf("[[");
                                        console.log("i");
                                        console.log(i);
