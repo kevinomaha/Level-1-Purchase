@@ -149,6 +149,18 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
 
             console.log('recip count ' + recipCount);
 
+            function returnTokenValue(value, lineItem){
+                var str;
+
+                angular.forEach(lineItem.Specs, function(spec) {
+                    if(value=="RecipientFirstName" && spec.Name == "FirstName"){
+                        str = spec.Value;
+                    }
+                });
+
+                return str;
+            }
+
             function getPreviewDetails(lineItem, order) {
                 var denomination = lineItem.Product.Specs.Denomination ? lineItem.Product.Specs.Denomination.Value.replace('$', '') : null;
                 var designID = "";
@@ -193,8 +205,11 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                                            var j = t.indexOf("]]");
                                            console.log("j");
                                            console.log(j);
-                                           value = t.split(i+2,j);
+                                           value = t.substring(i+2,j);
                                            console.log("value:");
+                                           console.log(value);
+                                           value = returnTokenValue(value, lineItem);
+                                           console.log("new value:");
                                            console.log(value);
                                        }
                                    });
