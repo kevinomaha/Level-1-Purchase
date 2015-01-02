@@ -99,6 +99,9 @@
                                     <button title="Edit Item" class="btn btn-primary edit-item" ng-show="!item.Editing && objectLength(item.Specs) > 0" ng-click="editItem(item)">
                                         <span class="fa fa-edit fa-inverse"></span>
                                     </button>
+                                    <button title="Preview Item" class="btn btn-info preview-item" ng-show="!item.Editing && item.Specs.PreviewURL" ng-click="previewItem(item)">
+                                        <span class="fa fa-eye fa-inverse"></span>
+                                    </button>
                                     <div class="col-sm-3">
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-3">
@@ -118,10 +121,9 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-7">
                                                 <div>
                                                     <h3 class="text-primary">
-                                                        <i class="fa fa-edit"></i>
                                                         {{item.ProductIDText}}
                                                     </h3>
                                                     <p>
@@ -175,6 +177,12 @@
                                                     </div>
                                                 </div>
                                             </form>
+                                        </div>
+                                        <div class="row" collapse="!item.Preview">
+                                            <loadingindicator ng-show="item.LoadingImage" />
+                                            <figure>
+                                                <img width="100%" ng-attr-id="{{item.ID}}" ng-src="{{item.Specs.PreviewURL.Value}}" imageonload/>
+                                            </figure>
                                         </div>
                                     </div>
                                 </div>

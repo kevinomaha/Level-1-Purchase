@@ -7994,6 +7994,14 @@ body {
   right: 38px;
   z-index: 1;
 }
+.panel-lineitem .preview-item {
+  border-radius: 0;
+  margin-bottom: 15px;
+  position: absolute;
+  top: 0;
+  right: 76px;
+  z-index: 1;
+}
 .list-group-item-invalid {
   color: #808080;
   background-color: #E5E5E5;

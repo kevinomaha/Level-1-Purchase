@@ -57,6 +57,19 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             }
         }
 
+        $scope.previewItem = function(item) {
+            item.Preview = !item.Preview;
+        };
+
+        $scope.$on('event:imageLoaded', function(event, result, id) {
+            angular.forEach($scope.currentOrder.LineItems, function(item) {
+                if (item.ID == id) {
+                    item.LoadingImage = !result;
+                }
+            });
+            $scope.$apply();
+        });
+
         $scope.originalItemSpecs = {};
         $scope.editItem = function(item) {
             $scope.originalItemSpecs[item.ID] = angular.copy(item.Specs);

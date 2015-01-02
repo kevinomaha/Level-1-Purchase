@@ -38,6 +38,7 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         var images = {};
         order.MerchantCardCount = 0;
         angular.forEach(order.LineItems, function(item) {
+            item.LoadingImage = true;
             item.OriginalQuantity = item.Quantity; //needed to validate qty changes compared to available quantity
             angular.forEach(item.Specs, function(spec, index) {
                 if (spec.ControlType == 'File' && spec.File && spec.File.Url.indexOf('auth') == -1) {
