@@ -35,13 +35,16 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
 
         function getShippers() {
             $scope.digitalShipper = null;
-            Shipper.query($scope.currentOrder, function(list) {
-                $scope.shippers = list;
-                angular.forEach($scope.shippers, function(shipper) {
-                    if (shipper.Name.indexOf('Email') > -1) {
-                        $scope.digitalShipper = shipper;
-                        assignDigitalShipper();
-                    }
+            Order.save($scope.currentOrder, function(order) {
+                $scope.currentOrder = order;
+                Shipper.query($scope.currentOrder, function(list) {
+                    $scope.shippers = list;
+                    angular.forEach($scope.shippers, function(shipper) {
+                        if (shipper.Name.indexOf('Email') > -1) {
+                            $scope.digitalShipper = shipper;
+                            assignDigitalShipper();
+                        }
+                    });
                 });
             });
         }
@@ -219,8 +222,34 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             $scope.saveChanges();
         };
 
+        $scope.$on('event:AddressSaved', function(event, address) {
+            var found = false;
+            angular.forEach($scope.addresses, function(add) {
+                if (add.ID == address.ID) {
+                    found = true;
+                    add.AddressName = address.AddressName;
+                }
+            });
+            if (!found) {
+                $scope.addresses.push(address);
+            }
+            /*if (address.IsShipping) {
+                $scope.setShipAddress(address);
+                $scope.shipaddressform = false;
+            }*/
+            if (address.IsBilling) {
+                $scope.currentOrder.BillAddressID = address.ID;
+                $scope.billaddressform = false;
+            }
+            $scope.shipaddress = { Country: 'US', IsShipping: true, IsBilling: false };
+            $scope.billaddress = { Country: 'US', IsShipping: false, IsBilling: true };
+        });
+
         var today = new Date();
         $scope.currentDate = angular.copy(today);
         $scope.maxDate = today.setDate(today.getDate() + 120);
+
+        $scope.shipaddress = { Country: 'US', IsShipping: true, IsBilling: false };
+        $scope.billaddress = { Country: 'US', IsShipping: false, IsBilling: true };
 
     }]);
