@@ -52,11 +52,11 @@
     </div>
     <!--<div ng-show="currentOrder.PaymentMethod == 'CreditCard' || isSplitBilling">
         <div ng-show="currentOrder.PaymentMethod == 'CreditCard'">
-            <div class="row view-form-icon" ng-show="currentOrder.SavedCards">
+            <div class="row view-form-icon" ng-show="SavedCards">
                 <div class="col-sm-4" ng-class="{'view-form-select-saved': !currentOrder.CreditCardID, '': currentOrder.CreditCardID }">
                     <label>{{('Saved' | r) + ' ' +  ('Card' | r)}}</label>
                     <div class="input-group">
-                        <select class="form-control" style="min-width: 200px;" ng-model="currentOrder.CreditCardID" ng-options="card.ID as card.Name for card in currentOrder.SavedCards">
+                        <select class="form-control" style="min-width: 200px;" ng-model="currentOrder.CreditCardID" ng-options="card.ID as card.Name for card in SavedCards">
                             <option value="" />
                         </select>
                         <span class="input-group-btn">

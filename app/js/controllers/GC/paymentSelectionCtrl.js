@@ -21,8 +21,9 @@ function ($scope, $rootScope, SavedCreditCard) {
         });
 	};
 
+    $scope.SavedCards = [];
     SavedCreditCard.query(function(cards) {
-        $scope.currentOrder.SavedCards = cards;
+        $scope.SavedCards = cards;
     });
 
     $scope.$watch('currentOrder.BudgetAccountID', function() {
@@ -48,7 +49,7 @@ function ($scope, $rootScope, SavedCreditCard) {
 
     var getCardByID = function(id) {
         var selectedCard = null;
-        angular.forEach($scope.currentOrder.SavedCards, function(card) {
+        angular.forEach($scope.SavedCards, function(card) {
             if (card.ID == id)
                 selectedCard = card;
         });
@@ -61,7 +62,7 @@ function ($scope, $rootScope, SavedCreditCard) {
             SavedCreditCard.delete(card, function() {
                 SavedCreditCard.query(function(cards) {
                     $scope.currentOrder.CreditCardID = null;
-                    $scope.currentOrder.SavedCards = cards;
+                    $scope.SavedCards = cards;
                 });
             });
         }

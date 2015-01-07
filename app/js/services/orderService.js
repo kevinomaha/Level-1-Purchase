@@ -130,14 +130,14 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         var paymentMethod = order.PaymentMethod;
         var CC = order.CreditCard;
         var CCID = order.CreditCardID;
-        var savedCards = order.SavedCards;
+        //var savedCards = order.SavedCards;
         var billAddressID = order.BillAddressID;
         $resource($451.api('order')).save(order).$promise.then(
             function(o) {
                 o.PaymentMethod = paymentMethod ? paymentMethod : 'Undetermined';
                 o.CreditCard = CC ? CC : {};
                 o.CreditCardID = CCID ? CCID : null;
-                o.SavedCards = savedCards ? savedCards : null;
+                //o.SavedCards = savedCards ? savedCards : null;
                 o.BillAddressID = billAddressID ? billAddressID : null;
                 store.set('451Cache.Order.' + o.ID, o);
                 store.remove('451Cache.User' + $451.apiName);
