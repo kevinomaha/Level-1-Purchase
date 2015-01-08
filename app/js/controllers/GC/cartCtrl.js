@@ -172,6 +172,8 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
         $scope.submitOrder = function() {
             $scope.displayLoadingIndicator = true;
             $scope.errorMessage = null;
+            //Zero Priced Orders
+            if ($scope.currentOrder.Total == 0) $scope.currentOrder.PaymentMethod = null;
             Order.submit($scope.currentOrder,
                 function(order) {
                     $scope.user.CurrentOrderID = null;

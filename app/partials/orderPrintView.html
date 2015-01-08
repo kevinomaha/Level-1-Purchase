@@ -21,8 +21,8 @@
                     <p ng-show="order.FromUserFirstName || order.FromUserLastName">{{'Created By' | r}}: <span style="float:right;">{{order.FromUserFirstName + ' ' + order.FromUserLastName}}</span></p>
                     <p ng-show="order.Comments">{{'Comments' | r}}: <span style="float:right;">{{order.Comments}}</span></p>
                     <p ng-show="orderCostCenter">{{'Cost Center' | r}}: <span style="float:right;">{{(order.LineItems.length == 1) && order.LineItems[0].CostCenter || null}}</span></p>
-                    <p ng-show="order.PaymentMethod != 'CreditCard'">{{'Payment' | r}} {{'Method' | r}}: <span style="float:right;">{{order.PaymentMethodText}}</span></p>
-                    <p ng-show="order.PaymentMethod == 'CreditCard'">{{'Payment' | r}} {{'Method' | r}}: <span ng-show="order.CreditCard.ShortDisplay" style="float:right;">{{order.CreditCard.ShortDisplay}}</span></p>
+                    <p ng-show="order.PaymentMethod != 'CreditCard' && order.Total > 0">{{'Payment' | r}} {{'Method' | r}}: <span style="float:right;">{{order.PaymentMethodText}}</span></p>
+                    <p ng-show="order.PaymentMethod == 'CreditCard' && order.Total > 0">{{'Payment' | r}} {{'Method' | r}}: <span ng-show="order.CreditCard.ShortDisplay" style="float:right;">{{order.CreditCard.ShortDisplay}}</span></p>
                     <p ng-repeat="field in order.OrderFields" ng-if="field.Name == 'PONumber' && field.Value">{{'PO Number' | r}}: <span style="float:right;">{{field.Value}}</span></p>
                     <p ng-repeat="field in order.OrderFields" ng-if="field.Name == 'ExpenseCode' && field.Value">{{'Expense Code' | r}}: <span style="float:right;">{{field.Value}}</span></p>
                     <div style="margin-top:10px;">

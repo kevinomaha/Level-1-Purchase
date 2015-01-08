@@ -211,7 +211,7 @@
                             </div>-->
                         </div>
                     </div>
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" ng-show="currentOrder.Total > 0">
                         <div class="panel-heading">
                             <h3 class="panel-title" style="padding-top:18px; padding-bottom:18px;">
                                 {{'Billing Info' | r}}<br/>
@@ -260,8 +260,8 @@
                             </button>
                         </li>
                         <li>
-                            <button class="btn" ng-class="{'btn-warning': (cart_billing.$invalid || cart_order_fields.$invalid || cart_line_items.$invalid), 'btn-success': !(cart_billing.$invalid || cart_order_fields.$invalid || cart_line_items.$invalid)}" ng-click="submitOrder()" ng-disabled="cart_billing.$invalid || cart_order_fields.$invalid || cart_line_items.$invalid">
-                                <i ng-show="cart_billing.$invalid || cart_order_fields.$invalid || cart_line_items.$invalid" class="fa fa-warning"></i>
+                            <button class="btn" ng-class="{'btn-warning': ((cart_billing.$invalid && currentOrder.Total > 0) || cart_order_fields.$invalid || cart_line_items.$invalid), 'btn-success': !((cart_billing.$invalid && currentOrder.Total > 0) || cart_order_fields.$invalid || cart_line_items.$invalid)}" ng-click="submitOrder()" ng-disabled="(cart_billing.$invalid && currentOrder.Total > 0) || cart_order_fields.$invalid || cart_line_items.$invalid">
+                                <i ng-show="(cart_billing.$invalid && currentOrder.Total > 0) || cart_order_fields.$invalid || cart_line_items.$invalid" class="fa fa-warning"></i>
                                 <span>PAY {{currentOrder.Total | currency}}</span>
                             </button>
                         </li>
