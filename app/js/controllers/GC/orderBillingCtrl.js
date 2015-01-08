@@ -204,5 +204,9 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
         $scope.billaddressform = true;
         $scope.billaddress = address;
     };
+
+    $scope.$on('event:AddressCancel', function(event) {
+        $scope.billaddressform = false;
+    });
 }]);
 
