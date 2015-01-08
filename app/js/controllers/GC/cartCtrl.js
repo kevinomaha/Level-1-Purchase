@@ -13,6 +13,9 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
                 if (add.IsShipping && add.IsCustEditable) {
                     shippingFound = true;
                 }
+                if (add.IsBilling && !add.IsCustEditable && $scope.currentOrder.Total == 0) {
+                    $scope.currentOrder.BillAddressID = add.ID;
+                }
             });
             if (!shippingFound) $scope.shipaddressform = true;
             $scope.addressesLoading = false;
