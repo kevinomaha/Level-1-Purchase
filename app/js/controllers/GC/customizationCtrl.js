@@ -37,15 +37,23 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                     $scope.selectedRecipients.push(recipient);
                 }
             });
-            if ($scope.recipientList.List.length == 1) replaceTokens();
+            if ($scope.recipientList.List.length == 1) replaceRecipientTokens();
+            replacePurchaserTokens();
         }
 
-        function replaceTokens() {
+        function replaceRecipientTokens() {
             var recipient = $scope.recipientList.List[0];
             angular.forEach($scope.selectedProduct.Specs, function(spec) {
                 if (spec.Value) {
                     spec.Value = spec.Value.toString().replace("[[RecipientFirstName]]", recipient.FirstName);
                     spec.Value = spec.Value.toString().replace("[[RecipientLastName]]", recipient.LastName);
+                }
+            });
+        }
+
+        function replacePurchaserTokens() {
+            angular.forEach($scope.selectedProduct.Specs, function(spec) {
+                if (spec.Value) {
                     spec.Value = spec.Value.toString().replace("[[PurchaserFirstName]]", $scope.user.FirstName);
                     spec.Value = spec.Value.toString().replace("[[PurchaserLastName]]", $scope.user.LastName);
                 }
