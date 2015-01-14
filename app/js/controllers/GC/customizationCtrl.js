@@ -14,8 +14,6 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
 
         Product.get($scope.selectedProduct.InteropID, function(p) {
             $scope.currentProduct = p;
-            console.log("from customizationCtrl currentorder just formed");
-            console.log($scope.currentProduct);
         });
 
         Customization.getTemplateThumbnails($scope.selectedProduct, function(templates) {
@@ -95,9 +93,6 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         };
 
         $scope.addToCartVariable = function(product) {
-            console.log("check product in addcartvariable");
-            console.log(product);
-            console.log(product.Specs);
             $scope.generateAwardsIndicator = true;
 
             Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {
@@ -112,6 +107,4 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                 });
             });
         };
-
-        console.log("from customization ctrl- opeing mesaage option" + $scope.selectedProduct.OpeningMessageOption);
     }]);

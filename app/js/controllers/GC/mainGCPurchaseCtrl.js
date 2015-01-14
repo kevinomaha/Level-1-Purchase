@@ -9,7 +9,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
     $scope.selectProduct = function (product) {
         $rootScope.$broadcast('event:ProductSelected', product);
         // Affects cartCtrl.js line 343
-        console.log('Clicked Product ' + product.interopID + ' and type ' + product.ProductType );
         //$scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/L1slctv2MGC3');
         Customization.setProduct(product);
         Customization.clearRecipients();
@@ -191,8 +190,6 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         RecipientList.validate($scope.recipientList, $scope.digitalProduct);
         store.set("451Cache.RecipientList", $scope.recipientList);
         $scope.selectedProduct = product;
-        console.log('Passed Product ' + product.interopID + ' and type ' + product.ProductType );
-        console.log('Selected Product ' + $scope.selectedProduct.interopID + ' and type ' + $scope.selectedProductType );
     });
 
     $scope.selectedProduct = store.get("451Cache.SelectedProduct") ? store.get("451Cache.SelectedProduct") : {};

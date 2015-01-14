@@ -3,8 +3,6 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
         $scope.backToCustomization = function() {
             $location.path('main');
         };
-        console.log("in catrCtrl curentOrder:");
-        console.log($scope.currentOrder);
 
         CustomAddressList.getall(function(list) {
             $scope.addresses = list;

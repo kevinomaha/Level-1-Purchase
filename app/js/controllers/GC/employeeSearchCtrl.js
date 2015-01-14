@@ -3,7 +3,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.recipientsReady = false;
         $scope.selectedProduct = Customization.getProduct();
-        //console.log($scope.selectedProduct);
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
 
         $scope.recipientList = Customization.getRecipients();
@@ -84,7 +83,6 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
 
         $scope.saveIndicator = false;
         $scope.saveRecipient = function(tempRecipient) {
-            console.log("inside saveRecipient");
             $scope.saveIndicator = true;
             tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
             $scope.addressMessage = null;
@@ -119,13 +117,11 @@ four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '
         };
 
         $scope.saveDigitalRecipient = function(tempRecipient){
-            console.log("if digital");
             Customization.saveEmailAddress(tempRecipient, $scope.recipientList);
             angular.forEach($scope.recipientList.List, function(recipient) {
                 recipient.BeingEdited = false;
             });
             $scope.tempRecipient = {};
-            console.log("leaving saveDigitalRecipient");
         };
 
         $scope.saveOriginalAddress = function() {

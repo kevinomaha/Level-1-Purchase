@@ -69,7 +69,6 @@ four51.app.factory('ProductDisplayService', ['$sce', '$451', 'Variant', 'Product
 			scope.setAddToOrderErrors();
 		}, true);
 		scope.setAddToOrderErrors = function(){
-			//console.log("set add to order errors")
 			var newErrorList = [];
 
 			if(scope.allowAddFromVariantList){
@@ -109,7 +108,6 @@ four51.app.factory('ProductDisplayService', ['$sce', '$451', 'Variant', 'Product
 		}
 
 		scope.specChanged = function(spec){
-			console.log('spec changed');
 			if(!spec){
 				return;
 			}

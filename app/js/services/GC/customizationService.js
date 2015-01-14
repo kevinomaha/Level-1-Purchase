@@ -157,13 +157,8 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                 order.LineItems = [];
             }
 
-            console.log('Adding to cart');
-
-
             var recipCount = selectedRecipients.length;
             var itemCount = 0;
-
-            console.log('recip count ' + recipCount);
 
             function getPreviewDetails(lineItem, order) {
                 var denomination = lineItem.Product.Specs.Denomination ? lineItem.Product.Specs.Denomination.Value.replace('$', '') : null;
@@ -171,10 +166,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                 var baseURL = "https://gca-svcs02-dev.cloudapp.net/ClientService/";
                 //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
                 var serialURL = baseURL + "GetSerialNumber";
-                console.log('Serial URL: ' + serialURL);
                 $http.get(serialURL).success(function (serialNumber) {
-                    console.log('New Serial: ' + serialNumber);
-
                     var number = serialNumber.replace(/"/g, '');
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
@@ -182,7 +174,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                         $http.post(previewURL).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL'])
                                 lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview/" + previewID.replace(/"/g, '');
-                            console.log(lineItem.Product.Specs['PreviewURL'].Value);
                             itemCount++;
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);
 
@@ -201,14 +192,8 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     }
                 })
             }
-            console.log("new order with lineitem:");
-            console.log(order);
-
-            console.log('Almost Post add to cart ');
 
             angular.forEach(selectedRecipients, function(recipient) {
-                console.log("current recipient");
-                console.log(recipient);
                 var lineItem = {};
                 lineItem.Quantity = 1;
                 lineItem.Product = recipientToSpecs(recipient, angular.copy(product));
@@ -218,7 +203,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
 
                 getPreviewDetails(lineItem, order);
             });
-            console.log('Post add to cart ');
         };
 
         var _addRecipient = function(recipient, recipientList) {
@@ -250,7 +234,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     recipientList.ValidCount++;
                 }
             });
-            console.log("ValidCount" + recipientList.ValidCount);
             return this;
         };
 
@@ -268,15 +251,12 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
         };
 
         var _saveEmailAddress = function(temp, recipientList){
-            console.log("in saveEmail address:");
             angular.forEach(recipientList.List, function(recipient){
-                console.log("checking each user");
                 if(recipient.UserID==temp.UserID){
                     recipient.EmailAddress = temp.EmailAddress;
                     recipient.BeingEdited = false;
                 }
             });
-            console.log("leaving saveEmailAddress");
             return this;
         };
 

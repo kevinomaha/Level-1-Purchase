@@ -64,6 +64,5 @@ four51.app.factory('$451', ['AppConst', function(AppConst) {
 }]);
 four51.apiName = function(){
     var _apiname = four51.app.ApiAppName ? four51.app.ApiAppName : window.location.pathname.split('/')[1];
-    console.log("ApiName:" + _apiname);
     return _apiname;
 };
