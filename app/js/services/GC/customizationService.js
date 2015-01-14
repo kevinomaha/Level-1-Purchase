@@ -1,5 +1,10 @@
-four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
-    function($451, $http, ProductDescription) {
+four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'User',
+    function($451, $http, ProductDescription, User) {
+
+        var user;
+        User.get(function(data) {
+            user = data;
+        });
 
         var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList'): {List:[]};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
@@ -73,38 +78,49 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             return randomstring;
         };
 
-        function recipientToSpecs(employee, product) {
+        function replaceTokens(spec, recipient, user) {
+            if (spec.Value) {
+                spec.Value = spec.Value.toString().replace("[[RecipientFirstName]]", recipient.FirstName);
+                spec.Value = spec.Value.toString().replace("[[RecipientLastName]]", recipient.LastName);
+                spec.Value = spec.Value.toString().replace("[[PurchaserFirstName]]", user.FirstName);
+                spec.Value = spec.Value.toString().replace("[[PurchaserLastName]]", user.LastName);
+            }
+        }
+
+        function recipientToSpecs(recipient, product) {
             if (product.Specs) {
                 angular.forEach(product.Specs, function(spec) {
                     switch(spec.Name) {
                         case "FirstName":
-                            spec.Value = employee.FirstName;
+                            spec.Value = recipient.FirstName;
                             break;
                         case "LastName":
-                            spec.Value = employee.LastName;
+                            spec.Value = recipient.LastName;
                             break;
                         case "RecipientID":
-                            spec.Value = employee.EmployeeNumber;
+                            spec.Value = recipient.EmployeeNumber;
                             break;
                         case "RecipientEmailAddress":
-                            spec.Value = employee.EmailAddress;
+                            spec.Value = recipient.EmailAddress;
                             break;
                         case "Email":
-                            spec.Value = employee.EmailAddress;
+                            spec.Value = recipient.EmailAddress;
                             break;
                         case "Marketplace":
-                            spec.Value = employee.Marketplace;
+                            spec.Value = recipient.Marketplace;
                             break;
                         case "JobFamily":
-                            spec.Value = employee.JobFamily;
+                            spec.Value = recipient.JobFamily;
                             break;
                         case "Supervisor":
-                            spec.Value = employee.Supervisor;
+                            spec.Value = recipient.Supervisor;
                             break;
                         case "ADPCode":
-                            spec.Value = employee.ADPCompanyCode;
+                            spec.Value = recipient.ADPCompanyCode;
                             break;
                     }
+
+                    replaceTokens(spec, recipient, user);
                 });
             }
             return product;
@@ -149,26 +165,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
 
             console.log('recip count ' + recipCount);
 
-            function returnTokenValue(value, lineItem){
-                var str;
-                console.log("inside returntoekenvalue");
-                console.log(lineItem);
-                var found=false;
-                angular.forEach(lineItem.Specs, function(spec) {
-                    if(!found && (value=="RecipientFirstName" || value=="RecipientLastName") ) {
-                        if (spec.Name == "FirstName") {
-                            found=true;
-                            str = spec.Value;
-                        }
-                        else if (spec.Name == "LastName"){
-                            found=true;
-                            str = spec.Value;
-                        }
-                    }
-                });
-                return str;
-            }
-
             function getPreviewDetails(lineItem, order) {
                 var denomination = lineItem.Product.Specs.Denomination ? lineItem.Product.Specs.Denomination.Value.replace('$', '') : null;
                 var designID = "";
@@ -195,36 +191,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                                     var tempDate = new Date(spec.Value);
                                     spec.Value = tempDate.getMonth()+1 + "/" + tempDate.getDate() + "/" + tempDate.getFullYear();
                                 }
-                            });
-
-                            angular.forEach(lineItem.Specs, function(spec) {
-                               if (spec.Name == "OpeningMessage" ){
-                                   console.log("for opening message");
-                                   var token = spec.Value.split(" ");
-                                   var value, temp, newValue;
-                                   temp = spec.Value;
-
-                                   angular.forEach(token, function(t){
-
-                                       var i = t.indexOf("[[");
-
-                                       if(i>=0){
-                                           console.log("inside if");
-                                           var j = t.indexOf("]]");
-
-                                           value = t.substring(i+2,j);
-                                           console.log("value:");
-                                           console.log(value);
-                                           newValue = returnTokenValue(value, lineItem);
-                                           console.log("newValue:");
-                                           console.log(newValue);
-                                           temp.replace(value, newValue);
-                                       }
-                                   });
-                                   console.log("new temp value:");
-                                   console.log(temp);
-                                   console.log(user.FirstName);
-                               }
                             });
 
                             order.LineItems.push(lineItem);
