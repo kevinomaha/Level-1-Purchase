@@ -1,11 +1,6 @@
 four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'User',
     function($451, $http, ProductDescription, User) {
 
-        var user;
-        User.get(function(data) {
-            user = data;
-        });
-
         var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList'): {List:[]};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
 
@@ -87,7 +82,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             }
         }
 
-        function recipientToSpecs(recipient, product) {
+        function recipientToSpecs(recipient, product, user) {
             if (product.Specs) {
                 angular.forEach(product.Specs, function(spec) {
                     switch(spec.Name) {
@@ -196,12 +191,14 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             angular.forEach(selectedRecipients, function(recipient) {
                 var lineItem = {};
                 lineItem.Quantity = 1;
-                lineItem.Product = recipientToSpecs(recipient, angular.copy(product));
+                User.get(function(user) {
+                    lineItem.Product = recipientToSpecs(recipient, angular.copy(product), user);
 
-                lineItem.UniqueID = randomString();
-                lineItem.ShipAddressID = recipient.Address.ID;
+                    lineItem.UniqueID = randomString();
+                    lineItem.ShipAddressID = recipient.Address.ID;
 
-                getPreviewDetails(lineItem, order);
+                    getPreviewDetails(lineItem, order);
+                });
             });
         };
 
