@@ -16,9 +16,13 @@
     </div>
 </div>
 <div class="credit-card-widget row" ng-show="!currentOrder.CreditCardID">
+    <div style="margin-top:10px;margin-bottom:-10px;padding-left: 5px;">
+        <label style="font-size: 11px;">{{('New' | r) + ' ' +  ('Card' | r)}}</label>
+    </div>
     <div class="col-lg-6 col-sm-7">
         <div class="view-form-icon" ng-if="user.Permissions.contains('CardholderName')">
             <div>
+                <label ng-class="{required: currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCard.AccountNumber}">{{'Cardholder Name' | r}}</label>
                 <input id="cardholder-name" class="form-control" ng-model="currentOrder.CreditCard.CardholderName"
                        ng-required="currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCardID"
                        type="text" placeholder="{{'Cardholder Name' | r}}" autocomplete="off" />
@@ -27,7 +31,7 @@
         </div>
         <div class="view-form-icon">
             <div class="account-number-input">
-                <label ng-class="{required: currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCard.AccountNumber}">Account Number</label>
+                <label ng-class="{required: currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCard.AccountNumber}">{{'Account Number' | r}}</label>
                 <input id="account-number" class="form-control" ng-model="currentOrder.CreditCard.AccountNumber" name="creditCardNumber"
                        ng-required="currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCardID"
                        type="text" autocomplete="off" maxlength="16" />
@@ -63,7 +67,7 @@
         <div class="checkbox row" ng-show="!currentOrder.CreditCardID">
             <label>
                 <input ng-model="currentOrder.CreditCard.Save" style="margin-left: 0px;" type="checkbox" />
-                <small><b>{{'Save my credit card information' | r}}</b></small>
+                <small><b style="margin-left:3px;">{{'Save my credit card information' | r}}</b></small>
             </label>
         </div>
     </div>
