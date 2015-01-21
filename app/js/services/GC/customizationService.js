@@ -129,18 +129,20 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             if (!order.LineItems) {
                 order.LineItems = [];
             }
+            User.get(function(user) {
+                angular.forEach(selectedRecipients, function (recipient) {
+                    var lineItem = {};
+                    lineItem.Quantity = 1;
 
-            angular.forEach(selectedRecipients, function(recipient) {
-                var lineItem = {};
-                lineItem.Quantity = 1;
-                lineItem.Product = recipientToSpecs(recipient, angular.copy(product));
-                lineItem.UniqueID = randomString();
-                lineItem.ShipAddressID = recipient.Address.ID;
+                    lineItem.Product = recipientToSpecs(recipient, angular.copy(product), user);
+                    lineItem.UniqueID = randomString();
+                    lineItem.ShipAddressID = recipient.Address.ID;
 
-                lineItem.Specs = angular.copy(lineItem.Product.Specs);
-                order.LineItems.push(lineItem);
+                    lineItem.Specs = angular.copy(lineItem.Product.Specs);
+                    order.LineItems.push(lineItem);
+                });
+                success(order);
             });
-            success(order);
         };
 
         var _addToCartVariable = function(product, selectedRecipients, user, order, success) {
