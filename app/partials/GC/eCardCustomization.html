@@ -43,7 +43,7 @@
                     <loadingindicator ng-show="generateAwardsIndicator" title="Please wait while your awards(s) are generated" />
                     <div class="row">
                         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                            <div ng-show="selectedProduct.Specs.DesignName && Templates.length > 1" class="template-selection row">
+                            <div ng-show="selectedProduct.Specs.DesignName && Templates && Templates.length > 0" class="template-selection row">
                                 <label>{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</label>
                                 <div ng-repeat="template in Templates" class="col-sm-3" ng-class="{'template-selected':selectedProduct.Specs.DesignID.Value == template.DesignId}">
                                     <figure ng-click="selectTemplate(template)">

@@ -48,25 +48,18 @@
                                 <div ng-show="ProductThumbnail">
                                     <img ng-src="{{ProductThumbnail}}" style="display:block; margin-left:auto; margin-right:auto; text-align:center" />
                                 </div>
+                                <div ng-show="selectedProduct.Specs.DesignName && Templates && Templates.length > 0" class="template-selection row">
+                                    <label>{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</label>
+                                    <div ng-repeat="template in Templates" class="col-sm-3" ng-class="{'template-selected':selectedProduct.Specs.DesignID.Value == template.DesignId}">
+                                        <figure ng-click="selectTemplate(template)">
+                                            <!--<i class="fa fa-check" ng-show="selectedProduct.Specs.DesignID.Value == template.DesignId"></i>-->
+                                            <img ng-src="{{template.ThumbnailUrl}}" />
+                                        </figure>
+                                        <p><i class="fa fa-check" ng-show="selectedProduct.Specs.DesignID.Value == template.DesignId"></i>{{template.Name}}</p>
+                                    </div>
+                                </div>
                                 <div class="col-sm-6">
-                                    <!--<div class="form-group">
-                                        <div class="btn-group-vertical btn-group">
-                                            <button style="border-top-right-radius:4px;" class="btn btn-default text-primary" ng-click="productTypeSelect('Standard')" ng-class="{active:selectedProductType == 'Standard'}">
-                                                &lt;!&ndash;<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Standard'"></i>&ndash;&gt;
-                                                Standard
-                                            </button>
-                                            <button class="btn btn-default text-success" ng-click="productTypeSelect('Premium')" ng-class="{active:selectedProductType == 'Premium'}">
-                                                &lt;!&ndash;<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Premium'"></i>&ndash;&gt;
-                                                Premium
-                                            </button>
-                                            &lt;!&ndash;<button class="btn btn-default" ng-class="{'active': selectedProductType == 'Holiday'}" ng-click="productTypeSelect('Holiday')">Holiday</button>&ndash;&gt;
-                                            <button class="btn btn-default text-danger" ng-show="productType != 'GreetingCardSuperCert'" ng-click="productTypeSelect('Canadian')" ng-class="{active:selectedProductType == 'Canadian'}">
-                                                &lt;!&ndash;<i style="font-size:1.35em;" class="fa fa-check-circle-o pull-left" ng-show="selectedProductType == 'Canadian'"></i>&ndash;&gt;
-                                                Canadian
-                                            </button>
-                                        </div>
-                                    </div>-->
-                                    <div class="view-form-icon" ng-show="selectedProduct.Specs.DesignName && selectedProduct.Specs.DesignName.Options && selectedProduct.Specs.DesignName.Options.length > 1">
+                                    <!--<div class="view-form-icon" ng-show="selectedProduct.Specs.DesignName && selectedProduct.Specs.DesignName.Options && selectedProduct.Specs.DesignName.Options.length > 1">
                                         <div>
                                             <label>{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</label>
                                             <select class="form-control"
@@ -78,7 +71,7 @@
                                             </select>
                                             <i class="fa fa-picture-o"></i>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="view-form-icon" ng-show="selectedProduct.Specs.OccasionMessage && selectedProduct.Specs.OccasionMessage.Options && selectedProduct.Specs.OccasionMessage.Options.length > 1">
                                         <div>
                                             <label>{{selectedProduct.Specs.OccasionMessage.Label || selectedProduct.Specs.OccasionMessage.Name}}</label>
