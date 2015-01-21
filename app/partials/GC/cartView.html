@@ -99,7 +99,7 @@
                                     <button title="Edit Item" class="btn btn-primary edit-item" ng-show="!item.Editing && objectLength(item.Specs) > 0" ng-click="editItem(item)">
                                         <span class="fa fa-edit fa-inverse"></span>
                                     </button>
-                                    <button title="Preview Item" class="btn btn-info preview-item" ng-show="!item.Editing && item.Specs.PreviewURL" ng-click="previewItem(item)">
+                                    <button title="Preview Item" class="btn btn-info preview-item" ng-show="!item.Editing && item.Specs.PreviewURL && item.Specs.PreviewURL.Value" ng-click="previewItem(item)">
                                         <span class="fa fa-eye fa-inverse"></span>
                                     </button>
                                     <div class="col-sm-3">

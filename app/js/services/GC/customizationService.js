@@ -167,8 +167,26 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     if (lineItem.Product.Specs['DesignID']) {
                         var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value;
                         $http.post(previewURL).success(function (previewID) {
-                            if (lineItem.Product.Specs['PreviewURL'])
+                            if (lineItem.Product.Specs['PreviewURL']) {
                                 lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview/" + previewID.replace(/"/g, '');
+                            }
+                            itemCount++;
+                            lineItem.Specs = angular.copy(lineItem.Product.Specs);
+
+                            angular.forEach(lineItem.Specs, function(spec) {
+                                if (spec.Value instanceof Date) {
+                                    var tempDate = new Date(spec.Value);
+                                    spec.Value = tempDate.getMonth()+1 + "/" + tempDate.getDate() + "/" + tempDate.getFullYear();
+                                }
+                            });
+
+                            order.LineItems.push(lineItem);
+                            if (recipCount == itemCount) {
+                                success(order);
+                            }
+                        }).error(function(ex) {
+                            if (lineItem.Product.Specs['PreviewURL'])
+                                lineItem.Product.Specs['PreviewURL'].Value = null;
                             itemCount++;
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);
 
@@ -185,7 +203,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                             }
                         });
                     }
-                })
+                });
             }
 
             angular.forEach(selectedRecipients, function(recipient) {
