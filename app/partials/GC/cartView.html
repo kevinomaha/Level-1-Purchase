@@ -155,7 +155,7 @@
                                             </div>
                                         </div>
                                         <div class="row" collapse="!item.Editing">
-                                            <form name="editSpecsForm">
+                                            <form name="editSpecsForm" novalidate="">
                                                 <div class="col-sm-6">
                                                     <div class="form-group" ng-repeat="s in item.Specs | onproperty:[{Property: 'Filtered', Value: false}] | onproperty:[{Property: 'ReadOnly', Value: false}] | orderobjectby:'OrderIndex'" ng-if="$even">
                                                         <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
@@ -222,7 +222,7 @@
                             <div ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length == 0 && user.Permissions.contains('CreateBillToAddress')" class="row">
                                 <addressinput address='billaddress' user='user'></addressinput>
                             </div>
-                            <form name="cart_billing" ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length > 0">
+                            <form name="cart_billing" ng-show="billaddressform || (addresses | filter:{IsBilling:true}).length > 0" novalidate="">
                                 <orderbillinggc></orderbillinggc>
                             </form>
                         </div>
