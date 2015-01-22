@@ -1,32 +1,32 @@
 <section class="container merchant-view">
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0">
-            <div class="view-form-icon row" style="margin-bottom: 10px;margin-left:0px;margin-right:0px;">
+            <div class="view-form-icon row" style="margin-bottom: 0px;margin-left:0px;margin-right:0px;">
                 <div>
                     <label>Recipient list</label>
                     <!--<input type="text" placeholder="Find a recipient..." ng-model="recipientListSearchTerm" class="form-control"/>-->
-                    <div class="recipient-list-container">
-                        <ul class="list-group" style="margin-bottom:0;margin-left:0px;margin-right:0px;">
-                            <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
-                                <div class="pull-right">
-                                    <div>
-                                        <i class="fa fa-3x" ng-show="recipient.Valid" ng-class="{'fa-circle-o text-muted': !recipient.Selected, 'fa-check-circle text-success': recipient.Selected}"></i>
-                                    </div>
-                                </div>
-                                <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
-                                <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
-                                <p>
-                                    <small>
-                                        <span>
-                                            <em ng-show="!selectedProduct.IsDigital && recipient.Address.ID"><i class="fa fa-map-marker text-muted"></i> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
-                                            <em ng-show="selectedProduct.IsDigital"><i class="fa fa-envelope text-muted"></i> {{recipient.EmailAddress}} </em>
-                                        </span>
-                                    </small>
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
+            </div>
+            <div class="recipient-list-container">
+                <ul class="list-group" style="margin-bottom:0;margin-left:0px;margin-right:0px;">
+                    <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
+                        <div class="pull-right">
+                            <div>
+                                <i class="fa fa-3x" ng-show="recipient.Valid" ng-class="{'fa-circle-o text-muted': !recipient.Selected, 'fa-check-circle text-success': recipient.Selected}"></i>
+                            </div>
+                        </div>
+                        <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
+                        <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
+                        <p>
+                            <small>
+                                <span>
+                                    <em ng-show="!selectedProduct.IsDigital && recipient.Address.ID"><i class="fa fa-map-marker text-muted"></i> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
+                                    <em ng-show="selectedProduct.IsDigital"><i class="fa fa-envelope text-muted"></i> {{recipient.EmailAddress}} </em>
+                                </span>
+                            </small>
+                        </p>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0">
