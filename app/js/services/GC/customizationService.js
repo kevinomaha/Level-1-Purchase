@@ -167,7 +167,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     var number = serialNumber.replace(/"/g, '');
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
-                        var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value;
+                        var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value + "&width=660";
                         $http.post(previewURL).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
                                 lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview/" + previewID.replace(/"/g, '');
@@ -278,7 +278,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
         };
 
         var _getTemplateThumbnails = function(product, success) {
-            $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1').
+            $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
                 success(function(data){
                     success(data);
                 }).
