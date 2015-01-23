@@ -85,7 +85,7 @@
                                                 name="shipMethod"
                                                 ng-model="currentOrder.ShipMethod"
                                                 ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !currentOrder.IsDigital"
-                                                ng-options="shipper as shipper.Name for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:false">
+                                                ng-options="shipper as shipper.Name for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:false:null">
                                             <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
                                         </select>
                                     </div>
@@ -146,7 +146,7 @@
                                                         <select class="form-control" ng-change="saveChanges()" name="shipMethod"
                                                                 ng-model="item.ShipperID"
                                                                 ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown'"
-                                                                ng-options="shipper.ID as shipper.Name for shipper in shippers | gcshippers:currentOrder.Total:currentOrder.LineItems.length:currentOrder.IsAllDigital"
+                                                                ng-options="shipper.ID as shipper.Name for shipper in shippers | gcshippers:currentOrder.Total:currentOrder.LineItems.length:currentOrder.IsAllDigital:item.Product"
                                                                 ng-required="!currentOrder.IsMultipleShip() && user.ShipMethod != null">
                                                         </select>
                                                         <i class="fa fa-truck"></i>

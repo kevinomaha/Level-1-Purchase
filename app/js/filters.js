@@ -152,22 +152,18 @@ four51.app.filter('gcshipping', function() {
 });
 
 four51.app.filter('gcshippers', function() {
-    return function(shipper,groupTotal,itemCount,isDigital) {
+    return function(shipper,groupTotal,itemCount,isDigital,product) {
         var results = [];
+        if (product && product.Name.indexOf('Visa') > -1 && product.Name.indexOf('Prepaid') > -1) {
+            angular.forEach(shipper, function(s) {
+                if (s.Name.indexOf('Standard') > -1) results.push(s);
+            });
+            return results;
+        }
         if (!isDigital) {
             angular.forEach(shipper, function(s) {
 
                 var today = new Date();
-                /*if (groupTotal > 9999 || itemCount > 399) {
-                    if (s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-")) {
-                        if (!s.Name.match("13-")) {
-                            results.push(s);
-                        }
-                        else if (s.Name.match("13-") && today.getDay() != 6) {
-                            results.push(s);
-                        }
-                    }
-                }*/
                 if (groupTotal > 399) {
                     if (s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-")) {
                         if (s.Name.match("16-")) {
@@ -206,7 +202,6 @@ four51.app.filter('gcshippers', function() {
                 }
             });
         }
-
         return results;
     }
 });
