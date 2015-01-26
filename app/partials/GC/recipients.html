@@ -18,9 +18,9 @@
             <div ng-show="recipientListMethodCount > 1">
                 <div class="text-center" style="margin-bottom:5px;"><b>Recipient Creation Mode</b></div>
                 <div class="btn-group" style="margin-bottom:10px;" role="group">
-                    <button type="button" class="btn btn-default" ng-if="BuyerSettings.Recipients.Search" ng-click="changeListMode('Search')" ng-class="{'active': recipientListMode == 'Search'}">Search</button>
-                    <button type="button" class="btn btn-default" ng-if="BuyerSettings.Recipients.Upload" ng-click="changeListMode('Upload')" ng-class="{'active': recipientListMode == 'Upload'}">Upload</button>
-                    <button type="button" class="btn btn-default" ng-if="BuyerSettings.Recipients.Manual" ng-click="changeListMode('Manual')" ng-class="{'active': recipientListMode == 'Manual'}">Manual</button>
+                    <button type="button" class="btn btn-default" ng-style="{'width': recipientListMethodCount == 2 ? '50%' : '33%'}" ng-if="BuyerSettings.Recipients.Search" ng-click="changeListMode('Search')" ng-class="{'active': recipientListMode == 'Search'}">Search</button>
+                    <button type="button" class="btn btn-default" ng-style="{'width': recipientListMethodCount == 2 ? '50%' : '33%'}" ng-if="BuyerSettings.Recipients.Upload" ng-click="changeListMode('Upload')" ng-class="{'active': recipientListMode == 'Upload'}">Upload</button>
+                    <button type="button" class="btn btn-default" ng-style="{'width': recipientListMethodCount == 2 ? '50%' : '33%'}" ng-if="BuyerSettings.Recipients.Manual" ng-click="changeListMode('Manual')" ng-class="{'active': recipientListMode == 'Manual'}">Manual</button>
                 </div>
             </div>
             <div ng-show="recipientList.List.length == 0">
