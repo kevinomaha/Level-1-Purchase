@@ -12,11 +12,17 @@
             <h4 class="pull-right" style="color:#a94442"  ng-show="recipientList.List.length == 0">Select Recipients to Proceed</h4>
             <h2>List Creation (step 2 of 3)</h2>
         </div>
-
-
     </div>
     <div class="row">
         <div class="col-md-3">
+            <div ng-show="recipientListMethodCount > 1">
+                <div class="text-center" style="margin-bottom:5px;"><b>Recipient Creation Mode</b></div>
+                <div class="btn-group" style="margin-bottom:10px;" role="group">
+                    <button type="button" class="btn btn-default" ng-if="BuyerSettings.Recipients.Search" ng-click="changeListMode('Search')" ng-class="{'active': recipientListMode == 'Search'}">Search</button>
+                    <button type="button" class="btn btn-default" ng-if="BuyerSettings.Recipients.Upload" ng-click="changeListMode('Upload')" ng-class="{'active': recipientListMode == 'Upload'}">Upload</button>
+                    <button type="button" class="btn btn-default" ng-if="BuyerSettings.Recipients.Manual" ng-click="changeListMode('Manual')" ng-class="{'active': recipientListMode == 'Manual'}">Manual</button>
+                </div>
+            </div>
             <div ng-show="recipientList.List.length == 0">
                 <div class="alert alert-danger">No recipients</div>
             </div>
@@ -49,93 +55,184 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-4" ng-show="!tempRecipient.UserID">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><b>Recipient Search</b></h3>
+        <div ng-show="recipientListMode == 'Search'">
+            <div class="col-sm-6 col-md-4" ng-show="!tempRecipient.UserID">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <b>Recipient Search</b>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <loadingindicator ng-show="searchIndicator"></loadingindicator>
+                        <form name="employee_search" ng-submit="seachEmployees(searchCriterion)">
+                            <div class="row">
+                                <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                                    <p class="text-info">Please enter your search criteria.</p>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>First Name</label>
+                                            <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.fn" name="FirstName" tabindex="1" />
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>Last Name</label>
+                                            <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.ln" name="LastName" tabindex="2" />
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>Employee Number</label>
+                                            <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.e" name="EmployeeNumber" tabindex="3" />
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>Marketplace</label>
+                                            <input class="form-control" type="text" ng-maxlength="100" ng-model="searchCriterion.m" name="Marketplace" tabindex="4" />
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="alert alert-warning" ng-show="searchError">{{searchError}}</div>
+                                    <div class="row text-center">
+                                        <div class="col-sm-6">
+                                            <input class="btn btn-success btn-block" type="submit" value="Search" ng-disabled="employee_search.$invalid" tabindex="5" />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input class="btn btn-default btn-block" type="button" value="Clear" ng-click="clearSearch()" tabindex="6" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <loadingindicator ng-show="searchIndicator"></loadingindicator>
-                    <form name="employee_search" ng-submit="seachEmployees(searchCriterion)">
-                        <div class="row">
-                            <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                                <p class="text-info">Please enter your search criteria.</p>
-                                <div class="view-form-icon">
-                                    <div>
-                                        <label>First Name</label>
-                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.fn" name="FirstName" tabindex="1" />
-                                        <i class="fa fa-user"></i>
-                                    </div>
-                                </div>
-                                <div class="view-form-icon">
-                                    <div>
-                                        <label>Last Name</label>
-                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.ln" name="LastName" tabindex="2" />
-                                        <i class="fa fa-user"></i>
-                                    </div>
-                                </div>
-                                <div class="view-form-icon">
-                                    <div>
-                                        <label>Employee Number</label>
-                                        <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.e" name="EmployeeNumber" tabindex="3" />
-                                        <i class="fa fa-user"></i>
-                                    </div>
-                                </div>
-                                <div class="view-form-icon">
-                                    <div>
-                                        <label>Marketplace</label>
-                                        <input class="form-control" type="text" ng-maxlength="100" ng-model="searchCriterion.m" name="Marketplace" tabindex="4" />
-                                        <i class="fa fa-user"></i>
-                                    </div>
-                                </div>
-                                <hr/>
-                                <div class="alert alert-warning" ng-show="searchError">{{searchError}}</div>
-                                <div class="row text-center">
-                                    <div class="col-sm-6">
-                                        <input class="btn btn-success btn-block" type="submit" value="Search" ng-disabled="employee_search.$invalid" tabindex="5" />
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input class="btn btn-default btn-block" type="button" value="Clear" ng-click="clearSearch()" tabindex="6" />
+            </div>
+            <div class="col-sm-6 col-md-5" ng-show="!tempRecipient.UserID">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><b>Search Results</b></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-info" ng-show="employees.length == 0">Search results will display here</div>
+                        <div ng-show="employees.length > 0">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Employee Number</th>
+                                        <th>Marketplace</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="employee in employees" ng-show="!employee.Added">
+                                        <td><div class="btn btn-sm btn-info" ng-click="selectEmployee(employee)">Select</div></td>
+                                        <td>{{employee.FirstName}}</td>
+                                        <td>{{employee.LastName}}</td>
+                                        <td>{{employee.EmployeeNumber}}</td>
+                                        <td>{{employee.Marketplace}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="recipientListMode == 'Upload' && !tempRecipient.UserID">
+            <div class="col-sm-6 col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <b>Recipient Upload</b>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <loadingindicator ng-show="savingRecipientsLoadingIndicator" title="Please wait while we generate your recipients"/>
+                        <div class="btn btn-danger pull-right" style="margin-right: 10px;" ng-show="recipientPasteList" ng-click="cancelUpload()">Cancel</div>
+                        <div class="btn btn-success pull-right" style="margin-right: 10px;" ng-show="recipientPasteList" ng-click="generateRecipients(recipientPasteList); tempRecipientPasteList = []">
+                            <i class="fa fa-plus-circle"></i> Generate Recipients
+                        </div>
+                        <h3>Import List</h3>
+                        <div style="margin-bottom:10px;">
+                            <ul>
+                                <li>Step 1 – Click on Download Spreadsheet template <a class="btn btn-sm btn-link" href="https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a//Level 1/files/RecipientUploadTemplate.xlsx" target="_blank"><i class="fa fa-download"></i> Download Spreadsheet Template</a></li>
+                                <li>Step 2 – Fill in your Data on the downloaded spreadsheet</li>
+                                <li>Step 3 – Copy your Data and paste this information in the box below, and click "Import"</li>
+                                <li>Step 4 – Review your data to ensure the information is correct.  If the data is correct, click Generate Recipients.  If the data is incorrect, click Cancel and update your spreadsheet.  Repeat steps 3 and 4.</li>
+                                <li>Step 5 -  Click "Continue to Customization"</li>
+                            </ul>
+                        </div>
+
+                        <angular-paste ng-hide="recipientPasteList.length > 0" ng-model="rawPaste" ng-array="parsedPaste"></angular-paste>
+
+                        <div class="text-info" ng-show="(tempRecipientPasteList.length > 0 && tempPasteError) || columnLengthError">
+                            <strong>The following errors were detected:</strong>
+                            <ul>
+                                <li ng-repeat="recipient in tempRecipientPasteList | filter:{Invalid:true}">
+                                    <ul>
+                                        <li ng-repeat="error in recipient.ErrorMessage">
+                                            {{error}}
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul ng-show="columnLengthError">
+                                <li>Please copy all 17 columns from spreadsheet</li>
+                            </ul>
+                        </div>
+                        <div class="recipient-upload-table">
+                            <div class="row" ng-hide="recipientPasteList.length == 0 || !recipientPasteList">
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="col-md-2 col-xs-6"><b>Name</b></div>
+                                        <div class="col-md-2 col-xs-6"><b>Email Address</b></div>
+                                        <div class="col-md-2 col-xs-6"><b>Employee Number</b></div>
+                                        <div class="col-md-2 col-xs-6"><b>Marketplace</b></div>
+                                        <div class="col-md-2 col-xs-6"><b>Job Family</b></div>
+                                        <div class="col-md-2 col-xs-12"><b>Address</b></div>
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="recipient-paste-row" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="recipient in recipientPasteList">
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!(recipient.FirstName || recipient.LastName)}">{{(recipient.FirstName + ' ' + recipient.LastName) || 'None'}}</span></div>
+                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.EmailAddress}">{{recipient.EmailAddress || 'None'}}</span></div>
+                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.EmployeeNumber}">{{recipient.EmployeeNumber || 'None'}}</span></div>
+                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.Marketplace}">{{recipient.Marketplace || 'None'}}</span></div>
+                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.JobFamily}">{{recipient.JobFamily || 'None'}}</span></div>
+                                    <div class="col-md-2">
+                                        <div class="btn btn-xs btn-primary" ng-init="toggleAddressInfo = false" ng-click="toggleAddressInfo = !toggleAddressInfo">
+                                            Address Info <i class="fa" ng-class="{'fa-angle-double-left': !toggleAddressInfo, 'fa-angle-double-down': toggleAddressInfo}"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" collapse="!toggleAddressInfo">
+                                    <div class="col-md-2 col-md-offset-10 recipient-paste-row-address">
+                                        <p><small>{{recipient.ShipToFirstName}} {{recipient.ShipToLastName}}</small></p>
+                                        <p><small>{{recipient.CompanyName}}</small></p>
+                                        <p><small>{{recipient.Street1}}</small></p>
+                                        <p><small>{{recipient.Street2}}</small></p>
+                                        <p><small>{{recipient.City}}, {{recipient.State}} {{recipient.Zip}}</small></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-md-5" ng-show="!tempRecipient.UserID">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><b>Search Results</b></h3>
-                </div>
-                <div class="panel-body">
-                    <div class="alert alert-info" ng-show="employees.length == 0">Search results will display here</div>
-                    <div ng-show="employees.length > 0">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Employee Number</th>
-                                    <th>Marketplace</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="employee in employees" ng-show="!employee.Added">
-                                    <td><div class="btn btn-sm btn-info" ng-click="selectEmployee(employee)">Select</div></td>
-                                    <td>{{employee.FirstName}}</td>
-                                    <td>{{employee.LastName}}</td>
-                                    <td>{{employee.EmployeeNumber}}</td>
-                                    <td>{{employee.Marketplace}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
+        </div>
+        <div ng-show="recipientListMode == 'Manual' && !tempRecipient.UserID">
+            Manual
         </div>
         <div class="col-sm-12 col-md-10 col-lg-9" ng-show="tempRecipient.UserID">
             <div class="panel panel-default">

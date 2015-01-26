@@ -1,5 +1,18 @@
-four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451', '$filter', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources',
-    function ($routeParams, $sce, $scope, $451, $filter, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
+four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451', '$filter', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources', 'ExistingAddress',
+    function ($routeParams, $sce, $scope, $451, $filter, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources, ExistingAddress) {
+
+        $scope.recipientListMode = null;
+        $scope.recipientListMethodCount = 0;
+        angular.forEach($scope.BuyerSettings.Recipients, function(value, key) {
+            if (value) {
+                $scope.recipientListMethodCount++;
+                if (!$scope.recipientListMode) $scope.recipientListMode = key;
+            }
+        });
+
+        $scope.changeListMode = function(mode) {
+            $scope.recipientListMode = mode;
+        };
 
         $scope.recipientsReady = false;
         $scope.selectedProduct = Customization.getProduct();
@@ -7,6 +20,17 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
 
         $scope.recipientList = Customization.getRecipients();
         Customization.validateRecipientList($scope.recipientList);
+
+
+        function getAddresses() {
+            AddressList.query(function(list) {
+                $scope.addresses = list;
+            });
+        }
+        getAddresses();
+
+        $scope.countries = Resources.countries;
+        $scope.states = Resources.states;
 
         $scope.searchCriterion = {};
         $scope.employees = [];
@@ -230,27 +254,6 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             $scope.employees = [];
         };
 
-        $scope.checkMerchant = function() {
-            if($scope.selectedProduct.ProductType=="Merchant"){
-                var k=0;
-                angular.forEach($scope.recipientList.List, function(recipient) {
-                    if(recipient.EmailAddress){
-                        k++;
-                        recipient.Valid=true;
-                    }
-                });
-                if(k==$scope.recipientList.List.length){
-                    Customization.validateRecipientList($scope.recipientList);
-                    return "true";
-                }
-                else
-                    return "false";
-            }
-            else{
-                return "false";
-            }
-        };
-
         $scope.ifMerchant = function(){
             if($scope.selectedProduct.ProductType=="Merchant")
                 return "true";
@@ -258,14 +261,91 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
                 return "false";
         };
 
-        $scope.countries = Resources.countries;
-        $scope.states = Resources.states;
+        //Recipient Upload
 
-        function getAddresses() {
-            AddressList.query(function(list) {
-                $scope.addresses = list;
-            });
-        }
-        getAddresses();
+        var randomString = function () {
+            var chars = "0123456789abcdefghijklmnop";
+            var string_length = 7;
+            var randomstring = '';
+            for (var i = 0; i < string_length; i++) {
+                var rnum = Math.floor(Math.random() * chars.length);
+                randomstring += chars.substring(rnum, rnum + 1);
+            }
+            return randomstring;
+        };
+
+        $scope.savingRecipientsLoadingIndicator = false;
+
+        $scope.generateRecipients = function (list) {
+            $scope.savingRecipientsLoadingIndicator = true;
+            this.recipientPasteList = [];
+            var addresses = [];
+            for (var i = 0; i < list.length; i++) {
+                var recipient = {};
+                recipient = list[i];
+                recipient.UserID = randomString();
+                var address = angular.copy(recipient.Address);
+
+                ExistingAddress.check($scope.addresses, address);
+
+                if (!recipient.AddressInvalid) {
+                    if (!address.IsExisting) {
+                        recipient.ShipAddressID = null;
+                        if (addresses.length == 0) {
+                            addresses.push(address);
+                        }
+                        else {
+                            address.matchCount = 0;
+                            for (var a = 0; a < addresses.length; a++) {
+                                var add = addresses[a];
+                                if (address.AddressName == add.AddressName && address.FirstName == add.FirstName && address.LastName == add.LastName &&
+                                    address.Street1 == add.Street1 && address.Street2 == add.Street2 && address.City == add.City && address.State == add.State &&
+                                    address.Zip == add.Zip && address.Country == add.Country) {
+                                    address.matchCount++;
+                                }
+                            }
+                            if (address.matchCount == 0) {
+                                addresses.push(address);
+                            }
+                        }
+                    }
+                    else {
+                        recipient.Address = address;
+                    }
+                }
+
+                $scope.recipientList.List.push(recipient);
+            }
+
+            var assignAddresses = function () {
+                Customization
+                    .assignAddresses($scope.recipientList, $scope.addresses)
+                    .validateRecipientList($scope.recipientList)
+                    .setRecipients($scope.recipientList);
+                $("#myPasteBox").val('');
+                $scope.savingRecipientsLoadingIndicator = false;
+            };
+
+            var addressSaveCount = 0;
+            for (var i = 0; i < addresses.length; i++) {
+                Address.save(addresses[i], function (add) {
+                    $scope.addresses.push(add);
+                    addressSaveCount++;
+                    if (addressSaveCount == addresses.length) assignAddresses();
+                });
+            }
+            if (addresses.length == 0) {
+                Customization
+                    .assignAddresses($scope.recipientList, $scope.addresses)
+                    .validateRecipientList($scope.recipientList)
+                    .setRecipients($scope.recipientList);
+                $("#myPasteBox").val('');
+                $scope.savingRecipientsLoadingIndicator = false;
+            }
+        };
+
+        $scope.cancelUpload = function () {
+            $rootScope.$broadcast('event:cancelUpload');
+        };
 
     }]);

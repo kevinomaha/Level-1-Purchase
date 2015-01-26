@@ -15,45 +15,6 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                     return re.test(email);
                 }
 
-                function validDenomination(denom) {
-                    denom = denom.replace('$','');
-                    if ($scope.$parent.selectedProductDetails && $scope.$parent.selectedProductDetails.Specs && $scope.$parent.selectedProductDetails.Specs.Denomination1 && $scope.$parent.selectedProductDetails.Specs.Denomination1.Options) {
-                        var denoms = [];
-                        angular.forEach($scope.$parent.selectedProductDetails.Specs.Denomination1.Options, function(o) {
-                            denoms.push(o.Value.replace('$',''));
-                        });
-                        var valid = false;
-                        if (denoms.indexOf(denom) > -1) {
-                            valid = true;
-                        }
-                        return valid;
-                    }
-                    else {
-                        return !isNaN(denom);
-                    }
-                }
-
-                function validDate(date) {
-                    if (date.indexOf('/') > -1) {
-                        var comp = date.split('/');
-                        var m = parseInt(comp[0], 10);
-                        var d = parseInt(comp[1], 10);
-                        var y = parseInt(comp[2], 10);
-                        var dt = new Date(y,m-1,d);
-                        var today = new Date();
-                        var future = new Date(new Date().setDate(today.getDate() + 120));
-                        today.setHours(0,0,0,0)
-                        if ((dt.getFullYear() == y && dt.getMonth() + 1 == m && dt.getDate() == d) && (dt >= today && dt < future)) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                    else {
-                        return false;
-                    }
-                }
-
                 function parseTabular(text) {
 					//The array we will return
 					var toReturn = [];
@@ -62,7 +23,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                         text = text.replace(/"/g,'');
 						var rows = text.split(/[\n\f\r]/);
                         for (var i = 0; i < rows.length; i++) {
-                            if (rows[i].split("\t").length < 19) {
+                            if (rows[i].split("\t").length < 17) {
                                 if (rows[i+1] || rows[i+1] == "") {
                                     rows[i] = rows[i] + "\n";
                                     rows[i] = rows[i].concat(rows[i+1]);
@@ -71,7 +32,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                 }
                             }
                         }
-                        if (rows[0] && (rows[0].split("\t").length < 19 || rows[0].split("\t").length > 19)) {
+                        if (rows[0] && (rows[0].split("\t").length < 17 || rows[0].split("\t").length > 17)) {
                             $scope.tempPasteError = true;
                             $scope.columnLengthError = true;
                         }
@@ -114,77 +75,58 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                         if ($scope.parsedPaste[i][0] != "Recipient First Name") {
                                             var recipient = {};
 
-                                            var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
-                                            denom = (denom == '$') ? '' : denom;
-                                            denom = "$" + Number((denom).replace(/[^0-9\.]+/g,"")).toString();
-
                                             recipient.FirstName = $scope.parsedPaste[i][0];
                                             recipient.LastName = $scope.parsedPaste[i][1];
-                                            recipient.RecipientID = $scope.parsedPaste[i][2];
-                                            recipient.EnvelopeLineTwo = $scope.parsedPaste[i][3];
-                                            recipient.Email = $scope.parsedPaste[i][4];
-                                            recipient.ShipToFirstName = $scope.parsedPaste[i][5];
-                                            recipient.ShipToLastName = $scope.parsedPaste[i][6];
-                                            recipient.CompanyName = $scope.parsedPaste[i][7];
-                                            recipient.Street1 = $scope.parsedPaste[i][8];
-                                            recipient.Street2 = $scope.parsedPaste[i][9];
-                                            recipient.City = $scope.parsedPaste[i][10];
-                                            recipient.State = $scope.parsedPaste[i][11];
-                                            recipient.Zip = $scope.parsedPaste[i][12];
-                                            recipient.Denomination = denom;
-                                            recipient.OpeningMessage = $scope.parsedPaste[i][14];
-                                            recipient.PersonalMessage = $scope.parsedPaste[i][15];
-                                            recipient.ClosingMessage = $scope.parsedPaste[i][16];
-                                            recipient.EmailSubject = $scope.parsedPaste[i][17];
-                                            recipient.DeliveryDate = $scope.parsedPaste[i][18];
+                                            recipient.EmailAddress = $scope.parsedPaste[i][2];
+                                            recipient.EmployeeNumber = $scope.parsedPaste[i][3];
+                                            recipient.Marketplace = $scope.parsedPaste[i][4];
+                                            recipient.JobFamily = $scope.parsedPaste[i][5];
+                                            recipient.Supervisor = $scope.parsedPaste[i][6];
+                                            recipient.ADPCompanyCode = $scope.parsedPaste[i][7];
+                                            recipient.Address = {};
+                                            recipient.Address.FirstName = $scope.parsedPaste[i][8];
+                                            recipient.Address.LastName = $scope.parsedPaste[i][9];
+                                            recipient.Address.CompanyName = $scope.parsedPaste[i][10];
+                                            recipient.Address.Street1 = $scope.parsedPaste[i][11];
+                                            recipient.Address.AddressName = recipient.Address.Street1;
+                                            recipient.Address.Street2 = $scope.parsedPaste[i][12];
+                                            recipient.Address.City = $scope.parsedPaste[i][13];
+                                            recipient.Address.State = $scope.parsedPaste[i][14];
+                                            recipient.Address.Zip = $scope.parsedPaste[i][15];
+                                            recipient.Address.Phone = $scope.parsedPaste[i][16];
+                                            recipient.Address.Country = 'US';
+                                            recipient.Address.IsShipping = true;
 
-                                            if (!validateEmail(recipient.Email)) {
-                                                recipient.Email = "";
-                                            }
-                                            if (recipient.Denomination && !validDenomination(recipient.Denomination)) {
-                                                recipient.Denomination = "";
-                                            }
-                                            if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
-                                                recipient.DeliveryDate = "";
-                                            }
-
-                                            if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
-                                                var lines = recipient.PersonalMessage.split(/\r\n|\r|\n/);
-                                                var tempMessage = "";
-                                                for (var line = 0; line < 6; line++) {
-                                                    tempMessage += lines[line];
-                                                    if (line < 5) {
-                                                        tempMessage += "\n";
-                                                    }
-                                                }
-                                                recipient.PersonalMessage = tempMessage;
+                                            if (!validateEmail(recipient.EmailAddress)) {
+                                                recipient.EmailAddress = "";
                                             }
 
                                             var stateValid = false;
                                             angular.forEach(stateList, function(state) {
-                                                if (state.value == recipient.State) {
+                                                if (state.value == recipient.Address.State) {
                                                     stateValid = true;
                                                 }
                                             });
                                             if (!stateValid) {
-                                                recipient.State = "";
-                                                recipient.Country = "";
+                                                recipient.Address.State = "";
+                                                recipient.Address.Country = "";
                                             }
                                             else {
                                                 for (var s = 0; s < stateList.length; s++) {
-                                                    if (recipient.State == stateList[s].value) {
-                                                        recipient.Country = stateList[s].country;
+                                                    if (recipient.Address.State == stateList[s].value) {
+                                                        recipient.Address.Country = stateList[s].country;
                                                     }
                                                 }
                                             }
 
-                                            if (recipient.ShipToFirstName == "" ||
-                                                recipient.ShipToLastName == "" ||
-                                                recipient.Street1 == "" ||
-                                                recipient.City == "" ||
-                                                recipient.State == "" ||
+                                            if (recipient.Address.FirstName == "" ||
+                                                recipient.Address.LastName == "" ||
+                                                recipient.Address.Street1 == "" ||
+                                                recipient.Address.City == "" ||
+                                                recipient.Address.State == "" ||
                                                 !stateValid ||
-                                                recipient.Zip == "")
+                                                recipient.Address.Zip == "" ||
+                                                recipient.Address.Phone == "")
                                             {
                                                 recipient.AddressInvalid = true;
                                                 recipient.Invalid = true;
@@ -244,29 +186,27 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                         if ($scope.parsedPaste[i][0] != "Recipient First Name") {
                                             var recipient = {};
 
-                                            var denom = ($scope.parsedPaste[i][13].indexOf('$') > -1) ? $scope.parsedPaste[i][13] : '$' + $scope.parsedPaste[i][13];
-                                            denom = (denom == '$') ? '' : denom;
-                                            denom = "$" + Number((denom).replace(/[^0-9\.]+/g,"")).toString();
-
                                             recipient.FirstName = $scope.parsedPaste[i][0];
                                             recipient.LastName = $scope.parsedPaste[i][1];
-                                            recipient.RecipientID = $scope.parsedPaste[i][2];
-                                            recipient.EnvelopeLineTwo = $scope.parsedPaste[i][3];
-                                            recipient.Email = $scope.parsedPaste[i][4];
-                                            recipient.ShipToFirstName = $scope.parsedPaste[i][5];
-                                            recipient.ShipToLastName = $scope.parsedPaste[i][6];
-                                            recipient.CompanyName = $scope.parsedPaste[i][7];
-                                            recipient.Street1 = $scope.parsedPaste[i][8];
-                                            recipient.Street2 = $scope.parsedPaste[i][9];
-                                            recipient.City = $scope.parsedPaste[i][10];
-                                            recipient.State = $scope.parsedPaste[i][11];
-                                            recipient.Zip = $scope.parsedPaste[i][12];
-                                            recipient.Denomination = denom;
-                                            recipient.OpeningMessage = $scope.parsedPaste[i][14];
-                                            recipient.PersonalMessage = $scope.parsedPaste[i][15];
-                                            recipient.ClosingMessage = $scope.parsedPaste[i][16];
-                                            recipient.EmailSubject = $scope.parsedPaste[i][17];
-                                            recipient.DeliveryDate = $scope.parsedPaste[i][18];
+                                            recipient.EmailAddress = $scope.parsedPaste[i][2];
+                                            recipient.EmployeeNumber = $scope.parsedPaste[i][3];
+                                            recipient.Marketplace = $scope.parsedPaste[i][4];
+                                            recipient.JobFamily = $scope.parsedPaste[i][5];
+                                            recipient.Supervisor = $scope.parsedPaste[i][6];
+                                            recipient.ADPCompanyCode = $scope.parsedPaste[i][7];
+                                            recipient.Address = {};
+                                            recipient.Address.FirstName = $scope.parsedPaste[i][8];
+                                            recipient.Address.LastName = $scope.parsedPaste[i][9];
+                                            recipient.Address.CompanyName = $scope.parsedPaste[i][10];
+                                            recipient.Address.Street1 = $scope.parsedPaste[i][11];
+                                            recipient.Address.AddressName = recipient.Address.Street1;
+                                            recipient.Address.Street2 = $scope.parsedPaste[i][12];
+                                            recipient.Address.City = $scope.parsedPaste[i][13];
+                                            recipient.Address.State = $scope.parsedPaste[i][14];
+                                            recipient.Address.Zip = $scope.parsedPaste[i][15];
+                                            recipient.Address.Phone = $scope.parsedPaste[i][16];
+                                            recipient.Address.Country = 'US';
+                                            recipient.Address.IsShipping = true;
                                             recipient.Invalid = false;
                                             recipient.ErrorMessage = [];
                                             recipient.Selected = false;
@@ -279,94 +219,54 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                                 ? recipient.FirstName + " " + recipient.LastName
                                                 : "Recipient " + (i + 1);
 
-                                            if (recipient.Email && !validateEmail(recipient.Email)) {
+                                            if (recipient.EmailAddress && !validateEmail(recipient.EmailAddress)) {
                                                 recipient.Invalid = true;
                                                 $scope.tempPasteError = true;
                                                 recipient.ErrorMessage.push(recipientIdentifier + " has an invalid email address. This email address will not be uploaded.");
                                             }
-                                            if (recipient.Denomination && !validDenomination(recipient.Denomination)) {
-                                                recipient.Invalid = true;
-                                                $scope.tempPasteError = true;
-                                                recipient.ErrorMessage.push(recipientIdentifier + " has an invalid denomination. This value will not be uploaded.");
-                                            }
-                                            if (recipient.DeliveryDate && !validDate(recipient.DeliveryDate)) {
-                                                recipient.Invalid = true;
-                                                $scope.tempPasteError = true;
-                                                recipient.ErrorMessage.push(recipientIdentifier + " has an invalid delivery date. This value must be a valid date (MM/DD/YYYY) within 120 days in the future. This value will not be uploaded.");
-                                            }
-
-                                            if (recipient.PersonalMessage.split(/\r\n|\r|\n/).length > 6) {
-                                                recipient.Invalid = true;
-                                                $scope.tempPasteError = true;
-                                                recipient.ErrorMessage.push(recipientIdentifier + " has a personal message greater than 6 lines. The text after line 6 for this value will not be uploaded.");
-                                            }
-
-                                            if (recipient.OpeningMessage.length > 50) {
-                                                recipient.Invalid = true;
-                                                $scope.tempPasteError = true;
-                                                recipient.ErrorMessage.push(recipientIdentifier + " has an opening message longer than 50 characters. This value will be truncated at that character limit.");
-                                            }
-
-                                            if (recipient.ClosingMessage.length > 50) {
-                                                recipient.Invalid = true;
-                                                $scope.tempPasteError = true;
-                                                recipient.ErrorMessage.push(recipientIdentifier + " has a closing message longer than 50 characters. This value will be truncated at that character limit.");
-                                            }
-
-                                            if ($scope.selectedProduct && $scope.digitalProduct) {
-                                                if (recipient.Email.length == 0) {
+                                            if ($scope.selectedProduct.IsDigital) {
+                                                if (recipient.EmailAddress.length == 0) {
                                                     $scope.tempPasteError = true;
                                                     recipient.Invalid = true;
                                                     recipient.ErrorMessage.push(recipientIdentifier + " is missing an email address");
                                                 }
-                                                if (recipient.PersonalMessage.length > 500) {
-                                                    recipient.Invalid = true;
-                                                    $scope.tempPasteError = true;
-                                                    recipient.ErrorMessage.push(recipientIdentifier + " has a personal message longer than 500 characters. This value will be truncated at that character limit.");
-                                                }
                                             }
-                                            else if ($scope.selectedProduct && !$scope.digitalProduct) {
-                                                if (recipient.PersonalMessage.length > 300) {
-                                                    recipient.Invalid = true;
-                                                    $scope.tempPasteError = true;
-                                                    recipient.ErrorMessage.push(recipientIdentifier + " has a personal message longer than 300 characters. This value will be truncated at that character limit.");
-                                                }
-
+                                            else {
                                                 var stateValid = false;
                                                 angular.forEach(stateList, function(state) {
-                                                    if (state.value == recipient.State) {
+                                                    if (state.value == recipient.Address.State) {
                                                         stateValid = true;
                                                     }
                                                 });
                                                 if (!stateValid) {
-                                                    recipient.State = "";
-                                                    recipient.Country = "";
+                                                    recipient.Address.State = "";
+                                                    recipient.Address.Country = "";
                                                 }
                                                 else {
                                                     for (var s = 0; s < stateList.length; s++) {
-                                                        if (recipient.State == stateList[s].value) {
-                                                            recipient.Country = stateList[s].country;
+                                                        if (recipient.Address.State == stateList[s].value) {
+                                                            recipient.Address.Country = stateList[s].country;
                                                         }
                                                     }
                                                 }
 
-                                                if (recipient.ShipToFirstName == "") {
+                                                if (recipient.Address.FirstName == "") {
                                                     errorCnt++;
                                                     errors.push("Ship To First Name");
                                                 }
-                                                if (recipient.ShipToLastName == "") {
+                                                if (recipient.Address.LastName == "") {
                                                     errorCnt++;
                                                     errors.push("Ship To Last Name");
                                                 }
-                                                if (recipient.Street1 == "") {
+                                                if (recipient.Address.Street1 == "") {
                                                     errorCnt++;
                                                     errors.push("Address Line 1");
                                                 }
-                                                if (recipient.City == "") {
+                                                if (recipient.Address.City == "") {
                                                     errorCnt++;
                                                     errors.push("City");
                                                 }
-                                                if (recipient.State == "") {
+                                                if (recipient.Address.State == "") {
                                                     errorCnt++;
                                                     errors.push("State");
                                                 }
@@ -374,9 +274,13 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources) {
                                                     errorCnt++;
                                                     errors.push("State value is invalid");
                                                 }
-                                                if (recipient.Zip == "") {
+                                                if (recipient.Address.Zip == "") {
                                                     errorCnt++;
                                                     errors.push("Zip Code");
+                                                }
+                                                if (recipient.Address.Phone == "") {
+                                                    errorCnt++;
+                                                    errors.push("Phone");
                                                 }
 
                                                 if (errorCnt > 0) {

@@ -291,6 +291,36 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             );
         };
 
+        var _assignAddresses = function(recipientList, addresses) {
+            /*for (var r = 0; r < $scope.recipientList.List.length; r++) {
+                if (!$scope.recipientList.List[r].address && !$scope.recipientList.List[r].Invalid) {
+                    var recip = $scope.recipientList.List[r];
+                    if (!recip.address) {
+                        for (var a = 0; a < $scope.addresses.length; a++) {
+                            var add = $scope.addresses[a];
+                            if (recip.Street1 == add.AddressName && recip.ShipToFirstName == add.FirstName && recip.ShipToLastName == add.LastName &&
+                                recip.Street1 == add.Street1 && recip.Street2 == add.Street2 && recip.City == add.City && recip.State == add.State &&
+                                recip.Zip == add.Zip && recip.Country == add.Country) {
+                                $scope.recipientList.List[r].Address = add;
+                            }
+                        }
+                    }
+                }
+            }*/
+            angular.forEach(recipientList.List, function(r) {
+                if (r.Address && !r.Address.ID) {
+                    angular.forEach(addresses, function(a) {
+                        if (r.Address.Street1 == a.AddressName && r.Address.FirstName == a.FirstName && r.Address.LastName == a.LastName &&
+                                r.Address.Street1 == a.Street1 && r.Address.Street2 == a.Street2 && r.Address.City == a.City && r.Address.State == a.State &&
+                                r.Address.Zip == a.Zip && r.Address.Country == a.Country) {
+                            r.Address = a;
+                        }
+                    });
+                }
+            });
+            return this;
+        };
+
         return {
             getRecipients: _getRecipients,
             setRecipients: _setRecipients,
@@ -304,6 +334,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             validateRecipientList: _validateRecipientList,
             setAddress: _setAddress,
             getTemplateThumbnails: _getTemplateThumbnails,
-            saveEmailAddress: _saveEmailAddress
+            saveEmailAddress: _saveEmailAddress,
+            assignAddresses: _assignAddresses
         }
     }]);

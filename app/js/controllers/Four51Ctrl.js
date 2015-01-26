@@ -1,6 +1,7 @@
-four51.app.controller('Four51Ctrl', ['$scope', '$rootScope', '$route','$routeParams', '$location', '$451', 'User', 'Order', 'Security', 'OrderConfig', 'Category', 'SpendingAccount', 'Product', 'Shipper', 'AddressList', 'AppConst', 'EmployeeSearch',
-function ($scope, $rootScope, $route, $routParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, Product, Shipper, AddressList, AppConst, EmployeeSearch) {
+four51.app.controller('Four51Ctrl', ['$scope', '$rootScope', '$route','$routeParams', '$location', '$451', 'User', 'Order', 'Security', 'OrderConfig', 'Category', 'SpendingAccount', 'Product', 'Shipper', 'AddressList', 'AppConst', 'EmployeeSearch', 'BuyerSettings',
+function ($scope, $rootScope, $route, $routParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, Product, Shipper, AddressList, AppConst, EmployeeSearch, BuyerSettings) {
     $scope.AppConst = AppConst;
+    $scope.BuyerSettings = BuyerSettings;
 	$scope.scroll = 0;
 	$scope.isAnon = $451.isAnon; //need to know this before we have access to the user object
 	$scope.Four51User = Security;
