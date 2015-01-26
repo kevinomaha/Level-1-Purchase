@@ -12,7 +12,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         //$scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/L1slctv2MGC3');
         Customization.setProduct(product);
         Customization.clearRecipients();
-        $location.path('employeesearch');
+        $location.path('recipients');
     };
 
     //merge code for actual catalog values against hardcoded top level product list

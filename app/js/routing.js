@@ -2,13 +2,10 @@ four51.app.config(['$routeProvider', '$locationProvider', function($routeProvide
 	$locationProvider.html5Mode(true);
 
 	$routeProvider.
-        when('/employeesearch', { templateUrl: 'partials/GC/employeeSearch.html', controller: 'EmployeeSearchCtrl' }).
+        when('/recipients', { templateUrl: 'partials/GC/recipients.html', controller: 'RecipientsCtrl' }).
         when('/supercertificate', { templateUrl: 'partials/GC/SCCustomization.html', controller: 'CustomizationCtrl' }).
         when('/visa', { templateUrl: 'partials/GC/visa.html', controller: 'CustomizationCtrl' }).
         when('/ecard', { templateUrl: 'partials/GC/eCardCustomization.html', controller: 'CustomizationCtrl' }).
-        /*when('/customizationStep1', { templateUrl: 'partials/GC/customizationStep1.html', controller: 'CustomizationCtrl' }).
-        when('/customizationStep2', { templateUrl: 'partials/GC/customizationStep2.html', controller: 'CustomizationCtrl' }).
-        when('/customizationStep3', { templateUrl: 'partials/GC/customizationStep3.html', controller: 'CustomizationCtrl' }).*/
 		when('/order', { templateUrl: 'partials/orderSearchView.html', controller: 'OrderSearchCtrl' }).
 		when('/order/:id', { templateUrl: 'partials/Reporting/orderHistoryView.html', controller: 'OrderViewCtrl' }).
         when('/cart', { templateUrl: 'partials/GC/cartView.html', controller: 'CartViewCtrl'}).

@@ -1,4 +1,4 @@
-four51.app.controller('EmployeeSearchCtrl', ['$routeParams', '$sce', '$scope', '$451', '$filter', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources',
+four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451', '$filter', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources',
     function ($routeParams, $sce, $scope, $451, $filter, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources) {
 
         $scope.recipientsReady = false;
