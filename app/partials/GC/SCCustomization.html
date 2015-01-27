@@ -5,35 +5,40 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div>
-            <div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" ng-show="selectedProduct.Name"><b>RECIPIENT LIST</b></h3>
+            </div>
+            <div class="panel-body">
+                <!--<div>
                 <label>Recipient list</label>
-                <!--<div class="input-group" style="margin-bottom:5px;">
+                &lt;!&ndash;<div class="input-group" style="margin-bottom:5px;">
                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                 <input class="form-control view-form-icon" placeholder="Find a recipient..." type="text" ng-model="recipientListSearchTerm" />
+            </div>&ndash;&gt;
             </div>-->
-            </div>
-            <div class="recipient-list-container">
-                <ul class="list-group" style="margin-bottom:0;">
-                    <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
-                        <div class="pull-right">
-                            <div>
-                                <i class="fa fa-3x" ng-show="recipient.Valid" ng-class="{'fa-circle-o text-muted': !recipient.Selected, 'fa-check-circle text-success': recipient.Selected}"></i>
-                                <i class="fa fa-3x" ng-show="selectedProduct.IsDigital" class="fa-check-circle text-success"></i>
+                <div class="recipient-list-container">
+                    <ul class="list-group" style="margin-bottom:0;">
+                        <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
+                            <div class="pull-right">
+                                <div>
+                                    <i class="fa fa-3x" ng-show="recipient.Valid" ng-class="{'fa-circle-o text-muted': !recipient.Selected, 'fa-check-circle text-success': recipient.Selected}"></i>
+                                    <i class="fa fa-3x" ng-show="selectedProduct.IsDigital" class="fa-check-circle text-success"></i>
+                                </div>
                             </div>
-                        </div>
-                        <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
-                        <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
-                        <p>
-                            <small>
-                                <span>
-                                    <em ng-show="!selectedProduct.IsDigital && recipient.Address.ID"><i class="fa fa-map-marker text-muted"></i> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
-                                    <em ng-show="selectedProduct.IsDigital"><i class="fa fa-envelope text-muted"></i> {{recipient.EmailAddress}} </em>
-                                </span>
-                            </small>
-                        </p>
-                    </li>
-                </ul>
+                            <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
+                            <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
+                            <p>
+                                <small>
+                                    <span>
+                                        <em ng-show="!selectedProduct.IsDigital && recipient.Address.ID"><i class="fa fa-map-marker text-muted"></i> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
+                                        <em ng-show="selectedProduct.IsDigital"><i class="fa fa-envelope text-muted"></i> {{recipient.EmailAddress}} </em>
+                                    </span>
+                                </small>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
