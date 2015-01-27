@@ -6,10 +6,13 @@
     </div>
     <div class="col-md-3">
         <div>
-            <div class="input-group" style="margin-bottom:5px;">
+            <div>
+                <label>Recipient list</label>
+            </div>
+            <!--<div class="input-group" style="margin-bottom:5px;">
                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                 <input class="form-control view-form-icon" placeholder="Find a recipient..." type="text" ng-model="recipientListSearchTerm" />
-            </div>
+            </div>-->
             <div class="recipient-list-container">
                 <ul class="list-group" style="margin-bottom:0;">
                     <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
