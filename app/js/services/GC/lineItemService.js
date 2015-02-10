@@ -53,7 +53,6 @@ function($resource, $451, Address, Variant) {
                         addressList.push(addressID);
                         order.lineItemGroups.push({"ID":addressID,"UniqueID":randomGroupID,"LineItems":[i],"IsDigital": i.IsDigital,"Total": i.LineTotal,"FaceTotal": i.FaceValue,"Anonymous": i.Anonymous,"Page":1,"Limit":10});
                         itemCount++;
-                        console.log(itemCount);
                     }
                     else {
                         for (var g = 0; g < order.lineItemGroups.length; g++) {
@@ -239,7 +238,6 @@ function($resource, $451, Address, Variant) {
         }
 
         groupOrder(order);
-        console.log(order);
 
         if (order.IsMultipleShip()) {
             angular.forEach(order.lineItemGroups, function(group) {

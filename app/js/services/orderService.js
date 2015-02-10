@@ -15,7 +15,6 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         "JobFamily",
         "Supervisor",
         "ADPCode",
-        "SerialNumber",
         "RecipientEmailAddress",
         "Email"
     ];
@@ -27,7 +26,9 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
     var filteredSpecs = [
         "Physical/Digital",
         "DesignID",
-        "PreviewURL"
+        "PreviewURL",
+        "SerialNumber",
+        "DesignName"
     ];
 
     function _extend(order) {
@@ -37,6 +38,7 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         var images = {};
         order.MerchantCardCount = 0;
         angular.forEach(order.LineItems, function(item) {
+            item.LoadingImage = true;
             item.OriginalQuantity = item.Quantity; //needed to validate qty changes compared to available quantity
             angular.forEach(item.Specs, function(spec, index) {
                 if (spec.ControlType == 'File' && spec.File && spec.File.Url.indexOf('auth') == -1) {
@@ -46,8 +48,12 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
                 spec.ReadOnly = (employeeSpecs.indexOf(spec.Name) > -1 || additionalReadOnlySpecs.indexOf(spec.Name) > -1);
                 spec.Required = spec.ReadOnly ? false : spec.Required;
                 spec.Placeholder = (spec.Label || spec.Name);
-                spec.InputType = spec.Name.toLowerCase().indexOf('email') > -1 ? 'email' : 'text';
-                spec.OrderIndex = (spec.Name == 'Message') ? 99 : index;
+
+                spec.InputType = (spec.Name.toLowerCase().indexOf('email') > -1 && spec.Name.toLowerCase().indexOf('subject') == -1) ? 'email' : (spec.Name.toLowerCase().indexOf('futureshipdate') > -1) ? 'date' : 'text';
+
+
+
+                spec.OrderIndex = (spec.Name == 'Message') ? 999 : spec.ListOrder;
             });
             item.SpecsLength = Object.keys(item.Specs).length;
 
@@ -104,6 +110,9 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
 
         angular.forEach(order.OrderFields, function(field) {
             field.Filtered = filteredFields.indexOf(field.Name) > -1;
+            field.Placeholder = (field.Label || field.Name);
+            field.InputType = (field.Name.toLowerCase().indexOf('email') > -1 && field.Name.toLowerCase().indexOf('subject') == -1) ? 'email' : 'text';
+            field.OrderIndex = (field.Name == 'Message') ? 999 : field.ListOrder;
         });
     }
 
@@ -118,8 +127,18 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
     };
 
     var _save = function(order, success, error) {
+        var paymentMethod = order.PaymentMethod;
+        var CC = order.CreditCard;
+        var CCID = order.CreditCardID;
+        //var savedCards = order.SavedCards;
+        var billAddressID = order.BillAddressID;
         $resource($451.api('order')).save(order).$promise.then(
             function(o) {
+                o.PaymentMethod = paymentMethod ? paymentMethod : 'Undetermined';
+                o.CreditCard = CC ? CC : {};
+                o.CreditCardID = CCID ? CCID : null;
+                //o.SavedCards = savedCards ? savedCards : null;
+                o.BillAddressID = billAddressID ? billAddressID : null;
                 store.set('451Cache.Order.' + o.ID, o);
                 store.remove('451Cache.User' + $451.apiName);
                 _extend(o);

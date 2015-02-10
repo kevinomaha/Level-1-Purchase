@@ -1,29 +1,78 @@
-four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper',
-    function ($scope, $routeParams, $location, $451, Order, OrderConfig, User, Shipper) {
+four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'CustomAddressList',
+    function ($scope, $routeParams, $location, $451, Order, OrderConfig, User, Shipper, CustomAddressList) {
         $scope.backToCustomization = function() {
             $location.path('main');
         };
 
-        $scope.DigitalShipper = null;
-        Shipper.query($scope.currentOrder, function(list) {
-            $scope.shippers = list;
-            angular.forEach($scope.shippers, function(shipper) {
-                if (shipper.Name.indexOf('Email') > -1) {
-                    $scope.DigitalShipper = shipper;
-                    applyDigitalShipper();
+        CustomAddressList.getall(function(list) {
+            $scope.addresses = list;
+            var shippingFound = false;
+            angular.forEach($scope.addresses, function(add) {
+                if (add.IsShipping && add.IsCustEditable) {
+                    shippingFound = true;
+                }
+                if (add.IsBilling && !add.IsCustEditable && $scope.currentOrder.Total == 0) {
+                    $scope.currentOrder.BillAddressID = add.ID;
                 }
             });
+            if (!shippingFound) $scope.shipaddressform = true;
+            $scope.addressesLoading = false;
+            for (var a = 0; a < list.length; a++) {
+                if (list[a].IsShipping && !list[a].IsCustEditable) {
+                    $scope.digitalShipAddressID = list[a].ID;
+                    assignDigitalShipAddress();
+                    getShippers();
+                }
+            }
         });
 
-        function applyDigitalShipper() {
-            if ($scope.currentOrder && $scope.DigitalShipper) {
-                angular.forEach($scope.currentOrder.LineItems, function(item) {
-                    if (item.IsDigital) {
-                        item.ShipperID = $scope.DigitalShipper.ID;
-                    }
-                });
+        function assignDigitalShipAddress() {
+            for (var i = 0; i < $scope.currentOrder.LineItems.length; i++) {
+                if ($scope.currentOrder.LineItems[i].IsDigital) {
+                    $scope.currentOrder.LineItems[i].ShipAddressID = $scope.digitalShipAddressID;
+                }
             }
         }
+
+        function getShippers() {
+            $scope.digitalShipper = null;
+            Order.save($scope.currentOrder, function(order) {
+                $scope.currentOrder = order;
+                Shipper.query($scope.currentOrder, function(list) {
+                    $scope.shippers = list;
+                    angular.forEach($scope.shippers, function(shipper) {
+                        if (shipper.Name.indexOf('Email') > -1) {
+                            $scope.digitalShipper = shipper;
+                            assignDigitalShipper();
+                        }
+                    });
+                });
+            });
+        }
+
+        function assignDigitalShipper() {
+            for (var i = 0; i < $scope.currentOrder.LineItems.length; i++) {
+                if ($scope.currentOrder.LineItems[i].IsDigital) {
+                    $scope.currentOrder.LineItems[i].Shipper = angular.copy($scope.digitalShipper);
+                    $scope.currentOrder.LineItems[i].ShipperName = $scope.digitalShipper.Name;
+                    $scope.currentOrder.LineItems[i].ShipMethod = $scope.digitalShipper.Name;
+                    $scope.currentOrder.LineItems[i].ShipperID = $scope.digitalShipper.ID;
+                }
+            }
+        }
+
+        $scope.previewItem = function(item) {
+            item.Preview = !item.Preview;
+        };
+
+        $scope.$on('event:imageLoaded', function(event, result, id) {
+            angular.forEach($scope.currentOrder.LineItems, function(item) {
+                if (item.ID == id) {
+                    item.LoadingImage = !result;
+                }
+            });
+            $scope.$apply();
+        });
 
         $scope.originalItemSpecs = {};
         $scope.editItem = function(item) {
@@ -33,9 +82,15 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
 
         $scope.updateItem = function(item) {
             item.Editing = false;
-            for (var i = 0; i < $scope.currentOrder.LineItems; i++) {
-                if (item.ID == $scope.currentOrder.LineItem[i].ID) {
-                    $scope.currentOrder.LineItem[i].Specs = item.Specs;
+            for (var i = 0; i < $scope.currentOrder.LineItems.length; i++) {
+                if (item.ID == $scope.currentOrder.LineItems[i].ID) {
+                    $scope.currentOrder.LineItems[i].Specs = item.Specs;
+                    angular.forEach($scope.currentOrder.LineItems[i].Specs, function(spec) {
+                        if (spec.Name.toLowerCase().indexOf('futureshipdate') > -1) {
+                            var tempDate = new Date(spec.Value);
+                            spec.Value = tempDate.getMonth()+1 + "/" + tempDate.getDate() + "/" + tempDate.getFullYear();
+                        }
+                    });
                 }
             }
             $scope.saveChanges();
@@ -47,16 +102,18 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
         };
 
         $scope.$watch('currentOrder.LineItems', function() {
-            angular.forEach($scope.currentOrder.LineItems, function(item) {
-                item.SpecFormValid = true;
-                if (item.Editing) {
-                    angular.forEach(item.Specs, function(spec) {
-                        if (spec.Required && !spec.Value) {
-                            item.SpecFormValid = false;
-                        }
-                    });
-                }
-            });
+            if ($scope.currentOrder && $scope.currentOrder.LineItems) {
+                angular.forEach($scope.currentOrder.LineItems, function(item) {
+                    item.SpecFormValid = true;
+                    if (item.Editing) {
+                        angular.forEach(item.Specs, function(spec) {
+                            if (spec.Required && !spec.Value) {
+                                item.SpecFormValid = false;
+                            }
+                        });
+                    }
+                });
+            }
         }, true);
 
 
@@ -116,6 +173,8 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
         $scope.submitOrder = function() {
             $scope.displayLoadingIndicator = true;
             $scope.errorMessage = null;
+            //Zero Priced Orders
+            if ($scope.currentOrder.Total == 0) $scope.currentOrder.PaymentMethod = null;
             Order.submit($scope.currentOrder,
                 function(order) {
                     $scope.user.CurrentOrderID = null;
@@ -157,150 +216,43 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             }
         };
 
-
-        /*var isEditforApproval = $routeParams.id != null && $scope.user.Permissions.contains('EditApprovalOrder');
-        if (isEditforApproval) {
-            Order.get($routeParams.id, function(order) {
-                $scope.currentOrder = order;
-                // add cost center if it doesn't exists for the approving user
-                var exists = false;
-                angular.forEach(order.LineItems, function(li) {
-                    angular.forEach($scope.user.CostCenters, function(cc) {
-                        if (exists) return;
-                        exists = cc == li.CostCenter;
-                    });
-                    if (!exists) {
-                        $scope.user.CostCenters.push({
-                            'Name': li.CostCenter
-                        });
-                    }
-                });
-            });
-        }
-
-        $scope.currentDate = new Date();
-        $scope.errorMessage = null;
-        $scope.continueShopping = function() {
-            if (!$scope.cart.$invalid) {
-                if (confirm('Do you want to save changes to your order before continuing?') == true)
-                    $scope.saveChanges(function() { $location.path('catalog') });
-            }
-            else
-                $location.path('catalog');
-        };
-
-        $scope.cancelOrder = function() {
-            if (confirm('Are you sure you wish to cancel your order?') == true) {
-                $scope.displayLoadingIndicator = true;
-                $scope.actionMessage = null;
-                Order.delete($scope.currentOrder,
-                    function(){
-                        $scope.currentOrder = null;
-                        $scope.user.CurrentOrderID = null;
-                        User.save($scope.user, function(){
-                            $location.path('catalog');
-                        });
-                        $scope.displayLoadingIndicator = false;
-                        $scope.actionMessage = 'Your Changes Have Been Saved';
-                    },
-                    function(ex) {
-                        $scope.actionMessage = 'An error occurred: ' + ex.Message;
-                        $scope.displayLoadingIndicator = false;
-                    }
-                );
-            }
-        };
-
-        $scope.saveChanges = function(callback) {
-            $scope.actionMessage = null;
-            $scope.errorMessage = null;
-            if($scope.currentOrder.LineItems.length == $451.filter($scope.currentOrder.LineItems, {Property:'Selected', Value: true}).length) {
-                $scope.cancelOrder();
-            }
-            else {
-                $scope.displayLoadingIndicator = true;
-                OrderConfig.address($scope.currentOrder, $scope.user);
-                Order.save($scope.currentOrder,
-                    function(data) {
-                        $scope.currentOrder = data;
-                        $scope.displayLoadingIndicator = false;
-                        if (callback) callback();
-                        $scope.actionMessage = 'Your Changes Have Been Saved';
-                    },
-                    function(ex) {
-                        $scope.errorMessage = ex.Message;
-                        $scope.displayLoadingIndicator = false;
-                    }
-                );
-            }
-        };
-
-        $scope.removeItem = function(item) {
-            if (confirm('Are you sure you wish to remove this item from your cart?') == true) {
-                Order.deletelineitem($scope.currentOrder.ID, item.ID,
-                    function(order) {
-                        $scope.currentOrder = order;
-                        Order.clearshipping($scope.currentOrder);
-                        if (!order) {
-                            $scope.user.CurrentOrderID = null;
-                            User.save($scope.user, function(){
-                                $location.path('catalog');
-                            });
-                        }
-                        $scope.displayLoadingIndicator = false;
-                        $scope.actionMessage = 'Your Changes Have Been Saved';
-                    },
-                    function (ex) {
-                        $scope.errorMessage = ex.Message.replace(/\<<Approval Page>>/g, 'Approval Page');
-                        $scope.displayLoadingIndicator = false;
-                    }
-                );
-            }
-        }
-
-        $scope.checkOut = function() {
-            $scope.displayLoadingIndicator = true;
-            if (!isEditforApproval)
-                OrderConfig.address($scope.currentOrder, $scope.user);
-            Order.save($scope.currentOrder,
-                function(data) {
-                    $scope.currentOrder = data;
-                    $location.path(isEditforApproval ? 'checkout/' + $routeParams.id : 'checkout');
-                    $scope.displayLoadingIndicator = false;
-                },
-                function(ex) {
-                    $scope.errorMessage = ex.Message;
-                    $scope.displayLoadingIndicator = false;
+        $scope.updateAllShippers = function() {
+            angular.forEach($scope.currentOrder.LineItems, function(item) {
+                if (!item.IsDigital) {
+                    item.ShipperID = $scope.currentOrder.ShipMethod.ID;
                 }
-            );
-        };
-
-        $scope.$watch('currentOrder.LineItems', function(newval) {
-            var newTotal = 0;
-            if (!$scope.currentOrder) return newTotal;
-            angular.forEach($scope.currentOrder.LineItems, function(item){
-                newTotal += item.LineTotal;
             });
-            $scope.currentOrder.Subtotal = newTotal;
-        }, true);
+            $scope.saveChanges();
+        };
 
-        $scope.copyAddressToAll = function() {
-            angular.forEach($scope.currentOrder.LineItems, function(n) {
-                n.DateNeeded = $scope.currentOrder.LineItems[0].DateNeeded;
+        $scope.$on('event:AddressSaved', function(event, address) {
+            var found = false;
+            angular.forEach($scope.addresses, function(add) {
+                if (add.ID == address.ID) {
+                    found = true;
+                    add.AddressName = address.AddressName;
+                }
             });
-        };
+            if (!found) {
+                $scope.addresses.push(address);
+            }
+            /*if (address.IsShipping) {
+                $scope.setShipAddress(address);
+                $scope.shipaddressform = false;
+            }*/
+            if (address.IsBilling) {
+                $scope.currentOrder.BillAddressID = address.ID;
+                $scope.billaddressform = false;
+            }
+            $scope.shipaddress = { Country: 'US', IsShipping: true, IsBilling: false };
+            $scope.billaddress = { Country: 'US', IsShipping: false, IsBilling: true };
+        });
 
-        $scope.copyCostCenterToAll = function() {
-            angular.forEach($scope.currentOrder.LineItems, function(n) {
-                n.CostCenter = $scope.currentOrder.LineItems[0].CostCenter;
-            });
-        };
+        var today = new Date();
+        $scope.currentDate = angular.copy(today);
+        $scope.maxDate = today.setDate(today.getDate() + 120);
 
-        $scope.onPrint = function()  {
-            window.print();
-        };
+        $scope.shipaddress = { Country: 'US', IsShipping: true, IsBilling: false };
+        $scope.billaddress = { Country: 'US', IsShipping: false, IsBilling: true };
 
-        $scope.cancelEdit = function() {
-            $location.path('order');
-        };*/
     }]);

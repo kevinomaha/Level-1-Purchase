@@ -1,5 +1,5 @@
-four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
-    function($451, $http, ProductDescription) {
+four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'User',
+    function($451, $http, ProductDescription, User) {
 
         var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList'): {List:[]};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
@@ -11,6 +11,11 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
         var _setRecipients = function(list) {
             recipientList = list;
             if (recipientList.List.length == 0) recipientList.AssignToAll = {};
+            store.set('451Cache.RecipientList', recipientList);
+        };
+
+        var _clearRecipients = function() {
+            recipientList = {List:[], AssignToAll: {}};
             store.set('451Cache.RecipientList', recipientList);
         };
 
@@ -68,38 +73,49 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             return randomstring;
         };
 
-        function recipientToSpecs(employee, product) {
+        function replaceTokens(spec, recipient, user) {
+            if (spec.Value) {
+                spec.Value = spec.Value.toString().replace("[[RecipientFirstName]]", recipient.FirstName);
+                spec.Value = spec.Value.toString().replace("[[RecipientLastName]]", recipient.LastName);
+                spec.Value = spec.Value.toString().replace("[[PurchaserFirstName]]", user.FirstName);
+                spec.Value = spec.Value.toString().replace("[[PurchaserLastName]]", user.LastName);
+            }
+        }
+
+        function recipientToSpecs(recipient, product, user) {
             if (product.Specs) {
                 angular.forEach(product.Specs, function(spec) {
                     switch(spec.Name) {
                         case "FirstName":
-                            spec.Value = employee.FirstName;
+                            spec.Value = recipient.FirstName;
                             break;
                         case "LastName":
-                            spec.Value = employee.LastName;
+                            spec.Value = recipient.LastName;
                             break;
                         case "RecipientID":
-                            spec.Value = employee.EmployeeNumber;
+                            spec.Value = recipient.EmployeeNumber;
                             break;
                         case "RecipientEmailAddress":
-                            spec.Value = employee.Username;
+                            spec.Value = recipient.EmailAddress;
                             break;
                         case "Email":
-                            spec.Value = employee.Username;
+                            spec.Value = recipient.EmailAddress;
                             break;
                         case "Marketplace":
-                            spec.Value = employee.Marketplace;
+                            spec.Value = recipient.Marketplace;
                             break;
                         case "JobFamily":
-                            spec.Value = employee.JobFamily;
+                            spec.Value = recipient.JobFamily;
                             break;
                         case "Supervisor":
-                            spec.Value = employee.Supervisor;
+                            spec.Value = recipient.Supervisor;
                             break;
                         case "ADPCode":
-                            spec.Value = employee.ADPCompanyCode;
+                            spec.Value = recipient.ADPCompanyCode;
                             break;
                     }
+
+                    replaceTokens(spec, recipient, user);
                 });
             }
             return product;
@@ -113,18 +129,20 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             if (!order.LineItems) {
                 order.LineItems = [];
             }
+            User.get(function(user) {
+                angular.forEach(selectedRecipients, function (recipient) {
+                    var lineItem = {};
+                    lineItem.Quantity = 1;
 
-            angular.forEach(selectedRecipients, function(recipient) {
-                var lineItem = {};
-                lineItem.Quantity = 1;
-                lineItem.Product = recipientToSpecs(recipient, angular.copy(product));
-                lineItem.UniqueID = randomString();
-                lineItem.ShipAddressID = recipient.Address.ID;
+                    lineItem.Product = recipientToSpecs(recipient, angular.copy(product), user);
+                    lineItem.UniqueID = randomString();
+                    lineItem.ShipAddressID = recipient.Address.ID;
 
-                lineItem.Specs = angular.copy(lineItem.Product.Specs);
-                order.LineItems.push(lineItem);
+                    lineItem.Specs = angular.copy(lineItem.Product.Specs);
+                    order.LineItems.push(lineItem);
+                });
+                success(order);
             });
-            success(order);
         };
 
         var _addToCartVariable = function(product, selectedRecipients, user, order, success) {
@@ -136,55 +154,72 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
                 order.LineItems = [];
             }
 
-            console.log('Adding to cart');
-
-
             var recipCount = selectedRecipients.length;
             var itemCount = 0;
 
-            console.log('recip count ' + recipCount);
-
             function getPreviewDetails(lineItem, order) {
-                var denomination = lineItem.Product.Specs.Denomination.Value.replace('$', '');
+                var denomination = lineItem.Product.Specs.Denomination ? lineItem.Product.Specs.Denomination.Value.replace('$', '') : null;
                 var designID = "";
                 var baseURL = "https://gca-svcs02-dev.cloudapp.net/ClientService/";
                 //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
                 var serialURL = baseURL + "GetSerialNumber";
-                console.log('Serial URL: ' + serialURL);
                 $http.get(serialURL).success(function (serialNumber) {
-                    console.log('New Serial: ' + serialNumber);
-
                     var number = serialNumber.replace(/"/g, '');
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
-                        var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value;
+                        var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value + "&width=660";
                         $http.post(previewURL).success(function (previewID) {
-                            if (lineItem.Product.Specs['PreviewURL'])
-                                lineItem.Product.Specs['PreviewURL'].Value = "https://gca-svcs02-dev.cloudapp.net/DigitalTemplate/GetTemplatePreview/" + previewID.replace(/"/g, '');
-                            console.log(lineItem.Product.Specs['PreviewURL'].Value);
+                            if (lineItem.Product.Specs['PreviewURL']) {
+                                lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview/" + previewID.replace(/"/g, '');
+                            }
                             itemCount++;
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);
+
+                            angular.forEach(lineItem.Specs, function(spec) {
+                                if (spec.Value instanceof Date) {
+                                    var tempDate = new Date(spec.Value);
+                                    spec.Value = tempDate.getMonth()+1 + "/" + tempDate.getDate() + "/" + tempDate.getFullYear();
+                                }
+                            });
+
+                            order.LineItems.push(lineItem);
+                            if (recipCount == itemCount) {
+                                success(order);
+                            }
+                        }).error(function(ex) {
+                            if (lineItem.Product.Specs['PreviewURL'])
+                                lineItem.Product.Specs['PreviewURL'].Value = null;
+                            itemCount++;
+                            lineItem.Specs = angular.copy(lineItem.Product.Specs);
+
+                            angular.forEach(lineItem.Specs, function(spec) {
+                                if (spec.Value instanceof Date) {
+                                    var tempDate = new Date(spec.Value);
+                                    spec.Value = tempDate.getMonth()+1 + "/" + tempDate.getDate() + "/" + tempDate.getFullYear();
+                                }
+                            });
+
                             order.LineItems.push(lineItem);
                             if (recipCount == itemCount) {
                                 success(order);
                             }
                         });
                     }
-                })
+                });
             }
-
-            console.log('Almost Post add to cart ');
 
             angular.forEach(selectedRecipients, function(recipient) {
                 var lineItem = {};
                 lineItem.Quantity = 1;
-                lineItem.Product = recipientToSpecs(recipient, angular.copy(product));
-                lineItem.UniqueID = randomString();
-                lineItem.ShipAddressID = recipient.Address.ID;
+                User.get(function(user) {
+                    lineItem.Product = recipientToSpecs(recipient, angular.copy(product), user);
 
-                getPreviewDetails(lineItem, order);
+                    lineItem.UniqueID = randomString();
+                    lineItem.ShipAddressID = recipient.Address.ID;
+
+                    getPreviewDetails(lineItem, order);
+                });
             });
-            console.log('Post add to cart ');
         };
 
         var _addRecipient = function(recipient, recipientList) {
@@ -232,9 +267,64 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             return this;
         };
 
+        var _saveEmailAddress = function(temp, recipientList){
+            angular.forEach(recipientList.List, function(recipient){
+                if(recipient.UserID==temp.UserID){
+                    recipient.EmailAddress = temp.EmailAddress;
+                    recipient.BeingEdited = false;
+                }
+            });
+            return this;
+        };
+
+        var _getTemplateThumbnails = function(product, success) {
+            $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
+                success(function(data){
+                    success(data);
+                }).
+                error(function(data, status, headers, config ) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(headers);
+                    console.log(config);
+                }
+            );
+        };
+
+        var _assignAddresses = function(recipientList, addresses) {
+            /*for (var r = 0; r < $scope.recipientList.List.length; r++) {
+                if (!$scope.recipientList.List[r].address && !$scope.recipientList.List[r].Invalid) {
+                    var recip = $scope.recipientList.List[r];
+                    if (!recip.address) {
+                        for (var a = 0; a < $scope.addresses.length; a++) {
+                            var add = $scope.addresses[a];
+                            if (recip.Street1 == add.AddressName && recip.ShipToFirstName == add.FirstName && recip.ShipToLastName == add.LastName &&
+                                recip.Street1 == add.Street1 && recip.Street2 == add.Street2 && recip.City == add.City && recip.State == add.State &&
+                                recip.Zip == add.Zip && recip.Country == add.Country) {
+                                $scope.recipientList.List[r].Address = add;
+                            }
+                        }
+                    }
+                }
+            }*/
+            angular.forEach(recipientList.List, function(r) {
+                if (r.Address && !r.Address.ID) {
+                    angular.forEach(addresses, function(a) {
+                        if (r.Address.Street1 == a.AddressName && r.Address.FirstName == a.FirstName && r.Address.LastName == a.LastName &&
+                                r.Address.Street1 == a.Street1 && r.Address.Street2 == a.Street2 && r.Address.City == a.City && r.Address.State == a.State &&
+                                r.Address.Zip == a.Zip && r.Address.Country == a.Country) {
+                            r.Address = a;
+                        }
+                    });
+                }
+            });
+            return this;
+        };
+
         return {
             getRecipients: _getRecipients,
             setRecipients: _setRecipients,
+            clearRecipients: _clearRecipients,
             setProduct: _setProduct,
             getProduct: _getProduct,
             addToCartStatic: _addToCartStatic,
@@ -242,6 +332,9 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription',
             addRecipient: _addRecipient,
             removeRecipient: _removeRecipient,
             validateRecipientList: _validateRecipientList,
-            setAddress: _setAddress
+            setAddress: _setAddress,
+            getTemplateThumbnails: _getTemplateThumbnails,
+            saveEmailAddress: _saveEmailAddress,
+            assignAddresses: _assignAddresses
         }
     }]);

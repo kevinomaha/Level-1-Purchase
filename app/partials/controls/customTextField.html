@@ -1,5 +1,5 @@
 <div class="view-form-icon" ng-class="{'view-form-icon-input-group':(customfield.Prefix || customfield.Suffix)}">
-    <div ng-if="(customfield.InputType != 'email') && (customfield.Lines <= 1)">
+    <div ng-if="(customfield.InputType != 'email' && customfield.InputType != 'date') && (customfield.Lines <= 1)">
         <label>{{customfield.Placeholder || customfield.Label || customfield.Name | r | specnames}}</label>
         <div ng-class="{'input-group':(customfield.Prefix || customfield.Suffix)}">
             <span class="input-group-addon" ng-if="customfield.Prefix">{{customfield.Prefix | r}}</span>
@@ -16,6 +16,27 @@
             <span class="input-group-addon" ng-if="customfield.Suffix">{{customfield.Suffix | r}}</span>
         </div>
         <i class="fa fa-edit"></i>
+    </div>
+    <div ng-if="(customfield.InputType == 'date') && (customfield.Lines <= 1)">
+        <label>{{customfield.Label || customfield.Name}}<span style="color: rgb(128, 128, 128);font-size: x-small;"> (MM/DD/YYYY)</span></label>
+        <!--Default Datepicker -->
+        <input class="form-control hidden-lg hidden-md"
+               type="date"
+               ng-model="customfield.Value"
+               ng-required="customfield.Required"
+               style="margin:0; height:40px; padding-top:8px;"/>
+        <div class="btn btn-default btn-block text-info hidden-lg hidden-md" ng-click="customfield = null">{{customfield.Value | date:'MM/dd/yyyy'}}</div>
+        <input name="{{customfield.Name}}" placeholder="{{customfield.Label || customfield.Name}}" ng-model="customfield.Value" ng-required="customfield.Required"
+               type="text"
+               class="form-control hidden-sm hidden-xs"
+               readonly="readonly"
+               style="cursor: pointer; background-color:#FFF;"
+               datepicker-popup="MM/dd/yyyy"
+               data-placement="top"
+               is-open="opened"
+               min="currentDate"
+               max="maxDate" />
+        <i class="fa fa-calendar"></i>
     </div>
     <div ng-if="customfield.Lines > 1">
         <label>{{customfield.Label || customfield.Name | r | specnames}}</label>

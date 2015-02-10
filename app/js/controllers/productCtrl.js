@@ -10,18 +10,9 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
 
     AddressList.query(function(list) {
         for (var a = 0; a < list.length; a++) {
-            if (list[a].AddressName == 'Email Delivery') {
+            if (list[a].IsShipping && !list[a].IsCustEditable) {
                 $scope.digitalShipAddressID = list[a].ID;
             }
-        }
-    });
-
-    $scope.shippers = store.get("451Cache.GCShippers");
-
-    var shipper = {};
-    angular.forEach($scope.shippers, function(s) {
-        if (s.Name.indexOf('Email Delivery') > -1) {
-            shipper = s;
         }
     });
 
@@ -69,6 +60,7 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
             Order.save($scope.currentOrder, function(data) {
                 $scope.user.CurrentOrderID = data.ID;
                 User.save($scope.user, function() {
+                    Customization.clearRecipients();
                     $location.path('cart');
                 });
             });
@@ -108,33 +100,5 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
         $scope.selectedProduct = product;
         $scope.$broadcast('event:MerchantProductSelected', $scope.selectedProduct);
     };
-
-    /*$scope.increaseDenom = function(product) {
-        $scope.minDenom = false;
-        $scope.maxDenom = false;
-        for (var i = 0; i < $scope.products.length; i++) {
-            if ($scope.products[i].Denomination == product.Denomination && $scope.products[i + 1]) {
-                $scope.selectedProduct = $scope.products[i + 1];
-                if ((i+1) == ($scope.products.length - 1)) {
-                    $scope.maxDenom = true;
-                }
-                $scope.$broadcast('event:MerchantProductSelected', $scope.selectedProduct);
-            }
-        }
-    };
-
-    $scope.decreaseDenom = function(product) {
-        $scope.minDenom = false;
-        $scope.maxDenom = false;
-        for (var i = 0; i < $scope.products.length; i++) {
-            if (($scope.products[i].Denomination == product.Denomination) && $scope.products[i - 1]) {
-                $scope.selectedProduct = $scope.products[i - 1];
-                if (i == 1) {
-                    $scope.minDenom = true;
-                }
-                $scope.$broadcast('event:MerchantProductSelected', $scope.selectedProduct);
-            }
-        }
-    };*/
 }]);
 

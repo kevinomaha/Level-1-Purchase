@@ -5,14 +5,19 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div>
-            <div class="input-group" style="margin-bottom:5px;">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><b>RECIPIENT LIST</b></h3>
+            </div>
+            <div class="panel-body">
+           <!-- <div class="input-group" style="margin-bottom:5px;">
                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                 <input class="form-control view-form-icon" placeholder="Find a recipient..." type="text" ng-model="recipientListSearchTerm" />
-            </div>
+            </div>-->
             <div class="recipient-list-container">
                 <ul class="list-group" style="margin-bottom:0;">
-                    <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}" ng-click="selectRecipient(recipient)">
+                    <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
                         <div class="pull-right">
                             <div>
                                 <i class="fa fa-3x" ng-show="recipient.Valid" ng-class="{'fa-circle-o text-muted': !recipient.Selected, 'fa-check-circle text-success': recipient.Selected}"></i>
@@ -33,12 +38,14 @@
             </div>
         </div>
     </div>
+        </div>
     <div class="col-md-9">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title" ng-show="selectedProduct.Name"><b>Selected Product:</b> <span ng-bind-html="selectedProduct.Name"></span></h3>
             </div>
             <div class="panel-body">
+                <loadingindicator ng-show="generateAwardsIndicator" title="Please wait while your awards(s) are generated" />
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <div class="row" style="margin-bottom:15px;">

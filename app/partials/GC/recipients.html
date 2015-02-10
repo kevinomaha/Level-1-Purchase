@@ -1,0 +1,535 @@
+<section class="main-gc-purchase-view employee-search">
+    <div class="steps">
+        <div>
+            <h4 class="text-info pull-right"  ng-show="!selectedProduct.IsDigital && recipientList.List.length > 0 && recipientList.List.length == (recipientList.List | filter:{Valid:true}).length" ng-click="goToCustomization()">Continue to Customization<i class="fa fa-arrow-circle-right"></i></h4>
+            <h4 class="text-info pull-right"  ng-show="selectedProduct.IsDigital && recipientList.List.length > 0 && allEmailPresent()" ng-click="goToCustomization()">Continue to Customization<i class="fa fa-arrow-circle-right"></i></h4>
+
+
+            <h4 class="pull-right" style="color:#a94442"  ng-show="!selectedProduct.IsDigital && recipientList.List.length > 0 && recipientList.List.length != (recipientList.List | filter:{Valid:true}).length">Recipient details needed</h4>
+            <h4 class="pull-right" style="color:#a94442"  ng-show="selectedProduct.IsDigital && recipientList.List.length > 0 && !allEmailPresent()">Recipient details needed</h4>
+
+
+            <h4 class="pull-right" style="color:#a94442"  ng-show="recipientList.List.length == 0">Select Recipients to Proceed</h4>
+            <h2>List Creation (step 2 of 3)</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div ng-show="recipientListMethodCount > 1">
+                <div class="text-center" style="margin-bottom:5px;"><b>Recipient Creation Mode</b></div>
+                <div class="btn-group" style="margin-bottom:10px;" role="group">
+                    <button type="button" class="btn btn-default" ng-style="{'width': recipientListMethodCount == 2 ? '50%' : '33%'}" ng-if="BuyerSettings.Recipients.Search" ng-click="changeListMode('Search')" ng-class="{'active': recipientListMode == 'Search'}">Search</button>
+                    <button type="button" class="btn btn-default" ng-style="{'width': recipientListMethodCount == 2 ? '50%' : '33%'}" ng-if="BuyerSettings.Recipients.Upload" ng-click="changeListMode('Upload')" ng-class="{'active': recipientListMode == 'Upload'}">Upload</button>
+                    <button type="button" class="btn btn-default" ng-style="{'width': recipientListMethodCount == 2 ? '50%' : '33%'}" ng-if="BuyerSettings.Recipients.Manual" ng-click="changeListMode('Manual')" ng-class="{'active': recipientListMode == 'Manual'}">Manual</button>
+                </div>
+            </div>
+            <div ng-show="recipientList.List.length == 0">
+                <div class="alert alert-danger">No recipients</div>
+            </div>
+            <div ng-show="recipientList.List.length > 0">
+                <div class="input-group" style="margin-bottom:5px;">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input class="form-control view-form-icon" placeholder="Find a recipient..." type="text" ng-model="recipientListSearchTerm" />
+                </div>
+                <div class="recipient-list-container">
+                    <ul class="list-group" style="margin-bottom:0;">
+                        <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{ 'list-group-item-danger': (!recipient.Valid && !recipient.BeingEdited && !selectedProduct.IsDigital), 'list-group-item-info': (recipient.BeingEdited),  'list-group-item-danger':( selectedProduct.IsDigital && !emailPresent(recipient)) }">
+                            <div class="pull-right">
+                                <div class="btn-group-vertical" ng-show="!recipient.BeingEdited">
+                                    <div class="btn btn-primary btn-sm" ng-click="editRecipient(recipient); changeAddType('manual'); $parent.showMaker = true;"><i class="fa fa-edit"></i></div>
+                                    <div class="btn btn-danger btn-sm" ng-click="removeRecipient(recipient)"><i class="fa fa-times"></i></div>
+                                </div>
+                            </div>
+                            <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
+                            <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
+                            <p>
+                                <small>
+                                    <span>
+                                        <em ng-show="!selectedProduct.IsDigital && recipient.Address.ID"><i class="fa fa-map-marker text-muted"></i> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
+                                        <em ng-show="selectedProduct.IsDigital"><i class="fa fa-envelope text-muted"></i> {{recipient.EmailAddress}} </em>
+                                    </span>
+                                </small>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div ng-show="recipientListMode == 'Search'">
+            <div class="col-sm-6 col-md-4" ng-show="!tempRecipient.UserID">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <b>Recipient Search</b>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <loadingindicator ng-show="searchIndicator"></loadingindicator>
+                        <form name="employee_search" ng-submit="seachEmployees(searchCriterion)">
+                            <div class="row">
+                                <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                                    <p class="text-info">Please enter your search criteria.</p>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>First Name</label>
+                                            <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.fn" name="FirstName" tabindex="1" />
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>Last Name</label>
+                                            <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.ln" name="LastName" tabindex="2" />
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>Employee Number</label>
+                                            <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.e" name="EmployeeNumber" tabindex="3" />
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>Marketplace</label>
+                                            <input class="form-control" type="text" ng-maxlength="100" ng-model="searchCriterion.m" name="Marketplace" tabindex="4" />
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="alert alert-warning" ng-show="searchError">{{searchError}}</div>
+                                    <div class="row text-center">
+                                        <div class="col-sm-6">
+                                            <input class="btn btn-success btn-block" type="submit" value="Search" ng-disabled="employee_search.$invalid" tabindex="5" />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input class="btn btn-default btn-block" type="button" value="Clear" ng-click="clearSearch()" tabindex="6" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-5" ng-show="!tempRecipient.UserID">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><b>Search Results</b></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-info" ng-show="employees.length == 0">Search results will display here</div>
+                        <div ng-show="employees.length > 0">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Employee Number</th>
+                                        <th>Marketplace</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="employee in employees" ng-show="!employee.Added">
+                                        <td><div class="btn btn-sm btn-info" ng-click="selectEmployee(employee)">Select</div></td>
+                                        <td>{{employee.FirstName}}</td>
+                                        <td>{{employee.LastName}}</td>
+                                        <td>{{employee.EmployeeNumber}}</td>
+                                        <td>{{employee.Marketplace}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="recipientListMode == 'Upload' && !tempRecipient.UserID">
+            <div class="col-sm-6 col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <b>Recipient Upload</b>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <loadingindicator ng-show="savingRecipientsLoadingIndicator" title="Please wait while we generate your recipients"/>
+                        <div class="btn btn-danger pull-right" style="margin-right: 10px;" ng-show="recipientPasteList" ng-click="cancelUpload()">Cancel</div>
+                        <div class="btn btn-success pull-right" style="margin-right: 10px;" ng-show="recipientPasteList" ng-click="generateRecipients(recipientPasteList); tempRecipientPasteList = []">
+                            <i class="fa fa-plus-circle"></i> Generate Recipients
+                        </div>
+                        <h3>Import List</h3>
+                        <div style="margin-bottom:10px;">
+                            <ul>
+                                <li>Step 1 – Click on Download Spreadsheet template <a class="btn btn-sm btn-link" href="https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a//Level 1/files/RecipientUploadTemplate.xlsx" target="_blank"><i class="fa fa-download"></i> Download Spreadsheet Template</a></li>
+                                <li>Step 2 – Fill in your Data on the downloaded spreadsheet</li>
+                                <li>Step 3 – Copy your Data and paste this information in the box below, and click "Import"</li>
+                                <li>Step 4 – Review your data to ensure the information is correct.  If the data is correct, click Generate Recipients.  If the data is incorrect, click Cancel and update your spreadsheet.  Repeat steps 3 and 4.</li>
+                                <li>Step 5 -  Click "Continue to Customization"</li>
+                            </ul>
+                        </div>
+
+                        <angular-paste ng-hide="recipientPasteList.length > 0" ng-model="rawPaste" ng-array="parsedPaste"></angular-paste>
+
+                        <div class="text-info" ng-show="(tempRecipientPasteList.length > 0 && tempPasteError) || columnLengthError">
+                            <strong>The following errors were detected:</strong>
+                            <ul>
+                                <li ng-repeat="recipient in tempRecipientPasteList | filter:{Invalid:true}">
+                                    <ul>
+                                        <li ng-repeat="error in recipient.ErrorMessage">
+                                            {{error}}
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul ng-show="columnLengthError">
+                                <li>Please copy all 17 columns from spreadsheet</li>
+                            </ul>
+                        </div>
+                        <div class="recipient-upload-table">
+                            <div class="row" ng-hide="recipientPasteList.length == 0 || !recipientPasteList">
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="col-md-2 col-xs-6"><b>Name</b></div>
+                                        <div class="col-md-2 col-xs-6"><b>Email Address</b></div>
+                                        <div class="col-md-2 col-xs-6"><b>Employee Number</b></div>
+                                        <div class="col-md-2 col-xs-6"><b>Marketplace</b></div>
+                                        <div class="col-md-2 col-xs-6"><b>Job Family</b></div>
+                                        <div class="col-md-2 col-xs-12"><b>Address</b></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="recipient-paste-row" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="recipient in recipientPasteList">
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!(recipient.FirstName || recipient.LastName)}">{{(recipient.FirstName + ' ' + recipient.LastName) || 'None'}}</span></div>
+                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.EmailAddress}">{{recipient.EmailAddress || 'None'}}</span></div>
+                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.EmployeeNumber}">{{recipient.EmployeeNumber || 'None'}}</span></div>
+                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.Marketplace}">{{recipient.Marketplace || 'None'}}</span></div>
+                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.JobFamily}">{{recipient.JobFamily || 'None'}}</span></div>
+                                    <div class="col-md-2">
+                                        <div class="btn btn-xs btn-primary" ng-init="toggleAddressInfo = false" ng-click="toggleAddressInfo = !toggleAddressInfo">
+                                            Address Info <i class="fa" ng-class="{'fa-angle-double-left': !toggleAddressInfo, 'fa-angle-double-down': toggleAddressInfo}"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" collapse="!toggleAddressInfo">
+                                    <div class="col-md-2 col-md-offset-10 recipient-paste-row-address">
+                                        <p><small>{{recipient.ShipToFirstName}} {{recipient.ShipToLastName}}</small></p>
+                                        <p><small>{{recipient.CompanyName}}</small></p>
+                                        <p><small>{{recipient.Street1}}</small></p>
+                                        <p><small>{{recipient.Street2}}</small></p>
+                                        <p><small>{{recipient.City}}, {{recipient.State}} {{recipient.Zip}}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="recipientListMode == 'Manual' && !tempRecipient.UserID">
+            Manual
+        </div>
+        <div class="col-sm-12 col-md-10 col-lg-9" ng-show="tempRecipient.UserID">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><b>Edit Recipient</b></h3>
+                </div>
+                <div class="panel-body">
+                    <form name="recipient_form" ng-show="!selectedProduct.IsDigital" ng-submit="saveRecipient(tempRecipient)">
+                        <div class="row">
+                            <loadingindicator ng-show="saveIndicator"></loadingindicator>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>First Name</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.FirstName" name="FirstName" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon" ng-hide="ifMerchant()">
+                                            <div>
+                                                <label>Email Address</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
+                                                       readonly="readonly"/>
+                                                <i class="fa fa-envelope"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon" ng-show="ifMerchant()">
+                                            <div>
+                                                <label>Email Address</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
+                                                       required="true" ng-readonly="false" ng-pattern="/^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/"/>
+                                                <i class="fa fa-envelope"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Marketplace</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Marketplace" name="Marketplace" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Supervisor</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Supervisor" name="Supervisor" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Last Name</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.LastName" name="LastName" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Employee Number</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.EmployeeNumber" name="EmployeeNumber" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Job Family</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.JobFamily" name="JobFamily" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>ADP Company Code</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.ADPCompanyCode" name="ADPCompanyCode" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div ng-show="addressMessage">
+                                    <div class="row" >
+                                        <div ng-class="{'col-xs-7':newAddress, 'container':!newAddress}">
+                                            <p><small>{{addressMessage}} You may edit your address and attempt to save again, or select an option below.</small></p>
+                                        </div>
+                                        <div class="col-xs-5" ng-show="newAddress">
+                                            <span class="mini-white-header text-center text-info">Suggested Address</span>
+                                            <div class="mini-white-body">
+                                                <small>
+                                                    <span>{{newAddress.FirstName}} {{newAddress.LastName}}<br /></span>
+                                                    <span ng-show="newAddress.CompanyName">{{newAddress.CompanyName}}<br /></span>
+                                                    <span>{{newAddress.Street1}}<br /></span>
+                                                    <span ng-show="newAddress.Street2 != ''">{{newAddress.Street2}}<br /></span>
+                                                    <span>{{newAddress.City}}, {{newAddress.State}} {{newAddress.Zip}}</span>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button ng-show="newAddress" class="btn btn-primary" type="button" ng-click="saveRecommendedAddress()">Use Suggested</button>
+                                    <button class="btn btn-success" type="button" ng-click="saveOriginalAddress()">Keep Mine</button>
+                                </div>
+                                <div ng-show="(addresses | filter:{IsShipping:true}).length > 0" class="view-form-icon">
+                                    <div>
+                                        <label></label>
+                                        <select class="form-control"
+                                                ng-change="useExistingAddress()"
+                                                ng-options="address as (address.Street1 +  ' - ' + address.FirstName + ' ' + address.LastName ) for address in addresses | filter:{IsCustEditable:true,IsShipping:true}"
+                                                ng-model="existingAddress">
+                                            <option value="" selected>Use Existing Address</option>
+                                        </select>
+                                        <i class="fa fa-map-marker"></i>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Ship To First Name</label>
+                                                <input class="form-control" type="text" ng-maxlength="50" ng-model="tempRecipient.Address.FirstName" name="ShipToFirstName" ng-required="true" tabindex="1" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Address Line 1</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Address.Street1" name="Street1" ng-required="true" tabindex="3"/>
+                                                <i class="fa fa-road"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>City</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Address.City" name="City" ng-required="true" tabindex="5"/>
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Phone</label>
+                                                <input class="form-control" type="text" ui-mask="999-999-9999" ng-model="tempRecipient.Address.Phone" name="Phone" ng-required="user.Permissions.contains('ShipAddressPhoneRequired')" tabindex="8"/>
+                                                <i class="fa fa-phone"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Ship To Last Name</label>
+                                                <input class="form-control" type="text" ng-maxlength="50" ng-model="tempRecipient.Address.LastName" name="ShipToLastName" ng-required="true" tabindex="2"/>
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Address Line 2</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Address.Street2" name="Street2" tabindex="4" />
+                                                <i class="fa fa-road"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="view-form-icon">
+                                                    <div>
+                                                        <label>State</label>
+                                                        <select class="form-control"
+                                                                ng-options="state.value as state.value for state in states | filter:country"
+                                                                ng-model="tempRecipient.Address.State"
+                                                                ng-required="true" tabindex="6">
+                                                            <option class="view-select-placeholder" value="" selected>Select a State</option>
+                                                        </select>
+                                                        <i class="fa fa-map-marker"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="view-form-icon">
+                                                    <div>
+                                                        <label>Zip</label>
+                                                        <input class="form-control" type="text" ng-maxlength="10" ng-model="tempRecipient.Address.Zip" name="Zip" ng-required="true" tabindex="7"/>
+                                                        <i class="fa fa-home"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Country</label>
+                                                <select class="form-control"
+                                                        ng-options="country.value as country.label for country in countries"
+                                                        ng-model="tempRecipient.Address.Country"
+                                                        ng-required="true" tabindex="9">
+                                                    <option class="view-select-placeholder" value="" selected>Select a Country</option>
+                                                </select>
+                                                <i class="fa fa-globe"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div>
+                                    <input type="checkbox"
+                                           ng-model="tempRecipient.Address.AssignToAll"
+                                           name="AssignToAll"> Assign Address to All Recipients?
+                                </div>-->
+                                <div class="btn btn-default" style="margin-top: 15px; trasition: none; -webkit-transition: none; -moz-trasition: none;" ng-class="{'btn-success active': tempRecipient.Address.AssignToAll}" ng-click="tempRecipient.Address.AssignToAll = !tempRecipient.Address.AssignToAll">
+                                    <i class="fa" ng-class="{'fa-square-o': !tempRecipient.Address.AssignToAll, 'fa-check-square-o': tempRecipient.Address.AssignToAll}"></i> Assign Address to All Recipients?
+                                </div>
+                                <div class="btn-group" style="margin-top: 15px;" role="group">
+                                    <button type="button" class="btn btn-default" style="width:50%;" ng-click="cancelEditRecipient()">Cancel</button>
+                                    <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_form.$invalid" value="Save Recipient" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form name="recipient_digital_form" ng-show="selectedProduct.IsDigital" ng-submit="saveDigitalRecipient(tempRecipient)">
+                        <div class="row">
+                            <loadingindicator ng-show="saveIndicator"></loadingindicator>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>First Name</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.FirstName" name="FirstName" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Email Address</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
+                                                       ng-required="true" ng-readonly="!selectedProduct.IsDigital"/>
+                                                <i class="fa fa-envelope"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Marketplace</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Marketplace" name="Marketplace" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Supervisor</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.Supervisor" name="Supervisor" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Last Name</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.LastName" name="LastName" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Employee Number</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.EmployeeNumber" name="EmployeeNumber" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>Job Family</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.JobFamily" name="JobFamily" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="view-form-icon">
+                                            <div>
+                                                <label>ADP Company Code</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.ADPCompanyCode" name="ADPCompanyCode" readonly="readonly" />
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="selectedProduct.IsDigital">
+                                    <div class="btn-group" style="margin-top: 15px;" role="group">
+                                        <button type="button" class="btn btn-default" style="width:50%;" ng-click="cancelEditRecipientDigital()">Cancel</button>
+                                        <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_digital_form.$invalid" value="Save Recipient" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+             </div>
+        </div>
+
+    </div>
+</section>

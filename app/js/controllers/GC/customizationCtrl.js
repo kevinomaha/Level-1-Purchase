@@ -1,77 +1,140 @@
 four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'Customization', '$http', 'User', 'Order', 'Product',
-function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, User, Order, Product) {
+    function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, User, Order, Product) {
 
-    var today = new Date();
-    $scope.currentDate = angular.copy(today);
-    $scope.maxDate = today.setDate(today.getDate() + 120);
+        var today = new Date();
+        $scope.currentDate = angular.copy(today);
+        $scope.maxDate = today.setDate(today.getDate() + 120);
 
-    $scope.recipientList = angular.copy(Customization.getRecipients());
-    $scope.selectedProduct = Customization.getProduct();
+        $scope.recipientList = angular.copy(Customization.getRecipients());
+        $scope.selectedProduct = Customization.getProduct();
 
-    $scope.selectedRecipients = [];
+        $scope.selectedRecipients = [];
 
-    $scope.logoOptions = [];
+        $scope.logoOptions = [];
 
-    Product.get($scope.selectedProduct.InteropID, function(p) {
-        $scope.currentProduct = p;
-    });
+        Product.get($scope.selectedProduct.InteropID, function(p) {
+            $scope.currentProduct = p;
+        });
 
-    //Move this to a service -- It is recommended to not make any HTTP calls within a controller
-    $http.get('https://wopr-app-stg.gcincentives.coma/eClientService/GetTemplateThumbnails?s=' + $scope.selectedProduct.ExternalID + '&o=1').
-        success(function(data){
-            $scope.Templates = data;
-            if (data.length == 1) $scope.selectTemplate(data[0]);
-        }).
-        error(function(data, status, headers, config ) {
-            console.log(data);
-            console.log(status);
-            console.log(headers);
-            console.log(config);
+        Customization.getTemplateThumbnails($scope.selectedProduct, function(templates) {
+            $scope.Templates = templates;
+            if ($scope.Templates.length > 0)  {
+                $scope.selectTemplate($scope.Templates[0]);
+            }
+        });
+
+        $scope.selectTemplate = function(template) {
+            if ($scope.selectedProduct.Specs['DesignID']) $scope.selectedProduct.Specs['DesignID'].Value = template.DesignId;
+            if ($scope.selectedProduct.Specs['DesignName']) $scope.selectedProduct.Specs['DesignName'].Value = template.Name;
+        };
+
+        if ($scope.recipientList.List) {
+            angular.forEach($scope.recipientList.List, function(recipient) {
+                if (recipient.Valid) {
+                    recipient.Selected = true;
+                    $scope.selectedRecipients.push(recipient);
+                }
+            });
+            if ($scope.recipientList.List.length == 1) replaceRecipientTokens();
+            replacePurchaserTokens();
         }
-    );
 
-    $scope.selectTemplate = function(template) {
-        if ($scope.selectedProduct.Specs['DesignID']) $scope.selectedProduct.Specs['DesignID'].Value = template.DesignId;
-        if ($scope.selectedProduct.Specs['DesignName']) $scope.selectedProduct.Specs['DesignName'].Value = template.Name;
-    };
+        function replaceRecipientTokens() {
+            var recipient = $scope.recipientList.List[0];
+            angular.forEach($scope.selectedProduct.Specs, function(spec) {
+                if (spec.Value) {
+                    spec.Value = spec.Value.toString().replace("[[RecipientFirstName]]", recipient.FirstName);
+                    spec.Value = spec.Value.toString().replace("[[RecipientLastName]]", recipient.LastName);
+                }
 
-    $scope.selectRecipient = function(recipient) {
-        if (!recipient.Valid) return;
-        if (!recipient.Selected) {
-            recipient.Selected = true;
-            $scope.selectedRecipients.push(recipient);
+                switch(spec.Name) {
+                    case "FirstName":
+                        spec.Value = recipient.FirstName;
+                        break;
+                    case "LastName":
+                        spec.Value = recipient.LastName;
+                        break;
+                    case "RecipientID":
+                        spec.Value = recipient.EmployeeNumber;
+                        break;
+                    case "RecipientEmailAddress":
+                        spec.Value = recipient.EmailAddress;
+                        break;
+                    case "Email":
+                        spec.Value = recipient.EmailAddress;
+                        break;
+                    case "Marketplace":
+                        spec.Value = recipient.Marketplace;
+                        break;
+                    case "JobFamily":
+                        spec.Value = recipient.JobFamily;
+                        break;
+                    case "Supervisor":
+                        spec.Value = recipient.Supervisor;
+                        break;
+                    case "ADPCode":
+                        spec.Value = recipient.ADPCompanyCode;
+                        break;
+                }
+            });
         }
-        else {
-            recipient.Selected = false;
-            for (var i = 0; i < $scope.selectedRecipients.length; i++) {
-                if ($scope.selectedRecipients[i].UserID == recipient.UserID) {
-                    $scope.selectedRecipients.splice(i, 1);
+
+        function replacePurchaserTokens() {
+            angular.forEach($scope.selectedProduct.Specs, function(spec) {
+                if (spec.Value) {
+                    spec.Value = spec.Value.toString().replace("[[PurchaserFirstName]]", $scope.user.FirstName);
+                    spec.Value = spec.Value.toString().replace("[[PurchaserLastName]]", $scope.user.LastName);
+                }
+            });
+        }
+
+        //Automatically selecting all recipients - TP#12177
+        /*$scope.selectRecipient = function(recipient) {
+            if (!recipient.Valid) return;
+            if (!recipient.Selected) {
+                recipient.Selected = true;
+                $scope.selectedRecipients.push(recipient);
+            }
+            else {
+                recipient.Selected = false;
+                for (var i = 0; i < $scope.selectedRecipients.length; i++) {
+                    if ($scope.selectedRecipients[i].UserID == recipient.UserID) {
+                        $scope.selectedRecipients.splice(i, 1);
+                    }
                 }
             }
-        }
-    };
+        };*/
 
-    $scope.addToCartStatic = function(product) {
-        Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.currentOrder, function(order) {
-            $scope.currentOrder = order;
-            Order.save($scope.currentOrder, function(data) {
-                $scope.user.CurrentOrderID = data.ID;
-                User.save($scope.user, function() {
-                    $location.path('cart');
+        $scope.generateAwardsIndicator = false;
+
+        $scope.addToCartStatic = function(product) {
+            $scope.generateAwardsIndicator = true;
+            Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.currentOrder, function(order) {
+                $scope.currentOrder = order;
+                Order.save($scope.currentOrder, function(data) {
+                    $scope.user.CurrentOrderID = data.ID;
+                    User.save($scope.user, function() {
+                        Customization.clearRecipients();
+                        $scope.generateAwardsIndicator = false;
+                        $location.path('cart');
+                    });
                 });
             });
-        });
-    };
-    console.log($scope.selectedRecipients);
-    $scope.addToCartVariable = function(product) {
-        Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {
-            $scope.currentOrder = order;
-            Order.save($scope.currentOrder, function(data) {
-                $scope.user.CurrentOrderID = data.ID;
-                User.save($scope.user, function() {
-                    $location.path('cart');
+        };
+
+        $scope.addToCartVariable = function(product) {
+            $scope.generateAwardsIndicator = true;
+
+            Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {
+                $scope.currentOrder = order;
+                Order.save($scope.currentOrder, function(data) {
+                    $scope.user.CurrentOrderID = data.ID;
+                    User.save($scope.user, function() {
+                        Customization.clearRecipients();
+                        $scope.generateAwardsIndicator = false;
+                        $location.path('cart');
+                    });
                 });
             });
-        });
-    };
-}]);
+        };
+    }]);

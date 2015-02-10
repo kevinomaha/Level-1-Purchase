@@ -5,7 +5,17 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Cate
 
     $scope.selectedRecipients = [];
 
-    $scope.selectRecipient = function(recipient) {
+    if ($scope.recipientList.List) {
+        angular.forEach($scope.recipientList.List, function(recipient) {
+            if (recipient.Valid) {
+                recipient.Selected = true;
+                $scope.selectedRecipients.push(recipient);
+            }
+        });
+    }
+
+    //Automatically selecting all recipients - TP#12177
+    /*$scope.selectRecipient = function(recipient) {
         if (!recipient.Valid) return;
         if (!recipient.Selected) {
             recipient.Selected = true;
@@ -19,7 +29,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Cate
                 }
             }
         }
-    };
+    };*/
 
     $scope.productLoadingIndicator = true;
 	$scope.trusted = function(d){

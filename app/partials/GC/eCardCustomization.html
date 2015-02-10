@@ -1,0 +1,198 @@
+<section class="main-gc-purchase-view ecard-customization row">
+    <div class="steps">
+        <div>
+            <h2>Customization (step 3 of 3)</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><b>RECIPIENT LIST</b></h3>
+            </div>
+            <div class="panel-body">
+            <!--<div class="input-group" style="margin-bottom:5px;">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input class="form-control view-form-icon" placeholder="Find a recipient..." type="text" ng-model="recipientListSearchTerm" />
+            </div>-->
+            <div class="recipient-list-container">
+                <ul class="list-group" style="margin-bottom:0;">
+                    <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
+                        <div class="pull-right">
+                            <div>
+                                <i class="fa fa-3x" ng-show="recipient.Valid" ng-class="{'fa-circle-o text-muted': !recipient.Selected, 'fa-check-circle text-success': recipient.Selected}"></i>
+                            </div>
+                        </div>
+                        <i style="padding-top:3px; padding-right:7px;" class="fa fa-user pull-left text-muted"></i>
+                        <p>{{recipient.FirstName}} {{recipient.LastName}}</p>
+                        <p>
+                            <small>
+                                <span>
+                                    <em ng-show="!selectedProduct.IsDigital && recipient.Address.ID"><i class="fa fa-map-marker text-muted"></i> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
+                                    <em ng-show="selectedProduct.IsDigital"><i class="fa fa-envelope text-muted"></i> {{recipient.EmailAddress}} </em>
+                                </span>
+                            </small>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+            </div>
+    </div>
+    <div class="col-md-9">
+        <form name="award_customization">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" ng-show="selectedProduct.Name"><b>Selected Product:</b> {{selectedProduct.Name}}</h3>
+                </div>
+                <div class="panel-body">
+                    <loadingindicator ng-show="generateAwardsIndicator" title="Please wait while your awards(s) are generated" />
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                            <div ng-show="selectedProduct.Specs.DesignName && Templates && Templates.length > 0" class="template-selection row">
+                                <label>{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</label>
+                                <div ng-repeat="template in Templates" class="col-sm-3" ng-class="{'template-selected':selectedProduct.Specs.DesignID.Value == template.DesignId}">
+                                    <figure ng-click="selectTemplate(template)">
+                                        <!--<i class="fa fa-check" ng-show="selectedProduct.Specs.DesignID.Value == template.DesignId"></i>-->
+                                        <img ng-src="{{template.ThumbnailUrl}}" />
+                                    </figure>
+                                    <p><i class="fa fa-check" ng-show="selectedProduct.Specs.DesignID.Value == template.DesignId"></i>{{template.Name}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <!--<div class="view-form-icon" ng-show="selectedProduct.Specs.DesignName && selectedProduct.Specs.DesignName.Options && selectedProduct.Specs.DesignName.Options.length > 1">
+                                        <div>
+                                            <label>{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</label>
+                                            <select class="form-control"
+                                                    ng-required="selectedProduct.Specs.DesignName.Required"
+                                                    ng-change="designChanged()"
+                                                    ng-model="selectedProduct.Specs.DesignName.Value"
+                                                    ng-options="option as option for option in selectedProduct.Specs.DesignName.Options">
+                                                <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</option>
+                                            </select>
+                                            <i class="fa fa-picture-o"></i>
+                                        </div>
+                                    </div>-->
+                                    <div class="view-form-icon" ng-show="selectedProduct.Specs.OccasionMessage && selectedProduct.Specs.OccasionMessage.Options && selectedProduct.Specs.OccasionMessage.Options.length > 1">
+                                        <div>
+                                            <label>{{selectedProduct.Specs.OccasionMessage.Label || selectedProduct.Specs.OccasionMessage.Name}}</label>
+                                            <select class="form-control"
+                                                    ng-required="selectedProduct.Specs.OccasionMessage.Required"
+                                                    ng-model="selectedProduct.Specs.OccasionMessage.Value"
+                                                    ng-options="message for message in selectedProduct.Specs.OccasionMessage.Options">
+                                                <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.OccasionMessage.Label || selectedProduct.Specs.OccasionMessage.Name}}</option>
+                                            </select>
+                                            <i class="fa fa-comment"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>{{selectedProduct.OpeningMessageOption == 'Custom Message' ? 'Custom ' : ''}} {{selectedProduct.Specs.OpeningMessage.Label || selectedProduct.Specs.OpeningMessage.Name}} <span style="color: rgb(128, 128, 128);font-size: x-small;" ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'">(up to 50 characters)</span></label>
+                                            <div ng-hide="selectedProduct.OpeningMessageOption == 'Custom Message'" class="btn-group btn-group-justified" ng-init="selectedProduct.OpeningMessageOption = 'First and Last Name'">
+                                                <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'First and Last Name'" ng-class="{active:selectedProduct.OpeningMessageOption == 'First and Last Name'}">Full Name</div>
+                                                <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'First Name Only'" ng-class="{active:selectedProduct.OpeningMessageOption == 'First Name Only'}">First Name</div>
+                                                <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'Custom Message'" ng-class="{active:selectedProduct.OpeningMessageOption == 'Custom Message'}">Custom Text</div>
+                                                <div class="btn btn-default" ng-click="selectedProduct.OpeningMessageOption = 'None'" ng-class="{active:selectedProduct.OpeningMessageOption == 'None'}">None</div>
+                                            </div>
+                                            <div ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'" class="input-group">
+                                                <input style="min-height: 0;" ng-required="selectedProduct.OpeningMessageOption == 'Custom Message' && selectedProduct.Specs.OpeningMessage.Required" class="form-control" ng-class="{'input-invalid': customOpeningMessageInvalid}" ng-model="selectedProduct.Specs.OpeningMessage.Value" ng-maxlength="{{selectedProduct.Specs.OpeningMessage.MaxLength}}" type="text" placeholder="{{selectedProduct.Specs.OpeningMessage.Label || selectedProduct.Specs.OpeningMessage.Name}}">
+                                                <div class="input-group-btn"><div class="btn btn-danger" ng-click="selectedProduct.CustomOpeningMessage = ''; selectedProduct.OpeningMessageOption = 'First and Last Name'">Cancel</div></div>
+                                            </div>
+                                            <i ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'" class="fa fa-comment" style="top: 9px;"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>{{selectedProduct.Specs.PersonalMessage.Label || selectedProduct.Specs.PersonalMessage.Name}} <span style="color: rgb(128, 128, 128);font-size: x-small;">(up to {{selectedProduct.Specs.PersonalMessage.MaxLength}} characters)</span></label>
+                                            <textarea class="form-control" ng-class="{'input-invalid': award_customization.PersonalMessage.$invalid}" style="min-height: 100px;" name="PersonalMessage" ng-model="selectedProduct.Specs.PersonalMessage.Value" ng-maxlength="{{selectedProduct.Specs.PersonalMessage.MaxLength}}" ng-required="selectedProduct.Specs.PersonalMessage.Required" placeholder="{{selectedProduct.Specs.PersonalMessage.Label || selectedProduct.Specs.PersonalMessage.Name}}"/>
+                                            <i class="fa fa-comment"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>{{selectedProduct.Specs.ClosingMessage.Label || selectedProduct.Specs.ClosingMessage.Name}} <span style="color: rgb(128, 128, 128);font-size: x-small;">(up to {{selectedProduct.Specs.ClosingMessage.MaxLength}} characters)</span></label>
+                                            <input type="text" class="form-control" ng-class="{'input-invalid': award_customization.ClosingMessage.$invalid}" name="ClosingMessage" ng-model="selectedProduct.Specs.ClosingMessage.Value" ng-maxlength="{{selectedProduct.Specs.ClosingMessage.MaxLength}}" ng-required="selectedProduct.Specs.ClosingMessage.Required" placeholder="{{selectedProduct.Specs.ClosingMessage.Label || selectedProduct.Specs.ClosingMessage.Name}}"/>
+                                            <i class="fa fa-comment"></i>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-show="selectedProduct.IsDigital">
+                                        <div class="col-sm-6" ng-if="selectedProduct.Specs.EmailSubject">
+                                            <div class="view-form-icon">
+                                                <div>
+                                                    <label>{{selectedProduct.Specs.EmailSubject.Label || selectedProduct.Specs.EmailSubject.Name}} <span style="color: rgb(128, 128, 128);font-size: x-small;">(up to {{selectedProduct.Specs.EmailSubject.MaxLength}} characters)</span></label>
+                                                    <input type="text" class="form-control" name="EmailSubject" ng-class="{'input-invalid': award_customization.EmailSubject.$invalid}" placeholder="{{selectedProduct.Specs.EmailSubject.Label || selectedProduct.Specs.EmailSubject.Name}}" ng-required="selectedProduct.Specs.EmailSubject.Required" ng-model="selectedProduct.Specs.EmailSubject.Value"/>
+                                                    <i class="fa fa-envelope"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6" ng-if="selectedProduct.Specs.FutureShipDate">
+                                            <div class="view-form-icon">
+                                                <div>
+                                                    <label>{{selectedProduct.Specs.FutureShipDate.Label || selectedProduct.Specs.FutureShipDate.Name}}<span style="color: rgb(128, 128, 128);font-size: x-small;"> (MM/DD/YYYY)</span></label>
+                                                    <!--Default Datepicker -->
+                                                    <input class="form-control hidden-lg hidden-md"
+                                                           type="date"
+                                                           ng-model="selectedProduct.Specs.FutureShipDate.Value"
+                                                           ng-required="selectedProduct.Specs.FutureShipDate.Required"
+                                                           style="margin:0; height:40px; padding-top:8px;"/>
+                                                    <div class="btn btn-default btn-block text-info hidden-lg hidden-md" ng-click="selectedProduct.FutureShipDate = null">{{selectedProduct.Specs.FutureShipDate.Value | date:'MM/dd/yyyy'}}</div>
+                                                    <input name="DeliveryDate" placeholder="{{selectedProduct.Specs.FutureShipDate.Label || selectedProduct.Specs.FutureShipDate.Name}}" ng-model="selectedProduct.Specs.FutureShipDate.Value" ng-required="selectedProduct.Specs.FutureShipDate.Required"
+                                                           type="text"
+                                                           class="form-control hidden-sm hidden-xs"
+                                                           ng-class="{'input-invalid': award_customization.FutureShipDate.$invalid}"
+                                                           readonly="readonly"
+                                                           style="cursor: pointer; background-color:#FFF;"
+                                                           datepicker-popup="MM/dd/yyyy"
+                                                           data-placement="top"
+                                                           is-open="opened"
+                                                           min="currentDate"
+                                                           max="maxDate" />
+                                                    <i class="fa fa-calendar"></i>
+                                                    <div style="color: rgb(128, 128, 128);font-size: x-small;padding-top:5px;">Provide an optional future delivery date, up to 120 days from today.<br />Leave blank to deliver immediately.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group" ng-repeat="s in selectedProduct.Specs | onproperty:[{Property: 'Filtered', Value: false}]" ng-if="$even">
+                                                <customfilefield customfield="s" ng-if="s.ControlType == 'File'"></customfilefield>
+                                                <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
+                                                <customselectionfield change="specChanged" customfield="s" ng-if="s.ControlType == 'Selection'"></customselectionfield>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group" ng-repeat="s in selectedProduct.Specs | onproperty:[{Property: 'Filtered', Value: false}]" ng-if="$odd">
+                                                <customfilefield customfield="s" ng-if="s.ControlType == 'File'"></customfilefield>
+                                                <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
+                                                <customselectionfield change="specChanged" customfield="s" ng-if="s.ControlType == 'Selection'"></customselectionfield>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-warning" style="margin-top:10px;" ng-show="award_customization.$invalid || selectedRecipients.length == 0">
+                                        <b>Please resolve the following issues:</b>
+                                        <ul>
+                                            <li ng-show="award_customization.$invalid">Please fill in all required fields</li>
+                                            <li ng-show="selectedRecipients.length == 0">Select at least one valid recipient</li>
+                                        </ul>
+                                    </div>
+                                    <div class="btn btn-primary btn-block btn-lg hidden-sm hidden-xs" ng-disabled="award_customization.$invalid || selectedRecipients.length == 0" ng-click="addToCartVariable(selectedProduct)">Create Awards</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

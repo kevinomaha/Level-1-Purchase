@@ -6,11 +6,9 @@ Template: Howdy
 */
 @media (min-width: 992px){
     .list-container {
-        position: fixed;
-        height: calc(100% - 235px);
+        height: calc(100vh - 245px);
         overflow-y: scroll;
         overflow-x:hidden;
-        width: 24.5%;
     }
 }
 
