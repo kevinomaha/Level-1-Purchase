@@ -117,6 +117,17 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
 
                     replaceTokens(spec, recipient, user);
                 });
+
+                if (product.OpeningMessageOption.indexOf('First Name') > -1) {
+                    product.Specs.OpeningMessage.Value = recipient.FirstName;
+                }
+                else if (product.OpeningMessageOption.indexOf('First and Last Name') > -1) {
+                    product.Specs.OpeningMessage.Value = recipient.FirstName + ' ' + recipient.LastName;
+                }
+                else if (product.OpeningMessageOption.indexOf('None') > -1) {
+                    product.Specs.OpeningMessage.Value = ' ';
+                }
+
             }
             return product;
         }
@@ -173,6 +184,9 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                                 lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview/" + previewID.replace(/"/g, '');
                             }
                             itemCount++;
+
+
+
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);
 
                             angular.forEach(lineItem.Specs, function(spec) {
