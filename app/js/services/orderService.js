@@ -86,6 +86,10 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
             }
         });
 
+        if (order.CreditCard && order.CreditCard.DisplayName) {
+            order.CreditCard.GCDisplayName = order.CreditCard.DisplayName.replace('**** **** **** ', 'x');
+        }
+
         order.forceMultipleShip = function(value) {
             _multipleShip = value;
         };
