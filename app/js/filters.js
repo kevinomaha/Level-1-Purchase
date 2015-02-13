@@ -310,7 +310,7 @@ four51.app.filter('gcbuyercompanyurl', function() {
 
 four51.app.filter('billingAddresses', function() {
     return function(addresses,order) {
-        if (addresses) {
+        if (addresses && order) {
             var results = [];
             if (order.PaymentMethod && order.PaymentMethod == 'BudgetAccount') {
                 angular.forEach(addresses, function(a) {

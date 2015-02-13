@@ -171,7 +171,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             function getPreviewDetails(lineItem, order) {
                 var denomination = lineItem.Product.Specs.Denomination ? lineItem.Product.Specs.Denomination.Value.replace('$', '') : null;
                 var designID = "";
-                var baseURL = "https://gca-svcs02-dev.cloudapp.net/ClientService/";
+                var baseURL = "https://wopr-app-dev.gcincentives.com/ClientService/";
                 //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
                 var serialURL = baseURL + "GetSerialNumber";
                 $http.get(serialURL).success(function (serialNumber) {
@@ -179,9 +179,10 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
                         var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value + "&width=660";
+                        previewURL += "&OpeningMessage=testing";
                         $http.post(previewURL).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
-                                lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview/" + previewID.replace(/"/g, '');
+                                lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/getTemplatePreview?id=" + previewID.replace(/"/g, '');
                             }
                             itemCount++;
 
