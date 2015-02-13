@@ -1,0 +1,39 @@
+/*** Main Color ***/
+
+.jumbotron,
+.badge,
+.merchant-list .merchant-list-item.selected,
+.panel-default.panel-collapser .panel-heading .panel-title.active, .panel-search.panel-collapser .panel-heading .panel-title.active, .panel-nav.panel-collapser .panel-heading .panel-title.active, .panel-category-list ul li a .empty.panel-collapser .panel-heading .panel-title.active, .panel-order.panel-collapser .panel-heading .panel-title.active,
+.denomination-selection .denomination-value.selected {
+    background-color: #6b9162;
+}
+.product-selection-view .col-md-2 > div.product-selector > div {
+    background-color: #6b9162;
+    background: #6b9162;
+    background: -moz-linear-gradient(top,  #6b9162 0%, #ffffff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6b9162), color-stop(100%,#ffffff));
+    background: -webkit-linear-gradient(top,  #6b9162 0%,#ffffff 100%);
+    background: -o-linear-gradient(top,  #6b9162 0%,#ffffff 100%);
+    background: -ms-linear-gradient(top,  #6b9162 0%,#ffffff 100%);
+    background: linear-gradient(to bottom,  #6b9162 0%,#ffffff 100%);
+}
+
+.navbar .container .navbar-nav.pull-right li a i:first-of-type, .navbar .container-view .navbar-nav.pull-right li a i:first-of-type {
+    border-color: #6b9162;
+}
+
+
+/*** Other Colors ***/
+
+.navbar-default {
+    background-color: #FFF;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #000000;
+}
+
+.btn-success {
+    background-color: #6b9162;
+    border-color: #6b9162;
+}
