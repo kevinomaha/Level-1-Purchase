@@ -23,6 +23,13 @@
     /*border-color: <COLOR>;*/
 }
 
+.template-selected figure,
+.template-selected img,
+.template-selection i {
+    /*background-color: <COLOR>;*/
+    /*border-color: <COLOR>;*/
+}
+
 
 /*** Other Colors ***/
 
