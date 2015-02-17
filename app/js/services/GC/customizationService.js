@@ -191,7 +191,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);
 
                             angular.forEach(lineItem.Specs, function(spec) {
-                                if (spec.Name.indexOf('ShipDate') > -1) {
+                                if (spec.Name.indexOf('ShipDate') > -1 && spec.Value) {
                                     var tempDate = new Date(spec.Value);
                                     spec.Value = tempDate.getMonth()+1 + "/" + tempDate.getDate() + "/" + tempDate.getFullYear();
                                 }
