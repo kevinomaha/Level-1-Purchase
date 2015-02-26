@@ -6,7 +6,7 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451', '$filter',
         }
 
         //var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/GetUsersByWildCard";
-        var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/GetUsersByWildCard";
+        var baseUrl = "https://wopr-app-dev.gcincentives.com/ClientService/GetUsersByWildCard";
 
         function containsObject(obj, list) {
             for (var i = 0; i < list.length; i++) {

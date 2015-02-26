@@ -168,7 +168,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             var recipCount = selectedRecipients.length;
             var itemCount = 0;
 
-            function getPreviewDetails(lineItem, order) {
+            function getPreviewDetails(lineItem, order, user) {
                 var denomination = lineItem.Product.Specs.Denomination ? lineItem.Product.Specs.Denomination.Value.replace('$', '') : null;
                 var designID = "";
                 var baseURL = "https://wopr-app-dev.gcincentives.com/ClientService/";
@@ -179,7 +179,18 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
                         var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value + "&width=660";
-                        previewURL += "&OpeningMessage=testing";
+                        previewURL += "&ClosingMessage=" + (lineItem.Product.Specs['ClosingMessage'] ? lineItem.Product.Specs['ClosingMessage'].Value : '');
+                        previewURL += "&Disclaimer=" + '';
+                        previewURL += "&OpeningMessage=" + (lineItem.Product.Specs['OpeningMessage'] ? lineItem.Product.Specs['OpeningMessage'].Value : '');
+                        previewURL += "&PersonalMessage=" + (lineItem.Product.Specs['PersonalMessage'] ? lineItem.Product.Specs['PersonalMessage'].Value : '');
+                        previewURL += "&RedemptionURL=" + window.location.origin + '/' + window.location.pathname.split('/')[1];
+                        previewURL += "&Denomination=" + (lineItem.Product.Specs['Denomination'] ? lineItem.Product.Specs['Denomination'].Value : '');
+                        previewURL += "&EmailSubject=" + (lineItem.Product.Specs['EmailSubject'] ? lineItem.Product.Specs['EmailSubject'].Value : '');
+                        previewURL += "&FromEmailAddress=" + user.Email;
+                        previewURL += "&SuperCertificateCode=" + (lineItem.Product.Specs['SerialNumber'] ? lineItem.Product.Specs['SerialNumber'].Value : '');
+                        previewURL += "&OccasionMessage=" + (lineItem.Product.Specs['OccasionMessage'] ? lineItem.Product.Specs['OccasionMessage'].Value : '');
+                        previewURL += "&RecipientFirstName=" + (lineItem.Product.Specs['FirstName'] ? lineItem.Product.Specs['FirstName'].Value : '');
+                        previewURL += "&RecipientLastName=" + (lineItem.Product.Specs['LastName'] ? lineItem.Product.Specs['LastName'].Value : '');
                         $http.post(previewURL).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
                                 lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/getTemplatePreview?id=" + previewID.replace(/"/g, '');
@@ -232,7 +243,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     lineItem.UniqueID = randomString();
                     lineItem.ShipAddressID = recipient.Address.ID;
 
-                    getPreviewDetails(lineItem, order);
+                    getPreviewDetails(lineItem, order, user);
                 });
             });
         };
@@ -293,7 +304,8 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
         };
 
         var _getTemplateThumbnails = function(product, success) {
-            $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
+            //$http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
+            $http.get('https://wopr-app-dev.gcincentives.com/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
                 success(function(data){
                     success(data);
                 }).
