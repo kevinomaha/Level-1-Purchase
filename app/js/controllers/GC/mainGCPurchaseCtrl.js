@@ -1,7 +1,7 @@
-four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Security', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'LogoOptions', 'CategoryDescription', 'ExistingAddress', 'LineItems', 'CustomAddressList', 'Customization',
-function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems, CustomAddressList, Customization) {
+four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Security', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'LogoOptions', 'CategoryDescription', 'ExistingAddress', 'LineItems', 'CustomAddressList', 'Customization', 'ProductList',
+function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems, CustomAddressList, Customization, ProductList) {
 
-    $scope.productList = Resources.products;
+    $scope.productList = ProductList.products;
     var today = new Date();
     $scope.currentDate = angular.copy(today);
     $scope.maxDate = today.setDate(today.getDate() + 120);
