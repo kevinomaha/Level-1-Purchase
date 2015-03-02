@@ -303,7 +303,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             return this;
         };
 
-        var _getTemplateThumbnails = function(product, success) {
+        var _getTemplateThumbnails = function(product, success, user) {
             //$http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
             $http.get('https://wopr-app-dev.gcincentives.com/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
                 success(function(data){

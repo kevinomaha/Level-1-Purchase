@@ -1,6 +1,5 @@
 four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'Customization', '$http', 'User', 'Order', 'Product',
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, User, Order, Product) {
-console.log(User.get());
         var today = new Date();
         $scope.currentDate = angular.copy(today);
         $scope.maxDate = today.setDate(today.getDate() + 120);
@@ -21,7 +20,7 @@ console.log(User.get());
             if ($scope.Templates.length > 0)  {
                 $scope.selectTemplate($scope.Templates[0]);
             }
-        });
+        },$scope.user);
 
         $scope.selectTemplate = function(template) {
             if ($scope.selectedProduct.Specs['DesignID']) $scope.selectedProduct.Specs['DesignID'].Value = template.DesignId;
