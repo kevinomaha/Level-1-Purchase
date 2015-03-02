@@ -1,6 +1,6 @@
 four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'Customization', '$http', 'User', 'Order', 'Product',
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, User, Order, Product) {
-
+console.log(User.get());
         var today = new Date();
         $scope.currentDate = angular.copy(today);
         $scope.maxDate = today.setDate(today.getDate() + 120);
