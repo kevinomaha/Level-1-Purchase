@@ -8,7 +8,8 @@ function(Resources,Category,CategoryDescription) {
 
 		angular.forEach(searchResults, function(p) {
 			p.categories = [];
-			var merchantName = p.Name.split(' $')[0].replace('.com','').replace(/(®)/,'');
+			var merchantName = p.Name ?  p.Name.split(' $')[0].replace('.com','').replace(/(®)/,'') : '';
+            if (!merchantName) return;
 			p.merchantName = merchantName;
 			if (merchants.indexOf(merchantName) == -1) {
 				merchants.push(merchantName);

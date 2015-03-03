@@ -14,7 +14,8 @@ four51.app.factory('ProductList', function() {
             CanadianID: null,
             HolidayID: null,
             PremiumHolidayID: null,
-            DisplayName: "Digital e-SuperCertificate®"
+            DisplayName: "Digital e-SuperCertificate®",
+            ProductType: "DigitalSC"
         },
         {
             Name:"Original SuperCertificate® REWARD",
@@ -24,18 +25,19 @@ four51.app.factory('ProductList', function() {
             CanadianID: null,
             HolidayID: null,
             PremiumHolidayID: null,
-            DisplayName: "Original SuperCertificate®"
+            DisplayName: "Original SuperCertificate®",
+            ProductType: "OriginalSC"
         },
         {
             Name:"e-Cards Non Monetary",
             InteropID: "5daf87c9-399b-4a48-8b4e-31e3f9c71830",
-            /*StandardID:"SCP-GC",*/
             StandardID:"SVF-ECARD-01",
             PremiumID: null,
             CanadianID: null,
             HolidayID: null,
             PremiumHolidayID: null,
-            DisplayName: "e-Cards Non Monetary"
+            DisplayName: "e-Cards Non Monetary",
+            ProductType: "e-card"
         },
         {
             Name: "Merchant Gift Cards",
@@ -54,7 +56,8 @@ four51.app.factory('ProductList', function() {
             PremiumID: null,
             CanadianID: null,
             HolidayID: null,
-            DisplayName: "Visa Reward Card."
+            DisplayName: "Visa Reward Card",
+            ProductType: "Visa"
         }
     ];
 
