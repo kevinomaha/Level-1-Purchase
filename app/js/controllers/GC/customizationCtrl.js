@@ -15,12 +15,15 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
             $scope.currentProduct = p;
         });
 
-        Customization.getTemplateThumbnails($scope.selectedProduct, function(templates) {
-            $scope.Templates = templates;
-            if ($scope.Templates.length > 0)  {
-                $scope.selectTemplate($scope.Templates[0]);
-            }
-        },$scope.user);
+        function getTemplateThumnails() {
+            Customization.getTemplateThumbnails($scope.selectedProduct, function(templates) {
+                $scope.Templates = templates;
+                if ($scope.Templates.length > 0)  {
+                    $scope.selectTemplate($scope.Templates[0]);
+                }
+            },$scope.user);
+        }
+        getTemplateThumnails();
 
         $scope.selectTemplate = function(template) {
             if ($scope.selectedProduct.Specs['DesignID']) $scope.selectedProduct.Specs['DesignID'].Value = template.DesignId;
@@ -134,6 +137,18 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                         $location.path('cart');
                     });
                 });
+            });
+        };
+
+        $scope.selectProductType = function(productID) {
+            var productList = $scope.selectedProduct.ProductList;
+            Product.get(productID, function (product) {
+                product.ProductList = productList;
+                $scope.selectedProduct = angular.copy(product);
+                Customization.setProduct(product);
+                getTemplateThumnails();
+                if ($scope.recipientList.List.length == 1) replaceRecipientTokens();
+                replacePurchaserTokens();
             });
         };
     }]);

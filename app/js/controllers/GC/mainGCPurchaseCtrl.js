@@ -158,8 +158,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.selectedProductDetails.Variants = [];
                 $scope.selectedProductDetails = {};
             }
+            var productList = $scope.selectedProduct;
             Product.get($scope.selectedProduct.StandardID, function (product) {
                 $scope.selectedProductDetails = angular.copy(product);
+                product.ProductList = productList;
                 Customization.setProduct(product);
                 //Call function to obtain variant information and save personal messages
                 getPersonalMessages($scope.selectedProductDetails.Variants);

@@ -179,19 +179,21 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
                         var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value + "&width=660";
-                        previewURL += "&ClosingMessage=" + (lineItem.Product.Specs['ClosingMessage'] ? lineItem.Product.Specs['ClosingMessage'].Value : '');
-                        previewURL += "&Disclaimer=" + '';
-                        previewURL += "&OpeningMessage=" + (lineItem.Product.Specs['OpeningMessage'] ? lineItem.Product.Specs['OpeningMessage'].Value : '');
-                        previewURL += "&PersonalMessage=" + (lineItem.Product.Specs['PersonalMessage'] ? lineItem.Product.Specs['PersonalMessage'].Value : '');
-                        previewURL += "&RedemptionURL=" + window.location.origin + '/' + window.location.pathname.split('/')[1];
-                        previewURL += "&Denomination=" + (lineItem.Product.Specs['Denomination'] ? lineItem.Product.Specs['Denomination'].Value : '');
-                        previewURL += "&EmailSubject=" + (lineItem.Product.Specs['EmailSubject'] ? lineItem.Product.Specs['EmailSubject'].Value : '');
-                        previewURL += "&FromEmailAddress=" + user.Email;
-                        previewURL += "&SuperCertificateCode=" + (lineItem.Product.Specs['SerialNumber'] ? lineItem.Product.Specs['SerialNumber'].Value : '');
-                        previewURL += "&OccasionMessage=" + (lineItem.Product.Specs['OccasionMessage'] ? lineItem.Product.Specs['OccasionMessage'].Value : '');
-                        previewURL += "&RecipientFirstName=" + (lineItem.Product.Specs['FirstName'] ? lineItem.Product.Specs['FirstName'].Value : '');
-                        previewURL += "&RecipientLastName=" + (lineItem.Product.Specs['LastName'] ? lineItem.Product.Specs['LastName'].Value : '');
-                        $http.post(previewURL).success(function (previewID) {
+                        var data = {
+                            'ClosingMessage': (lineItem.Product.Specs['ClosingMessage'] ? lineItem.Product.Specs['ClosingMessage'].Value : ''),
+                            'Disclaimer': '',
+                            'OpeningMessage': (lineItem.Product.Specs['OpeningMessage'] ? lineItem.Product.Specs['OpeningMessage'].Value : ''),
+                            'PersonalMessage': (lineItem.Product.Specs['PersonalMessage'] ? lineItem.Product.Specs['PersonalMessage'].Value : ''),
+                            'RedemptionURL': window.location.origin + '/' + window.location.pathname.split('/')[1],
+                            'Denomination': (lineItem.Product.Specs['Denomination'] ? lineItem.Product.Specs['Denomination'].Value : ''),
+                            'EmailSubject': (lineItem.Product.Specs['EmailSubject'] ? lineItem.Product.Specs['EmailSubject'].Value : ''),
+                            'FromEmailAddress': user.Email,
+                            'SuperCertificate Code': (lineItem.Product.Specs['SerialNumber'] ? lineItem.Product.Specs['SerialNumber'].Value : ''),
+                            'Occasion Message': (lineItem.Product.Specs['OccasionMessage'] ? lineItem.Product.Specs['OccasionMessage'].Value : ''),
+                            'RecipientFirstName': (lineItem.Product.Specs['FirstName'] ? lineItem.Product.Specs['FirstName'].Value : ''),
+                            'RecipientLastName': (lineItem.Product.Specs['LastName'] ? lineItem.Product.Specs['LastName'].Value : '')
+                        };
+                        $http.post(previewURL, data).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
                                 lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/getTemplatePreview?id=" + previewID.replace(/"/g, '');
                             }
@@ -305,7 +307,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
 
         var _getTemplateThumbnails = function(product, success, user) {
             var BuyerProgramId = user.Username.split("_").pop();
-            //$http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
+            //$http.get('https://wopr-app-dev.gcincentives.com/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
             $http.get('https://wopr-app-dev.gcincentives.com/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=' + BuyerProgramId + '&width=200').
                 success(function(data){
                     success(data);
