@@ -28,7 +28,8 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
         "Supervisor",
         "ADPCode",
         "RecipientEmailAddress",
-        "Email"
+        "Email",
+        "Email1"
     ];
 
 	function _extend(product) {
@@ -40,7 +41,7 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
             spec.Filtered = filteredSpecs.indexOf(spec.Name) > -1;
             spec.ReadOnly = employeeSpecs.indexOf(spec.Name) > -1;
             spec.Required = spec.ReadOnly ? false : spec.Required;
-            spec.Placeholder = spec.ReadOnly ? "Recipient's " + (spec.Label || spec.Name) : (spec.Label || spec.Name);
+            spec.Placeholder = spec.ReadOnly ? "Recipient's " + (spec.Label || spec.Name).replace(/[0-9]/g, '') : (spec.Label || spec.Name).replace(/[0-9]/g, '');
             spec.InputType = spec.Name.toLowerCase().indexOf('email') > -1 ? 'email' : 'text';
 		});
 
