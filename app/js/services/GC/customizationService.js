@@ -183,20 +183,56 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
                         var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value + "&width=660";
-                        var data = {
-                            'ClosingMessage': (lineItem.Product.Specs['ClosingMessage'] ? lineItem.Product.Specs['ClosingMessage'].Value : ''),
-                            'Disclaimer': '',
-                            'OpeningMessage': (lineItem.Product.Specs['OpeningMessage'] ? lineItem.Product.Specs['OpeningMessage'].Value : ''),
-                            'PersonalMessage': (lineItem.Product.Specs['PersonalMessage'] ? lineItem.Product.Specs['PersonalMessage'].Value : ''),
-                            'RedemptionURL': window.location.origin + '/' + window.location.pathname.split('/')[1],
-                            'Denomination': (lineItem.Product.Specs['Denomination'] ? lineItem.Product.Specs['Denomination'].Value : ''),
-                            'EmailSubject': (lineItem.Product.Specs['EmailSubject'] ? lineItem.Product.Specs['EmailSubject'].Value : ''),
-                            'FromEmailAddress': user.Email,
-                            'SuperCertificate Code': (lineItem.Product.Specs['SerialNumber'] ? lineItem.Product.Specs['SerialNumber'].Value : ''),
-                            'Occasion Message': (lineItem.Product.Specs['OccasionMessage'] ? lineItem.Product.Specs['OccasionMessage'].Value : ''),
-                            'RecipientFirstName': (lineItem.Product.Specs['FirstName'] ? lineItem.Product.Specs['FirstName'].Value : ''),
-                            'RecipientLastName': (lineItem.Product.Specs['LastName'] ? lineItem.Product.Specs['LastName'].Value : '')
-                        };
+                        var data = [
+                            {
+                                'Key': 'ClosingMessage',
+                                'Value': (lineItem.Product.Specs['ClosingMessage'] ? lineItem.Product.Specs['ClosingMessage'].Value : '')
+                            },
+                            {
+                                'Key': 'Disclaimer',
+                                'Value': ''
+                            },
+                            {
+                                'Key': 'OpeningMessage',
+                                'Value': (lineItem.Product.Specs['OpeningMessage'] ? lineItem.Product.Specs['OpeningMessage'].Value : '')
+                            },
+                            {
+                                'Key': 'PersonalMessage',
+                                'Value': (lineItem.Product.Specs['PersonalMessage'] ? lineItem.Product.Specs['PersonalMessage'].Value : '')
+                            },
+                            {
+                                'Key': 'RedemptionURL',
+                                'Value': window.location.origin + '/' + window.location.pathname.split('/')[1]
+                            },
+                            {
+                                'Key': 'Denomination',
+                                'Value': (lineItem.Product.Specs['Denomination'] ? lineItem.Product.Specs['Denomination'].Value : '')
+                            },
+                            {
+                                'Key': 'EmailSubject',
+                                'Value': (lineItem.Product.Specs['EmailSubject'] ? lineItem.Product.Specs['EmailSubject'].Value : '')
+                            },
+                            {
+                                'Key': 'FromEmailAddress',
+                                'Value': user.Email
+                            },
+                            {
+                                'Key': 'SuperCertificate Code',
+                                'Value': (lineItem.Product.Specs['SerialNumber'] ? lineItem.Product.Specs['SerialNumber'].Value : '')
+                            },
+                            {
+                                'Key': 'Occasion Message',
+                                'Value': (lineItem.Product.Specs['OccasionMessage'] ? lineItem.Product.Specs['OccasionMessage'].Value : '')
+                            },
+                            {
+                                'Key': 'RecipientFirstName',
+                                'Value': (lineItem.Product.Specs['FirstName'] ? lineItem.Product.Specs['FirstName'].Value : '')
+                            },
+                            {
+                                'Key': 'RecipientLastName',
+                                'Value': (lineItem.Product.Specs['LastName'] ? lineItem.Product.Specs['LastName'].Value : '')
+                            }
+                        ];
                         $http.post(previewURL, data).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
                                 lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/getTemplatePreview?id=" + previewID.replace(/"/g, '');
