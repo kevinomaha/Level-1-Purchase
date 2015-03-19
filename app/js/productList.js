@@ -37,7 +37,7 @@ four51.app.factory('ProductList', function() {
             HolidayID: null,
             PremiumHolidayID: null,
             DisplayName: "e-Cards Non Monetary",
-            ProductType: "e-card"
+            ProductType: "e-Cards"
         },
         {
             Name: "Merchant Gift Cards",
