@@ -29,8 +29,7 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
         "ADPCode",
         "RecipientEmailAddress",
         "Email",
-        "Email1",
-        "EmailAddress"
+        "Email1"
     ];
 
 	function _extend(product) {

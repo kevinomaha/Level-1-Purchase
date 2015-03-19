@@ -68,9 +68,6 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                     case "Email1":
                         spec.Value = recipient.EmailAddress;
                         break;
-                    case "EmailAddress":
-                        spec.Value = recipient.EmailAddress;
-                        break;
                     case "Marketplace":
                         spec.Value = recipient.Marketplace;
                         break;

@@ -104,9 +104,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                         case "Email1":
                             spec.Value = recipient.EmailAddress;
                             break;
-                        case "EmailAddress":
-                            spec.Value = recipient.EmailAddress;
-                            break;
                         case "Marketplace":
                             spec.Value = recipient.Marketplace;
                             break;
