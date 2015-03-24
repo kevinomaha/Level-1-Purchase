@@ -533,3 +533,47 @@ four51.app.filter('orderobjectby', function() {
         return filtered;
     };
 });
+
+four51.app.filter('denominations', function() {
+   return function(denoms, product, groups, buyerSettings, productList) {
+       var results = [];
+
+       var productLevel = false;
+       var productID = product.InteropID;
+       var found = false;
+       angular.forEach(productList, function(p) {
+            angular.forEach(p, function(value, key) {
+                if (value == productID) {
+                    if (p.Denominations) {
+                        productLevel = true;
+                        angular.forEach(groups, function(group) {
+                            if (p.Denominations[group.Name] && !found) {
+                                found = true;
+                                angular.forEach(denoms, function(d) {
+                                    if (p.Denominations[group.Name].indexOf(d.Value) > -1) {
+                                        results.push(d);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+       });
+
+       if (!productLevel) {
+           angular.forEach(groups, function(group) {
+               if (buyerSettings.Denominations && buyerSettings.Denominations[group.Name] && !found) {
+                   found = true;
+                   angular.forEach(denoms, function(d) {
+                       if (buyerSettings.Denominations[group.Name].indexOf(d.Value) > -1) {
+                           results.push(d);
+                       }
+                   });
+               }
+           });
+       }
+
+       return results;
+   }
+});

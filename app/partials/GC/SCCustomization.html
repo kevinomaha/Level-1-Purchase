@@ -108,7 +108,7 @@
                                             <select class="form-control"
                                                     ng-required="selectedProduct.Specs.Denomination.Required"
                                                     ng-model="selectedProduct.Specs.Denomination.Value"
-                                                    ng-options="denom.Value as denom.Value for denom in selectedProduct.Specs.Denomination.Options">
+                                                    ng-options="denom.Value as denom.Value for denom in selectedProduct.Specs.Denomination.Options | denominations:selectedProduct:user.Groups:BuyerSettings:ProductList">
                                                 <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.Denomination.Label || selectedProduct.Specs.Denomination.Name}}</option>
                                             </select>
                                             <i class="fa fa-dollar"></i>

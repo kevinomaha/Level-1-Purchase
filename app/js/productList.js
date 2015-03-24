@@ -62,6 +62,6 @@ four51.app.factory('ProductList', function() {
     ];
 
     return {
-        products: products,
+        products: products
     };
 });
