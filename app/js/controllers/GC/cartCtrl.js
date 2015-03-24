@@ -255,4 +255,19 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
         $scope.shipaddress = { Country: 'US', IsShipping: true, IsBilling: false };
         $scope.billaddress = { Country: 'US', IsShipping: false, IsBilling: true };
 
+        function zeroPricedOrder() {
+            angular.forEach($scope.addresses, function(add) {
+                if (add.IsBilling && !add.IsCustEditable) {
+                    $scope.currentOrder.BillAddressID = add.ID;
+                }
+            });
+            $scope.currentOrder.PaymentMethod = null;
+        }
+
+        $scope.$watch('currentOrder.LineItems', function() {
+            if ($scope.currentOrder && $scope.currentOrder.Total == 0) {
+                zeroPricedOrder();
+            }
+        });
+
     }]);
