@@ -316,7 +316,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
 
                 ExistingAddress.check($scope.addresses, address);
 
-                if (!recipient.AddressInvalid) {
+                if (recipient.Address.Street1 && !recipient.AddressInvalid) {
                     if (!address.IsExisting) {
                         recipient.ShipAddressID = null;
                         if (addresses.length == 0) {

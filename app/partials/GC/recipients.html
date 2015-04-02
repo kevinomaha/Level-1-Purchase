@@ -164,7 +164,7 @@
                         <h3>Import List</h3>
                         <div style="margin-bottom:10px;">
                             <ul>
-                                <li>Step 1 – Click on Download Spreadsheet template <a class="btn btn-sm btn-link" href="lib/GC/RecipientUploadTemplate.xlsx" target="_blank"><i class="fa fa-download"></i> Download Spreadsheet Template</a></li>
+                                <li>Step 1 – Click on Download {{selectedProduct.IsDigital ? 'Digital' : 'Physical'}} Spreadsheet template <a class="btn btn-sm btn-link" ng-href="{{'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/Level 1/files/PurchaseRecipientUploadTemplate' + (selectedProduct.IsDigital ? 'Digital' : 'Physical') + '.xlsx'}}" target="_blank"><i class="fa fa-download"></i> Download Spreadsheet Template</a></li>
                                 <li>Step 2 – Fill in your Data on the downloaded spreadsheet</li>
                                 <li>Step 3 – Copy your Data and paste this information in the box below, and click "Import"</li>
                                 <li>Step 4 – Review your data to ensure the information is correct.  If the data is correct, click Generate Recipients.  If the data is incorrect, click Cancel and update your spreadsheet.  Repeat steps 3 and 4.</li>
@@ -186,7 +186,7 @@
                                 </li>
                             </ul>
                             <ul ng-show="columnLengthError">
-                                <li>Please copy all 17 columns from spreadsheet</li>
+                                <li>Please copy all {{selectedProduct.IsDigital ? '8' : '16'}} columns from spreadsheet</li>
                             </ul>
                         </div>
                         <div class="recipient-upload-table">
@@ -194,11 +194,11 @@
                                 <div class="col-xs-12">
                                     <div class="row">
                                         <div class="col-md-2 col-xs-6"><b>Name</b></div>
-                                        <div class="col-md-2 col-xs-6"><b>Email Address</b></div>
+                                        <div class="col-md-2 col-xs-6" ng-show="selectedProduct.IsDigital"><b>Email Address</b></div>
                                         <div class="col-md-2 col-xs-6"><b>Employee Number</b></div>
                                         <div class="col-md-2 col-xs-6"><b>Marketplace</b></div>
                                         <div class="col-md-2 col-xs-6"><b>Job Family</b></div>
-                                        <div class="col-md-2 col-xs-12"><b>Address</b></div>
+                                        <div class="col-md-2 col-xs-12" ng-show="!selectedProduct.IsDigital"><b>Address</b></div>
                                     </div>
                                 </div>
                             </div>
@@ -206,11 +206,11 @@
                             <div class="recipient-paste-row" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="recipient in recipientPasteList">
                                 <div class="row">
                                     <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!(recipient.FirstName || recipient.LastName)}">{{(recipient.FirstName + ' ' + recipient.LastName) || 'None'}}</span></div>
-                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.EmailAddress}">{{recipient.EmailAddress || 'None'}}</span></div>
+                                    <div class="col-md-2 col-xs-6" ng-show="selectedProduct.IsDigital"><span ng-class="{'label label-default':!recipient.EmailAddress}">{{recipient.EmailAddress || 'None'}}</span></div>
                                     <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.EmployeeNumber}">{{recipient.EmployeeNumber || 'None'}}</span></div>
                                     <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.Marketplace}">{{recipient.Marketplace || 'None'}}</span></div>
                                     <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.JobFamily}">{{recipient.JobFamily || 'None'}}</span></div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" ng-show="!selectedProduct.IsDigital">
                                         <div class="btn btn-xs btn-primary" ng-init="toggleAddressInfo = false" ng-click="toggleAddressInfo = !toggleAddressInfo">
                                             Address Info <i class="fa" ng-class="{'fa-angle-double-left': !toggleAddressInfo, 'fa-angle-double-down': toggleAddressInfo}"></i>
                                         </div>
