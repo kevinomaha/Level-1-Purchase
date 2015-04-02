@@ -574,6 +574,10 @@ four51.app.filter('denominations', function() {
            });
        }
 
+       if (!found && results.length == 0) {
+           results = denoms;
+       }
+
        return results;
    }
 });
