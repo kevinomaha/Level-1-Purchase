@@ -56,7 +56,8 @@ four51.app.factory('AddressValidate', ['$resource', function($resource) {
                 }
             },
             function(ex) {
-                console.log(ex);
+                originalAddress.status = "Valid";
+                success(originalAddress);
             });
 
         /*//Prepare yql address validate query
