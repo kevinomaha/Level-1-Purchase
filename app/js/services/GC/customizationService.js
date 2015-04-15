@@ -160,7 +160,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             function getPreviewDetails(lineItem, order) {
                 var denomination = lineItem.Product.Specs.Denomination ? lineItem.Product.Specs.Denomination.Value.replace('$', '') : null;
                 var designID = "";
-                var baseURL = "https://gca-svcs02-dev.cloudapp.net/ClientService/";
+                var baseURL = "https://wopr-app-stage.gcincentives.com/ClientService/";
                 //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
                 var serialURL = baseURL + "GetSerialNumber";
                 $http.get(serialURL).success(function (serialNumber) {
@@ -170,7 +170,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                         var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value + "&width=660";
                         $http.post(previewURL).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
-                                lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview/" + previewID.replace(/"/g, '');
+                                lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-stage.gcincentives.com/ClientService/GetTemplatePreview/" + previewID.replace(/"/g, '');
                             }
                             itemCount++;
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);
@@ -278,7 +278,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
         };
 
         var _getTemplateThumbnails = function(product, success) {
-            $http.get('https://gca-svcs02-dev.cloudapp.net/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
+            $http.get('https://wopr-app-stage.gcincentives.com/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
                 success(function(data){
                     success(data);
                 }).
