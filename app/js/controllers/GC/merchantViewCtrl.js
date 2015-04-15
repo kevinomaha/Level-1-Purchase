@@ -38,7 +38,9 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Cate
 	Product.search($routeParams.categoryInteropID, null, null, function(products) {
 		var sortable = [];
 		for (var i = 0; i < products.length; i++) {
-			sortable.push([products[i], products[i].StandardPriceSchedule.PriceBreaks[0].Price])
+            if (products[i].StandardPriceSchedule) {
+                sortable.push([products[i], products[i].StandardPriceSchedule.PriceBreaks[0].Price])
+            }
 		}
 		sortable.sort(function(a,b) { return a[1] - b[1] });
 
@@ -47,7 +49,7 @@ function ($routeParams, $sce, $scope, $451, $rootScope, $location, $window, Cate
 			sortedProducts.push(sortable[j][0])
 		}
 
-        if (products.length > 0 && product.length < 10) {
+        if (products.length > 0 && products.length < 10) {
             $scope.products = sortedProducts;
             $rootScope.$broadcast('event:MerchantProductSelected', $scope.products[0]);
         }

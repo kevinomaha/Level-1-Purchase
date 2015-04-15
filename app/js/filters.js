@@ -310,7 +310,7 @@ four51.app.filter('gcbuyercompanyurl', function() {
 
 four51.app.filter('billingAddresses', function() {
     return function(addresses,order) {
-        if (addresses) {
+        if (addresses && order) {
             var results = [];
             if (order.PaymentMethod && order.PaymentMethod == 'BudgetAccount') {
                 angular.forEach(addresses, function(a) {
@@ -532,4 +532,52 @@ four51.app.filter('orderobjectby', function() {
         if(reverse) filtered.reverse();
         return filtered;
     };
+});
+
+four51.app.filter('denominations', function() {
+   return function(denoms, product, groups, buyerSettings, productList) {
+       var results = [];
+
+       var productLevel = false;
+       var productID = product.InteropID;
+       var found = false;
+       angular.forEach(productList, function(p) {
+            angular.forEach(p, function(value, key) {
+                if (value == productID) {
+                    if (p.Denominations) {
+                        productLevel = true;
+                        angular.forEach(groups, function(group) {
+                            if (p.Denominations[group.Name] && !found) {
+                                found = true;
+                                angular.forEach(denoms, function(d) {
+                                    if (p.Denominations[group.Name].indexOf(d.Value) > -1) {
+                                        results.push(d);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+       });
+
+       if (!productLevel) {
+           angular.forEach(groups, function(group) {
+               if (buyerSettings.Denominations && buyerSettings.Denominations[group.Name] && !found) {
+                   found = true;
+                   angular.forEach(denoms, function(d) {
+                       if (buyerSettings.Denominations[group.Name].indexOf(d.Value) > -1) {
+                           results.push(d);
+                       }
+                   });
+               }
+           });
+       }
+
+       if (!found && results.length == 0) {
+           results = denoms;
+       }
+
+       return results;
+   }
 });

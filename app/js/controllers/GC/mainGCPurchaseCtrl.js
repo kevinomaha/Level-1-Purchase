@@ -1,7 +1,7 @@
-four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Security', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'LogoOptions', 'CategoryDescription', 'ExistingAddress', 'LineItems', 'CustomAddressList', 'Customization',
-function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems, CustomAddressList, Customization) {
+four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope', '$scope', '$location', '$451', 'Security', 'Category', 'Product', 'Address', 'AddressList', 'Resources', 'RecipientList', 'Variant', 'Order', 'User', 'AddressValidate', 'LogoOptions', 'CategoryDescription', 'ExistingAddress', 'LineItems', 'CustomAddressList', 'Customization', 'ProductList',
+function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Category, Product, Address, AddressList, Resources, RecipientList, Variant, Order, User, AddressValidate, LogoOptions, CategoryDescription,ExistingAddress,LineItems, CustomAddressList, Customization, ProductList) {
 
-    $scope.productList = Resources.products;
+    $scope.productList = ProductList.products;
     var today = new Date();
     $scope.currentDate = angular.copy(today);
     $scope.maxDate = today.setDate(today.getDate() + 120);
@@ -15,17 +15,20 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         $location.path('recipients');
     };
 
-    //merge code for actual catalog values against hardcoded top level product list
-    angular.forEach($scope.productList, function(pval) {
-        angular.forEach($scope.tree, function(tval, tindex) {
-            if (pval.InteropID == tval.InteropID) {
-                //$scope.tree[tindex] = angular.extend(tval,pval);
-                $scope.tree[tindex].StandardID = pval.StandardID;
-                $scope.tree[tindex].PremiumID = pval.PremiumID;
-                $scope.tree[tindex].CanadianID = pval.CanadianID;
-                $scope.tree[tindex].HolidayID = pval.HolidayID;
-                $scope.tree[tindex].PremiumHolidayID = pval.PremiumHolidayID;
-            }
+    $scope.$on('treeComplete', function() {
+        //merge code for actual catalog values against hardcoded top level product list
+        angular.forEach($scope.productList, function(pval) {
+            angular.forEach($scope.tree, function(tval, tindex) {
+                if (pval.InteropID == tval.InteropID) {
+                    //$scope.tree[tindex] = angular.extend(tval,pval);
+                    $scope.tree[tindex].StandardID = pval.StandardID;
+                    $scope.tree[tindex].PremiumID = pval.PremiumID;
+                    $scope.tree[tindex].CanadianID = pval.CanadianID;
+                    $scope.tree[tindex].HolidayID = pval.HolidayID;
+                    $scope.tree[tindex].PremiumHolidayID = pval.PremiumHolidayID;
+                    $scope.tree[tindex].ProductType=  pval.ProductType;
+                }
+            });
         });
     });
 
@@ -48,7 +51,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
         $scope.selectedProductDetails.PersonalMessages = [];
 
-        for (var v = 0; v < variantArray.length; v++) {
+        /*for (var v = 0; v < variantArray.length; v++) {
             Variant.get({VariantInteropID: variantArray[v], ProductInteropID: $scope.selectedProduct.StandardID}, function (data) {
                 if ($scope.selectedProductDetails.PersonalMessages) {
                     switch ($scope.selectedProduct.StandardID) {
@@ -73,7 +76,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             }, function (ex) {
                 $scope.selectedProductDetails.PersonalMessages = [];
             });
-        }
+        }*/
     }
 
     var _extendProduct = function (product, lineitem) {
@@ -111,8 +114,9 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
 
         product.IsDigital = (product.Name.indexOf('Digital') > -1 || product.Name.indexOf('e-') > -1);
 
-        switch (product.StandardID) {
-            case "SCD002-GC1-02":
+        console.log(product.ProductType);
+        switch (product.ProductType) {
+            case "DigitalSC":
                 $scope.digitalProduct = true;
                 $scope.physicalProduct = false;
                 $scope.merchantCards = false;
@@ -120,7 +124,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.selectedProductType = 'Standard';
                 $scope.selectedProduct.InteropID = product.InteropID;
                 break;
-            case "SCP002-FD1-02":
+            case "OriginalSC":
                 $scope.digitalProduct = false;
                 $scope.physicalProduct = true;
                 $scope.merchantCards = false;
@@ -128,7 +132,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.selectedProductType = 'Standard';
                 $scope.selectedProduct.InteropID = product.InteropID;
                 break;
-            case "SVF-ECARD-01":
+            case "e-card":
                 $scope.digitalProduct = true;
                 $scope.physicalProduct = false;
                 $scope.merchantCards = false;
@@ -143,7 +147,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.productType = "MerchantCards";
                 $scope.selectedProductType = "MerchantCards";
                 $scope.selectedProduct.InteropID = "MerchantCards";
-            case "INT030":
+            case "Visa":
                 $scope.digitalProduct = false;
                 $scope.physicalProduct = true;
                 $scope.merchantCards = false;
@@ -158,8 +162,10 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.selectedProductDetails.Variants = [];
                 $scope.selectedProductDetails = {};
             }
+            var productList = $scope.selectedProduct;
             Product.get($scope.selectedProduct.StandardID, function (product) {
                 $scope.selectedProductDetails = angular.copy(product);
+                product.ProductList = productList;
                 Customization.setProduct(product);
                 //Call function to obtain variant information and save personal messages
                 getPersonalMessages($scope.selectedProductDetails.Variants);

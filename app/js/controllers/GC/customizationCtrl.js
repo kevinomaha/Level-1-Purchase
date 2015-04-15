@@ -1,6 +1,5 @@
 four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'Customization', '$http', 'User', 'Order', 'Product',
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, User, Order, Product) {
-
         var today = new Date();
         $scope.currentDate = angular.copy(today);
         $scope.maxDate = today.setDate(today.getDate() + 120);
@@ -16,12 +15,15 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
             $scope.currentProduct = p;
         });
 
-        Customization.getTemplateThumbnails($scope.selectedProduct, function(templates) {
-            $scope.Templates = templates;
-            if ($scope.Templates.length > 0)  {
-                $scope.selectTemplate($scope.Templates[0]);
-            }
-        });
+        function getTemplateThumnails() {
+            Customization.getTemplateThumbnails($scope.selectedProduct, function(templates) {
+                $scope.Templates = templates;
+                if ($scope.Templates.length > 0)  {
+                    $scope.selectTemplate($scope.Templates[0]);
+                }
+            },$scope.user);
+        }
+        getTemplateThumnails();
 
         $scope.selectTemplate = function(template) {
             if ($scope.selectedProduct.Specs['DesignID']) $scope.selectedProduct.Specs['DesignID'].Value = template.DesignId;
@@ -61,6 +63,9 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                         spec.Value = recipient.EmailAddress;
                         break;
                     case "Email":
+                        spec.Value = recipient.EmailAddress;
+                        break;
+                    case "Email1":
                         spec.Value = recipient.EmailAddress;
                         break;
                     case "Marketplace":
@@ -135,6 +140,18 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                         $location.path('cart');
                     });
                 });
+            });
+        };
+
+        $scope.selectProductType = function(productID) {
+            var productList = $scope.selectedProduct.ProductList;
+            Product.get(productID, function (product) {
+                product.ProductList = productList;
+                $scope.selectedProduct = angular.copy(product);
+                Customization.setProduct(product);
+                getTemplateThumnails();
+                if ($scope.recipientList.List.length == 1) replaceRecipientTokens();
+                replacePurchaserTokens();
             });
         };
     }]);

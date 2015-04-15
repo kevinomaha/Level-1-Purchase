@@ -4,5 +4,9 @@ four51.app.constant("BuyerSettings",{
         'Upload':false,
         'Manual':false
     },
-    'Logo':''
+    'Logo':'',
+    'Denominations': {
+        'GroupName1': [],
+        'GroupName2': []
+    }
 });

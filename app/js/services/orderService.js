@@ -16,7 +16,8 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         "Supervisor",
         "ADPCode",
         "RecipientEmailAddress",
-        "Email"
+        "Email",
+        "Email1"
     ];
 
     var additionalReadOnlySpecs = [
@@ -47,7 +48,7 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
                 spec.Filtered = filteredSpecs.indexOf(spec.Name) > -1;
                 spec.ReadOnly = (employeeSpecs.indexOf(spec.Name) > -1 || additionalReadOnlySpecs.indexOf(spec.Name) > -1);
                 spec.Required = spec.ReadOnly ? false : spec.Required;
-                spec.Placeholder = (spec.Label || spec.Name);
+                spec.Placeholder = (spec.Label || spec.Name).replace(/[0-9]/g, '');
 
                 spec.InputType = (spec.Name.toLowerCase().indexOf('email') > -1 && spec.Name.toLowerCase().indexOf('subject') == -1) ? 'email' : (spec.Name.toLowerCase().indexOf('futureshipdate') > -1) ? 'date' : 'text';
 
@@ -86,6 +87,10 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
             }
         });
 
+        if (order.CreditCard && order.CreditCard.DisplayName) {
+            order.CreditCard.GCDisplayName = order.CreditCard.DisplayName.replace('**** **** **** ', 'x');
+        }
+
         order.forceMultipleShip = function(value) {
             _multipleShip = value;
         };
@@ -110,7 +115,7 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
 
         angular.forEach(order.OrderFields, function(field) {
             field.Filtered = filteredFields.indexOf(field.Name) > -1;
-            field.Placeholder = (field.Label || field.Name);
+            field.Placeholder = (field.Label || field.Name).replace(/[0-9]/g, '');
             field.InputType = (field.Name.toLowerCase().indexOf('email') > -1 && field.Name.toLowerCase().indexOf('subject') == -1) ? 'email' : 'text';
             field.OrderIndex = (field.Name == 'Message') ? 999 : field.ListOrder;
         });

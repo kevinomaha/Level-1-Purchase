@@ -53,6 +53,16 @@
                     <div class="row">
                         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                             <div class="row">
+                                <div class="template-selection row" style="margin-bottom: 15px;" ng-show="selectedProduct.ProductList.PremiumID || selectedProduct.ProductList.CanadianID || selectedProduct.ProductList.HolidayID || selectedProduct.ProductList.PremiumHolidayID">
+                                    <label>Product Type</label>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.StandardID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.StandardID}" ng-click="selectProductType(selectedProduct.ProductList.StandardID)">Standard</button>
+                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.PremiumID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.PremiumID}" ng-click="selectProductType(selectedProduct.ProductList.PremiumID)">Premium</button>
+                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.CanadianID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.CanadianID}" ng-click="selectProductType(selectedProduct.ProductList.CanadianID)">Canadian</button>
+                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.HolidayID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.HolidayID}" ng-click="selectProductType(selectedProduct.ProductList.HolidayID)">Holiday</button>
+                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.PremiumHolidayID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.PremiumHolidayID}" ng-click="selectProductType(selectedProduct.ProductList.PremiumHolidayID)">Premium Holiday</button>
+                                    </div>
+                                </div>
                                 <div ng-show="ProductThumbnail">
                                     <img ng-src="{{ProductThumbnail}}" style="display:block; margin-left:auto; margin-right:auto; text-align:center" />
                                 </div>
@@ -98,7 +108,7 @@
                                             <select class="form-control"
                                                     ng-required="selectedProduct.Specs.Denomination.Required"
                                                     ng-model="selectedProduct.Specs.Denomination.Value"
-                                                    ng-options="denom.Value as denom.Value for denom in selectedProduct.Specs.Denomination.Options">
+                                                    ng-options="denom.Value as denom.Value for denom in selectedProduct.Specs.Denomination.Options | denominations:selectedProduct:user.Groups:BuyerSettings:ProductList">
                                                 <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.Denomination.Label || selectedProduct.Specs.Denomination.Name}}</option>
                                             </select>
                                             <i class="fa fa-dollar"></i>

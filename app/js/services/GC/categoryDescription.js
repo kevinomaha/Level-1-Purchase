@@ -4,58 +4,63 @@ four51.app.factory('CategoryDescription', function() {
 
             category.SpaDescription = {};
 
-            category.Description = category.Description.replace(/<img/g,"<span"); //jQuery select will attempt to load image tags, resulting in 404
-            var categoryDescription = $(category.Description);
+            if (category.Description) {
+                category.Description = category.Description.replace(/<img/g,"<span"); //jQuery select will attempt to load image tags, resulting in 404
+                var categoryDescription = $(category.Description);
 
-            //Find image without jQuery select to avoid 404 images
-            var img = "https://www.four51.com/Themes/Custom/" + category.Description.split('../../')[1].split('.jpg')[0] + ".jpg";
-
-            var description = "";
-            var textFound = false;
-            $(categoryDescription).find('tbody tr > td').contents().each(function() {
-                if (this.nodeName == '#text' && !textFound) {
-                    textFound = true;
-                    description += "<p>" + $(this).text() + "</p>";
+                //Find image without jQuery select to avoid 404 images
+                var img = '';
+                if (category.Description.split('../../')[1]) {
+                    img = "https://www.four51.com/Themes/Custom/" + category.Description.split('../../')[1].split('.jpg')[0] + ".jpg";
                 }
-            });
-            $(categoryDescription).find('p').each(function() {
-                if ($(this).html().indexOf('handlingFee') == -1 && $(this).html().indexOf('infoDiv0') == -1
-                    && $(this).html().indexOf('infoDiv1') == -1 && $(this).html().indexOf('infoDiv2') == -1
-                    && $(this).parent('div').prop('class') != 'infoPanel') {
-                    description += "<p>" + $(this).text() + "</p>";
+
+                var description = "";
+                var textFound = false;
+                $(categoryDescription).find('tbody tr > td').contents().each(function() {
+                    if (this.nodeName == '#text' && !textFound) {
+                        textFound = true;
+                        description += "<p>" + $(this).text() + "</p>";
+                    }
+                });
+                $(categoryDescription).find('p').each(function() {
+                    if ($(this).html().indexOf('handlingFee') == -1 && $(this).html().indexOf('infoDiv0') == -1
+                        && $(this).html().indexOf('infoDiv1') == -1 && $(this).html().indexOf('infoDiv2') == -1
+                        && $(this).parent('div').prop('class') != 'infoPanel') {
+                        description += "<p>" + $(this).text() + "</p>";
+                    }
+                });
+
+                if (description == "") {
+                    if ($(categoryDescription).find('td:last').text()) {
+                        description +=$(categoryDescription).find('td:last').text();
+                    }
                 }
-            });
 
-            if (description == "") {
-                if ($(categoryDescription).find('td:last').text()) {
-                    description +=$(categoryDescription).find('td:last').text();
+                /*var infoTab = $(categoryDescription).find("#infoDiv0 p").text();*/
+                var infoTab = "";
+
+                $(categoryDescription).find("#infoDiv0 p").each(function() {
+                    infoTab += $(this).html();
+                });
+
+                if ($(categoryDescription).find("#infoDiv1 div #handlingFee").length > 0) {
+                    $(categoryDescription).find("#infoDiv1 div #handlingFee").text("2.50 ");
                 }
-            }
+                else if ($(categoryDescription).find("#infoDiv1 div").length > 0) {
+                    $(categoryDescription).find("#infoDiv1 div").html($(categoryDescription).find("#infoDiv1 div").html().replace('$','$2.50'));
+                }
 
-            /*var infoTab = $(categoryDescription).find("#infoDiv0 p").text();*/
-            var infoTab = "";
+                var handlingTab = $(categoryDescription).find("#infoDiv1 div").html();
 
-            $(categoryDescription).find("#infoDiv0 p").each(function() {
-                infoTab += $(this).html();
-            });
+                var canadianTab = $(categoryDescription).find("#infoDiv2 div").html();
 
-            if ($(categoryDescription).find("#infoDiv1 div #handlingFee").length > 0) {
-                $(categoryDescription).find("#infoDiv1 div #handlingFee").text("2.50 ");
-            }
-            else if ($(categoryDescription).find("#infoDiv1 div").length > 0) {
-                $(categoryDescription).find("#infoDiv1 div").html($(categoryDescription).find("#infoDiv1 div").html().replace('$','$2.50'));
-            }
-
-            var handlingTab = $(categoryDescription).find("#infoDiv1 div").html();
-
-            var canadianTab = $(categoryDescription).find("#infoDiv2 div").html();
-
-            category.SpaDescription.image = img;
-            category.SpaDescription.description = description;
-            category.SpaDescription.infoTab = infoTab;
-            category.SpaDescription.handlingTab = handlingTab;
-            if (canadianTab) {
-                category.SpaDescription.canadianTab = canadianTab;
+                category.SpaDescription.image = img;
+                category.SpaDescription.description = description;
+                category.SpaDescription.infoTab = infoTab;
+                category.SpaDescription.handlingTab = handlingTab;
+                if (canadianTab) {
+                    category.SpaDescription.canadianTab = canadianTab;
+                }
             }
         }
         else {

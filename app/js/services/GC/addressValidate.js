@@ -1,6 +1,7 @@
 four51.app.factory('AddressValidate', ['$resource', function($resource) {
 
-    var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/ValidateAddress";
+    //var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/ValidateAddress";
+    var baseUrl = "https://wopr-app-dev.gcincentives.com/ClientService/ValidateAddress";
 
     function identicalAddresses(uA, rA) {
         //uA = User's Address
@@ -55,7 +56,8 @@ four51.app.factory('AddressValidate', ['$resource', function($resource) {
                 }
             },
             function(ex) {
-                console.log(ex);
+                originalAddress.status = "Valid";
+                success(originalAddress);
             });
 
         /*//Prepare yql address validate query

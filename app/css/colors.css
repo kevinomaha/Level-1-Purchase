@@ -1,0 +1,87 @@
+/*** Main Color ***/
+/*Replace <COLOR> with brand's primary color*/
+
+.jumbotron,
+.badge,
+.merchant-list .merchant-list-item.selected,
+.panel-default.panel-collapser .panel-heading .panel-title.active, .panel-search.panel-collapser .panel-heading .panel-title.active, .panel-nav.panel-collapser .panel-heading .panel-title.active, .panel-category-list ul li a .empty.panel-collapser .panel-heading .panel-title.active, .panel-order.panel-collapser .panel-heading .panel-title.active,
+.denomination-selection .denomination-value.selected {
+    /*background-color: <COLOR>;*/
+}
+.product-selection-view .col-md-2 > div.product-selector > div {
+    /*background-color: <COLOR>;
+    background: <COLOR>;
+    background: -moz-linear-gradient(top,  <COLOR> 0%, #ffffff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,<COLOR>), color-stop(100%,#ffffff));
+    background: -webkit-linear-gradient(top,  <COLOR> 0%,#ffffff 100%);
+    background: -o-linear-gradient(top,  <COLOR> 0%,#ffffff 100%);
+    background: -ms-linear-gradient(top,  <COLOR> 0%,#ffffff 100%);
+    background: linear-gradient(to bottom,  <COLOR> 0%,#ffffff 100%);*/
+}
+
+.navbar .container .navbar-nav.pull-right li a i:first-of-type, .navbar .container-view .navbar-nav.pull-right li a i:first-of-type {
+    /*border-color: <COLOR>;*/
+}
+
+.template-selected figure,
+.template-selected img,
+.template-selection i {
+    /*background-color: <COLOR>;*/
+    /*border-color: <COLOR>;*/
+}
+
+
+/*** Other Colors ***/
+
+.navbar-default {
+    /*background-color: #FFF;*/
+}
+
+.navbar-default .navbar-nav > li > a {
+   /*color: #000000;*/
+}
+
+.btn-success {
+    /*background-color: ;
+    border-color: ;*/
+}
+
+.btn-warning {
+    /*background-color: ;
+    border-color: ;*/
+}
+
+.btn-danger {
+    /*background-color: ;
+    border-color: ;*/
+}
+
+.btn-info {
+    /*background-color: ;
+    border-color: ;*/
+}
+
+.alert-success {
+    /*background-color: ;
+    border-color: ;
+    color: ;*/
+}
+
+.alert-warning {
+    /*background-color: ;
+    border-color: ;
+    color: ;*/
+}
+
+.alert-danger {
+    /*background-color: ;
+    border-color: ;
+    color: ;*/
+}
+
+.alert-info {
+    /*background-color: ;
+    border-color: ;
+    color: ;*/
+}
+

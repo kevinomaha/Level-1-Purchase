@@ -83,6 +83,10 @@ function ($scope, $routeParams, $route, $location, $451, Product, ProductDisplay
                     $scope.LineItem.Product.Specs = (tempSpecs && tempSpecs.Email1 && data.product.Specs.Email1) ? tempSpecs : $scope.LineItem.Product.Specs;
                     //if ($scope.LineItem.Product.Specs.Email) $scope.LineItem.Product.Specs.Email.Value = $scope.selectedEmployee.Username;
                     //if ($scope.LineItem.Product.Specs.Email1) $scope.LineItem.Product.Specs.Email1.Value = $scope.selectedEmployee.Username;
+                    if ($scope.recipientList && $scope.recipientList.List && $scope.recipientList.List.length == 1) {
+                        if ($scope.LineItem.Product.Specs.Email) $scope.LineItem.Product.Specs.Email.Value = $scope.recipientList.List[0].EmailAddress;
+                        if ($scope.LineItem.Product.Specs.Email1) $scope.LineItem.Product.Specs.Email1.Value = $scope.recipientList.List[0].EmailAddress;
+                    }
                 }
             });
             $scope.selectedProduct =  product;

@@ -60,25 +60,9 @@ function ($location, $route, $scope, $451, $rootScope, User, SpendingAccount, $w
         }
     };
 
-	/*$scope.$on('event:orderUpdate', function(event, order) {
+	$scope.$on('event:orderUpdate', function(event, order) {
 		$scope.cartCount = order ? (order.Status == 'Unsubmitted' || order.Status == 'AwaitingApproval') ? order.LineItems.length : 0 : 0;
-
-        if (!order || order.Status == "Open") {
-            SpendingAccount.query(function(data) {
-                $scope.SpendingAccounts = data;
-            });
-        }
-	});*/
-
-    $scope.$watch('currentOrder', function() {
-        var order = angular.copy($scope.currentOrder);
-        $scope.cartCount = 0;
-        if (order && order.LineItems) {
-            angular.forEach(order.LineItems, function(li) {
-                $scope.cartCount++;
-            });
-        }
-    }, true);
+	});
 
     $scope.newOrder = function(orderID) {
         $scope.showOrderNotification = false;

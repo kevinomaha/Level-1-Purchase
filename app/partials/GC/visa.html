@@ -93,7 +93,7 @@
                                                     ng-required="true"
                                                     ng-change="denomChanged()"
                                                     ng-model="selectedProduct.Specs.Denomination.Value"
-                                                    ng-options="option.Value as option.Value for option in selectedProduct.Specs.Denomination.Options">
+                                                    ng-options="option.Value as option.Value for option in selectedProduct.Specs.Denomination.Options | denominations:selectedProduct:user.Groups:BuyerSettings:ProductList">
                                                 <option class="view-select-placeholder" selected="" value="">Select a Denomination</option>
                                             </select>
                                             <i class="fa fa-comment"></i>
