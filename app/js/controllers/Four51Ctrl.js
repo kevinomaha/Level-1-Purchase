@@ -93,7 +93,7 @@ function ($scope, $rootScope, $route, $routParams, $location, $451, User, Order,
     $scope.$on('event:auth-loginConfirmed', function(){
         $route.reload();
 	    User.get(function(user) {
-            user.Company.GoogleAnalyticsCode = "UA-4208136-57";
+            user.Company.GoogleAnalyticsCode = "UA-4208136-65";
 		    analytics(user.Company.GoogleAnalyticsCode);
 	    });
 	});
