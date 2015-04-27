@@ -99,10 +99,10 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                             spec.Value = recipient.EmployeeNumber;
                             break;
                         case "RecipientEmailAddress":
-                            spec.Value = recipient.EmailAddress;
+                            spec.Value = recipient.RecipientEmailAddress;
                             break;
                         case "Email":
-                            spec.Value = recipient.EmailAddress;
+                            spec.Value = recipient.RecipientEmailAddress;
                             break;
                     }
 
@@ -261,7 +261,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
         var _saveEmailAddress = function(temp, recipientList){
             angular.forEach(recipientList.List, function(recipient){
                 if(recipient.UserID==temp.UserID){
-                    recipient.EmailAddress = temp.EmailAddress;
+                    recipient.RecipientEmailAddress = temp.RecipientEmailAddress;
                     recipient.BeingEdited = false;
                 }
             });

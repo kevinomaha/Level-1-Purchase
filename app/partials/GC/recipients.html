@@ -46,7 +46,7 @@
                                 <small>
                                     <span>
                                         <em ng-show="!selectedProduct.IsDigital && recipient.Address.ID"><i class="fa fa-map-marker text-muted"></i> {{recipient.Address.Street1 + ' ' + recipient.Address.City + ', ' + recipient.Address.State}} </em>
-                                        <em ng-show="selectedProduct.IsDigital"><i class="fa fa-envelope text-muted"></i> {{recipient.EmailAddress}} </em>
+                                        <em ng-show="selectedProduct.IsDigital"><i class="fa fa-envelope text-muted"></i> {{recipient.RecipientEmailAddress}} </em>
                                     </span>
                                 </small>
                             </p>
@@ -85,8 +85,8 @@
                                     </div>
                                     <div class="view-form-icon">
                                         <div>
-                                            <label>Employee Number</label>
-                                            <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.e" name="EmployeeNumber" tabindex="3" />
+                                            <label>Recipient ID</label>
+                                            <input class="form-control" type="text" ng-maxlength="50" ng-model="searchCriterion.e" name="RecipientID" tabindex="3" />
                                             <i class="fa fa-user"></i>
                                         </div>
                                     </div>
@@ -160,7 +160,7 @@
                         <h3>Import List</h3>
                         <div style="margin-bottom:10px;">
                             <ul>
-                                <li>Step 1 – Click on Download {{selectedProduct.IsDigital ? 'Digital' : 'Physical'}} Spreadsheet template <a class="btn btn-sm btn-link" ng-href="{{'https://www.four51.com/Themes/Custom/61a587a4-70db-45d4-a97a-5b54bef0d55a/Level 1/files/PurchaseRecipientUploadTemplate' + (selectedProduct.IsDigital ? 'Digital' : 'Physical') + '.xlsx'}}" target="_blank"><i class="fa fa-download"></i> Download Spreadsheet Template</a></li>
+                                <li>Step 1 – Click on Download {{selectedProduct.IsDigital ? 'Digital' : 'Physical'}} Spreadsheet template <a class="btn btn-sm btn-link" ng-href="{{RecipientUpload.FilePaths[selectedProduct.IsDigital ? 'Digital' : 'Physical']}}" target="_blank"><i class="fa fa-download"></i> Download {{selectedProduct.IsDigital ? 'Digital' : 'Physical'}} Spreadsheet Template</a></li>
                                 <li>Step 2 – Fill in your Data on the downloaded spreadsheet</li>
                                 <li>Step 3 – Copy your Data and paste this information in the box below, and click "Import"</li>
                                 <li>Step 4 – Review your data to ensure the information is correct.  If the data is correct, click Generate Recipients.  If the data is incorrect, click Cancel and update your spreadsheet.  Repeat steps 3 and 4.</li>
@@ -182,43 +182,39 @@
                                 </li>
                             </ul>
                             <ul ng-show="columnLengthError">
-                                <li>Please copy all {{selectedProduct.IsDigital ? '8' : '16'}} columns from spreadsheet</li>
+                                <li>Please copy all {{selectedProduct.IsDigital ? RecipientUpload.Files['Digital'].length : RecipientUpload.Files['Physical'].length}} columns from spreadsheet</li>
                             </ul>
                         </div>
                         <div class="recipient-upload-table">
                             <div class="row" ng-hide="recipientPasteList.length == 0 || !recipientPasteList">
                                 <div class="col-xs-12">
                                     <div class="row">
-                                        <div class="col-md-2 col-xs-6"><b>Name</b></div>
-                                        <div class="col-md-2 col-xs-6" ng-show="selectedProduct.IsDigital"><b>Email Address</b></div>
-                                        <div class="col-md-2 col-xs-6"><b>Employee Number</b></div>
-                                        <div class="col-md-2 col-xs-6"><b>Marketplace</b></div>
-                                        <div class="col-md-2 col-xs-6"><b>Job Family</b></div>
-                                        <div class="col-md-2 col-xs-12" ng-show="!selectedProduct.IsDigital"><b>Address</b></div>
+                                        <div class="col-md-3 col-xs-6"><b>Name</b></div>
+                                        <div class="col-md-3 col-xs-6" ng-show="selectedProduct.IsDigital"><b>Email Address</b></div>
+                                        <div class="col-md-3 col-xs-6"><b>Recipient ID</b></div>
+                                        <div class="col-md-3 col-xs-12" ng-show="!selectedProduct.IsDigital"><b>Address</b></div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="recipient-paste-row" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="recipient in recipientPasteList">
                                 <div class="row">
-                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!(recipient.FirstName || recipient.LastName)}">{{(recipient.FirstName + ' ' + recipient.LastName) || 'None'}}</span></div>
-                                    <div class="col-md-2 col-xs-6" ng-show="selectedProduct.IsDigital"><span ng-class="{'label label-default':!recipient.EmailAddress}">{{recipient.EmailAddress || 'None'}}</span></div>
-                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.EmployeeNumber}">{{recipient.EmployeeNumber || 'None'}}</span></div>
-                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.Marketplace}">{{recipient.Marketplace || 'None'}}</span></div>
-                                    <div class="col-md-2 col-xs-6"><span ng-class="{'label label-default':!recipient.JobFamily}">{{recipient.JobFamily || 'None'}}</span></div>
-                                    <div class="col-md-2" ng-show="!selectedProduct.IsDigital">
+                                    <div class="col-md-3 col-xs-6"><span ng-class="{'label label-default':!(recipient.FirstName || recipient.LastName)}">{{(recipient.FirstName + ' ' + recipient.LastName) || 'None'}}</span></div>
+                                    <div class="col-md-3 col-xs-6" ng-show="selectedProduct.IsDigital"><span ng-class="{'label label-default':!recipient.RecipientEmailAddress}">{{recipient.RecipientEmailAddress || 'None'}}</span></div>
+                                    <div class="col-md-3 col-xs-6"><span ng-class="{'label label-default':!recipient.RecipientID}">{{recipient.RecipientID || 'None'}}</span></div>
+                                    <div class="col-md-3" ng-show="!selectedProduct.IsDigital">
                                         <div class="btn btn-xs btn-primary" ng-init="toggleAddressInfo = false" ng-click="toggleAddressInfo = !toggleAddressInfo">
                                             Address Info <i class="fa" ng-class="{'fa-angle-double-left': !toggleAddressInfo, 'fa-angle-double-down': toggleAddressInfo}"></i>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row" collapse="!toggleAddressInfo">
-                                    <div class="col-md-2 col-md-offset-10 recipient-paste-row-address">
-                                        <p><small>{{recipient.ShipToFirstName}} {{recipient.ShipToLastName}}</small></p>
-                                        <p><small>{{recipient.CompanyName}}</small></p>
-                                        <p><small>{{recipient.Street1}}</small></p>
-                                        <p><small>{{recipient.Street2}}</small></p>
-                                        <p><small>{{recipient.City}}, {{recipient.State}} {{recipient.Zip}}</small></p>
+                                    <div class="col-md-6 col-md-offset-6 recipient-paste-row-address">
+                                        <p><small>{{recipient.Address.FirstName}} {{recipient.Address.LastName}}</small></p>
+                                        <p><small>{{recipient.Address.CompanyName}}</small></p>
+                                        <p><small>{{recipient.Address.Street1}}</small></p>
+                                        <p><small>{{recipient.Address.Street2}}</small></p>
+                                        <p><small>{{recipient.Address.City}}, {{recipient.Address.State}} {{recipient.Address.Zip}}</small></p>
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +245,7 @@
                                         <div class="view-form-icon" ng-hide="ifMerchant()">
                                             <div>
                                                 <label>Email Address</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
+                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientEmailAddress" name="Email"
                                                        ng-readonly="!newRecipient" tabindex="3"/>
                                                 <i class="fa fa-envelope"></i>
                                             </div>
@@ -257,7 +253,7 @@
                                         <div class="view-form-icon" ng-show="ifMerchant()">
                                             <div>
                                                 <label>Email Address</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
+                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientEmailAddress" name="RecipientEmailAddress"
                                                        required="true" ng-readonly="false" ng-pattern="/^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/"/>
                                                 <i class="fa fa-envelope"></i>
                                             </div>
@@ -273,8 +269,8 @@
                                         </div>
                                         <div class="view-form-icon">
                                             <div>
-                                                <label>Employee Number</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.EmployeeNumber" name="EmployeeNumber" ng-readonly="!newRecipient" tabindex="4" />
+                                                <label>Recipient ID</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientID" name="RecipientID" ng-readonly="!newRecipient" tabindex="4" />
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
@@ -432,7 +428,7 @@
                                         <div class="view-form-icon">
                                             <div>
                                                 <label>Email Address</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.EmailAddress" name="Email"
+                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientEmailAddress" name="Email"
                                                        ng-required="true" ng-readonly="!selectedProduct.IsDigital"/>
                                                 <i class="fa fa-envelope"></i>
                                             </div>
@@ -448,8 +444,8 @@
                                         </div>
                                         <div class="view-form-icon">
                                             <div>
-                                                <label>Employee Number</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.EmployeeNumber" name="EmployeeNumber" readonly="readonly" />
+                                                <label>Recipient ID</label>
+                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientID" name="RecipientID" readonly="readonly" />
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>

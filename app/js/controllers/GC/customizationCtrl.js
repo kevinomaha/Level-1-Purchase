@@ -57,16 +57,16 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                         spec.Value = recipient.LastName;
                         break;
                     case "RecipientID":
-                        spec.Value = recipient.EmployeeNumber;
+                        spec.Value = (recipient.EmployeeNumber || recipient.RecipientID);
                         break;
                     case "RecipientEmailAddress":
-                        spec.Value = recipient.EmailAddress;
+                        spec.Value = recipient.RecipientEmailAddress;
                         break;
                     case "Email":
-                        spec.Value = recipient.EmailAddress;
+                        spec.Value = recipient.RecipientEmailAddress;
                         break;
                     case "Email1":
-                        spec.Value = recipient.EmailAddress;
+                        spec.Value = recipient.RecipientEmailAddress;
                         break;
                 }
             });

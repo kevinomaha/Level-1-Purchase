@@ -259,7 +259,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             if($scope.selectedProduct.IsDigital)
             {
                 angular.forEach($scope.recipientList.List, function(recipient) {
-                    if(recipient.EmailAddress){
+                    if(recipient.RecipientEmailAddress){
                         k++;
                         recipient.Valid=true;
                     }
@@ -272,7 +272,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
         };
 
         $scope.emailPresent = function(recipient){
-            if(recipient.EmailAddress) {
+            if(recipient.RecipientEmailAddress) {
                 recipient.selected = true;
                 return "true";
             }

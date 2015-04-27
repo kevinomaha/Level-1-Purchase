@@ -17,6 +17,7 @@ four51.app.factory('Address', ['$resource', '$451', 'Error', function($resource,
     }
 
     var _save = function(address, success, error) {
+        address.AddressName = address.Street1;
         return $resource($451.api('address')).save(address).$promise.then(
 		    function(add) {
 		        store.remove('451Cache.Addresses');
