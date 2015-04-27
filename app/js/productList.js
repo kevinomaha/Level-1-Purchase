@@ -7,10 +7,10 @@ four51.app.factory('ProductList', function() {
      */
     var products = [
         {
-            Name:"Digital e-SuperCertificate® REWARD (emailable)",
-            InteropID: "2d549bc6-db1d-46fa-bac6-1555558225fa",
-            StandardID: "0C83AB6E-E4A2-4B6C-87D5-9EBE6D5B4E34",
-            PremiumID: null,
+            Name:"Digital e-SuperCertificate® REWARD",
+            InteropID: "LEV1DIGSC",
+            StandardID: "BEE47855-694E-4CFC-B675-57196F1A207C",
+            PremiumID: "41031b07-2dad-42ba-9733-e5794186921f",
             CanadianID: null,
             HolidayID: null,
             PremiumHolidayID: null,
@@ -19,9 +19,9 @@ four51.app.factory('ProductList', function() {
         },
         {
             Name:"Original SuperCertificate® REWARD",
-            InteropID: "53fef6f3-d384-432e-a2e1-2de1f20af5e2",
-            StandardID:"0767B64D-767B-4F7F-97B6-654ED3B6E04E",
-            PremiumID: null,
+            InteropID: "LEVEL1ORIGSC",
+            StandardID:"75475BB2-480C-45F4-8AA3-3162BB505B72",
+            PremiumID: "A288A4DA-7615-4697-B7E7-CC3B55B39205",
             CanadianID: null,
             HolidayID: null,
             PremiumHolidayID: null,
@@ -29,9 +29,20 @@ four51.app.factory('ProductList', function() {
             ProductType: "OriginalSC"
         },
         {
-            Name:"e-Cards Non Monetary",
-            InteropID: "5daf87c9-399b-4a48-8b4e-31e3f9c71830",
-            StandardID:"SVF-ECARD-01",
+            Name:"Greeting Card SuperCertificate® REWARD",
+            InteropID: "LEVEL1GC",
+            StandardID:"6474D97E-97C9-4526-BE33-994888C879DE",
+            PremiumID: "BD5A7183-D278-41DC-8158-745D29DCDAE1",
+            CanadianID: null,
+            HolidayID: null,
+            PremiumHolidayID: null,
+            DisplayName: "Greeting Card SuperCertificate®",
+            ProductType: "Greeting Card"
+        },
+        {
+            Name:"Non-Monetary eCards",
+            InteropID: "LEVEL1NMEC",
+            StandardID:"DE2A7DB2-9AB7-46B9-99CB-3F610A227014",
             PremiumID: null,
             CanadianID: null,
             HolidayID: null,
@@ -41,7 +52,7 @@ four51.app.factory('ProductList', function() {
         },
         {
             Name: "Merchant Gift Cards",
-            InteropID: "L1slctv2MGC3",
+            InteropID: "L1WPMGCAPI",
             StandardID: "MerchantCards",
             PremiumID: null,
             CanadianID: null,
@@ -50,14 +61,24 @@ four51.app.factory('ProductList', function() {
             ProductType: "MerchantCards"
         },
         {
-            Name:"Visa Reward Card",
-            InteropID: "5a932e83-eda9-4a01-8b32-139d9b538a95",
-            StandardID:"172A0644-487A-4223-A600-A4DC7494FAB1",
+            Name: "Merchant Gift Cards for DealDash",
+            InteropID: "L1DDHMGCAPI",
+            StandardID: "MerchantCards",
             PremiumID: null,
             CanadianID: null,
             HolidayID: null,
-            DisplayName: "Visa Reward Card",
-            ProductType: "Visa"
+            DisplayName: "Merchant Gift Cards",
+            ProductType: "MerchantCards"
+        },
+        {
+            Name: "Merchant Gift Cards for Quibids",
+            InteropID: "L1QUIMGCAPI",
+            StandardID: "MerchantCards",
+            PremiumID: null,
+            CanadianID: null,
+            HolidayID: null,
+            DisplayName: "Merchant Gift Cards",
+            ProductType: "MerchantCards"
         }
     ];
 

@@ -10,13 +10,6 @@
                 <h3 class="panel-title"><b>RECIPIENT LIST</b></h3>
             </div>
             <div class="panel-body">
-                <!--<div>
-                <label>Recipient list</label>
-                &lt;!&ndash;<div class="input-group" style="margin-bottom:5px;">
-                <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                <input class="form-control view-form-icon" placeholder="Find a recipient..." type="text" ng-model="recipientListSearchTerm" />
-            </div>&ndash;&gt;
-            </div>-->
                 <div class="recipient-list-container">
                     <ul class="list-group" style="margin-bottom:0;">
                         <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
@@ -96,7 +89,7 @@
                                             <select class="form-control"
                                                     ng-required="selectedProduct.Specs.OccasionMessage.Required"
                                                     ng-model="selectedProduct.Specs.OccasionMessage.Value"
-                                                    ng-options="message for message in selectedProduct.Specs.OccasionMessage.Options">
+                                                    ng-options="message.Value as message.Value for message in selectedProduct.Specs.OccasionMessage.Options">
                                                 <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.OccasionMessage.Label || selectedProduct.Specs.OccasionMessage.Name}}</option>
                                             </select>
                                             <i class="fa fa-comment"></i>
@@ -132,11 +125,6 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <!--<div class="well">
-                                        <small ng-show="selectedProductType == 'Standard'">Our SuperCertificate® REWARD is redeemable for gift cards to hundreds of nationwide merchants, it’s the Reward of Choice. This physical or digital certificate will be emailed to your recipient and can be redeemed online for original gift cards from hundreds of nationwide merchants.</small>
-                                        <small ng-show="selectedProductType == 'Premium'">Our SuperCertificate® REWARD is redeemable for gift cards to hundreds of nationwide merchants, it’s the Reward of Choice. This physical or digital certificate will be emailed to your recipient and can be redeemed online for original gift cards from hundreds of nationwide merchants, including premium merchants such as Amazon, Best Buy, Kohl’s and more. Additional fee of 10% of face is applied.</small>
-                                        <small ng-show="selectedProductType == 'Canadian'">Our SuperCertificate® REWARD is available with a Canadian redemption catalog for Canadian recipients. Redeemable for original gift cards from merchants that accept U.S. denominated gift cards at their Canadian locations or ship their products to Canada.</small>
-                                    </div>-->
                                     <figure style="max-height:400px;">
                                         <img ng-src="{{designPreviewSRC}}" style="margin:0 auto;">
                                     </figure>

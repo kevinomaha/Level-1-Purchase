@@ -28,7 +28,10 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             else if (p.Name.indexOf('Original') > -1) {
                 type = "Original";
             }
-            else if (p.Name.indexOf('e-Cards') > -1) {
+            else if (p.Name.indexOf('Greeting') > -1) {
+                type = "Greeting Card";
+            }
+            else if (p.Name.indexOf('e-Cards') > -1 || p.Name.indexOf('eCards') > -1) {
                 type = "e-Cards";
             }
             else if (p.Name.indexOf('Visa') > -1) {
@@ -100,18 +103,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                             break;
                         case "Email":
                             spec.Value = recipient.EmailAddress;
-                            break;
-                        case "Marketplace":
-                            spec.Value = recipient.Marketplace;
-                            break;
-                        case "JobFamily":
-                            spec.Value = recipient.JobFamily;
-                            break;
-                        case "Supervisor":
-                            spec.Value = recipient.Supervisor;
-                            break;
-                        case "ADPCode":
-                            spec.Value = recipient.ADPCompanyCode;
                             break;
                     }
 

@@ -240,6 +240,9 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
                 case "Original":
                     $location.path('supercertificate');
                     break;
+                case "Greeting Card":
+                    $location.path('supercertificate');
+                    break;
                 case "e-Cards":
                     $location.path('ecard');
                     break;

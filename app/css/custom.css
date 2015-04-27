@@ -47,7 +47,8 @@ select.ng-invalid-required {
     transition-delay: 200ms;
 }
 
-/* Ricoh Customizations */
+/*
+/!* Ricoh Customizations *!/
 .jumbotron {
     background-image: none;
     background-color: #6b9162;
@@ -80,4 +81,4 @@ select.ng-invalid-required {
 accordion h4 {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
-}
+}*/

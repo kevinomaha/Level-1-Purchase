@@ -11,13 +11,8 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         "FirstName",
         "LastName",
         "RecipientID",
-        "Marketplace",
-        "JobFamily",
-        "Supervisor",
-        "ADPCode",
         "RecipientEmailAddress",
-        "Email",
-        "Email1"
+        "Email"
     ];
 
     var additionalReadOnlySpecs = [

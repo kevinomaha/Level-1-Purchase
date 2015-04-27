@@ -132,11 +132,11 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.selectedProductType = 'Standard';
                 $scope.selectedProduct.InteropID = product.InteropID;
                 break;
-            case "e-card":
+            case "e-Cards":
                 $scope.digitalProduct = true;
                 $scope.physicalProduct = false;
                 $scope.merchantCards = false;
-                $scope.productType = "eCard";
+                $scope.productType = "e-Cards";
                 $scope.selectedProductType = 'Standard';
                 $scope.selectedProduct.InteropID = product.InteropID;
                 break;

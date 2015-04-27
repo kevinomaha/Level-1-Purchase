@@ -90,13 +90,13 @@
                                             <i class="fa fa-user"></i>
                                         </div>
                                     </div>
-                                    <div class="view-form-icon">
+                                    <!--<div class="view-form-icon">
                                         <div>
                                             <label>Marketplace</label>
                                             <input class="form-control" type="text" ng-maxlength="100" ng-model="searchCriterion.m" name="Marketplace" tabindex="4" />
                                             <i class="fa fa-user"></i>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <hr/>
                                     <div class="alert alert-warning" ng-show="searchError">{{searchError}}</div>
                                     <div class="row text-center">
@@ -128,17 +128,13 @@
                                         <th></th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
-                                        <th>Employee Number</th>
-                                        <th>Marketplace</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="employee in employees" ng-show="!employee.Added">
-                                        <td><div class="btn btn-sm btn-info" ng-click="selectEmployee(employee)">Select</div></td>
+                                        <td><div class="btn btn-sm btn-primary" ng-click="selectEmployee(employee)">Select</div></td>
                                         <td>{{employee.FirstName}}</td>
                                         <td>{{employee.LastName}}</td>
-                                        <td>{{employee.EmployeeNumber}}</td>
-                                        <td>{{employee.Marketplace}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -266,20 +262,6 @@
                                                 <i class="fa fa-envelope"></i>
                                             </div>
                                         </div>
-                                        <div class="view-form-icon">
-                                            <div>
-                                                <label>Marketplace</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.Marketplace" name="Marketplace" ng-readonly="!newRecipient" tabindex="5" />
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                        </div>
-                                        <div class="view-form-icon">
-                                            <div>
-                                                <label>Supervisor</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.Supervisor" name="Supervisor" ng-readonly="!newRecipient" tabindex="7" />
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="view-form-icon">
@@ -293,20 +275,6 @@
                                             <div>
                                                 <label>Employee Number</label>
                                                 <input class="form-control" type="text" ng-model="tempRecipient.EmployeeNumber" name="EmployeeNumber" ng-readonly="!newRecipient" tabindex="4" />
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                        </div>
-                                        <div class="view-form-icon">
-                                            <div>
-                                                <label>Job Family</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.JobFamily" name="JobFamily" ng-readonly="!newRecipient" tabindex="6" />
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                        </div>
-                                        <div class="view-form-icon">
-                                            <div>
-                                                <label>ADP Company Code</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.ADPCompanyCode" name="ADPCompanyCode" ng-readonly="!newRecipient" tabindex="8" />
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
@@ -469,20 +437,6 @@
                                                 <i class="fa fa-envelope"></i>
                                             </div>
                                         </div>
-                                        <div class="view-form-icon">
-                                            <div>
-                                                <label>Marketplace</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.Marketplace" name="Marketplace" readonly="readonly" />
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                        </div>
-                                        <div class="view-form-icon">
-                                            <div>
-                                                <label>Supervisor</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.Supervisor" name="Supervisor" readonly="readonly" />
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="view-form-icon">
@@ -496,20 +450,6 @@
                                             <div>
                                                 <label>Employee Number</label>
                                                 <input class="form-control" type="text" ng-model="tempRecipient.EmployeeNumber" name="EmployeeNumber" readonly="readonly" />
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                        </div>
-                                        <div class="view-form-icon">
-                                            <div>
-                                                <label>Job Family</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.JobFamily" name="JobFamily" readonly="readonly" />
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                        </div>
-                                        <div class="view-form-icon">
-                                            <div>
-                                                <label>ADP Company Code</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.ADPCompanyCode" name="ADPCompanyCode" readonly="readonly" />
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>

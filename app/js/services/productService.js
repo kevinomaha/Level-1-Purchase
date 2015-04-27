@@ -11,6 +11,7 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
         "FutureShipDate",
         "Denomination",
         "EmailSubject",
+        "OccasionMessage",
         "OpeningMessage",
         "PersonalMessage",
         "ClosingMessage",
@@ -23,13 +24,8 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
         "FirstName",
         "LastName",
         "RecipientID",
-        "Marketplace",
-        "JobFamily",
-        "Supervisor",
-        "ADPCode",
         "RecipientEmailAddress",
-        "Email",
-        "Email1"
+        "Email"
     ];
 
 	function _extend(product) {

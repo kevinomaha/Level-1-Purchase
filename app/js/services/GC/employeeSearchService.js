@@ -22,10 +22,6 @@ four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451', '$filter',
             if (recipientList && recipientList.List) recipient.Added = containsObject(recipient, recipientList.List);
             recipient.Address = {IsShipping: true, IsBilling: true};
             recipient.EmployeeNumber = $filter('employeeproperty')(recipient, 'ThirdPartyID');
-            recipient.Marketplace = $filter('employeeproperty')(recipient, 'CustomProperty1');
-            recipient.JobFamily = $filter('employeeproperty')(recipient, 'CustomProperty2');
-            recipient.Supervisor = (recipient.SupervisorFirstName ? recipient.SupervisorFirstName : '') + (recipient.SupervisorLastName ? ' ' + recipient.SupervisorLastName : '');
-            recipient.ADPCompanyCode = $filter('employeeproperty')(recipient, 'CustomProperty3');
         }
 
         var _search = function(criteria, user, recipientList, success, error) {
