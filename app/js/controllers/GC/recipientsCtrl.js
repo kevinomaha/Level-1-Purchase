@@ -1,9 +1,25 @@
 four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451', '$filter', '$rootScope', '$location', 'EmployeeSearch', 'Customization', 'Address', 'AddressList', 'AddressValidate', 'Resources', 'ExistingAddress',
     function ($routeParams, $sce, $scope, $451, $filter, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources, ExistingAddress) {
 
+        $scope.recipientListOptions = {};
+        angular.forEach($scope.BuyerSettings.Recipients, function(value, key) {
+            if (key != 'Groups') {
+                $scope.recipientListOptions[key] = value;
+            }
+        });
+        if ($scope.BuyerSettings.Recipients.Groups) {
+            angular.forEach($scope.user.Groups, function(group) {
+                if ($scope.BuyerSettings.Recipients.Groups[group.Name]) {
+                    angular.forEach($scope.BuyerSettings.Recipients.Groups[group.Name], function(v, k) {
+                        $scope.recipientListOptions[k] = v;
+                    });
+                }
+            });
+        }
+
         $scope.recipientListMode = null;
         $scope.recipientListMethodCount = 0;
-        angular.forEach($scope.BuyerSettings.Recipients, function(value, key) {
+        angular.forEach($scope.recipientListOptions, function(value, key) {
             if (value) {
                 $scope.recipientListMethodCount++;
                 if (!$scope.recipientListMode) $scope.recipientListMode = key;
