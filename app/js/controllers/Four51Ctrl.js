@@ -38,12 +38,12 @@ function ($scope, $rootScope, $route, $routParams, $location, $451, User, Order,
                     $scope.user.PortalID = data;
                 });
 
-                if (window.location.href.indexOf('qastore') > -1 || window.location.href.indexOf('teststore') > -1) {
+                /*if (window.location.href.indexOf('qastore') > -1 || window.location.href.indexOf('teststore') > -1) {
                     user.Company.GoogleAnalyticsCode = "UA-4208136-57";
                 }
                 else {
                     user.Company.GoogleAnalyticsCode = "UA-4208136-59";
-                }
+                }*/
                 analytics(user.Company.GoogleAnalyticsCode);
 
 	            if (!$scope.user.TermsAccepted)
