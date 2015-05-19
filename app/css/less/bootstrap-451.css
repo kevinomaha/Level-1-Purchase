@@ -7556,7 +7556,30 @@ body {
   margin: 0 -10px 15px;
   min-height: 0px;
 }
-.product-selection-view .col-md-3 > div.product-selector > div {
+.product-selection-view .flex-row {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  -moz-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+}
+.product-selection-view .flex-column {
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+.product-selection-view .flex-column:not(:first-child) {
+  padding-left: 5px;
+}
+.product-selection-view .flex-column:not(:last-child) {
+  padding-right: 5px;
+}
+.product-selection-view .flex-column > div.product-selector > div {
   background: #0076a3;
   /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -7576,14 +7599,14 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0076a3', endColorstr='#f0f0f0', GradientType=0);
   /* IE6-8 */
   cursor: pointer;
-  min-height: 210px;
+  min-height: 260px;
 }
-.product-selection-view .col-md-3 > div.product-selector > div h4.pname {
+.product-selection-view .flex-column > div.product-selector > div h4.pname {
   color: #fff;
   font-weight: bold;
   padding: 15px 25px;
 }
-.product-selection-view .col-md-3 > div.product-selector > div img {
+.product-selection-view .flex-column > div.product-selector > div img {
   width: 50%;
   margin: 0 auto;
 }

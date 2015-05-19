@@ -1,5 +1,16 @@
 .product-selection-view {
-  .col-md-3{
+  .flex-row {
+    .flex-display();
+    .flex-flow(row nowrap);
+  }
+  .flex-column{
+    &:not(:first-child) {
+      padding-left:5px;
+    }
+    &:not(:last-child) {
+      padding-right:5px;
+    }
+    .flex(1);
     & > div.product-selector > div{
       background: #0076a3; /* Old browsers */
       /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -12,12 +23,13 @@
       background: linear-gradient(to bottom,  #0076a3 0%,#f0f0f0 100%); /* W3C */
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0076a3', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-8 */
       cursor:pointer;
-      min-height:210px;
+      min-height:260px;
       h4.pname {
         color:#fff;
         font-weight:bold;
         padding:15px 25px;
       }
+
       img{
         width:50%;
         margin:0 auto;
