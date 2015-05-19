@@ -35,7 +35,7 @@
                     <ul class="list-group" style="margin-bottom:0;">
                         <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{ 'list-group-item-danger': (!recipient.Valid && !recipient.BeingEdited && !selectedProduct.IsDigital), 'list-group-item-info': (recipient.BeingEdited),  'list-group-item-danger':( selectedProduct.IsDigital && !emailPresent(recipient)) }">
                             <div class="pull-right">
-                                <div class="btn-group-vertical" ng-show="!recipient.BeingEdited && !newRecipient">
+                                <div class="btn-group-vertical" ng-show="!recipient.BeingEdited">
                                     <div class="btn btn-primary btn-sm" ng-click="editRecipient(recipient); changeAddType('manual'); $parent.showMaker = true;"><i class="fa fa-edit"></i></div>
                                     <div class="btn btn-danger btn-sm" ng-click="removeRecipient(recipient)"><i class="fa fa-times"></i></div>
                                 </div>
@@ -226,7 +226,7 @@
         <div class="col-sm-12 col-md-10 col-lg-9" ng-show="tempRecipient.UserID || recipientListMode == 'Manual'">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b>{{newRecipient ? 'New' : 'Edit'}} Recipient</b></h3>
+                    <h3 class="panel-title"><b>{{tempRecipient.BeingEdited ? 'Edit' : 'New'}} Recipient</b></h3>
                 </div>
                 <div class="panel-body">
                     <form name="recipient_form" ng-show="!selectedProduct.IsDigital" ng-submit="saveRecipient(tempRecipient)">

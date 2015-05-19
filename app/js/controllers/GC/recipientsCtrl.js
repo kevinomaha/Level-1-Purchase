@@ -30,7 +30,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             $scope.recipientListMode = mode;
         };
 
-        $scope.newRecipient = false;
+        //$scope.newRecipient = false;
         $scope.$watch('recipientListMode', function(newval, oldval) {
             if (newval != 'Manual' && oldval != 'Upload') $scope.cancelEditRecipient();
         });
@@ -124,7 +124,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
                 }
             });
             $scope.tempRecipient = angular.copy(recipient);
-            $scope.newRecipient = recipient.Manual;
+            //$scope.newRecipient = recipient.Manual;
             $scope.tempRecipient.Address = recipient.Address ? angular.copy(recipient.Address) : {IsShipping: true, IsBilling: true};
         };
 
@@ -178,24 +178,24 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             else {
                 $scope.saveOriginalAddress();
             }
-            $scope.newRecipient = false;
+            //$scope.newRecipient = false;
         };
 
         $scope.saveDigitalRecipient = function(tempRecipient){
             $scope.tempRecipient.BeingEdited = false;
-            if ($scope.newRecipient) $scope.recipientList.List.push($scope.tempRecipient);
+            $scope.recipientList.List.push($scope.tempRecipient);
             Customization.saveEmailAddress(tempRecipient, $scope.recipientList);
             angular.forEach($scope.recipientList.List, function(recipient) {
                 recipient.BeingEdited = false;
             });
             $scope.tempRecipient = {};
-            $scope.newRecipient = false;
+            //$scope.newRecipient = false;
         };
 
         $scope.saveOriginalAddress = function() {
             $scope.saveIndicator = true;
             Address.save($scope.tempRecipient.Address, function(data) {
-                if ($scope.newRecipient) $scope.recipientList.List.push($scope.tempRecipient);
+                $scope.recipientList.List.push($scope.tempRecipient);
                 Customization
                     .setAddress(data, $scope.tempRecipient, $scope.recipientList)
                     .validateRecipientList($scope.recipientList)
@@ -211,7 +211,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             $scope.newAddress.AddressName = $scope.newAddress.Street1;
             $scope.newAddress.IsShipping = true;
             Address.save($scope.newAddress , function(data) {
-                if ($scope.newRecipient) $scope.recipientList.List.push($scope.tempRecipient);
+                $scope.recipientList.List.push($scope.tempRecipient);
                 Customization
                     .setAddress(data, $scope.tempRecipient, $scope.recipientList)
                     .validateRecipientList($scope.recipientList)
@@ -224,7 +224,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
 
         $scope.cancelEditRecipient = function() {
             //$scope.newRecipient = ($scope.recipientListMode == 'Manual');
-            $scope.newRecipient = false;
+            //$scope.newRecipient = false;
             clearRecipient();
             Customization
                 .validateRecipientList($scope.recipientList)
