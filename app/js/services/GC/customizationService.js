@@ -237,7 +237,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             recipientList.ValidCount = 0;
             angular.forEach(recipientList.List, function(recipient) {
                 recipient.Valid = false;
-                if (recipient.Address.ID) {
+                if (recipient.Address && recipient.Address.ID) {
                     recipient.Valid = true;
                     recipientList.ValidCount++;
                 }

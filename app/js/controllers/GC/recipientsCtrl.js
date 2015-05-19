@@ -31,8 +31,8 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
         };
 
         $scope.newRecipient = false;
-        $scope.$watch('recipientListMode', function() {
-            $scope.cancelEditRecipient();
+        $scope.$watch('recipientListMode', function(newval, oldval) {
+            if (newval != 'Manual' && oldval != 'Upload') $scope.cancelEditRecipient();
         });
 
         $scope.recipientsReady = false;
@@ -117,6 +117,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
 
         $scope.tempRecipient = {};
         $scope.editRecipient = function(recipient) {
+            $scope.changeListMode('Manual');
             angular.forEach($scope.recipientList.List, function(r) {
                 if (r.UserID == recipient.UserID) {
                     r.BeingEdited = true;
@@ -141,6 +142,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
         $scope.saveIndicator = false;
         $scope.saveRecipient = function(tempRecipient) {
             $scope.saveIndicator = true;
+            tempRecipient.BeingEdited = false;
             tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
             tempRecipient.Address.IsShipping = true;
             if (!tempRecipient.UserID) {
@@ -176,15 +178,18 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             else {
                 $scope.saveOriginalAddress();
             }
+            $scope.newRecipient = false;
         };
 
         $scope.saveDigitalRecipient = function(tempRecipient){
+            $scope.tempRecipient.BeingEdited = false;
             if ($scope.newRecipient) $scope.recipientList.List.push($scope.tempRecipient);
             Customization.saveEmailAddress(tempRecipient, $scope.recipientList);
             angular.forEach($scope.recipientList.List, function(recipient) {
                 recipient.BeingEdited = false;
             });
             $scope.tempRecipient = {};
+            $scope.newRecipient = false;
         };
 
         $scope.saveOriginalAddress = function() {
@@ -218,7 +223,8 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
         };
 
         $scope.cancelEditRecipient = function() {
-            $scope.newRecipient = ($scope.recipientListMode == 'Manual');
+            //$scope.newRecipient = ($scope.recipientListMode == 'Manual');
+            $scope.newRecipient = false;
             clearRecipient();
             Customization
                 .validateRecipientList($scope.recipientList)
