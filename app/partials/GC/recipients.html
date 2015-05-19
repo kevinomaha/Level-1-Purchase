@@ -421,7 +421,7 @@
                                         <div class="view-form-icon">
                                             <div>
                                                 <label>First Name</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.FirstName" name="FirstName" />
+                                                <input class="form-control" type="text" ng-model="tempRecipient.FirstName" name="FirstName" tabindex="16" />
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
@@ -429,7 +429,7 @@
                                             <div>
                                                 <label>Email Address</label>
                                                 <input class="form-control" type="text" ng-model="tempRecipient.RecipientEmailAddress" name="Email"
-                                                       ng-required="true"/>
+                                                       ng-required="true" tabindex="18"/>
                                                 <i class="fa fa-envelope"></i>
                                             </div>
                                         </div>
@@ -438,14 +438,14 @@
                                         <div class="view-form-icon">
                                             <div>
                                                 <label>Last Name</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.LastName" name="LastName" />
+                                                <input class="form-control" type="text" ng-model="tempRecipient.LastName" name="LastName" tabindex="17" />
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
                                         <div class="view-form-icon">
                                             <div>
                                                 <label>Recipient ID</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientID" name="RecipientID" />
+                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientID" name="RecipientID" tabindex="19" />
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
@@ -454,7 +454,7 @@
                                 <div class="row" ng-show="selectedProduct.IsDigital">
                                     <div class="btn-group" style="margin-top: 15px;" role="group">
                                         <button type="button" class="btn btn-default" style="width:50%;" ng-click="cancelEditRecipientDigital()">Cancel</button>
-                                        <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_digital_form.$invalid" value="Save Recipient" />
+                                        <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_digital_form.$invalid" value="Save Recipient" tabindex="20" />
                                     </div>
                                 </div>
                             </div>
