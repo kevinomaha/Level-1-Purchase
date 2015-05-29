@@ -133,9 +133,11 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
 
         $scope.selectProductType = function(productID) {
             var productList = $scope.selectedProduct.ProductList;
+            var tempImage = angular.copy($scope.selectedProduct.LargeImageUrl);
             Product.get(productID, function (product) {
                 product.ProductList = productList;
                 $scope.selectedProduct = angular.copy(product);
+                if (!$scope.selectedProduct.LargeImageUrl) $scope.selectedImage.LargeImageUrl = tempImage;
                 Customization.setProduct(product);
                 getTemplateThumnails();
                 if ($scope.recipientList.List.length == 1) replaceRecipientTokens();
