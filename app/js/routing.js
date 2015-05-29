@@ -6,6 +6,7 @@ four51.app.config(['$routeProvider', '$locationProvider', function($routeProvide
         when('/supercertificate', { templateUrl: 'partials/GC/SCCustomization.html', controller: 'CustomizationCtrl' }).
         when('/visa', { templateUrl: 'partials/GC/visa.html', controller: 'CustomizationCtrl' }).
         when('/ecard', { templateUrl: 'partials/GC/eCardCustomization.html', controller: 'CustomizationCtrl' }).
+        when('/ecodes', { templateUrl: 'partials/GC/eCodeCustomization.html', controller: 'CustomizationCtrl' }).
 		when('/order', { templateUrl: 'partials/orderSearchView.html', controller: 'OrderSearchCtrl' }).
 		when('/order/:id', { templateUrl: 'partials/Reporting/orderHistoryView.html', controller: 'OrderViewCtrl' }).
         when('/cart', { templateUrl: 'partials/GC/cartView.html', controller: 'CartViewCtrl'}).

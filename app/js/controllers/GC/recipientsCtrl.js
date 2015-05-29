@@ -271,6 +271,9 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
                 case "Visa":
                     $location.path('visa');
                     break;
+                case "eCodes":
+                    $location.path('ecodes');
+                    break;
                 default:
                     $location.path('catalog/' + $scope.selectedProduct.InteropID);
             }

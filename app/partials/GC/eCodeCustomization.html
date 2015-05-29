@@ -1,0 +1,71 @@
+<section class="main-gc-purchase-view visa-customization row">
+    <div class="steps">
+        <div>
+            <h2>Customization (step 3 of 3)</h2>
+        </div>
+    </div>
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" ng-show="selectedProduct.Name"><b>Selected Product:</b> <span ng-bind-html="selectedProduct.Name"></span></h3>
+            </div>
+            <div class="panel-body">
+                <loadingindicator ng-show="generateAwardsIndicator" title="Please wait while your awards(s) are generated" />
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="row" style="margin-bottom:15px;">
+                            <div class="text-center">
+                                <img style="margin:0 auto; max-width:100%;" ng-src="{{selectedProduct.LargeImageUrl}}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom:20px;">
+                    <div class="col-md-6 col-md-offset-3">
+                        <form name="ecode_form" ng-submit="addToCartStatic(selectedProduct)">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <div class="view-form-icon" ng-hide="true">
+                                        <div>
+                                            <label>{{selectedProduct.Specs.RecipientEmailAddress.Label}}</label>
+                                            <input class="form-control" type="text" ng-model="selectedProduct.Specs.RecipientEmailAddress.Value" name="RecipientEmailAddress" readonly="readonly" />
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>{{selectedProduct.Specs.EmailSubject.Label}}</label>
+                                            <input class="form-control" type="text" ng-model="selectedProduct.Specs.EmailSubject.Value" name="EmailSubject" readonly="readonly" />
+                                            <i class="fa fa-envelope"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>{{selectedProduct.Specs.Denomination.Label}}</label>
+                                            <select class="form-control"
+                                                    ng-required="true"
+                                                    ng-model="selectedProduct.Specs.Denomination.Value"
+                                                    ng-options="option.Value as option.Value for option in selectedProduct.Specs.Denomination.Options | denominations:selectedProduct:user.Groups:BuyerSettings:ProductList">
+                                                <option class="view-select-placeholder" selected="" value="">Select a Denomination</option>
+                                            </select>
+                                            <i class="fa fa-dollar"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>Quantity (minimum: {{selectedProduct.StandardPriceSchedule.MinQuantity}})</label>
+                                            <input class="form-control quantity-field" ng-class="{'input-invalid': qtyInvalid}" type="text" placeholder="0" ng-model="selectedProduct.Quantity" name="Quantity" ng-required="true" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <input type="submit" style="margin:15px 0 0;" class="btn btn-success" name="Quantity" value="Create Awards" ng-disabled="ecode_form.$invalid" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -34,6 +34,9 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             else if (p.Name.indexOf('e-Cards') > -1 || p.Name.indexOf('eCards') > -1) {
                 type = "e-Cards";
             }
+            else if (p.Name.indexOf('eCodes') > -1) {
+                type = "eCodes";
+            }
             else if (p.Name.indexOf('Visa') > -1) {
                 type = "Visa";
             }
@@ -121,17 +124,30 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                 order.LineItems = [];
             }
             User.get(function(user) {
-                angular.forEach(selectedRecipients, function (recipient) {
-                    var lineItem = {};
-                    lineItem.Quantity = 1;
+                if (selectedRecipients && selectedRecipients.length > 0) {
+                    angular.forEach(selectedRecipients, function (recipient) {
+                        var lineItem = {};
+                        lineItem.Quantity = 1;
 
-                    lineItem.Product = recipientToSpecs(recipient, angular.copy(product), user);
+                        lineItem.Product = recipientToSpecs(recipient, angular.copy(product), user);
+                        lineItem.UniqueID = randomString();
+                        lineItem.ShipAddressID = recipient.Address.ID;
+
+                        lineItem.Specs = angular.copy(lineItem.Product.Specs);
+                        order.LineItems.push(lineItem);
+                    });
+                }
+                else {
+                    var lineItem = {};
+                    lineItem.Quantity = product.Quantity ? product.Quantity : 1;
+
+                    lineItem.Product = angular.copy(product);
                     lineItem.UniqueID = randomString();
-                    lineItem.ShipAddressID = recipient.Address.ID;
+                    lineItem.ShipAddressID = null;
 
                     lineItem.Specs = angular.copy(lineItem.Product.Specs);
                     order.LineItems.push(lineItem);
-                });
+                }
                 success(order);
             });
         };

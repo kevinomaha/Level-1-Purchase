@@ -40,6 +40,17 @@ four51.app.factory('ProductList', function() {
             ProductType: "Greeting Card"
         },
         {
+            Name:"SuperCertificate® eCodes",
+            InteropID: "LEV1SIGSC",
+            StandardID:"8305e929-d049-47f2-9cbe-46dca7f59f14",
+            PremiumID: "ccfedc27-e7f6-4bfe-b2f8-2d8f9614ba5b",
+            CanadianID: null,
+            HolidayID: null,
+            PremiumHolidayID: null,
+            DisplayName: "SuperCertificate® eCodes",
+            ProductType: "eCodes"
+        },
+        {
             Name:"Non-Monetary eCards",
             InteropID: "LEVEL1NMEC",
             StandardID:"DE2A7DB2-9AB7-46B9-99CB-3F610A227014",

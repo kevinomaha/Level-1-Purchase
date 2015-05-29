@@ -12,7 +12,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
         //$scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/L1slctv2MGC3');
         Customization.setProduct(product);
         Customization.clearRecipients();
-        $location.path('recipients');
+        if (product.ProductType != 'eCodes') $location.path('recipients');
     };
 
     $scope.$on('treeComplete', function() {
@@ -112,7 +112,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             $scope.checkForLogos();
         }
 
-        product.IsDigital = (product.Name.indexOf('Digital') > -1 || product.Name.indexOf('e-') > -1);
+        product.IsDigital = ['DigitalSC', 'e-Cards', 'eCodes'].indexOf(product.ProductType) > -1;
 
         console.log(product.ProductType);
         switch (product.ProductType) {
@@ -140,6 +140,14 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.selectedProductType = 'Standard';
                 $scope.selectedProduct.InteropID = product.InteropID;
                 break;
+            case "eCodes":
+                $scope.digitalProduct = true;
+                $scope.physicalProduct = false;
+                $scope.merchantCards = false;
+                $scope.productType = "eCodes";
+                $scope.selectedProductType = 'Standard';
+                $scope.selectedProduct.InteropID = product.InteropID;
+                break;
             case "MerchantCards":
                 $scope.digitalProduct = false;
                 $scope.physicalProduct = false;
@@ -147,6 +155,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                 $scope.productType = "MerchantCards";
                 $scope.selectedProductType = "MerchantCards";
                 $scope.selectedProduct.InteropID = "MerchantCards";
+                break;
             case "Visa":
                 $scope.digitalProduct = false;
                 $scope.physicalProduct = true;
@@ -164,6 +173,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
             }
             var productList = $scope.selectedProduct;
             Product.get($scope.selectedProduct.StandardID, function (product) {
+                if (!product.LargeImageUrl) product.LargeImageUrl = $scope.selectedProduct.Image.URL;
                 $scope.selectedProductDetails = angular.copy(product);
                 product.ProductList = productList;
                 Customization.setProduct(product);
@@ -173,6 +183,7 @@ function ($routeParams, $sce, $rootScope, $scope, $location, $451, Security, Cat
                     var type = LineItems.getProductType(lineitem);
                     $scope.$broadcast('event:ProductTypeSelected', type, lineitem);
                 }
+                if ($scope.selectedProduct.ProductType == 'eCodes') $location.path('ecodes');
             });
         }
         else if ($scope.selectedProduct.StandardID == "MerchantCards" && $scope.tree) {

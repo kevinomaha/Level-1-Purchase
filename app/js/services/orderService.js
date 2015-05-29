@@ -41,7 +41,7 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
                     spec.File.Url += "&auth=" + Security.auth();
                 }
                 spec.Filtered = filteredSpecs.indexOf(spec.Name) > -1;
-                spec.ReadOnly = (employeeSpecs.indexOf(spec.Name) > -1 || additionalReadOnlySpecs.indexOf(spec.Name) > -1);
+                spec.ReadOnly = (employeeSpecs.indexOf(spec.Name) > -1 || additionalReadOnlySpecs.indexOf(spec.Name) > -1 || (item.Product.Name.toLowerCase().indexOf('ecodes') > -1 && spec.Name == 'EmailSubject'));
                 spec.Required = spec.ReadOnly ? false : spec.Required;
                 spec.Placeholder = (spec.Label || spec.Name).replace(/[0-9]/g, '');
 
@@ -53,7 +53,7 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
             });
             item.SpecsLength = Object.keys(item.Specs).length;
 
-            if (item.Product.Name.indexOf('Digital') == -1 && item.Product.Name.indexOf('e-') == -1) {
+            if (item.Product.Name.indexOf('Digital') == -1 && item.Product.Name.indexOf('e-') == -1 && item.Product.Name.indexOf('eCodes') == -1) {
                 order.IsAllDigital = false;
                 item.IsDigital = false;
             }

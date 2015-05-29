@@ -142,4 +142,21 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                 replacePurchaserTokens();
             });
         };
+
+        $scope.$watch('selectedProduct.Quantity', function() {
+            if (!$scope.selectedProduct.Quantity) return;
+
+            $scope.ecode_form.$setValidity('Quantity', validateQty());
+        });
+
+        function validateQty() {
+            if (($scope.selectedProduct.StandardPriceSchedule.MinQuantity && $scope.selectedProduct.Quantity < $scope.selectedProduct.StandardPriceSchedule.MinQuantity) || ($scope.selectedProduct.StandardPriceSchedule.MaxQuantity && $scope.selectedProduct.Quantity > $scope.selectedProduct.StandardPriceSchedule.MaxQuantity)) {
+                $scope.qtyInvalid = true;
+                return false;
+            }
+            else {
+                $scope.qtyInvalid = false;
+                return true;
+            }
+        }
     }]);

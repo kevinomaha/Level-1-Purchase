@@ -1,7 +1,7 @@
 four51.app.factory('ProductDisplayService', ['$sce', '$451', 'Variant', 'Product', function($sce, $451, Variant, Product){
 	function calcTotal(lineItem){
 
-		var ps = lineItem.PriceSchedule;
+		var ps = lineItem.PriceSchedule || lineItem.StandardPriceSchedule;
 		var variant = lineItem.Variant;
 		var product = lineItem.Product;
 		var unitPrice = 0;
