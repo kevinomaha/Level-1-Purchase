@@ -25,9 +25,26 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         }
         getTemplateThumnails();
 
+        function getLogos() {
+            Customization.getLogos(function(logos) {
+                $scope.Logos = logos;
+            });
+        }
+        if (['Digital', 'Original', 'e-Cards'].indexOf($scope.selectedProduct.ProductType) > -1) getLogos();
+
         $scope.selectTemplate = function(template) {
             if ($scope.selectedProduct.Specs['DesignID']) $scope.selectedProduct.Specs['DesignID'].Value = template.DesignId;
             if ($scope.selectedProduct.Specs['DesignName']) $scope.selectedProduct.Specs['DesignName'].Value = template.Name;
+        };
+
+        $scope.selectLogo = function(logo) {
+            if ($scope.selectedProduct.Specs['ImageID']) {
+                $scope.selectedProduct.Specs['ImageID'].Value = logo.ID;
+            }
+            else {
+                $scope.selectedProduct.Specs['ImageID'] = {};
+                $scope.selectedProduct.Specs['ImageID'].Value = logo.ID;
+            }
         };
 
         if ($scope.recipientList.List) {

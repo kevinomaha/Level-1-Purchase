@@ -48,39 +48,37 @@
                             <div ng-show="selectedProduct.Specs.DesignName && Templates && Templates.length > 0" class="template-selection row">
                                 <label>{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</label>
                                 <div ng-repeat="template in Templates" class="col-sm-3" ng-class="{'template-selected':selectedProduct.Specs.DesignID.Value == template.DesignId}">
-                                    <figure ng-click="selectTemplate(template)">
+                                    <figure ng-click="selectTemplate(template)" style="height: 235px;">
                                         <!--<i class="fa fa-check" ng-show="selectedProduct.Specs.DesignID.Value == template.DesignId"></i>-->
                                         <img ng-src="{{template.ThumbnailUrl}}" />
                                     </figure>
                                     <p><i class="fa fa-check" ng-show="selectedProduct.Specs.DesignID.Value == template.DesignId"></i>{{template.Name}}</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <!--<div class="view-form-icon" ng-show="selectedProduct.Specs.DesignName && selectedProduct.Specs.DesignName.Options && selectedProduct.Specs.DesignName.Options.length > 1">
-                                        <div>
-                                            <label>{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</label>
-                                            <select class="form-control"
-                                                    ng-required="selectedProduct.Specs.DesignName.Required"
-                                                    ng-change="designChanged()"
-                                                    ng-model="selectedProduct.Specs.DesignName.Value"
-                                                    ng-options="option as option for option in selectedProduct.Specs.DesignName.Options">
-                                                <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</option>
-                                            </select>
-                                            <i class="fa fa-picture-o"></i>
-                                        </div>
-                                    </div>-->
-                                    <div class="view-form-icon" ng-show="selectedProduct.Specs.OccasionMessage && selectedProduct.Specs.OccasionMessage.Options && selectedProduct.Specs.OccasionMessage.Options.length > 1">
-                                        <div>
-                                            <label>{{selectedProduct.Specs.OccasionMessage.Label || selectedProduct.Specs.OccasionMessage.Name}}</label>
-                                            <select class="form-control"
-                                                    ng-required="selectedProduct.Specs.OccasionMessage.Required"
-                                                    ng-model="selectedProduct.Specs.OccasionMessage.Value"
-                                                    ng-options="message.Value as message.Value for message in selectedProduct.Specs.OccasionMessage.Options">
-                                                <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.OccasionMessage.Label || selectedProduct.Specs.OccasionMessage.Name}}</option>
-                                            </select>
-                                            <i class="fa fa-comment"></i>
-                                        </div>
+                            <div class="col-sm-6">
+                                <!--<div class="view-form-icon" ng-show="selectedProduct.Specs.DesignName && selectedProduct.Specs.DesignName.Options && selectedProduct.Specs.DesignName.Options.length > 1">
+                                    <div>
+                                        <label>{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</label>
+                                        <select class="form-control"
+                                                ng-required="selectedProduct.Specs.DesignName.Required"
+                                                ng-change="designChanged()"
+                                                ng-model="selectedProduct.Specs.DesignName.Value"
+                                                ng-options="option as option for option in selectedProduct.Specs.DesignName.Options">
+                                            <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.DesignName.Label || selectedProduct.Specs.DesignName.Name}}</option>
+                                        </select>
+                                        <i class="fa fa-picture-o"></i>
+                                    </div>
+                                </div>-->
+                                <div class="view-form-icon" ng-show="selectedProduct.Specs.OccasionMessage && selectedProduct.Specs.OccasionMessage.Options && selectedProduct.Specs.OccasionMessage.Options.length > 1">
+                                    <div>
+                                        <label>{{selectedProduct.Specs.OccasionMessage.Label || selectedProduct.Specs.OccasionMessage.Name}}</label>
+                                        <select class="form-control"
+                                                ng-required="selectedProduct.Specs.OccasionMessage.Required"
+                                                ng-model="selectedProduct.Specs.OccasionMessage.Value"
+                                                ng-options="message.Value as message.Value for message in selectedProduct.Specs.OccasionMessage.Options">
+                                            <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.OccasionMessage.Label || selectedProduct.Specs.OccasionMessage.Name}}</option>
+                                        </select>
+                                        <i class="fa fa-comment"></i>
                                     </div>
                                 </div>
                             </div>
@@ -118,6 +116,15 @@
                                             <label>{{selectedProduct.Specs.ClosingMessage.Label || selectedProduct.Specs.ClosingMessage.Name}} <span style="color: rgb(128, 128, 128);font-size: x-small;">(up to {{selectedProduct.Specs.ClosingMessage.MaxLength}} characters)</span></label>
                                             <input type="text" class="form-control" ng-class="{'input-invalid': award_customization.ClosingMessage.$invalid}" name="ClosingMessage" ng-model="selectedProduct.Specs.ClosingMessage.Value" ng-maxlength="{{selectedProduct.Specs.ClosingMessage.MaxLength}}" ng-required="selectedProduct.Specs.ClosingMessage.Required" placeholder="{{selectedProduct.Specs.ClosingMessage.Label || selectedProduct.Specs.ClosingMessage.Name}}"/>
                                             <i class="fa fa-comment"></i>
+                                        </div>
+                                    </div>
+                                    <div class="logo-selection row" ng-show="Logos && Logos.length > 0">
+                                        <label>Logo Selection</label>
+                                        <div ng-repeat="logo in Logos" class="col-sm-3" ng-class="{'logo-selected':selectedProduct.Specs.ImageID.Value == logo.ID}">
+                                            <figure ng-click="selectLogo(logo)" style="height: 235px;">
+                                                <img ng-src="{{logo.URL}}" />
+                                            </figure>
+                                            <p></p>
                                         </div>
                                     </div>
                                     <div class="row" ng-show="selectedProduct.IsDigital">

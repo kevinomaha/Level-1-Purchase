@@ -17,7 +17,7 @@ four51.app.factory('OrderConfig', function() {
 	    if (user.Permissions.contains('SubmitForApproval') && order.Approvals.length > 0) {
 		    order.PaymentMethod = 'Undetermined'; return;
 	    }
-	    if (user.Permissions.contains('PayByBudgetAccount') && accounts.length > 0) {
+	    if (user.Permissions.contains('PayByBudgetAccount') && accounts && accounts.length > 0) {
 		    order.PaymentMethod = 'BudgetAccount'; return;
 	    }
 	    if (user.Permissions.contains('PayByCreditCard') && user.AvailableCreditCards.length > 0) {

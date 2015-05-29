@@ -31,7 +31,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             else if (p.Name.indexOf('Greeting') > -1) {
                 type = "Greeting Card";
             }
-            else if (p.Name.indexOf('e-Cards') > -1 || p.Name.indexOf('eCards') > -1) {
+            else if (p.Name.indexOf('e-Card') > -1 || p.Name.indexOf('eCard') > -1) {
                 type = "e-Cards";
             }
             else if (p.Name.indexOf('eCodes') > -1) {
@@ -298,6 +298,28 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             );
         };
 
+        var _getLogos = function(success) {
+            $http.get('https://wopr-app-dev.gcincentives.com/ClientService/GetImagesbyOrg/?org=1&LogosOnly=T').
+                success(function(data){
+                    var logos = [];
+                    angular.forEach(data, function(logo) {
+                        var l = {
+                            URL: logo,
+                            ID: logo.split('id=')[1]
+                        };
+                        logos.push(l);
+                    });
+                    success(logos);
+                }).
+                error(function(data, status, headers, config ) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(headers);
+                    console.log(config);
+                }
+            );
+        };
+
         var _assignAddresses = function(recipientList, addresses) {
             /*for (var r = 0; r < $scope.recipientList.List.length; r++) {
                 if (!$scope.recipientList.List[r].address && !$scope.recipientList.List[r].Invalid) {
@@ -341,6 +363,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             validateRecipientList: _validateRecipientList,
             setAddress: _setAddress,
             getTemplateThumbnails: _getTemplateThumbnails,
+            getLogos: _getLogos,
             saveEmailAddress: _saveEmailAddress,
             assignAddresses: _assignAddresses
         }
