@@ -222,7 +222,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     lineItem.Product = recipientToSpecs(recipient, angular.copy(product), user);
 
                     lineItem.UniqueID = randomString();
-                    lineItem.ShipAddressID = recipient.Address.ID;
+                    lineItem.ShipAddressID = (recipient.Address && recipient.Address.ID) ? recipient.Address.ID : null;
 
                     getPreviewDetails(lineItem, order);
                 });
