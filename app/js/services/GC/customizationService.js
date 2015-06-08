@@ -177,7 +177,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                         var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value + "&width=660";
                         $http.post(previewURL).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
-                                lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview/" + previewID.replace(/"/g, '');
+                                lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview/id=" + previewID.replace(/"/g, '');
                             }
                             itemCount++;
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);
