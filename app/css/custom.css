@@ -82,3 +82,7 @@ accordion h4 {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }*/
+
+.product-selection-view .flex-column > div.product-selector > div h4.pname {
+    height: 100px;
+}
