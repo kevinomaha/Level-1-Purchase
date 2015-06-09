@@ -27,8 +27,10 @@ function ($scope, $rootScope, SavedCreditCard) {
     });
 
     $scope.$watch('currentOrder.BudgetAccountID', function() {
-        if ($scope.currentOrder.BudgetAccountID && $scope.currentOrder.PaymentMethod != 'CreditCard') {
-            $scope.setBudgetAccount();
+        if ($scope.currentOrder !== null) {
+            if ($scope.currentOrder.BudgetAccountID && $scope.currentOrder.PaymentMethod != 'CreditCard') {
+                $scope.setBudgetAccount();
+            }
         }
     });
 

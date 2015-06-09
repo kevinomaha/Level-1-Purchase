@@ -49,6 +49,9 @@ function ($scope, $location, $451, SpendingAccount, Address, CustomAddressList) 
             $scope.cart_billing.$setValidity('cvn', true);
             $scope.cart_billing.$setValidity('expDate', true);
 		}
+		else if ($scope.currentOrder === null) {
+			// Do nothing
+		}
 		else if($scope.currentOrder.PaymentMethod == 'CreditCard' && !$scope.currentOrder.BillAddressID && $scope.currentOrder.BillAddress && ($scope.currentOrder.BillAddress.IsBilling && $scope.currentOrder.BillAddress.IsCustEditable)) {
             $scope.currentOrder.BillAddress = {};
             $scope.currentOrder.BillAddressID = null;

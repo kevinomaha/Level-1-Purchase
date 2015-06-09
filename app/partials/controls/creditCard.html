@@ -23,7 +23,7 @@
         <div class="view-form-icon" ng-if="user.Permissions.contains('CardholderName')">
             <div>
                 <label ng-class="{required: currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCard.AccountNumber}">{{'Cardholder Name' | r}}</label>
-                <input id="cardholder-name" class="form-control" ng-model="currentOrder.CreditCard.CardholderName"
+                <input id="cardholder-name" class="form-control" ng-model="currentOrder.CreditCard.CardholderName" maxlength="100"
                        ng-required="currentOrder.PaymentMethod == 'CreditCard' && !currentOrder.CreditCardID"
                        type="text" placeholder="{{'Cardholder Name' | r}}" autocomplete="off" />
                 <i class="fa fa-user"></i>
