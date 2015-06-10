@@ -77,7 +77,7 @@
                         </div>
                         <div ng-show="hasStates()">
                             <label ng-class="{required: hasStates}">State</label>
-                            <select ng-show="hasStates()" class="form-control" ng-options="state.value as state.value for state in states | filter:country" ng-model="address.State" ng-required="hasStates()">
+                            <select ng-show="hasStates()" class="form-control" ng-options="state.value as state.label for state in states | filter:country" ng-model="address.State" ng-required="hasStates()">
                             </select>
                             <i class="fa fa-map-marker"></i>
                         </div>

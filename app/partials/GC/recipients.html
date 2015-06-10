@@ -363,7 +363,7 @@
                                                     <div>
                                                         <label>State</label>
                                                         <select class="form-control"
-                                                                ng-options="state.value as state.value for state in states | filter:country"
+                                                                ng-options="state.value as state.label for state in states | filter:country"
                                                                 ng-model="tempRecipient.Address.State"
                                                                 ng-required="true" tabindex="14">
                                                             <option class="view-select-placeholder" value="" selected>Select a State</option>
