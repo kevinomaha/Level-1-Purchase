@@ -163,7 +163,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             if (!order.LineItems) {
                 order.LineItems = [];
             }
-
             var recipCount = selectedRecipients.length;
             var itemCount = 0;
 
