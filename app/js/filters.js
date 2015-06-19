@@ -7,7 +7,7 @@ four51.app.filter('onproperty', ['$451', function($451) {
 	return function(input, query) {
 		if (!input || input.length === 0) return;
 		if (!query) return input;
-		query.Property = query.Property || defaults[query.Model];
+		query.Property = query.Property || query.Value;
 		return $451.filter(input, query);
 	}
 }]);

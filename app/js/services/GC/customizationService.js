@@ -105,7 +105,9 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                             spec.Value = recipient.RecipientEmailAddress;
                             break;
                         case "Denomination":
-                            spec.Value = String.trim(recipient.Denomination);
+                            if (recipient.Denomination) {
+                                spec.Value = String.trim(recipient.Denomination);
+                            }
                             break;
                         case "Email":
                             spec.Value = recipient.RecipientEmailAddress;
@@ -130,7 +132,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                 if (selectedRecipients && selectedRecipients.length > 0) {
                     angular.forEach(selectedRecipients, function (recipient) {
                         var lineItem = {};
-                        lineItem.Quantity = 1;
+                        lineItem.Quantity = product.Quantity ? product.Quantity : 1;
 
                         lineItem.Product = recipientToSpecs(recipient, angular.copy(product), user);
                         lineItem.UniqueID = randomString();

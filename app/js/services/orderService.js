@@ -11,7 +11,7 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
         "FirstName",
         "LastName",
         "RecipientID",
-        "RecipientEmailAddress",
+        //"RecipientEmailAddress",
         "Email"
     ];
 

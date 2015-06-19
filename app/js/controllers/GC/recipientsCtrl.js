@@ -2,11 +2,19 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
     function ($routeParams, $sce, $scope, $451, $filter, $rootScope, $location, EmployeeSearch, Customization, Address, AddressList, AddressValidate, Resources, ExistingAddress) {
 
         $scope.recipientListOptions = {};
-        angular.forEach($scope.BuyerSettings.Recipients, function(value, key) {
-            if (key != 'Groups') {
+        var productName = Customization.getProduct().Name;
+        if ($scope.BuyerSettings.Recipients.Groups[productName]) {
+            angular.forEach($scope.BuyerSettings.Recipients.Groups[productName], function(value, key) {
                 $scope.recipientListOptions[key] = value;
-            }
-        });
+            });
+        }
+        else {
+            angular.forEach($scope.BuyerSettings.Recipients, function(value, key) {
+                if (key != 'Groups') {
+                    $scope.recipientListOptions[key] = value;
+                }
+            });
+        }
         if ($scope.BuyerSettings.Recipients.Groups) {
             angular.forEach($scope.user.Groups, function(group) {
                 if ($scope.BuyerSettings.Recipients.Groups[group.Name]) {

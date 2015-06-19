@@ -13,6 +13,11 @@ four51.app.constant("BuyerSettings",{
                 'Search':false,
                 'Upload':true,
                 'Manual':true
+            },
+            'Merchant Gift Cards': {
+                'Search':false,
+                'Upload':false,
+                'Manual':true
             }
         }
     },

@@ -1,20 +1,20 @@
-four51.app.directive('customtextfield', function() {
-    var obj = {
-        scope: {
-            customfield : '=',
-	        changed: '='
-        },
-        restrict: 'E',
-        transclude: true,
-        templateUrl: 'partials/controls/customTextField.html',
-        controller: CustomTextFieldCtrl
-    }
-    return obj;
+four51.app
 
-    CustomTextFieldCtrl.$inject = ['$scope'];
-    function CustomTextFieldCtrl($scope) {
+    .directive('customtextfield', function() {
+        return {
+            scope: {
+                customfield : '=',
+                changed: '='
+            },
+            restrict: 'E',
+            transclude: true,
+            templateUrl: 'partials/controls/customTextField.html',
+            controller: 'CustomTextFieldCtrl'
+        };
+    })
+
+    .controller('CustomTextFieldCtrl', ['$scope', function ($scope) {
         var today = new Date();
         $scope.currentDate = angular.copy(today);
         $scope.maxDate = today.setDate(today.getDate() + 120);
-    }
-});
+    }]);

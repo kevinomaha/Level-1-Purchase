@@ -7603,11 +7603,13 @@ body {
 }
 .product-selection-view .flex-column > div.product-selector > div h4.pname {
   color: #fff;
+  height: 70px;
   font-weight: bold;
   padding: 15px 25px;
 }
 .product-selection-view .flex-column > div.product-selector > div img {
-  width: 50%;
+  width: 100%;
+  height: auto;
   margin: 0 auto;
 }
 .product-selection-view div.product-selector {
