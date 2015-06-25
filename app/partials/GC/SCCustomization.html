@@ -99,7 +99,7 @@
                                         <div>
                                             <label>{{selectedProduct.Specs.Denomination.Label || selectedProduct.Specs.Denomination.Name}}</label>
                                             <select class="form-control"
-                                                    ng-required="selectedProduct.Specs.Denomination.Required"
+                                                    ng-required="selectedProduct.Specs.Denomination.Required && denominationRequired"
                                                     ng-model="selectedProduct.Specs.Denomination.Value"
                                                     ng-options="denom.Value as denom.Value for denom in selectedProduct.Specs.Denomination.Options | denominations:selectedProduct:user.Groups:BuyerSettings:ProductList">
                                                 <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.Denomination.Label || selectedProduct.Specs.Denomination.Name}}</option>
@@ -183,7 +183,7 @@
                                             <div class="view-form-icon">
                                                 <div>
                                                     <label>{{selectedProduct.Specs.EmailSubject.Label || selectedProduct.Specs.EmailSubject.Name}} <span style="color: rgb(128, 128, 128);font-size: x-small;">(up to {{selectedProduct.Specs.EmailSubject.MaxLength}} characters)</span></label>
-                                                    <input type="text" class="form-control" name="EmailSubject" ng-class="{'input-invalid': award_customization.EmailSubject.$invalid}" placeholder="{{selectedProduct.Specs.EmailSubject.Label || selectedProduct.Specs.EmailSubject.Name}}" ng-required="selectedProduct.Specs.EmailSubject.Required" ng-model="selectedProduct.Specs.EmailSubject.Value"/>
+                                                    <input type="text" class="form-control" name="EmailSubject" ng-class="{'input-invalid': award_customization.EmailSubject.$invalid}" placeholder="{{selectedProduct.Specs.EmailSubject.Label || selectedProduct.Specs.EmailSubject.Name}}" ng-required="selectedProduct.Specs.EmailSubject.Required && emailSubjectRequired" ng-model="selectedProduct.Specs.EmailSubject.Value"/>
                                                     <i class="fa fa-envelope"></i>
                                                 </div>
                                             </div>

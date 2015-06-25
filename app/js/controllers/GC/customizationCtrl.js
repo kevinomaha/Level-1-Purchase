@@ -1,11 +1,22 @@
 four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$451', '$rootScope', '$location', 'Customization', '$http', 'User', 'Order', 'Product',
     function ($routeParams, $sce, $scope, $451, $rootScope, $location, Customization, $http, User, Order, Product) {
         var today = new Date();
+        $scope.emailSubjectRequired = false;
+        $scope.denominationRequired = false;
         $scope.currentDate = angular.copy(today);
         $scope.maxDate = today.setDate(today.getDate() + 120);
 
         $scope.recipientList = angular.copy(Customization.getRecipients());
         $scope.selectedProduct = Customization.getProduct();
+
+        angular.forEach($scope.recipientList.List, function(recipient) {
+            if (recipient.EmailSubject === null || recipient.EmailSubject === '') {
+                $scope.emailSubjectRequired = true;
+            }
+            if (recipient.Denomination === null || recipient.Denomination === '') {
+                $scope.denominationRequired = true;
+            }
+        });
 
         $scope.selectedRecipients = [];
 
