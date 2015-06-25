@@ -46,10 +46,16 @@
                             <div ng-show="products.length == 0" class="alert alert-info text-center col-lg-6 col-sm-6 col-lg-offset-3 col-sm-offset-3 col-md-offset-2 col-md-8">There are currently no products available for this merchant</div>
                             <div ng-show="products.length > 0">
                                 <div class="denomination-selection">
-                                    <div ng-repeat="product in products" ng-click="setDenomination(product)" class="denomination-value" ng-class="{selected:selectedProduct.Denomination == product.Denomination}">
-                                        {{'$'+product.Denomination}}
+                                    <div class="row">
+                                        <img class="img-responsive" style="margin: 10px auto;" ng-src="{{LineItem.Product.LargeImageUrl}}">
+                                    </div>
+                                    <div class="row">
+                                        <div ng-repeat="product in products" ng-click="setDenomination(product)" class="denomination-value" ng-class="{selected:selectedProduct.Denomination == product.Denomination}">
+                                            {{'$'+product.Denomination}}
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
                                 <div class="row">
                                     <form name="addToOrderForm" >
                                         <div class="col-lg-5 col-md-6 col-sm-6" ng-if="LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'">
