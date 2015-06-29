@@ -5,6 +5,8 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
 			templateUrl:'partials/GC/angularPaste.html',
 			link:function ($scope, element, attrs) {
 
+                var today = new Date();
+                var maxDate = new Date(today.setDate(today.getDate() + 120));
 				var inFocus = false;
 
                 var uploadSettings = RecipientUpload;
@@ -204,6 +206,22 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
                                                     }
                                                 }
                                                 recipient.ErrorMessage.push(missingFieldsMessage);
+                                            }
+
+                                            if (recipient.FutureShipDate !== '') {
+                                                var dateArray = recipient.FutureShipDate.split('/');
+                                                var tempDate = new Date(dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1]);
+                                                if (!isNaN(tempDate.getTime())) {
+                                                    if (tempDate > maxDate) {
+                                                        recipient.Invalid = true;
+                                                        $scope.tempPasteError = true;
+                                                        recipient.ErrorMessage.push(recipientIdentifier + " has a future delivery date that exceeds the limit of 120 days in the future. This date will not be uploaded.");
+                                                    }
+                                                } else {
+                                                    recipient.Invalid = true;
+                                                    $scope.tempPasteError = true;
+                                                    recipient.ErrorMessage.push(recipientIdentifier + " has an invalid future delivery date. This date will not be uploaded.");
+                                                }
                                             }
 
                                             if ((recipient.EmailAddress && !validateEmail(recipient.EmailAddress)) || (recipient.RecipientEmailAddress && !validateEmail(recipient.RecipientEmailAddress))) {
