@@ -96,6 +96,24 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                     case "Email1":
                         spec.Value = recipient.RecipientEmailAddress;
                         break;
+                    case "Denomination":
+                        spec.Value = recipient.Denomination;
+                        break;
+                    case "OpeningMessage":
+                        spec.Value = recipient.OpeningMessage;
+                        break;
+                    case "PersonalMessage":
+                        spec.Value = recipient.PersonalMessage;
+                        break;
+                    case "ClosingMessage":
+                        spec.Value = recipient.ClosingMessage;
+                        break;
+                    case "EmailSubject":
+                        spec.Value = recipient.EmailSubject;
+                        break;
+                    case "FutureShipDate":
+                        spec.Value = recipient.FutureShipDate;
+                        break;
                 }
             });
         }

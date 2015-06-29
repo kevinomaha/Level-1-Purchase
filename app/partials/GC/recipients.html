@@ -170,10 +170,10 @@
 
                         <angular-paste ng-hide="recipientPasteList.length > 0" ng-model="rawPaste" ng-array="parsedPaste"></angular-paste>
 
-                        <div class="text-info" ng-show="(tempRecipientPasteList.length > 0) || columnLengthError">
+                        <div class="text-info" ng-show="(tempRecipientPasteList.length > 0 && tempPasteError) || columnLengthError">
                             <strong>The following errors were detected:</strong>
                             <ul>
-                                <li ng-repeat="recipient in tempRecipientPasteList">
+                                <li ng-repeat="recipient in tempRecipientPasteList | filter:{Invalid:true}">
                                     <ul>
                                         <li ng-repeat="error in recipient.ErrorMessage">
                                             {{error}}
