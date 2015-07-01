@@ -10,10 +10,11 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         $scope.selectedProduct = Customization.getProduct();
 
         angular.forEach($scope.recipientList.List, function(recipient) {
-            if (recipient.EmailSubject === null || recipient.EmailSubject === '') {
+            console.log(recipient.EmailSubject);
+            if (recipient.EmailSubject === null || recipient.EmailSubject === '' || !recipient.EmailSubject) {
                 $scope.emailSubjectRequired = true;
             }
-            if (recipient.Denomination === null || recipient.Denomination === '') {
+            if (recipient.Denomination === null || recipient.Denomination === '' || !recipient.Denomination) {
                 $scope.denominationRequired = true;
             }
         });

@@ -8027,6 +8027,11 @@ body {
   right: 76px;
   z-index: 1;
 }
+.alert-blue {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
 .list-group-item-invalid {
   color: #808080;
   background-color: #E5E5E5;

@@ -197,6 +197,14 @@
                             <p class="text-right"><span class="pull-left text-info">Subtotal:</span>{{currentOrder.Subtotal | currency}}</p>
                             <p class="text-right"><span class="pull-left text-info">Shipping and Handling:</span>{{currentOrder.ShippingCost | currency}}</p>
                             <p class="text-right"><span class="pull-left text-info">Total:</span>{{currentOrder.Total | currency}}</p>
+                            <alert class="alert-blue">
+                                <div ng-show="currentOrder.MerchantCardCount > 0 && currentOrder.HasPhysicalMerchantCards">
+                                    <p>*The service fee for each product is included in the total price.</p>
+                                    <p>If your order is for merchant gift cards, please be aware that all physical gift cards will ship together. If one or more gift cards selected is out of stock, shipment of this order will be delayed.</p>
+                                    <p>*E-gift cards cannot be returned or exchanged</p>
+                                </div>
+                                <p>*Orders placed after 2 p.m. EST will be shipped the following business day.</p>
+                            </alert>
                             <!--<div class="alert alert-info" style="padding:7px;" ng-show="currentOrder.MerchantCardCount > 0 || !currentOrder.IsAllDigital">
                                 <small>
                                     <div ng-show="currentOrder.MerchantCardCount > 0">
