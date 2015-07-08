@@ -145,7 +145,8 @@ four51.app.factory('Order', ['$resource', '$rootScope', '$451', 'Security', 'Err
                 _then(success, o);
             },
             function(ex) {
-                error(Error.format(ex));
+                //error(Error.format(ex));
+                console.log(ex.Message);
             }
         );
     };

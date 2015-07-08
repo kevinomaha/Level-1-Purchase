@@ -96,7 +96,7 @@
                                         </div>
                                     </div>
                                     <div class="view-form-icon">
-                                        <div>
+                                        <div ng-show="denominationRequired">
                                             <label>{{selectedProduct.Specs.Denomination.Label || selectedProduct.Specs.Denomination.Name}}</label>
                                             <select class="form-control"
                                                     ng-required="selectedProduct.Specs.Denomination.Required && denominationRequired"
@@ -181,7 +181,7 @@
                                     <div class="row" ng-show="selectedProduct.IsDigital">
                                         <div class="col-sm-6" ng-if="selectedProduct.Specs.EmailSubject">
                                             <div class="view-form-icon">
-                                                <div>
+                                                <div ng-show="emailSubjectRequired">
                                                     <label>{{selectedProduct.Specs.EmailSubject.Label || selectedProduct.Specs.EmailSubject.Name}} <span style="color: rgb(128, 128, 128);font-size: x-small;">(up to {{selectedProduct.Specs.EmailSubject.MaxLength}} characters)</span></label>
                                                     <input type="text" class="form-control" name="EmailSubject" ng-class="{'input-invalid': award_customization.EmailSubject.$invalid}" placeholder="{{selectedProduct.Specs.EmailSubject.Label || selectedProduct.Specs.EmailSubject.Name}}" ng-required="selectedProduct.Specs.EmailSubject.Required && emailSubjectRequired" ng-model="selectedProduct.Specs.EmailSubject.Value"/>
                                                     <i class="fa fa-envelope"></i>
