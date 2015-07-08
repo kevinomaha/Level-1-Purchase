@@ -104,6 +104,21 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                         case "RecipientEmailAddress":
                             spec.Value = recipient.RecipientEmailAddress;
                             break;
+                        case "FutureShipDate":
+                            spec.Value = recipient.FutureShipDate;
+                            break;
+                        case "OpeningMessage":
+                            spec.Value = recipient.OpeningMessage;
+                            break;
+                        case "PersonalMessage":
+                            spec.Value = recipient.PersonalMessage;
+                            break;
+                        case "ClosingMessage":
+                            spec.Value = recipient.ClosingMessage;
+                            break;
+                        case "EmailSubject":
+                            spec.Value = recipient.EmailSubject;
+                            break;
                         case "Denomination":
                             if (recipient.Denomination) {
                                 spec.Value = recipient.Denomination.toString().trim();
