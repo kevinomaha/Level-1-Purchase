@@ -208,7 +208,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
                                                 recipient.ErrorMessage.push(missingFieldsMessage);
                                             }
 
-                                            if (recipient.FutureShipDate !== '') {
+                                            if (recipient.FutureShipDate !== '' && recipient.FutureShipDate) {
                                                 var dateArray = recipient.FutureShipDate.split('/');
                                                 var tempDate = new Date(dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1]);
                                                 if (!isNaN(tempDate.getTime())) {
