@@ -190,13 +190,15 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                 //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
                 var serialURL = baseURL + "GetSerialNumber";
                 $http.get(serialURL).success(function (serialNumber) {
+                    console.log('getPreviewDetails');
                     var number = serialNumber.replace(/"/g, '');
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
                         var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value + "&width=660";
                         $http.post(previewURL).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
-                                lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview/id=" + previewID.replace(/"/g, '');
+                                lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview?id=" + previewID.replace(/"/g, '');
+                                console.log(lineItem.Product.Specs['PreviewURL'].Value);
                             }
                             itemCount++;
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);
@@ -304,7 +306,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
         };
 
         var _getTemplateThumbnails = function(product, success) {
-            $http.get('https://wopr-app-dev.gcincentives.com/ClientService/GetTemplateThumbnails?s=' + product.ExternalID + '&o=1&width=200').
+            $http.get('https://wopr-app-dev.gcincentives.com/ClientService/getTemplateThumbnails?s=' + product.ExternalID + '&o=1&height=200&width=200').
                 success(function(data){
                     success(data);
                 }).
