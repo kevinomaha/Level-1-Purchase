@@ -93,39 +93,59 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                 angular.forEach(product.Specs, function(spec) {
                     switch(spec.Name) {
                         case "FirstName":
-                            spec.Value = recipient.FirstName;
+                            if (!spec.Value) {
+                                spec.Value = recipient.FirstName;
+                            }
                             break;
                         case "LastName":
-                            spec.Value = recipient.LastName;
+                            if (!spec.Value) {
+                                spec.Value = recipient.LastName;
+                            }
                             break;
                         case "RecipientID":
-                            spec.Value = recipient.EmployeeNumber;
+                            if (!spec.Value) {
+                                spec.Value = recipient.EmployeeNumber;
+                            }
                             break;
                         case "RecipientEmailAddress":
-                            spec.Value = recipient.RecipientEmailAddress;
+                            if (!spec.Value) {
+                                spec.Value = recipient.RecipientEmailAddress;
+                            }
                             break;
                         case "FutureShipDate":
-                            spec.Value = recipient.FutureShipDate;
+                            if (!spec.Value) {
+                                spec.Value = recipient.FutureShipDate;
+                            }
                             break;
                         case "OpeningMessage":
-                            spec.Value = recipient.OpeningMessage;
+                            if (!spec.Value) {
+                                spec.Value = recipient.OpeningMessage;
+                            }
                             break;
                         case "PersonalMessage":
-                            spec.Value = recipient.PersonalMessage;
+                            if (!spec.Value) {
+                                spec.Value = recipient.PersonalMessage;
+                            }
                             break;
                         case "ClosingMessage":
-                            spec.Value = recipient.ClosingMessage;
+                            if (!spec.Value) {
+                                spec.Value = recipient.ClosingMessage;
+                            }
                             break;
                         case "EmailSubject":
-                            spec.Value = recipient.EmailSubject;
+                            if (!spec.Value) {
+                                spec.Value = recipient.EmailSubject;
+                            }
                             break;
                         case "Denomination":
-                            if (recipient.Denomination) {
+                            if (recipient.Denomination && !spec.Value) {
                                 spec.Value = recipient.Denomination.toString().trim();
                             }
                             break;
                         case "Email":
-                            spec.Value = recipient.RecipientEmailAddress;
+                            if (!spec.Value) {
+                                spec.Value = recipient.RecipientEmailAddress;
+                            }
                             break;
                     }
 
@@ -190,7 +210,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                 //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
                 var serialURL = baseURL + "GetSerialNumber";
                 $http.get(serialURL).success(function (serialNumber) {
-                    console.log('getPreviewDetails');
                     var number = serialNumber.replace(/"/g, '');
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
@@ -198,7 +217,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                         $http.post(previewURL).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
                                 lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview?id=" + previewID.replace(/"/g, '');
-                                console.log(lineItem.Product.Specs['PreviewURL'].Value);
                             }
                             itemCount++;
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);

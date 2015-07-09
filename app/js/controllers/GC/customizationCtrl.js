@@ -10,7 +10,6 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         $scope.selectedProduct = Customization.getProduct();
 
         angular.forEach($scope.recipientList.List, function(recipient) {
-            console.log(recipient.EmailSubject);
             if (recipient.EmailSubject === null || recipient.EmailSubject === '' || !recipient.EmailSubject) {
                 $scope.emailSubjectRequired = true;
             }
