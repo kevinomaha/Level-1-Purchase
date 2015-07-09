@@ -138,7 +138,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                             }
                             break;
                         case "Denomination":
-                            if (recipient.Denomination && !spec.Value) {
+                            if (recipient.Denomination) {
                                 spec.Value = recipient.Denomination.toString().trim();
                             }
                             break;
