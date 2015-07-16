@@ -12,8 +12,8 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
                 var uploadSettings = RecipientUpload;
 
                 function validateEmail(email) {
-                    //var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    var re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(?:[A-Z]{2}|com|org|net)$/
+                    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    //var re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(?:[A-Z]{2}|com|org|net)$/
                     return re.test(email);
                 }
 
@@ -34,6 +34,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
                         }
                         if (rows[0] && (rows[0].split("\t").length < (digital ? uploadSettings.Files['Digital'].length : uploadSettings.Files['Physical'].length) || rows[0].split("\t").length > (digital ? uploadSettings.Files['Digital'].length : uploadSettings.Files['Physical'].length))) {
                             $scope.tempPasteError = true;
+                            console.log('TESTING');
                             $scope.columnLengthError = true;
                         }
                         else {
@@ -196,7 +197,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
                                             }
 
                                             if (errorCount > 0) {
-                                                $scope.tempPasteError = true;
+                                                //$scope.tempPasteError = true;
                                                 var missingFieldsMessage = recipientIdentifier + " is missing the following fields: ";
                                                 for (var e = 0; e < missingFields.length; e++) {
                                                     if (e < missingFields.length - 1) {
