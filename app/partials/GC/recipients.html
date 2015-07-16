@@ -147,9 +147,7 @@
             <div class="col-sm-6 col-md-9">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <b>Recipient Upload</b>
-                        </h3>
+                        <h3 class="panel-title" ng-show="selectedProduct.Name"><b>Selected Product:</b> {{selectedProduct.Name}}</h3>
                     </div>
                     <div class="panel-body">
                         <loadingindicator ng-show="savingRecipientsLoadingIndicator" title="Please wait while we generate your recipients"/>
@@ -226,7 +224,7 @@
         <div class="col-sm-12 col-md-10 col-lg-9" ng-show="tempRecipient.UserID || recipientListMode == 'Manual'">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b>{{tempRecipient.BeingEdited ? 'Edit' : 'New'}} Recipient</b></h3>
+                    <h3 class="panel-title" ng-show="selectedProduct.Name"><b>Selected Product:</b> {{selectedProduct.Name}}</h3>
                 </div>
                 <div class="panel-body">
                     <form name="recipient_form" ng-show="!selectedProduct.IsDigital" ng-submit="saveRecipient(tempRecipient)">

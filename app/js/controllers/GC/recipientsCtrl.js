@@ -46,6 +46,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
         $scope.recipientsReady = false;
         $scope.selectedProduct = Customization.getProduct();
         $scope.selectedProduct.Name = $scope.selectedProduct.Name ? $scope.selectedProduct.Name : "";
+        $scope.selectedProduct.Name = $scope.selectedProduct.Name.replace('<sup>&reg;</sup>', '')
 
         $scope.recipientList = Customization.getRecipients();
         Customization.validateRecipientList($scope.recipientList);
