@@ -84,16 +84,7 @@
                                         </div>
                                     </div>-->
                                     <div class="view-form-icon" ng-show="selectedProduct.Specs.OccasionMessage && selectedProduct.Specs.OccasionMessage.Options && selectedProduct.Specs.OccasionMessage.Options.length > 1">
-                                        <div>
-                                            <label>{{selectedProduct.Specs.OccasionMessage.Label || selectedProduct.Specs.OccasionMessage.Name}}</label>
-                                            <select class="form-control"
-                                                    ng-required="selectedProduct.Specs.OccasionMessage.Required"
-                                                    ng-model="selectedProduct.Specs.OccasionMessage.Value"
-                                                    ng-options="message.Value as message.Value for message in selectedProduct.Specs.OccasionMessage.Options">
-                                                <option class="view-select-placeholder" selected="" value="">{{selectedProduct.Specs.OccasionMessage.Label || selectedProduct.Specs.OccasionMessage.Name}}</option>
-                                            </select>
-                                            <i class="fa fa-comment"></i>
-                                        </div>
+                                        <customselectionfield customfield="selectedProduct.Specs.OccasionMessage"></customselectionfield>
                                     </div>
                                     <div class="view-form-icon">
                                         <div ng-show="denominationRequired">
