@@ -7444,6 +7444,15 @@ http://svgeneration.com/generate/Eave-Light Tiles?size=23&fill=005983&edge-size=
 body {
   margin-bottom: 130px;
 }
+.btn-cancel {
+  color: #ffffff;
+  background-color: #be0f34;
+  border-color: #be0f34;
+}
+.btn-cancel:hover {
+  color: #ffffff;
+  background-color: #8f0b27;
+}
 @media (min-width: 992px) and (max-width: 1199px) {
   .welcome-user {
     float: right;

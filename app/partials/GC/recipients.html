@@ -405,7 +405,7 @@
                                     <i class="fa" ng-class="{'fa-square-o': !tempRecipient.Address.AssignToAll, 'fa-check-square-o': tempRecipient.Address.AssignToAll}"></i> Assign Address to All Recipients?
                                 </div>
                                 <div class="btn-group" style="margin-top: 15px;" role="group">
-                                    <button type="button" class="btn btn-default" style="width:50%;" ng-click="cancelEditRecipient()">Cancel</button>
+                                    <button type="button" class="btn btn-default btn-cancel" style="width:50%;" ng-click="cancelEditRecipient()">Cancel</button>
                                     <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_form.$invalid" value="Save Recipient" />
                                 </div>
                             </div>
@@ -453,7 +453,7 @@
                                 </div>
                                 <div class="row" ng-show="selectedProduct.IsDigital">
                                     <div class="btn-group" style="margin-top: 15px;" role="group">
-                                        <button type="button" class="btn btn-default" style="width:50%;" ng-click="cancelEditRecipientDigital()">Cancel</button>
+                                        <button type="button" class="btn btn-default btn-cancel" style="width:50%;" ng-click="cancelEditRecipientDigital()">Cancel</button>
                                         <input type="submit" class="btn btn-success" style="width:50%;" ng-disabled="recipient_digital_form.$invalid" value="Save Recipient" tabindex="20" />
                                     </div>
                                 </div>
