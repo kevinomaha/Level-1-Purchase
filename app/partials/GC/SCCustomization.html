@@ -47,13 +47,18 @@
                         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                             <div class="row">
                                 <div class="template-selection row" style="margin-bottom: 15px;" ng-show="selectedProduct.ProductList.PremiumID || selectedProduct.ProductList.CanadianID || selectedProduct.ProductList.HolidayID || selectedProduct.ProductList.PremiumHolidayID">
-                                    <label>Product Type</label>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.StandardID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.StandardID}" ng-click="selectProductType(selectedProduct.ProductList.StandardID)">Standard</button>
-                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.PremiumID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.PremiumID}" ng-click="selectProductType(selectedProduct.ProductList.PremiumID)">Premium</button>
-                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.CanadianID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.CanadianID}" ng-click="selectProductType(selectedProduct.ProductList.CanadianID)">Canadian</button>
-                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.HolidayID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.HolidayID}" ng-click="selectProductType(selectedProduct.ProductList.HolidayID)">Holiday</button>
-                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.PremiumHolidayID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.PremiumHolidayID}" ng-click="selectProductType(selectedProduct.ProductList.PremiumHolidayID)">Premium Holiday</button>
+                                    <div class="col-md-6">
+                                        <label>Product Type</label>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.StandardID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.StandardID}" ng-click="selectProductType(selectedProduct.ProductList.StandardID)">Standard</button>
+                                            <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.PremiumID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.PremiumID}" ng-click="selectProductType(selectedProduct.ProductList.PremiumID)">Premium</button>
+                                            <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.CanadianID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.CanadianID}" ng-click="selectProductType(selectedProduct.ProductList.CanadianID)">Canadian</button>
+                                            <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.HolidayID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.HolidayID}" ng-click="selectProductType(selectedProduct.ProductList.HolidayID)">Holiday</button>
+                                            <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.PremiumHolidayID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.PremiumHolidayID}" ng-click="selectProductType(selectedProduct.ProductList.PremiumHolidayID)">Premium Holiday</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div ng-bind-html="selectedProduct.Description"></div>
                                     </div>
                                 </div>
                                 <div ng-show="ProductThumbnail">
@@ -130,6 +135,14 @@
                         <div>
                             <div class="row">
                                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                                    <div class="view-form-icon">
+                                        <div>
+                                            <label>{{selectedProduct.Specs.OpeningPersonalization.Label}}</label>
+                                            <div class="btn-group" role="group">
+                                                <button role="button" ng-click="selectedProduct.Specs.OpeningPersonalization.Value = option.Value" ng-class="{'active': selectedProduct.Specs.OpeningPersonalization.Value === option.Value}" class="btn btn-default col-md-3" ng-repeat="option in selectedProduct.Specs.OpeningPersonalization.Options">{{option.Value}}</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="view-form-icon">
                                         <div>
                                             <label>{{selectedProduct.OpeningMessageOption == 'Custom Message' ? 'Custom ' : ''}} {{selectedProduct.Specs.OpeningMessage.Label || selectedProduct.Specs.OpeningMessage.Name}} <span style="color: rgb(128, 128, 128);font-size: x-small;" ng-show="selectedProduct.OpeningMessageOption == 'Custom Message'">(up to 50 characters)</span></label>

@@ -17,7 +17,8 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
         "ClosingMessage",
         "DesignID",
         "PreviewURL",
-        "SerialNumber"
+        "SerialNumber",
+        "OpeningPersonalization"
     ];
 
     var employeeSpecs = [
