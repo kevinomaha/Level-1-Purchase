@@ -214,7 +214,17 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     if (lineItem.Product.Specs['SerialNumber']) lineItem.Product.Specs['SerialNumber'].Value = number;
                     if (lineItem.Product.Specs['DesignID']) {
                         var previewURL = baseURL + "LoadTemplatePreview?d=" + lineItem.Product.Specs['DesignID'].Value + "&width=660";
-                        $http.post(previewURL).success(function (previewID) {
+                        var Extrs = [];
+                        var keyNames = Object.keys(lineItem.Product.Specs);
+                        for (var i = 0; i < keyNames.length;i++) {
+                            var obj = { Key: keyNames[i], Value: lineItem.Product.Specs[keyNames[i]].Value };
+                            Extrs.push(obj);
+                        }
+                        $http({
+                            method: 'POST',
+                            url: previewURL,
+                            data: JSON.stringify(Extrs)
+                        }).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
                                 lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview?id=" + previewID.replace(/"/g, '');
                             }
