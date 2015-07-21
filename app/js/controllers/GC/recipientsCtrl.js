@@ -63,7 +63,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
         $scope.states = Resources.states;
 
         $scope.country = function(item) {
-            return $scope.tempRecipient.Address != null ? $scope.tempRecipient.Address.Country == item.country : false;
+            return $scope.tempRecipient.Address != null ? $scope.tempRecipient.Address.Country == item.country : 'US';
         };
 
         $scope.searchCriterion = {};
