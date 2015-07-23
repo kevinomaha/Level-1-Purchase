@@ -155,6 +155,15 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
         $scope.saveIndicator = false;
         $scope.saveRecipient = function(tempRecipient) {
             $scope.saveIndicator = true;
+            if (tempRecipient.BeingEdited) {
+                if (tempRecipient.BeingEdited === true) {
+                    angular.forEach($scope.recipientList.List, function(r, index) {
+                        if (r.BeingEdited = true) {
+                            $scope.recipientList.List.splice(index, 1);
+                        }
+                    });
+                }
+            }
             tempRecipient.BeingEdited = false;
             tempRecipient.Address.AddressName = tempRecipient.Address.Street1;
             tempRecipient.Address.IsShipping = true;
@@ -195,6 +204,15 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
         };
 
         $scope.saveDigitalRecipient = function(tempRecipient){
+            if (tempRecipient.BeingEdited) {
+                if (tempRecipient.BeingEdited === true) {
+                    angular.forEach($scope.recipientList.List, function(r, index) {
+                        if (r.BeingEdited = true) {
+                            $scope.recipientList.List.splice(index, 1);
+                        }
+                    });
+                }
+            }
             $scope.tempRecipient.BeingEdited = false;
             $scope.recipientList.List.push($scope.tempRecipient);
             Customization.saveEmailAddress(tempRecipient, $scope.recipientList);
