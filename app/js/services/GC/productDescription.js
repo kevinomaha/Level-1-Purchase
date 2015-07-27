@@ -3,7 +3,7 @@ four51.app.factory('ProductDescription', function() {
 
         product.SpaDescription = {};
 
-        var productDescription = $(product.Description);
+        var productDescription = product.Description;
         var serviceFees = "";
         var termsAndConditions = "";
         angular.forEach(productDescription, function(section) {
