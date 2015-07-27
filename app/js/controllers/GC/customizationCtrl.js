@@ -49,12 +49,12 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         };
 
         $scope.selectLogo = function(logo) {
-            if ($scope.selectedProduct.Specs['ImageID']) {
-                $scope.selectedProduct.Specs['ImageID'].Value = logo.ID;
+            if ($scope.selectedProduct.Specs['Logo']) {
+                $scope.selectedProduct.Specs['Logo'].Value = logo.ID;
             }
             else {
-                $scope.selectedProduct.Specs['ImageID'] = {};
-                $scope.selectedProduct.Specs['ImageID'].Value = logo.ID;
+                $scope.selectedProduct.Specs['Logo'] = {};
+                $scope.selectedProduct.Specs['Logo'].Value = logo.ID;
             }
         };
 

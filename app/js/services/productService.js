@@ -15,6 +15,7 @@ four51.app.factory('Product', ['$resource', '$451', 'Security', function($resour
         "OpeningMessage",
         "PersonalMessage",
         "ClosingMessage",
+        "Logo",
         "DesignID",
         "PreviewURL",
         "SerialNumber",

@@ -120,7 +120,7 @@
                                     </div>
                                     <div class="logo-selection row" ng-show="Logos && Logos.length > 0">
                                         <label>Logo Selection</label>
-                                        <div ng-repeat="logo in Logos" class="col-sm-3" ng-class="{'logo-selected':selectedProduct.Specs.ImageID.Value == logo.ID}">
+                                        <div ng-repeat="logo in Logos" class="col-sm-3" ng-class="{'logo-selected':selectedProduct.Specs.Logo.Value == logo.ID}">
                                             <figure ng-click="selectLogo(logo)" style="height: 235px;">
                                                 <img ng-src="{{logo.URL}}" />
                                             </figure>
