@@ -30,6 +30,14 @@ four51.app.constant("RecipientUpload",{
                 }
             },
             {
+                'Name': 'Envelope Line Two',
+                'Required': false,
+                'Mapping': {
+                    'Type': 'Spec',
+                    'Data': 'EnvelopeLineTwo'
+                }
+            },
+            {
                 'Name': 'Ship To First Name',
                 'Required': true,
                 'Mapping': {

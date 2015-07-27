@@ -137,6 +137,10 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                                 spec.Value = recipient.EmailSubject;
                             }
                             break;
+                        case "EnvelopeLineTwo":
+                            if (!spec.Value) {
+                                spec.Value = recipient.EnvelopeLineTwo;
+                            }
                         case "Denomination":
                             if (recipient.Denomination) {
                                 spec.Value = recipient.Denomination.toString().trim();

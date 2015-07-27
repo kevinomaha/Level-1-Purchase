@@ -90,6 +90,9 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                     case "RecipientEmailAddress":
                         spec.Value = recipient.RecipientEmailAddress;
                         break;
+                    case "EnvelopeLineTwo":
+                        spec.Value = recipient.EnvelopeLineTwo;
+                        break;
                     case "Email":
                         spec.Value = recipient.RecipientEmailAddress;
                         break;
