@@ -217,6 +217,11 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
                                                     $scope.tempPasteError = true;
                                                     recipient.ErrorMessage.push(recipientIdentifier + " has an invalid denomination.");
                                                 }
+                                                else if (denom === NaN || denom < 500 || denom > 2000 || denom % 25 !== 0) {
+                                                    recipient.Invalid = true;
+                                                    $scope.tempPasteError = true;
+                                                    recipient.ErrorMessage.push(recipientIdentifier + " has an invalid denomination.");
+                                                }
                                             }
 
                                             if (recipient.FutureShipDate !== '' && recipient.FutureShipDate) {
