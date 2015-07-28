@@ -212,7 +212,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
 
                                             if (recipient.Denomination && recipient.Denomination !== '') {
                                                 var denom = parseInt(recipient.Denomination.replace('$', ''));
-                                                if (denom === NaN || denom < 5 || denom > 2000 || denom % 5 !== 0) {
+                                                if (denom === NaN || denom < 5 || denom > 500 || denom % 5 !== 0) {
                                                     recipient.Invalid = true;
                                                     $scope.tempPasteError = true;
                                                     recipient.ErrorMessage.push(recipientIdentifier + " has an invalid denomination.");
