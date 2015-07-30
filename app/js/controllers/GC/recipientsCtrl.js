@@ -72,7 +72,6 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
 
         $scope.$watch('tempRecipient.Address.Country', function(newVal) {
             if (!newVal) return;
-            console.log('TEST Country Changed');
             angular.forEach($scope.states, function(state) {
                 if (state.value === $scope.tempRecipient.Address.State) {
                     if (state.country !== $scope.tempRecipient.Address.Country) {
