@@ -6,109 +6,109 @@
     </div>
 </div>-->
 <div ng-show="currentCategory.SpaDescription" style="margin-top:10px;">
-        <div class="spa-category-description">
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <figure class="text-center">
-                        <img style="" ng-src="{{currentCategory.SpaDescription.image}}"/>
-                    </figure>
-                </div>
+    <div class="spa-category-description">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <figure class="text-center">
+                    <img style="" ng-src="{{currentCategory.SpaDescription.image}}"/>
+                </figure>
             </div>
-            <div class="row">
-                <div>
-                    <div class="panel panel-default panel-collapser" ng-repeat="tab in tabs" ng-if="tab.content">
-                        <div class="panel-heading">
-                            <div class="panel-title" ng-click="switchCollapse(tab.title)" ng-class="{active:tab.title == collapser}">
-                                {{tab.title}}
-                            </div>
-                        </div>
-                        <div class="panel-body" collapse="collapser != tab.title">
-                            <div ng-bind-html="tab.content"></div>
+        </div>
+        <div class="row">
+            <div>
+                <div class="panel panel-default panel-collapser" ng-repeat="tab in tabs" ng-if="tab.content">
+                    <div class="panel-heading">
+                        <div class="panel-title" ng-click="switchCollapse(tab.title)" ng-class="{active:tab.title == collapser}">
+                            {{tab.title}}
                         </div>
                     </div>
+                    <div class="panel-body" collapse="collapser != tab.title">
+                        <div ng-bind-html="tab.content"></div>
+                    </div>
+                </div>
 
-                    <!--<tabset>
-                        <tab ng-repeat="tab in tabs" active="tab.active" disabled="tab.disabled" ng-if="tab.content">
-                            <tab-heading>
-                                <i class="fa" ng-class="{'fa-quote-left':tab.title == 'Description','fa-info-circle':tab.title == 'More Info','fa-flag':tab.title == 'Canadian Info'}"></i> <span class="hidden-xs">{{tab.title}}</span>
-                            </tab-heading>
-                            <div ng-bind-html="tab.content"></div>
-                        </tab>
-                    </tabset>-->
+                <!--<tabset>
+                    <tab ng-repeat="tab in tabs" active="tab.active" disabled="tab.disabled" ng-if="tab.content">
+                        <tab-heading>
+                            <i class="fa" ng-class="{'fa-quote-left':tab.title == 'Description','fa-info-circle':tab.title == 'More Info','fa-flag':tab.title == 'Canadian Info'}"></i> <span class="hidden-xs">{{tab.title}}</span>
+                        </tab-heading>
+                        <div ng-bind-html="tab.content"></div>
+                    </tab>
+                </tabset>-->
 
-                    <div class="panel panel-default panel-collapser">
-                        <div class="panel-heading">
-                            <div class="panel-title" ng-click="switchCollapse('Order')"  ng-class="{active:collapser == 'Order'}">
-                                Order
-                            </div>
+                <div class="panel panel-default panel-collapser">
+                    <div class="panel-heading">
+                        <div class="panel-title" ng-click="switchCollapse('Order')"  ng-class="{active:collapser == 'Order'}">
+                            Order
                         </div>
-                        <div class="panel-body" ng-controller="ProductCtrl" collapse="collapser != 'Order'">
-                            <div ng-show="products.length == 0" class="alert alert-info text-center col-lg-6 col-sm-6 col-lg-offset-3 col-sm-offset-3 col-md-offset-2 col-md-8">There are currently no products available for this merchant</div>
-                            <div ng-show="products.length > 0">
-                                <div class="denomination-selection">
-                                    <div class="row">
-                                        <img class="img-responsive" style="margin: 10px auto;" ng-src="{{LineItem.Product.LargeImageUrl}}">
-                                    </div>
-                                    <div class="row">
-                                        <div ng-repeat="product in products" ng-click="setDenomination(product)" class="denomination-value" ng-class="{selected:selectedProduct.Denomination == product.Denomination}">
-                                            {{'$'+product.Denomination}}
-                                        </div>
+                    </div>
+                    <div class="panel-body" ng-controller="ProductCtrl" collapse="collapser != 'Order'">
+                        <div ng-show="products.length == 0" class="alert alert-info text-center col-lg-6 col-sm-6 col-lg-offset-3 col-sm-offset-3 col-md-offset-2 col-md-8">There are currently no products available for this merchant</div>
+                        <div ng-show="products.length > 0">
+                            <div class="denomination-selection">
+                                <div class="row">
+                                    <img class="img-responsive" style="margin: 10px auto;" ng-src="{{LineItem.Product.LargeImageUrl}}">
+                                </div>
+                                <div class="row">
+                                    <div ng-repeat="product in products" ng-click="setDenomination(product)" class="denomination-value" ng-class="{selected:selectedProduct.Denomination == product.Denomination}">
+                                        {{'$'+product.Denomination}}
                                     </div>
                                 </div>
                             </div>
-                                <div class="row">
-                                    <form name="addToOrderForm" >
-                                        <div class="col-lg-5 col-md-6 col-sm-6" ng-if="LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'">
-                                            <div id="451_list_vspec" ng-show="allowAddToOrder">
-                                                <div class="form-group" ng-repeat="s in LineItem.Product.Specs | onproperty:[{Property: 'CanSetForLineItem', Value: true}, {Property: 'DefinesVariant', Value: true}]" ng-if="!(s.DefaultValue)">
-                                                    <customfilefield customfield="s" ng-if="s.ControlType == 'File'"></customfilefield>
-                                                    <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
-                                                    <customselectionfield change="specChanged" customfield="s" ng-if="s.ControlType == 'Selection'"></customselectionfield>
-                                                </div>
-                                            </div>
+                        </div>
+                        <div class="row">
+                            <form name="addToOrderForm" >
+                                <div class="col-lg-5 col-md-6 col-sm-6" ng-if="LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'">
+                                    <div id="451_list_vspec" ng-show="allowAddToOrder">
+                                        <div class="form-group" ng-repeat="s in LineItem.Product.Specs | onproperty:[{Property: 'CanSetForLineItem', Value: true}, {Property: 'DefinesVariant', Value: true}]" ng-if="!(s.DefaultValue)">
+                                            <customfilefield customfield="s" ng-if="s.ControlType == 'File'"></customfilefield>
+                                            <customtextfield customfield="s" ng-if="s.ControlType == 'Text'"></customtextfield>
+                                            <customselectionfield change="specChanged" customfield="s" ng-if="s.ControlType == 'Selection'"></customselectionfield>
                                         </div>
-                                        <div class="col-lg-6 col-sm-6" ng-class="{'col-lg-offset-3 col-sm-offset-3 col-md-offset-2 col-md-8':LineItem.Product.Specs['Physical/Digital'].Value != 'Digital', 'col-lg-offset-1 col-md-6':LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'}">
-                                            <div class="view-form-icon" style="margin-bottom:10px;">
-                                                <div>
-                                                    <label>Quantity:</label>
-                                                    <quantityfield required="true" lineitem="LineItem" class="quantity" />
-                                                </div>
-                                            </div>
-                                            <div class="mini-white-panel" ng-show="LineItem.LineTotal || variantLineItemsOrderTotal" ng-if="!(user.Permissions.contains('HidePricing'))">
-                                                <p class="text-info text-center">
-                                                    <small class="text-info">Total</small>
-                                                </p>
-                                                <div class="text-center" ng-if="!(user.Permissions.contains('HidePricing'))" ng-show="LineItem.LineTotal || variantLineItemsOrderTotal">
-                                                    <h3 class="text-success">{{LineItem.PriceSchedule.PriceBreaks[0].Price * LineItem.Quantity | currency}}{{variantLineItemsOrderTotal}}</h3>
-                                                </div>
-                                            </div>
-                                            <button type="button" id="451_btn_orderadd" ng-disabled="addToOrderForm.$invalid || $parent.$parent.selectedRecipients.length == 0" ng-click="addToOrder(LineItem)" class="btn btn-lg btn-block" ng-class="{'btn-danger': (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError || $parent.$parent.selectedRecipients.length == 0), 'btn-primary': (!LineItem.qtyError && !addToOrderForm.$invalid && !addToOrderError && $parent.$parent.selectedRecipients.length > 0)}">
-                                                <span ng-class="{'hidden':(LineItem.qtyError || addToOrderForm.$invalid || addToOrderError || $parent.$parent.selectedRecipients.length == 0)}">{{addToOrderText}}</span>
-                                                <div class="add-to-error-overlay" ng-show="allowAddToOrder && (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError || $parent.$parent.selectedRecipients.length == 0)">
-                                                    <small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6" ng-class="{'col-lg-offset-3 col-sm-offset-3 col-md-offset-2 col-md-8':LineItem.Product.Specs['Physical/Digital'].Value != 'Digital', 'col-lg-offset-1 col-md-6':LineItem.Product.Specs['Physical/Digital'].Value == 'Digital'}">
+                                    <div class="view-form-icon" style="margin-bottom:10px;">
+                                        <div>
+                                            <label>Quantity:</label>
+                                            <quantityfield required="true" lineitem="LineItem" class="quantity" />
+                                        </div>
+                                    </div>
+                                    <div class="mini-white-panel" ng-show="LineItem.LineTotal || variantLineItemsOrderTotal" ng-if="!(user.Permissions.contains('HidePricing'))">
+                                        <p class="text-info text-center">
+                                            <small class="text-info">Total</small>
+                                        </p>
+                                        <div class="text-center" ng-if="!(user.Permissions.contains('HidePricing'))" ng-show="LineItem.LineTotal || variantLineItemsOrderTotal">
+                                            <h3 class="text-success">{{LineItem.PriceSchedule.PriceBreaks[0].Price * LineItem.Quantity | currency}}{{variantLineItemsOrderTotal}}</h3>
+                                        </div>
+                                    </div>
+                                    <button type="button" id="451_btn_orderadd" ng-disabled="addToOrderForm.$invalid" ng-click="addToOrder(LineItem)" class="btn btn-lg btn-block" ng-class="{'btn-danger': (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError), 'btn-primary': (!LineItem.qtyError && !addToOrderForm.$invalid && !addToOrderError)}">
+                                        <span ng-class="{'hidden':(LineItem.qtyError || addToOrderForm.$invalid || addToOrderError)}">{{addToOrderText}}</span>
+                                        <div class="add-to-error-overlay" ng-show="allowAddToOrder && (LineItem.qtyError || addToOrderForm.$invalid || addToOrderError)">
+                                            <small>
                                                         <span ng-show="addToOrderForm.$invalid" >
                                                             Product is missing required fields for Add to Cart.<br/>
                                                         </span>
-                                                        <span ng-show="$parent.$parent.selectedRecipients.length == 0" >
-                                                            Please select at least one recipient.<br/>
-                                                        </span>
-                                                        {{addToOrderError}}
-                                                    </small>
-                                                </div>
-                                            </button>
-                                            <p class="alert alert-info text-center" ng-show="LineItem.Product.DisplayInventory && (LineItem.Variant || LineItem.Product.Variants.length == 0)">
-                                                <i class="fa fa-clock-o" style="float:none;"></i> {{inventoryDisplay(LineItem.Product, LineItem.Variant) > 5 ? 'Will ship within 24 hours' : 'Should ship within 3-5 days'}}
-                                            </p>
+                                                <!--<span ng-show="$parent.$parent.selectedRecipients.length == 0" >
+                                                    Please select at least one recipient.<br/>
+                                                </span>-->
+                                                {{addToOrderError}}
+                                            </small>
                                         </div>
-                                    </form>
+                                    </button>
+                                    <p class="alert alert-info text-center" ng-show="LineItem.Product.DisplayInventory && (LineItem.Variant)">
+                                        <i class="fa fa-clock-o" style="float:none;"></i> {{inventoryDisplay(LineItem.Product, LineItem.Variant) > 5 ? 'Will ship within 24 hours' : 'Should ship within 3-5 days'}}
+                                    </p>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 <!--    <div class="col-md-6 col-lg-5 col-lg-offset-1">
