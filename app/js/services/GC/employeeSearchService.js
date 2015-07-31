@@ -1,12 +1,12 @@
-four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451', '$filter',
-    function($resource, $http, $451, $filter) {
+four51.app.factory('EmployeeSearch', ['$resource', '$http', '$451', '$filter', 'gcURL',
+    function($resource, $http, $451, $filter, gcURL) {
         function _then(fn, data) {
             if (angular.isFunction(fn))
                 fn(data);
         }
 
         //var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/GetUsersByWildCard";
-        var baseUrl = "https://wopr-app-dev.gcincentives.com/ClientService/GetUsersByWildCard";
+        var baseUrl = gcURL.getBaseURL() + "GetUsersByWildCard";
 
         function containsObject(obj, list) {
             for (var i = 0; i < list.length; i++) {

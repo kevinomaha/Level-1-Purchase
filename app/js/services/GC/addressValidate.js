@@ -1,7 +1,7 @@
-four51.app.factory('AddressValidate', ['$resource', function($resource) {
+four51.app.factory('AddressValidate', ['$resource', 'gcURL', function($resource, gcURL) {
 
     //var baseUrl = "https://gca-svcs02-dev.cloudapp.net/ClientService/ValidateAddress";
-    var baseUrl = "https://wopr-app-dev.gcincentives.com/ClientService/ValidateAddress";
+    var baseUrl = gcURL.getBaseURL() + "ValidateAddress";
 
     function identicalAddresses(uA, rA) {
         //uA = User's Address
