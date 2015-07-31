@@ -351,7 +351,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                         console.log(config);
                     }
                 );
-            })
+            });
         };
 
         var _getLogos = function(success) {
