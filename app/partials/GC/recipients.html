@@ -86,7 +86,7 @@
                                     <div class="view-form-icon">
                                         <div>
                                             <label>Recipient ID</label>
-                                            <input class="form-control" type="text" ng-maxlength="50" maxlength="50" ng-model="searchCriterion.e" name="RecipientID" tabindex="3" />
+                                            <input class="form-control" type="text" ng-maxlength="30" maxlength="30" ng-model="searchCriterion.e" name="RecipientID" tabindex="3" />
                                             <i class="fa fa-user"></i>
                                         </div>
                                     </div>
@@ -243,7 +243,7 @@
                                         <div class="view-form-icon" ng-hide="ifMerchant()">
                                             <div>
                                                 <label>Email Address</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientEmailAddress" name="Email"
+                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientEmailAddress" maxlength="50" name="Email"
                                                        tabindex="3"/>
                                                 <i class="fa fa-envelope"></i>
                                             </div>
@@ -251,7 +251,7 @@
                                         <div class="view-form-icon" ng-show="ifMerchant()">
                                             <div>
                                                 <label>Email Address</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientEmailAddress" name="RecipientEmailAddress"
+                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientEmailAddress" maxlength="50" name="RecipientEmailAddress"
                                                        ng-pattern="/^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/"/>
                                                 <i class="fa fa-envelope"></i>
                                             </div>
@@ -427,14 +427,14 @@
                                         <div class="view-form-icon">
                                             <div>
                                                 <label>Recipient First Name</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.FirstName" name="FirstName" tabindex="16" />
+                                                <input class="form-control" type="text" ng-model="tempRecipient.FirstName" maxlength="50" name="FirstName" tabindex="16" />
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
                                         <div class="view-form-icon">
                                             <div>
                                                 <label>Email Address</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientEmailAddress" name="Email"
+                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientEmailAddress" maxlength="50" name="Email"
                                                        ng-required="true" tabindex="18"/>
                                                 <i class="fa fa-envelope"></i>
                                             </div>
@@ -444,14 +444,14 @@
                                         <div class="view-form-icon">
                                             <div>
                                                 <label>Recipient Last Name</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.LastName" name="LastName" tabindex="17" />
+                                                <input class="form-control" type="text" ng-model="tempRecipient.LastName" maxlength="50" name="LastName" tabindex="17" />
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
                                         <div class="view-form-icon">
                                             <div>
                                                 <label>Recipient ID</label>
-                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientID" name="RecipientID" tabindex="19" />
+                                                <input class="form-control" type="text" ng-model="tempRecipient.RecipientID" maxlength="30" name="RecipientID" tabindex="19" />
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
