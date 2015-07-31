@@ -1,5 +1,7 @@
-four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'User',
-    function($451, $http, ProductDescription, User) {
+four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'User', 'gcURL',
+    function($451, $http, ProductDescription, User, gcURL) {
+
+        var GCBaseURL = gcURL.getBaseURL();
 
         var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList'): {List:[]};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
@@ -210,7 +212,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             function getPreviewDetails(lineItem, order) {
                 var denomination = lineItem.Product.Specs.Denomination ? lineItem.Product.Specs.Denomination.Value.replace('$', '') : null;
                 var designID = "";
-                var baseURL = "https://wopr-app-dev.gcincentives.com/ClientService/";
+                var baseURL = GCBaseURL;
                 //var serialURL = baseURL + "GetSerialNumber/" + denomination + "/usd/false/?";
                 var serialURL = baseURL + "GetSerialNumber";
                 $http.get(serialURL).success(function (serialNumber) {
@@ -230,7 +232,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                             data: JSON.stringify(Extrs)
                         }).success(function (previewID) {
                             if (lineItem.Product.Specs['PreviewURL']) {
-                                lineItem.Product.Specs['PreviewURL'].Value = "https://wopr-app-dev.gcincentives.com/ClientService/GetTemplatePreview?id=" + previewID.replace(/"/g, '');
+                                lineItem.Product.Specs['PreviewURL'].Value = GCBaseURL + "GetTemplatePreview?id=" + previewID.replace(/"/g, '');
                             }
                             itemCount++;
                             lineItem.Specs = angular.copy(lineItem.Product.Specs);
@@ -340,7 +342,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
         var _getTemplateThumbnails = function(product, success) {
             //'https://wopr-app-dev.gcincentives.com/ClientService/getTemplateThumbnails?s=' + product.ExternalID + '&o=1&height=200&width=200'
             User.get(function(user) {
-                $http.get('https://wopr-app-dev.gcincentives.com/ClientService/getTemplateThumbnails?s=' + user.Username + '&uname=' + product.ExternalID + '&height=200&width=200').
+                $http.get(GCBaseURL + 'getTemplateThumbnails?s=' + user.Username + '&uname=' + product.ExternalID + '&height=200&width=200').
                     success(function(data){
                         success(data);
                     }).
@@ -356,7 +358,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
 
         var _getLogos = function(success) {
             User.get(function(user) {
-                $http.get('https://wopr-app-dev.gcincentives.com/ClientService/GetImagesbyOrg/?uname=' + user.Username + '&LogosOnly=T').
+                $http.get(GCBaseURL + 'GetImagesbyOrg/?uname=' + user.Username + '&LogosOnly=T').
                     success(function(data){
                         var logos = [];
                         angular.forEach(data, function(logo) {
