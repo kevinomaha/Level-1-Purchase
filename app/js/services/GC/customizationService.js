@@ -338,39 +338,44 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
         };
 
         var _getTemplateThumbnails = function(product, success) {
-            $http.get('https://wopr-app-dev.gcincentives.com/ClientService/getTemplateThumbnails?s=' + product.ExternalID + '&o=1&height=200&width=200').
-                success(function(data){
-                    success(data);
-                }).
-                error(function(data, status, headers, config ) {
-                    console.log(data);
-                    console.log(status);
-                    console.log(headers);
-                    console.log(config);
-                }
-            );
+            //'https://wopr-app-dev.gcincentives.com/ClientService/getTemplateThumbnails?s=' + product.ExternalID + '&o=1&height=200&width=200'
+            User.get(function(user) {
+                $http.get('https://wopr-app-dev.gcincentives.com/ClientService/getTemplateThumbnails?s=' + user.Username + '&uname=' + product.ExternalID + '&height=200&width=200').
+                    success(function(data){
+                        success(data);
+                    }).
+                    error(function(data, status, headers, config ) {
+                        console.log(data);
+                        console.log(status);
+                        console.log(headers);
+                        console.log(config);
+                    }
+                );
+            })
         };
 
         var _getLogos = function(success) {
-            $http.get('https://wopr-app-dev.gcincentives.com/ClientService/GetImagesbyOrg/?org=1&LogosOnly=T').
-                success(function(data){
-                    var logos = [];
-                    angular.forEach(data, function(logo) {
-                        var l = {
-                            URL: logo,
-                            ID: logo.split('id=')[1]
-                        };
-                        logos.push(l);
-                    });
-                    success(logos);
-                }).
-                error(function(data, status, headers, config ) {
-                    console.log(data);
-                    console.log(status);
-                    console.log(headers);
-                    console.log(config);
-                }
-            );
+            User.get(function(user) {
+                $http.get('https://wopr-app-dev.gcincentives.com/ClientService/GetImagesbyOrg/?uname=' + user.Username + '&LogosOnly=T').
+                    success(function(data){
+                        var logos = [];
+                        angular.forEach(data, function(logo) {
+                            var l = {
+                                URL: logo,
+                                ID: logo.split('id=')[1]
+                            };
+                            logos.push(l);
+                        });
+                        success(logos);
+                    }).
+                    error(function(data, status, headers, config ) {
+                        console.log(data);
+                        console.log(status);
+                        console.log(headers);
+                        console.log(config);
+                    }
+                );
+            });
         };
 
         var _assignAddresses = function(recipientList, addresses) {
