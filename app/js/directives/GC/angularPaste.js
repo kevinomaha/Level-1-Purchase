@@ -211,7 +211,7 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
                                             }
 
                                             if (recipient.Denomination && recipient.Denomination !== '') {
-                                                var denom = parseInt(recipient.Denomination.replace('$', ''));
+                                                var denom = parseFloat(recipient.Denomination.replace('$', ''));
                                                 if (denom === NaN || denom < 5 || denom > 2000) {
                                                     recipient.Invalid = true;
                                                     $scope.tempPasteError = true;
