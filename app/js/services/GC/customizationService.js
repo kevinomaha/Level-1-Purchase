@@ -342,7 +342,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
         var _getTemplateThumbnails = function(product, success) {
             //'https://wopr-app-dev.gcincentives.com/ClientService/getTemplateThumbnails?s=' + product.ExternalID + '&o=1&height=200&width=200'
             User.get(function(user) {
-                $http.get(GCBaseURL + 'getTemplateThumbnails?s=' + user.Username + '&uname=' + product.ExternalID + '&height=200&width=200').
+                $http.get(GCBaseURL + 'getTemplateThumbnails?s=' + product.ExternalID + '&uname=' + user.Username + '&height=200&width=200').
                     success(function(data){
                         success(data);
                     }).
