@@ -104,6 +104,10 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                                 spec.Value = recipient.LastName;
                             }
                             break;
+                        case "Company":
+                            if (!spec.Value) {
+                                spec.VAlue = recipient.Address.CompanyName;
+                            }
                         case "RecipientID":
                             if (!spec.Value) {
                                 spec.Value = recipient.EmployeeNumber;

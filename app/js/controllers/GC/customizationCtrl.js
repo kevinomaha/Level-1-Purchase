@@ -84,6 +84,9 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                     case "LastName":
                         spec.Value = recipient.LastName;
                         break;
+                    case "Company":
+                        spec.Value = recipient.Address.CompanyName;
+                        break;
                     case "RecipientID":
                         spec.Value = (recipient.EmployeeNumber || recipient.RecipientID);
                         break;
