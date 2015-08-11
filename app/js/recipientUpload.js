@@ -55,7 +55,7 @@ four51.app.constant("RecipientUpload",{
             },
             {
                 'Name': 'Company Name',
-                'Required': true,
+                'Required': false,
                 'Mapping': {
                     'Type': 'Address',
                     'Data': 'CompanyName'
