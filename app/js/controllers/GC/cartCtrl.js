@@ -1,8 +1,11 @@
-four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'CustomAddressList',
-    function ($scope, $routeParams, $location, $451, Order, OrderConfig, User, Shipper, CustomAddressList) {
+four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$451', 'Order', 'OrderConfig', 'User', 'Shipper', 'CustomAddressList', 'Grouping', 'PackageService',
+    function ($scope, $routeParams, $location, $451, Order, OrderConfig, User, Shipper, CustomAddressList, Grouping, PackageService) {
         $scope.backToCustomization = function() {
             $location.path('main');
         };
+
+        $scope.deletePackage = PackageService.deletePackage;
+        $scope.savePackageShipper = PackageService.setShippers;
 
         CustomAddressList.getall(function(list) {
             $scope.addresses = list;
@@ -26,12 +29,21 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             }
         });
 
+        $scope.$watch('currentOrder', function(newVal) {
+            if (!newVal) return;
+            $scope.packages = Grouping.groupOrder($scope.currentOrder.LineItems);
+        });
+
         function assignDigitalShipAddress() {
             for (var i = 0; i < $scope.currentOrder.LineItems.length; i++) {
                 if ($scope.currentOrder.LineItems[i].IsDigital) {
                     $scope.currentOrder.LineItems[i].ShipAddressID = $scope.digitalShipAddressID;
                 }
             }
+        }
+
+        $scope.getMarkup = function(item) {
+            return (item.LineTotal - item.Specs.Denomination.Value.replace('$', '').replace(',', '')).toFixed(2);
         }
 
         function getShippers() {

@@ -8041,6 +8041,54 @@ body {
   background-color: #d9edf7;
   border-color: #bce8f1;
 }
+.package-well {
+  margin: 0 0 20px;
+  padding: 0;
+  background-color: white;
+}
+.package-well .package-header {
+  padding: 15px;
+}
+.package-well .package-header .row h3 {
+  margin: 0;
+}
+.package-well .package-header .package-address {
+  color: #808080;
+}
+.item-markup :first-child {
+  color: #8cc63e;
+  font-weight: bold;
+  display: inline;
+}
+.item-markup :nth-child(2) {
+  display: inline;
+}
+.item-markup :last-child {
+  color: #009ee9;
+  display: inline;
+}
+.item-markup-multiple :first-child {
+  color: #8cc63e;
+  font-weight: bold;
+  display: inline;
+}
+.item-markup-multiple ::first-letter {
+  font-weight: normal;
+  color: black;
+}
+.item-markup-multiple :nth-child(2) {
+  display: inline;
+}
+.item-markup-multiple :nth-child(3) {
+  color: #009ee9;
+  display: inline;
+}
+.item-markup-multiple :last-child {
+  display: inline;
+}
+.red-x {
+  color: #be0f34;
+}
 .list-group-item-invalid {
   color: #808080;
   background-color: #E5E5E5;

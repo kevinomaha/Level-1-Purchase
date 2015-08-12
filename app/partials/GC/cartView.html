@@ -75,24 +75,34 @@
                         </div>
                     </form>
                     <form name="cart_line_items" novalidate="">
-                        <div class="recipient-groups">
-                            <div class="view-form-icon" ng-show="currentOrder.LineItems.length > 1 && !currentOrder.IsAllDigital">
-                                <label>Assign Shipping Method to all physical line items:</label>
-                                <div>
-                                    <div class="form-group">
-                                        <select class="form-control"
-                                                ng-change="updateAllShippers()"
-                                                name="shipMethod"
-                                                ng-model="currentOrder.ShipMethod"
-                                                ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !currentOrder.IsDigital"
-                                                ng-options="shipper as shipper.Name for shipper in shippers | gcshippers : currentOrder.Total:currentOrder.LineItems.length:false:null">
-                                            <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
-                                        </select>
+                        <div ng-repeat="package in packages" class="package-well">
+                            <div class="package-header">
+                                <div class="row">
+                                    <h3 class="pull-left">(Package {{package.packageNum}}) with {{package.itemCount}} award {{package.digital ? '(digital)' : 'shipping to ' + package.shipTo}}</h3>
+                                    <h3 class="text-success pull-right">{{package.packageTotal | currency}}</h3>
+                                </div>
+                                <h4 ng-if="!package.digital" class="package-address">
+                                    <i class="fa fa-map-marker"></i>
+                                    {{package.shipAddress.Street1}} {{package.shipAddress.City}}, {{package.shipAddress.State}}
+                                </h4>
+                                <div class="row">
+                                    <div class="pull-right">
+                                        <a ng-href="#" ng-click="deletePackage(currentOrder, package)">
+                                            <i class="text-warning fa fa-times fa-2x red-x"></i>
+                                        </a>
+                                    </div>
+                                    <div ng-if="!package.digital" class="pull-left col-md-6">
+                                        <label>Select a shipping method</label>
+                                        <select class="form-control" ng-change="savePackageShipper(currentOrder, package)"
+                                                ng-model="package.ShipperID"
+                                                ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown'"
+                                                ng-options="shipper.ID as shipper.Name for shipper in shippers | gcshippers:package.packageTotal:package.itemCount:package.digital:package.items[0].Product"
+                                                ng-required="!currentOrder.IsMultipleShip() && user.ShipMethod != null"></select>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-lineitem" ng-repeat="item in currentOrder.LineItems">
+                                <div class="panel-lineitem" ng-repeat="item in package.items">
                                     <button title="Remove Item" class="btn btn-danger" ng-click="removeItem(item)">
                                         <span class="fa fa-minus-circle fa-inverse"></span>
                                     </button>
@@ -121,7 +131,7 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <div class="row">
-                                            <div class="col-md-7">
+                                            <div class="col-md-6">
                                                 <div>
                                                     <h3 class="text-primary" ng-bind-html="item.Product.Name"></h3>
                                                     <p>
@@ -129,56 +139,26 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="text-center" ng-if="!(user.Permissions.contains('HidePricing'))">
-                                                    <small>{{'Total' | r}}</small>
+                                                    <!--TODO: ADD MARKUP INFORMATION-->
+                                                    <div class="item-markup" ng-if="item.Quantity <= 1">
+                                                        <p>{{item.Specs.Denomination.Value}}</p>
+                                                        <p>+</p>
+                                                        <p>{{getMarkup(item)}}</p>
+                                                    </div>
+                                                    <div class="item-markup-multiple" ng-if="item.Quantity > 1">
+                                                        <p>({{item.Specs.Denomination.Value}}</p>
+                                                        <p>+</p>
+                                                        <p>{{getMarkup(item)}}</p>
+                                                        <p>) x {{item.Quantity}}</p>
+                                                    </div>
                                                     <h2 class="text-success">
                                                         {{item.LineTotal | currency}}
                                                     </h2>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--<div ng-show="tempOrder.anonymousShipAddressForm" class="row">
-                                            <addressinput address='shipaddress' user='user'></addressinput>
-                                        </div>
-                                        <div class="row" ng-show="item.Product.ViewName && !item.IsDigital">
-                                            <div class="col-xs-12">
-                                                <div class="view-form-icon col-md-6">
-                                                    <div style="margin-bottom:10px;">
-                                                        <div class="input-group">
-                                                            <label style="font-size:11px;" ng-show="!group.IsDigital">Select a shipping address</label>
-                                                            <select class="form-control" name="shippingAddress"
-                                                                    ng-change="setShipAddressAtOrderLevel()"
-                                                                    ng-options="address.ID as address.AddressName for address in addresses | filter:{IsCustEditable:true,IsShipping:true}"
-                                                                    ng-model="tempOrder.AnonymousShipAddressID"
-                                                                    ng-required="true">
-                                                                <option class="view-select-placeholder" value="" selected="selected">Select a shipping address...</option>
-                                                            </select>
-                                                            <div class="input-group-btn">
-                                                                <button class="btn btn-primary" ng-click="tempOrder.anonymousShipAddressForm = true" type="button">New</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="view-form-icon col-md-6">
-                                                    <div>
-                                                        <label style="font-size:11px;" ng-show="!group.IsDigital">Select a shipping method</label>
-                                                        <select class="form-control"
-                                                                ng-change="updateGroupShipper(group)"
-                                                                name="shipMethod"
-                                                                ng-model="group.ShipMethod"
-                                                                ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown' && !group.IsDigital"
-                                                                ng-options="shipper.Name as (shipper.Name | gcshipping) for shipper in shippers | gcshippers : tempOrder.Total:tempOrder.LineItems.length:group.IsDigital"
-                                                                ng-required="true">
-                                                            <option class="view-select-placeholder" value="" selected="selected">Select a shipping method...</option>
-                                                        </select>
-                                                        <div style="margin:10px 0;" ng-show="group.IsDigital">
-                                                            <b>Email Delivery</b>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>-->
                                         <div class="row">
                                             <div class="col-md-5">
                                                 <div ng-show="!item.IsDigital" class="view-form-icon">
