@@ -335,7 +335,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
 
         var _saveEmailAddress = function(temp, recipientList){
             angular.forEach(recipientList.List, function(recipient){
-                if(recipient.RecipientID==temp.RecipientID){
+                if(recipient.UserID == temp.UserID){
                     recipient.RecipientEmailAddress = temp.RecipientEmailAddress;
                     recipient.BeingEdited = false;
                 }

@@ -223,11 +223,15 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             if (tempRecipient.BeingEdited) {
                 if (tempRecipient.BeingEdited === true) {
                     angular.forEach($scope.recipientList.List, function(r, index) {
-                        if (r.BeingEdited = true) {
+                        if (r.BeingEdited === true) {
                             $scope.recipientList.List.splice(index, 1);
                         }
                     });
                 }
+            }
+            if (!tempRecipient.UserID) {
+                tempRecipient.UserID = (tempRecipient.EmployeeNumber || randomString());
+                tempRecipient.Manual = true;
             }
             $scope.tempRecipient.BeingEdited = false;
             $scope.recipientList.List.push($scope.tempRecipient);
