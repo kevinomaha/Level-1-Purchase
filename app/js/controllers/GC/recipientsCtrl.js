@@ -174,7 +174,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             if (tempRecipient.BeingEdited) {
                 if (tempRecipient.BeingEdited === true) {
                     angular.forEach($scope.recipientList.List, function(r, index) {
-                        if (r.BeingEdited = true) {
+                        if (r.BeingEdited === true) {
                             $scope.recipientList.List.splice(index, 1);
                         }
                     });
