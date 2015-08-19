@@ -97,7 +97,7 @@
                                                 ng-model="package.ShipperID"
                                                 ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown'"
                                                 ng-options="shipper.ID as shipper.Name for shipper in shippers | gcshippers:package.packageTotal:package.itemCount:package.digital:package.items[0].Product"
-                                                ng-required="!currentOrder.IsMultipleShip() && user.ShipMethod != null"></select>
+                                                ng-required="!currentOrder.IsMultipleShip() && currentOrder.LineItems[0].ShipperID != null"></select>
                                     </div>
                                 </div>
                             </div>
@@ -159,22 +159,45 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                <div ng-show="!item.IsDigital" class="view-form-icon">
-                                                    <div ng-show="user.ShipMethod != null && shippers">
-                                                        <label ng-class="{'required': !item.ShipperID}">{{'Shipping' | r}} Method</label>
-                                                        <select class="form-control" ng-change="saveChanges()" name="shipMethod"
-                                                                ng-model="item.ShipperID"
-                                                                ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown'"
-                                                                ng-options="shipper.ID as shipper.Name for shipper in shippers | gcshippers:currentOrder.Total:currentOrder.LineItems.length:currentOrder.IsAllDigital:item.Product"
-                                                                ng-required="!currentOrder.IsMultipleShip() && user.ShipMethod != null">
-                                                        </select>
-                                                        <i class="fa fa-truck"></i>
+                                        <!-- START MERCHANT CARD MODS -->
+                                        <div ng-show="item.shipaddressform" class="row">
+                                            <addressinput address='shipaddress' user='user'></addressinput>
+                                        </div>
+                                        <div class="row" ng-show="!item.IsDigital">
+                                            <div class="col-xs-12">
+                                                <div class="view-form-icon col-md-6" ng-show="item.Product.ViewName && !item.IsDigital">
+                                                    <div style="margin-bottom:10px;">
+                                                        <div class="input-group">
+                                                            <label style="font-size:11px;">Select a shipping address</label>
+                                                            <select class="form-control"
+                                                                    ng-change="setShipAddressAtLineItem(item)"
+                                                                    ng-options="address.ID as address.AddressName for address in addresses | filter:{IsShipping:true}"
+                                                                    ng-model="item.ShipAddressID">
+                                                                <option value="" selected>Use Existing Address</option>
+                                                            </select>
+                                                            <div class="input-group-btn">
+                                                                <button class="btn btn-primary" ng-click="item.shipaddressform = true" type="button">New</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div ng-show="!item.IsDigital" class="view-form-icon">
+                                                        <div ng-show="user.ShipMethod != null && shippers">
+                                                            <label ng-class="{'required': !item.ShipperID}">{{'Shipping' | r}} Method</label>
+                                                            <select class="form-control" ng-change="saveChanges()" name="shipMethod"
+                                                                    ng-model="item.ShipperID"
+                                                                    ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown'"
+                                                                    ng-options="shipper.ID as shipper.Name for shipper in shippers | gcshippers:currentOrder.Total:currentOrder.LineItems.length:currentOrder.IsAllDigital:item.Product"
+                                                                    ng-required="!currentOrder.IsMultipleShip() && user.ShipMethod != null">
+                                                            </select>
+                                                            <i class="fa fa-truck"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- END MERCHANT CARD MODS -->
                                         <div class="row" collapse="!item.Editing">
                                             <form name="editSpecsForm" novalidate="">
                                                 <div class="col-sm-6">

@@ -33,6 +33,18 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             if (!newVal) return;
             $scope.packages = Grouping.groupOrder($scope.currentOrder.LineItems);
         });
+        $scope.$on('event:AddressSaved', function(event) {
+            angular.forEach($scope.packages,function(p){
+                angular.forEach(p.items,function(i){
+                    i.shipaddressform = false;
+                });
+            });
+        });
+        $scope.setShipAddressAtLineItem = function(item){
+            item.ShipFirstName = null;
+            item.ShipLastName = null;
+            $scope.saveChanges();
+        }
 
         function assignDigitalShipAddress() {
             for (var i = 0; i < $scope.currentOrder.LineItems.length; i++) {
