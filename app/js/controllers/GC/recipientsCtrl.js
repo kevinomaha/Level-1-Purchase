@@ -169,6 +169,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
         }
 
         $scope.saveIndicator = false;
+
         $scope.saveRecipient = function(tempRecipient) {
             $scope.saveIndicator = true;
             if (tempRecipient.BeingEdited) {
@@ -243,6 +244,33 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             //$scope.newRecipient = false;
         };
 
+        $scope.saveAnonRecipient = function() {
+            var anonRecipient = {};
+            anonRecipient.BeingEdited = false;
+            angular.forEach($scope.addresses, function(a){
+                if(a.CompanyName == "GiftCertificates.com"){
+                    anonRecipient.Address = a;
+                }
+            });
+            anonRecipient.Address.IsShipping = true;
+            if (!anonRecipient.UserID) {
+                anonRecipient.UserID = (anonRecipient.EmployeeNumber || randomString());
+                anonRecipient.Manual = true;
+            }
+            $scope.saveIndicator = true;
+            Address.save(anonRecipient.Address, function(data) {
+                $scope.recipientList.List.push(anonRecipient);
+                Customization
+                    .setAddress(data, anonRecipient, $scope.recipientList)
+                    .validateRecipientList($scope.recipientList)
+                    .setRecipients($scope.recipientList);
+                $scope.saveIndicator = false;
+                clearRecipient();
+                getAddresses();
+                $scope.goToCustomization();
+            });
+        };
+
         $scope.saveOriginalAddress = function() {
             $scope.saveIndicator = true;
             Address.save($scope.tempRecipient.Address, function(data) {
@@ -303,6 +331,9 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             var assignToAll = $scope.tempRecipient.Address ? $scope.tempRecipient.Address.AssignToAll : false;
             $scope.tempRecipient.Address = address;
             $scope.tempRecipient.Address.AssignToAll = assignToAll;
+        };
+        $scope.setAnonRecipient = function(){
+            $scope.saveAnonRecipient();
         };
 
         $scope.goToCustomization = function() {
