@@ -30,6 +30,9 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             else if (p.Name.indexOf('Original') > -1) {
                 type = "Original";
             }
+            else if (p.Name.indexOf('Physical SuperCertificate') > -1) {
+                type = "Original";
+            }
             else if (p.Name.indexOf('Greeting') > -1) {
                 type = "Greeting Card";
             }

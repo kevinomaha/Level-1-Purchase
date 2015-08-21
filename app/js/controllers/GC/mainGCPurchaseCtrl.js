@@ -178,7 +178,11 @@ four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope
                 }
                 var productList = $scope.selectedProduct;
                 Product.get($scope.selectedProduct.StandardID, function (product) {
-                    if (!product.LargeImageUrl) product.LargeImageUrl = $scope.selectedProduct.Image.URL;
+                    if (!product.LargeImageUrl) {
+                        if($scope.selectedProduct.Image){
+                            product.LargeImageUrl = $scope.selectedProduct.Image.URL;
+                        }
+                    }
                     $scope.selectedProductDetails = angular.copy(product);
                     product.ProductList = productList;
                     Customization.setProduct(product);
