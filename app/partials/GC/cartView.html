@@ -97,7 +97,7 @@
                                                 ng-model="package.ShipperID"
                                                 ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown'"
                                                 ng-options="shipper.ID as shipper.Name for shipper in shippers | gcshippers:package.packageTotal:package.itemCount:package.digital:package.items[0].Product"
-                                                ng-required="!currentOrder.IsMultipleShip() && currentOrder.LineItems[0].ShipperID != null"></select>
+                                                ng-required="!currentOrder.IsMultipleShip() && currentOrder.LineItems[0].ShipperID == null"></select>
                                     </div>
                                 </div>
                             </div>

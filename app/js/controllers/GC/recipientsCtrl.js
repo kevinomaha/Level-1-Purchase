@@ -254,8 +254,9 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             });
             anonRecipient.Address.IsShipping = true;
             if (!anonRecipient.UserID) {
-                anonRecipient.UserID = (anonRecipient.EmployeeNumber || randomString());
+                anonRecipient.UserID = "Anon-" + randomString();
                 anonRecipient.Manual = true;
+                anonRecipient.Anon = true;
             }
             $scope.saveIndicator = true;
             Address.save(anonRecipient.Address, function(data) {

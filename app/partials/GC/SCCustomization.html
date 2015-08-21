@@ -12,7 +12,7 @@
             <div class="panel-body">
                 <div class="recipient-list-container">
                     <ul class="list-group" style="margin-bottom:0;">
-                        <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
+                        <li class="list-group-item" ng-show="!isAnon" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
                             <div class="pull-right">
                                 <div>
                                     <i class="fa fa-3x" ng-show="recipient.Valid" ng-class="{'fa-circle-o text-muted': !recipient.Selected, 'fa-check-circle text-success': recipient.Selected}"></i>
@@ -29,6 +29,12 @@
                                     </span>
                                 </small>
                             </p>
+                        </li>
+                        <li class="list-group-item list-group-item-success">
+                            <div ng-show="isAnon">
+                                <div>Add Annonymous Awards</div>
+                                <input class="form-control" type="text" ng-model="anonQty" placeholder="Quantity" name="Quantity" maxlength="50" tabindex="1" ng-required="isAnon"/>
+                            </div>
                         </li>
                     </ul>
                 </div>

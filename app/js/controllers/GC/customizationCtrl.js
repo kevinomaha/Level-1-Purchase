@@ -8,6 +8,7 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
 
         $scope.recipientList = angular.copy(Customization.getRecipients());
         $scope.selectedProduct = Customization.getProduct();
+        $scope.isAnon = false;
 
         angular.forEach($scope.recipientList.List, function(recipient) {
             if (recipient.EmailSubject === null || recipient.EmailSubject === '' || !recipient.EmailSubject) {
@@ -63,6 +64,9 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                 if (recipient.Valid) {
                     recipient.Selected = true;
                     $scope.selectedRecipients.push(recipient);
+                }
+                if(recipient.Anon){
+                    $scope.isAnon = true;
                 }
             });
             if ($scope.recipientList.List.length == 1) replaceRecipientTokens();
@@ -169,8 +173,7 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
 
         $scope.addToCartVariable = function(product) {
             $scope.generateAwardsIndicator = true;
-
-            Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, function(order) {
+            Customization.addToCartVariable(product, $scope.selectedRecipients, $scope.user, $scope.currentOrder, $scope.anonQty, function(order) {
                 $scope.currentOrder = order;
                 Order.save($scope.currentOrder, function(data) {
                     $scope.user.CurrentOrderID = data.ID;

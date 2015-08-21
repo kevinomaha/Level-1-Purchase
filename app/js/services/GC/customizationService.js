@@ -202,7 +202,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
             });
         };
 
-        var _addToCartVariable = function(product, selectedRecipients, user, order, success) {
+        var _addToCartVariable = function(product, selectedRecipients, user, order, anonQty, success) {
             if (!order) {
                 order = {};
                 order.LineItems = [];
@@ -266,7 +266,10 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                             });
 
                             order.LineItems.push(lineItem);
-                            if (recipCount == itemCount) {
+                            if(anonQty){
+                                success(order);
+                            }
+                            else if (recipCount == itemCount) {
                                 success(order);
                             }
                         });
@@ -276,7 +279,12 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
 
             angular.forEach(selectedRecipients, function(recipient) {
                 var lineItem = {};
-                lineItem.Quantity = 1;
+                if(anonQty){
+                    lineItem.Quantity = anonQty;
+                }
+                else{
+                    lineItem.Quantity = 1;
+                }
                 User.get(function(user) {
                     lineItem.Product = recipientToSpecs(recipient, angular.copy(product), user);
 
