@@ -63,7 +63,12 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
         }
 
         $scope.getMarkup = function(item) {
-            return (item.LineTotal - item.Specs.Denomination.Value.replace('$', '').replace(',', '')).toFixed(2);
+            if(item.Specs.Denomination){
+                return (item.LineTotal - item.Specs.Denomination.Value.replace('$', '').replace(',', '')).toFixed(2);
+            }
+            else{
+                return (item.LineTotal - Number(item.Product.ExternalID.slice(-3))).toFixed(2);
+            }
         }
 
         function getShippers() {

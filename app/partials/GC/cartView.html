@@ -143,7 +143,9 @@
                                                 <div class="text-center" ng-if="!(user.Permissions.contains('HidePricing'))">
                                                     <!--TODO: ADD MARKUP INFORMATION-->
                                                     <div class="item-markup" ng-if="item.Quantity <= 1">
-                                                        <p>{{item.Specs.Denomination.Value}}</p>
+                                                        <p ng-if="item.Specs.Denomination">{{item.Specs.Denomination.Value}}</p>
+                                                        <p ng-if="(!item.Specs.Denomination) && (item.LineTotal < 100)">${{item.Product.ExternalID.slice(-2)}}</p>
+                                                        <p ng-if="(!item.Specs.Denomination) && (item.LineTotal >= 100)">${{item.Product.ExternalID.slice(-3)}}</p>
                                                         <p>+</p>
                                                         <p>{{getMarkup(item)}}</p>
                                                     </div>
