@@ -26,7 +26,6 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         Product.get($scope.selectedProduct.InteropID, function(p) {
             $scope.currentProduct = p;
         });
-
         function getTemplateThumnails() {
             Customization.getTemplateThumbnails($scope.selectedProduct, function(templates) {
                 $scope.Templates = templates;
@@ -45,8 +44,10 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         if (['Digital', 'Original', 'e-Cards'].indexOf($scope.selectedProduct.ProductType) > -1) getLogos();
 
         $scope.selectTemplate = function(template) {
-            if ($scope.selectedProduct.Specs['DesignID']) $scope.selectedProduct.Specs['DesignID'].Value = template.DesignId;
-            if ($scope.selectedProduct.Specs['DesignName']) $scope.selectedProduct.Specs['DesignName'].Value = template.Name;
+            if($scope.selectedProduct.Specs){
+                if ($scope.selectedProduct.Specs['DesignID']) $scope.selectedProduct.Specs['DesignID'].Value = template.DesignId;
+                if ($scope.selectedProduct.Specs['DesignName']) $scope.selectedProduct.Specs['DesignName'].Value = template.Name;
+            }
         };
 
         $scope.selectLogo = function(logo) {
@@ -157,6 +158,44 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
         $scope.generateAwardsIndicator = false;
 
         $scope.addToCartStatic = function(product) {
+            $scope.generateAwardsIndicator = true;
+            Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.currentOrder, function(order) {
+                $scope.currentOrder = order;
+                Order.save($scope.currentOrder, function(data) {
+                    $scope.user.CurrentOrderID = data.ID;
+                    User.save($scope.user, function() {
+                        Customization.clearRecipients();
+                        $scope.generateAwardsIndicator = false;
+                        $location.path('cart');
+                    });
+                });
+            });
+        };
+
+        $scope.addToCartVisa = function(product) {
+            var anonRecipient = {};
+            anonRecipient.BeingEdited = false;
+            angular.forEach($scope.addresses, function(a){
+                if(a.CompanyName == "GiftCertificates.com"){
+                    anonRecipient.Address = a;
+                }
+            });
+            anonRecipient.Address.IsShipping = true;
+            if (!anonRecipient.UserID) {
+                anonRecipient.UserID = "Anon-" + randomString();
+                anonRecipient.Manual = true;
+                anonRecipient.Anon = true;
+            }
+            $scope.saveIndicator = true;
+            Address.save(anonRecipient.Address, function(data) {
+                $scope.recipientList.List.push(anonRecipient);
+                Customization
+                    .setAddress(data, anonRecipient, $scope.recipientList)
+                    .validateRecipientList($scope.recipientList)
+                    .setRecipients($scope.recipientList);
+                $scope.saveIndicator = false;
+            });
+
             $scope.generateAwardsIndicator = true;
             Customization.addToCartStatic(product, $scope.selectedRecipients, $scope.currentOrder, function(order) {
                 $scope.currentOrder = order;

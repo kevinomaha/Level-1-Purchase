@@ -163,9 +163,9 @@
                                         <div ng-show="item.shipaddressform" class="row">
                                             <addressinput address='shipaddress' user='user'></addressinput>
                                         </div>
-                                        <div class="row" ng-show="!item.IsDigital">
+                                        <div class="row" ng-show="(!item.IsDigital) || (item.isVisa)">
                                             <div class="col-xs-12">
-                                                <div class="view-form-icon col-md-6" ng-show="item.Product.ViewName && !item.IsDigital">
+                                                <div class="view-form-icon col-md-6">
                                                     <div style="margin-bottom:10px;">
                                                         <div class="input-group">
                                                             <label style="font-size:11px;">Select a shipping address</label>
@@ -182,7 +182,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <div ng-show="!item.IsDigital" class="view-form-icon">
+                                                    <div ng-show="(!item.IsDigital) || (item.isVisa)" class="view-form-icon">
                                                         <div ng-show="user.ShipMethod != null && shippers">
                                                             <label ng-class="{'required': !item.ShipperID}">{{'Shipping' | r}} Method</label>
                                                             <select class="form-control" ng-change="saveChanges()" name="shipMethod"

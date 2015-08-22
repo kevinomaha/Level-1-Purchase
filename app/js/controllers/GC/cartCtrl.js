@@ -32,6 +32,13 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
         $scope.$watch('currentOrder', function(newVal) {
             if (!newVal) return;
             $scope.packages = Grouping.groupOrder($scope.currentOrder.LineItems);
+            angular.forEach($scope.packages,function(p){
+                angular.forEach(p.items,function(i){
+                    if(i.Product.Name.indexOf("Visa") != -1){
+                        i.isVisa = true;
+                    }
+                });
+            });
         });
         $scope.$on('event:AddressSaved', function(event) {
             angular.forEach($scope.packages,function(p){
@@ -43,6 +50,7 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
         $scope.setShipAddressAtLineItem = function(item){
             item.ShipFirstName = null;
             item.ShipLastName = null;
+            getShippers();
             $scope.saveChanges();
         }
 

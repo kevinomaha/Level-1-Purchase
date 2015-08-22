@@ -6,15 +6,15 @@
     </div>
     <div class="col-md-3">
 
-        <div class="panel panel-default">
+        <!--<div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title"><b>RECIPIENT LIST</b></h3>
             </div>
             <div class="panel-body">
-           <!-- <div class="input-group" style="margin-bottom:5px;">
+           &lt;!&ndash; <div class="input-group" style="margin-bottom:5px;">
                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                 <input class="form-control view-form-icon" placeholder="Find a recipient..." type="text" ng-model="recipientListSearchTerm" />
-            </div>-->
+            </div>&ndash;&gt;
             <div class="recipient-list-container">
                 <ul class="list-group" style="margin-bottom:0;">
                     <li class="list-group-item" ng-repeat="recipient in recipientList.List | filter:recipientListSearchTerm" ng-class="{'list-group-item-invalid': !recipient.Valid, 'list-group-item-success': recipient.Selected}">
@@ -37,12 +37,12 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div>-->
         </div>
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title" ng-show="selectedProduct.Name"><b>Selected Product:</b> <span ng-bind-html="selectedProduct.Name"></span></h3>
+                <h3 class="panel-title" ng-show="currentProduct.Name"><b>Selected Product:</b> <span ng-bind-html="currentProduct.Name"></span></h3>
             </div>
             <div class="panel-body">
                 <loadingindicator ng-show="generateAwardsIndicator" title="Please wait while your awards(s) are generated" />
@@ -50,15 +50,15 @@
                     <div class="col-md-8 col-md-offset-2">
                         <div class="row" style="margin-bottom:15px;">
                             <div class="col-md-4">
-                                <img style="margin:0 auto; max-width:100%;" ng-src="{{selectedProduct.LargeImageUrl}}" alt="image cannot be previewed"/>
+                                <img style="margin:0 auto; max-width:100%;" ng-src="{{currentProduct.LargeImageUrl}}" alt="image cannot be previewed"/>
                             </div>
                             <div class="col-md-8">
                                 <accordion close-others="true">
                                     <accordion-group heading="Terms and Conditions" is-open="true">
-                                        <p><small ng-bind-html="selectedProduct.SpaDescription.TermsAndConditions"></small></p>
+                                        <p><small ng-bind-html="currentProduct.SpaDescription.TermsAndConditions"></small></p>
                                     </accordion-group>
-                                    <accordion-group heading="More Info" ng-show="selectedProduct.SpaDescription.MoreInfo">
-                                        <p><small ng-bind-html="selectedProduct.SpaDescription.MoreInfo"></small></p>
+                                    <accordion-group heading="More Info" ng-show="currentProduct.SpaDescription.MoreInfo">
+                                        <p><small ng-bind-html="currentProduct.SpaDescription.MoreInfo"></small></p>
                                     </accordion-group>
                                 </accordion>
                             </div>
@@ -67,20 +67,20 @@
                 </div>
                 <div class="row" style="margin-bottom:20px;">
                     <div class="col-md-6 col-md-offset-3">
-                        <form name="visa_form" ng-submit="addToCartStatic(selectedProduct)">
+                        <form name="visa_form" ng-submit="addToCartStatic(currentProduct)">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="view-form-icon">
                                         <div>
-                                            <label>{{selectedProduct.Specs.FirstName.Label}}</label>
-                                            <input class="form-control" type="text" placeholder="Recipient's {{selectedProduct.Specs.FirstName.Label}}" ng-model="selectedProduct.Specs.FirstName.Value" name="FirstName" readonly="readonly" />
+                                            <label>{{currentProduct.Specs.FirstName.Label}}</label>
+                                            <input class="form-control" type="text" placeholder="{{currentProduct.Specs.FirstName.Label}}" ng-model="currentProduct.Specs.FirstName.Value" name="FirstName" />
                                             <i class="fa fa-user"></i>
                                         </div>
                                     </div>
                                     <div class="view-form-icon">
                                         <div>
-                                            <label>{{selectedProduct.Specs.LastName.Label}}</label>
-                                            <input class="form-control" type="text" placeholder="Recipient's {{selectedProduct.Specs.LastName.Label}}" ng-model="selectedProduct.Specs.LastName.Value" name="LastName" readonly="readonly" />
+                                            <label>{{currentProduct.Specs.LastName.Label}}</label>
+                                            <input class="form-control" type="text" placeholder="{{currentProduct.Specs.LastName.Label}}" ng-model="currentProduct.Specs.LastName.Value" name="LastName" />
                                             <i class="fa fa-user"></i>
                                         </div>
                                     </div>
@@ -88,12 +88,12 @@
                                 <div class="col-md-6">
                                     <div class="view-form-icon">
                                         <div>
-                                            <label>{{selectedProduct.Specs.Denomination.Label}}</label>
+                                            <label>{{currentProduct.Specs.Denomination.Label}}</label>
                                             <select class="form-control"
                                                     ng-required="true"
                                                     ng-change="denomChanged()"
-                                                    ng-model="selectedProduct.Specs.Denomination.Value"
-                                                    ng-options="option.Value as option.Value for option in selectedProduct.Specs.Denomination.Options | denominations:selectedProduct:user.Groups:BuyerSettings:ProductList">
+                                                    ng-model="currentProduct.Specs.Denomination.Value"
+                                                    ng-options="option.Value as option.Value for option in currentProduct.Specs.Denomination.Options | denominations:currentProduct:user.Groups:BuyerSettings:ProductList">
                                                 <option class="view-select-placeholder" selected="" value="">Select a Denomination</option>
                                             </select>
                                             <i class="fa fa-comment"></i>
@@ -101,15 +101,15 @@
                                     </div>
                                     <div class="view-form-icon">
                                         <div>
-                                            <label>{{selectedProduct.Specs.OccasionMessage.Label}}</label>
-                                            <input class="form-control" type="text" ng-maxlength="40" ng-model="selectedProduct.Specs.OccasionMessage.Value" name="OccasionMessage" readonly="readonly" />
+                                            <label>{{currentProduct.Specs.OccasionMessage.Label}}</label>
+                                            <input class="form-control" type="text" ng-maxlength="40" ng-model="currentProduct.Specs.OccasionMessage.Value" name="OccasionMessage"/>
                                             <i class="fa fa-user"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="text-center">
-                                <input type="submit" style="margin:15px 0 0;" class="btn btn-success" value="Create Award{{(selectedRecipients | filter:{Selected:true}).length > 1 ? 's' : ''}}" ng-disabled="visa_form.$invalid || (selectedRecipients | filter:{Selected:true}).length == 0" />
+                                <input type="submit" style="margin:15px 0 0;" class="btn btn-success" value="Create Award{{(selectedRecipients | filter:{Selected:true}).length > 1 ? 's' : ''}}" ng-disabled="visa_form.$invalid" />
                             </div>
                         </form>
                     </div>
