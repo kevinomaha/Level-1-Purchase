@@ -230,7 +230,13 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                         var Extrs = [];
                         var keyNames = Object.keys(lineItem.Product.Specs);
                         for (var i = 0; i < keyNames.length;i++) {
-                            var obj = { Key: keyNames[i], Value: lineItem.Product.Specs[keyNames[i]].Value };
+                            if(keyNames[i] == "Logo"){
+                                tempVal = baseURL + "GetImage/?id=" + lineItem.Product.Specs[keyNames[i]].Value;
+                                var obj = { Key: "corp_logo", Value: tempVal };
+                            }
+                            else{
+                                var obj = { Key: keyNames[i], Value: lineItem.Product.Specs[keyNames[i]].Value };
+                            }
                             Extrs.push(obj);
                         }
                         $http({
