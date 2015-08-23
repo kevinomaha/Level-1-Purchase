@@ -165,27 +165,27 @@ four51.app.filter('gcshippers', function() {
 
                 var today = new Date();
                 if (groupTotal > 399) {
-                    if (s.Name.match("13-") || s.Name.match("16-") || s.Name.match("20-")) {
-                        if (s.Name.match("16-")) {
+                    if (s.Name.match("Overnight") || s.Name.match("Two-Day") || s.Name.match("Saturday")) {
+                        if (s.Name.match("Two-Day")) {
                             results.push(s);
                         }
-                        if (s.Name.match("13-") && today.getDay() != 6) {
+                        if (s.Name.match("Overnight") && today.getDay() != 6) {
                             results.push(s);
                         }
-                        if (s.Name.match("20-") && ((today.getDay() == 4 && today.getHours() >= 14) || (today.getDay() == 5 && today.getHours() < 14))) {
+                        if (s.Name.match("Saturday") && ((today.getDay() == 4 && today.getHours() >= 14) || (today.getDay() == 5 && today.getHours() < 14))) {
                             results.push(s);
                         }
                     }
                 }
                 else {
-                    if (!(s.Name.match("75-") && s.Name.indexOf('0.00') > -1)) {
-                        if (!s.Name.match("13-") && !s.Name.match("20-")) {
+                    if (!(s.Name.match("Priority") && s.Name.indexOf('0.00') > -1)) {
+                        if (!s.Name.match("Overnight") && !s.Name.match("Saturday")) {
                             results.push(s);
                         }
-                        else if (s.Name.match("13-") && today.getDay() != 6) {
+                        else if (s.Name.match("Overnight") && today.getDay() != 6) {
                             results.push(s);
                         }
-                        else if (s.Name.match("20-") && ((today.getDay() == 4 && today.getHours() >= 14) || (today.getDay() == 5 && today.getHours() < 14))) {
+                        else if (s.Name.match("Saturday") && ((today.getDay() == 4 && today.getHours() >= 14) || (today.getDay() == 5 && today.getHours() < 14))) {
                             results.push(s);
                         }
                     }
