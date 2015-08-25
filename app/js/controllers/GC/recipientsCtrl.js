@@ -190,7 +190,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
             }
             $scope.addressMessage = null;
             $scope.newAddress = null;
-            if (tempRecipient.Address.Country == 'US' && tempRecipient.Address.IsShipping && !tempRecipient.Address.ID) {
+            if (tempRecipient.Address.Country === 'US' && tempRecipient.Address.IsShipping) {
                 AddressValidate.validate(tempRecipient.Address,
                     function (address, newAddress) {
                         if (address.status == "Valid") {
