@@ -162,7 +162,7 @@
                                             </div>
                                         </div>
                                         <!-- START MERCHANT CARD MODS -->
-                                        <div ng-show="item.shipaddressform" class="row">
+                                        <div ng-if="item.shipaddressform" class="row">
                                             <addressinput address='shipaddress' user='user'></addressinput>
                                         </div>
                                         <div class="row" ng-show="(!item.IsDigital) || (item.isVisa)">
@@ -184,7 +184,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <div ng-show="(!item.IsDigital) || (item.isVisa)" class="view-form-icon">
+                                                    <div ng-if="(!item.IsDigital) || (item.isVisa)" class="view-form-icon">
                                                         <div ng-show="user.ShipMethod != null && shippers">
                                                             <label ng-class="{'required': !item.ShipperID}">{{'Shipping' | r}} Method</label>
                                                             <select class="form-control" ng-change="saveChanges()" name="shipMethod"
