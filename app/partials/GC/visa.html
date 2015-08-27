@@ -70,14 +70,14 @@
                         <form name="visa_form" ng-submit="addToCartStatic(currentProduct)">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="view-form-icon">
+                                    <div class="view-form-icon" ng-if="currentProduct.Specs.FirstName">
                                         <div>
                                             <label>{{currentProduct.Specs.FirstName.Label}}</label>
                                             <input class="form-control" type="text" placeholder="{{currentProduct.Specs.FirstName.Label}}" ng-model="currentProduct.Specs.FirstName.Value" name="FirstName" />
                                             <i class="fa fa-user"></i>
                                         </div>
                                     </div>
-                                    <div class="view-form-icon">
+                                    <div class="view-form-icon" ng-if="currentProduct.Specs.LastName">
                                         <div>
                                             <label>{{currentProduct.Specs.LastName.Label}}</label>
                                             <input class="form-control" type="text" placeholder="{{currentProduct.Specs.LastName.Label}}" ng-model="currentProduct.Specs.LastName.Value" name="LastName" />
@@ -86,7 +86,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="view-form-icon">
+                                    <div class="view-form-icon" ng-if="currentProduct.Specs.Denomination">
                                         <div>
                                             <label>{{currentProduct.Specs.Denomination.Label}}</label>
                                             <select class="form-control"
@@ -99,7 +99,7 @@
                                             <i class="fa fa-comment"></i>
                                         </div>
                                     </div>
-                                    <div class="view-form-icon">
+                                    <div class="view-form-icon" ng-if="currentProduct.Specs.OccasionMessage">
                                         <div>
                                             <label>{{currentProduct.Specs.OccasionMessage.Label}}</label>
                                             <input class="form-control" type="text" ng-maxlength="40" ng-model="currentProduct.Specs.OccasionMessage.Value" name="OccasionMessage"/>
