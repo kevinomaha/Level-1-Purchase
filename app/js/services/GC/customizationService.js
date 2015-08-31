@@ -231,7 +231,6 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                         var keyNames = Object.keys(lineItem.Product.Specs);
                         for (var i = 0; i < keyNames.length;i++) {
                             if(keyNames[i] == "Logo"){
-                                var tempVal = baseURL + "GetImage/?id=" + lineItem.Product.Specs[keyNames[i]].Value;
                                 var obj = { Key: "corp_logo", Value: lineItem.Product.Specs[keyNames[i]].Value };
                             }
                             else{
