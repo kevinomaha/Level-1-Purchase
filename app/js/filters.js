@@ -165,8 +165,8 @@ four51.app.filter('gcshippers', function() {
 
                 var today = new Date();
                 if (groupTotal > 399) {
-                    if (s.Name.match("Overnight") || s.Name.match("Two-Day") || s.Name.match("Saturday")) {
-                        if (s.Name.match("Two-Day")) {
+                    if (s.Name.match("Overnight") || s.Name.match("Two-Day") || s.Name.match("Saturday") || s.Name.match("Priority")) {
+                        if (s.Name.match("Two-Day") || s.Name.match("Priority")) {
                             results.push(s);
                         }
                         if (s.Name.match("Overnight") && today.getDay() != 6) {
