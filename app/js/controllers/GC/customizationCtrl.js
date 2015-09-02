@@ -241,6 +241,11 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
             });
         };
 
+        $scope.$watch('selectedProduct.Specs.OpeningPersonalization.Value', function(newVal) {
+            if (!newVal) return;
+            $scope.selectedProduct.Specs.OpeningMessage.Value = null;
+        });
+
         $scope.$watch('selectedProduct.Quantity', function() {
             if (!$scope.selectedProduct.Quantity) return;
 
