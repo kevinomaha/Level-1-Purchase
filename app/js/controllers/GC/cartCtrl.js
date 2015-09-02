@@ -159,7 +159,7 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
                 Order.deletelineitem($scope.currentOrder.ID, item.ID,
                     function(order) {
                         $scope.currentOrder = order;
-                        Order.clearshipping($scope.currentOrder);
+                        //Order.clearshipping($scope.currentOrder);
                         if (!order) {
                             $scope.user.CurrentOrderID = null;
                             User.save($scope.user, function(){
