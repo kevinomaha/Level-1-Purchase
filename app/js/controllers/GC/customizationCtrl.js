@@ -19,6 +19,17 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
             }
         });
 
+        $scope.$on('$routeChangeStart', function(event, newURL, oldURL) {
+            for(var i = 0; i < $scope.recipientList.List.length; i += 1) {
+                if ($scope.recipientList.List[i].UserID.indexOf('Anon') > -1) {
+                    $scope.recipientList.List.splice(i, 1);
+                    i -= 1;
+                }
+            }
+            Customization.setRecipients($scope.recipientList);
+            console.log($scope.recipientList.List);
+        });
+
         $scope.selectedRecipients = [];
 
         $scope.logoOptions = [];
