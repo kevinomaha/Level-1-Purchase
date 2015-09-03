@@ -18,16 +18,21 @@ four51.app.factory('Grouping', ['Address', function(Address) {
         angular.forEach(addressGroupedOrder, function(subOrder, index) {
             packageGroupedOrder.push(createPackageObject(subOrder, index + 1));
         });
-        angular.forEach(packageGroupedOrder, function(packageObject, index) {
-            if (!packageObject.items[0].IsDigital && (packageObject.itemCount > 400 || packageObject.packageTotal > 10000)) {
-                //Split package
-                var splitPackages = splitPackage([], packageObject); //Return array of package objects
-                //Remove old package
-                packageGroupedOrder.splice(index, 1);
-                //Push split packages (could be two or more)
-                packageGroupedOrder = packageGroupedOrder.concat(splitPackages);
-            }
-        });
+        if(packageGroupedOrder.length > 1){
+            angular.forEach(packageGroupedOrder, function(packageObject, index) {
+                if(packageObject.itemCount > 1){
+                    if (!packageObject.items[0].IsDigital && (packageObject.itemCount > 400 || packageObject.packageTotal > 10000)) {
+                        //Split package
+                        var splitPackages = splitPackage([], packageObject); //Return array of package objects
+                        //Remove old package
+                        packageGroupedOrder.splice(index, 1);
+                        //Push split packages (could be two or more)
+                        packageGroupedOrder = packageGroupedOrder.concat(splitPackages);
+                    }
+                }
+            });
+        }
+
         return packageGroupedOrder;
     }
 
@@ -106,7 +111,9 @@ four51.app.factory('Grouping', ['Address', function(Address) {
             }
         });
         returnArray.push(createPackageObject(package1));
-        var secPackage = createPackageObject(package2);
+        if(package2){
+            var secPackage = createPackageObject(package2);
+        }
         if (secPackage.packageTotal > 10000 || secPackage.itemCount > 400) {
             splitPackage(returnArray, secPackage);
         }
