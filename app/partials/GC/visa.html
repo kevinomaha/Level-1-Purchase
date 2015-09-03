@@ -67,8 +67,18 @@
                 </div>
                 <div class="row" style="margin-bottom:20px;">
                     <div class="col-md-6 col-md-offset-3">
-                        <form name="visa_form" ng-submit="addToCartStatic(currentProduct)">
+                        <form name="visa_form" ng-submit="addToCartStatic(selectedProduct)">
                             <div class="row">
+                                <div class="col-md-6">
+                                    <label>Product Type</label>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.StandardID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.StandardID}" ng-click="selectProductType(selectedProduct.ProductList.StandardID)">Standard</button>
+                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.PremiumID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.PremiumID}" ng-click="selectProductType(selectedProduct.ProductList.PremiumID)">Premium</button>
+                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.CanadianID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.CanadianID}" ng-click="selectProductType(selectedProduct.ProductList.CanadianID)">Canadian</button>
+                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.HolidayID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.HolidayID}" ng-click="selectProductType(selectedProduct.ProductList.HolidayID)">Holiday</button>
+                                        <button type="button" class="btn btn-default" ng-if="selectedProduct.ProductList.PremiumHolidayID" ng-class="{active:selectedProduct.InteropID == selectedProduct.ProductList.PremiumHolidayID}" ng-click="selectProductType(selectedProduct.ProductList.PremiumHolidayID)">Premium Holiday</button>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="view-form-icon" ng-if="currentProduct.Specs.FirstName">
                                         <div>

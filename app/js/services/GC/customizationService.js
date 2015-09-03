@@ -169,12 +169,14 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
                     replaceTokens(spec, recipient, user);
                 });
             }
-            if ((product.Specs.OpeningPersonalization.Value === 'First Name' || product.Specs.OpeningPersonalization.Value === 'Full Name') && product.Specs.OpeningMessage) {
-                if (product.Specs.OpeningPersonalization.Value === 'First Name' && product.Specs.FirstName.Value) {
-                    product.Specs.OpeningMessage.Value = product.Specs.FirstName.Value;
-                }
-                if (product.Specs.OpeningPersonalization.Value === 'Full Name' && product.Specs.FirstName && product.Specs.LastName) {
-                    product.Specs.OpeningMessage.Value = ((product.Specs.FirstName.Value || '') + " " + (product.Specs.LastName.Value || '')).trim();
+            if (product.Specs.OpeningPersonalization) {
+                if ((product.Specs.OpeningPersonalization.Value === 'First Name' || product.Specs.OpeningPersonalization.Value === 'Full Name') && product.Specs.OpeningMessage) {
+                    if (product.Specs.OpeningPersonalization.Value === 'First Name' && product.Specs.FirstName.Value) {
+                        product.Specs.OpeningMessage.Value = product.Specs.FirstName.Value;
+                    }
+                    if (product.Specs.OpeningPersonalization.Value === 'Full Name' && product.Specs.FirstName && product.Specs.LastName) {
+                        product.Specs.OpeningMessage.Value = ((product.Specs.FirstName.Value || '') + " " + (product.Specs.LastName.Value || '')).trim();
+                    }
                 }
             }
             return product;
