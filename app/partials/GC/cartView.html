@@ -187,8 +187,9 @@
                                                     <div ng-if="(!item.IsDigital) || (item.isVisa)" class="view-form-icon">
                                                         <div ng-show="user.ShipMethod != null && shippers">
                                                             <label ng-class="{'required': !item.ShipperID}">{{'Shipping' | r}} Method</label>
-                                                            <select class="form-control" ng-change="saveChanges()" name="shipMethod"
+                                                            <select class="form-control" name="shipMethod"
                                                                     ng-model="item.ShipperID"
+                                                                    ng-change="setShipperInfo(item, shippers); saveChanges();"
                                                                     ng-show="user.ShipMethod.ShipperSelectionType == 'UserDropDown'"
                                                                     ng-options="shipper.ID as shipper.Name for shipper in shippers | gcshippers:currentOrder.Total:currentOrder.LineItems.length:currentOrder.IsAllDigital:item.Product"
                                                                     ng-required="!currentOrder.IsMultipleShip() && user.ShipMethod != null">

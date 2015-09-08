@@ -4,6 +4,16 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
             $location.path('main');
         };
 
+        $scope.setShipperInfo = function(item, shippers) {
+            console.log('TEST');
+            item.ShipperName = null;
+            angular.forEach(shippers, function(shipper) {
+                if (shipper.ID === item.ShipperID) {
+                    item.ShipperName = shipper.Name;
+                }
+            });
+        }
+
         $scope.deletePackage = PackageService.deletePackage;
         $scope.savePackageShipper = PackageService.setShippers;
 
