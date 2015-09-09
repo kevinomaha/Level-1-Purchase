@@ -3,7 +3,7 @@ four51.app.factory('Customization', ['$451', '$http', 'ProductDescription', 'Use
 
         var GCBaseURL = gcURL.getBaseURL();
 
-        var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList'): {List:[]};
+        var recipientList = store.get('451Cache.RecipientList') ? store.get('451Cache.RecipientList') : {List: []};
         var selectedProduct = store.get('451Cache.SelectedProduct') ? store.get('451Cache.SelectedProduct') : {};
 
         var _getRecipients = function() {

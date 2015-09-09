@@ -338,6 +338,7 @@ four51.app.controller('RecipientsCtrl', ['$routeParams', '$sce', '$scope', '$451
         };
 
         $scope.goToCustomization = function() {
+            Customization.setRecipients($scope.recipientList);
             switch($scope.selectedProduct.ProductType) {
                 case "Digital":
                     $location.path('supercertificate');

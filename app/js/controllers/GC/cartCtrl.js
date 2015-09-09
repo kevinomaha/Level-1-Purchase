@@ -5,7 +5,6 @@ four51.app.controller('CartViewCtrl', ['$scope', '$routeParams', '$location', '$
         };
 
         $scope.setShipperInfo = function(item, shippers) {
-            console.log('TEST');
             item.ShipperName = null;
             angular.forEach(shippers, function(shipper) {
                 if (shipper.ID === item.ShipperID) {

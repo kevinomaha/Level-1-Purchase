@@ -27,7 +27,6 @@ four51.app.controller('CustomizationCtrl', ['$routeParams', '$sce', '$scope', '$
                 }
             }
             Customization.setRecipients($scope.recipientList);
-            console.log($scope.recipientList.List);
         });
 
         $scope.selectedRecipients = [];

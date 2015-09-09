@@ -65,7 +65,7 @@ four51.app.factory('Grouping', ['Address', function(Address) {
 
     // Removes extra data from product name to manage grouping
     function trimProductName(productName) {
-        return productName.replace('Premium ', '').replace('Canadian ', '');
+        return productName.replace(' - ', '').replace('Premium', '').replace('Canadian', '').trim();
     }
 
     function groupByAddress(productGroup) {

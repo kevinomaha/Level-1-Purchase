@@ -119,7 +119,6 @@ four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope
 
             product.IsDigital = ['DigitalSC', 'e-Cards', 'eCodes'].indexOf(product.ProductType) > -1;
 
-            console.log(product.ProductType);
             switch (product.ProductType) {
                 case "DigitalSC":
                     $scope.digitalProduct = true;

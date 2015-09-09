@@ -34,7 +34,6 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
                         }
                         if (rows[0] && (rows[0].split("\t").length < (digital ? uploadSettings.Files['Digital'].length : uploadSettings.Files['Physical'].length) || rows[0].split("\t").length > (digital ? uploadSettings.Files['Digital'].length : uploadSettings.Files['Physical'].length))) {
                             $scope.tempPasteError = true;
-                            console.log('TESTING');
                             $scope.columnLengthError = true;
                         }
                         else {
@@ -213,14 +212,12 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
                                             if (recipient.Denomination && recipient.Denomination !== '') {
                                                 var denom = parseFloat(recipient.Denomination.replace('$', '').replace(',', ''));
                                                 if (denom === NaN || denom < 5 || denom > 2000) {
-                                                    console.log('TEST 1', denom);
                                                     recipient.Invalid = true;
                                                     $scope.tempPasteError = true;
                                                     recipient.ErrorMessage.push(recipientIdentifier + " has an invalid denomination.");
                                                 }
                                                 else if (denom >= 5 && denom <= 500) {
                                                     if (denom % 5 !== 0) {
-                                                        console.log('TEST 2', denom);
                                                         recipient.Invalid = true;
                                                         $scope.tempPasteError = true;
                                                         recipient.ErrorMessage.push(recipientIdentifier + " has an invalid denomination.");
@@ -228,7 +225,6 @@ function ($parse, $rootScope, $document, ExistingAddress, Address, Resources, Re
                                                 }
                                                 else if (denom > 500 && denom <= 2000) {
                                                     if (denom % 25 !== 0) {
-                                                        console.log('TEST 3', denom);
                                                         recipient.Invalid = true;
                                                         $scope.tempPasteError = true;
                                                         recipient.ErrorMessage.push(recipientIdentifier + " has an invalid denomination.");
