@@ -12,10 +12,13 @@ four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope
             //$scope.productType != 'MerchantCards' ? $scope.step = 2 : $location.path('catalog/L1slctv2MGC3');
             Customization.setProduct(product);
             Customization.clearRecipients();
-            if (product.ProductType == 'Merchant') {
+            if (product.ProductType === 'Merchant') {
                 $location.path('catalog/L1WPMGCAPI');
             }
-            else if (product.ProductType != 'eCodes') {
+            if (product.ProductType === 'Visa') {
+                $location.path('/visa');
+            }
+            else if (product.ProductType !== 'eCodes') {
                 $location.path('recipients');
             }
         };
@@ -184,6 +187,7 @@ four51.app.controller('MainGCPurchaseCtrl', ['$routeParams', '$sce', '$rootScope
                     }
                     $scope.selectedProductDetails = angular.copy(product);
                     product.ProductList = productList;
+                    $scope.selectedProduct.ProductList = productList;
                     Customization.setProduct(product);
                     //Call function to obtain variant information and save personal messages
                     getPersonalMessages($scope.selectedProductDetails.Variants);
